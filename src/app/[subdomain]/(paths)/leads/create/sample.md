@@ -1,8 +1,6 @@
-
-
-'use client';
+<!-- 'use client';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import \* as Yup from 'yup';
 import { useContext, useEffect, useState } from 'react';
 import { Box, Button, Grid, TextField, MenuItem, Typography, Tabs, Tab, Paper } from '@mui/material';
 import LeadStatus from '../leadstatus';
@@ -17,15 +15,15 @@ import userContext from '../../../../UseContext/UseContext';
 import { MyButton } from '../../../../Component/Buttons/Buttons';
 
 const LeadForm = ({ onSubmit, UsersOptions, customers, lead }: { onSubmit: (data: any) => void; UsersOptions: any[]; customers: any; lead: any }) => {
-    const [leadStatus, setLeadStatus] = useState(lead?.leadstatus?._id || '');
-    const [leadSource, setLeadSource] = useState(lead?.leadsource || '');
-    const [leadsData, setLeadsData] = useState(null);
-    const { valuesdataleads } = useContext(userContext);
-    const subdomain = Cookies.get('subdomain');
-    console.log(lead, 'editingLead>>>>>>>>>>>???????????');
-    // console.log(leadStatus, 'editingLead<<<<<<<<<<<<');
-    // console.log(leadSource, 'leadStatus>>>>>>>>>>>>>>');
-    // console.log(leadsData, 'leadsData>>>>>>./>>>>>>>>');
+const [leadStatus, setLeadStatus] = useState(lead?.leadstatus?.\_id || '');
+const [leadSource, setLeadSource] = useState(lead?.leadsource || '');
+const [leadsData, setLeadsData] = useState(null);
+const { valuesdataleads } = useContext(userContext);
+const subdomain = Cookies.get('subdomain');
+console.log(lead, 'editingLead>>>>>>>>>>>???????????');
+// console.log(leadStatus, 'editingLead<<<<<<<<<<<<');
+// console.log(leadSource, 'leadStatus>>>>>>>>>>>>>>');
+// console.log(leadsData, 'leadsData>>>>>>./>>>>>>>>');
 
     useEffect(() => {
         if (lead) {
@@ -317,6 +315,7 @@ const LeadForm = ({ onSubmit, UsersOptions, customers, lead }: { onSubmit: (data
             </Paper>
         </>
     );
+
 };
 
-export default LeadForm;
+export default LeadForm; -->

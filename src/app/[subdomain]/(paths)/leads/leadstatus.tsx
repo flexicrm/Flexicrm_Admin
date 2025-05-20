@@ -101,7 +101,7 @@ const LeadStatus: React.FC<LeadStatusProps> = ({ onSelect, leadStatus }) => {
             <Box display="flex" alignItems="center" mb={2}>
                 {!isAddingNewSource && (
                     <>
-                        <FormControl sx={{ minWidth: 200 }} fullWidth>
+                        <FormControl sx={{ minWidth: 200 }} fullWidth size="small">
                             <InputLabel id="lead-status-label">Select Lead Status</InputLabel>
                             <Select
                                 labelId="lead-status-label"
