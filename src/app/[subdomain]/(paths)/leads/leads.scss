@@ -1,0 +1,40 @@
+.edit-delete-buttons {
+    display: flex;
+    align-items: center; 
+    position: relative;
+}
+
+.icon {
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: color 0.2s ease;
+
+    &:hover {
+        color: #007bff; // Change to your preferred hover color
+    }
+}
+
+.btn1 {
+    background: #fff;
+    border-radius: 10px !important;
+    color: #133460;
+    border: 1px solid #aeaeae;
+    margin-right: 10px;
+    padding: 10px;
+}
+
+
+ .btn1:hover{
+    background: #133460;
+    border-radius: 10px;
+    color: #fff;
+    border: 1px solid #aeaeae;
+}
+.activity-items{
+    color:#083A50;
+}
+.p-timeline-event-marker{
+    color:#083A50;
+}
+

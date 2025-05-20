@@ -1,0 +1,21 @@
+@keyframes slideInFromRight {
+    0% {
+      transform: translateX(100%); /* Start from the right */
+      opacity: 0; /* Start transparent */
+    }
+    100% {
+      transform: translateX(0); /* End at original position */
+      opacity: 1; /* Fully visible */
+    }
+  }
+  
+  .slide-in {
+    animation: slideInFromRight 0.5s ease-in forwards; /* Adjust duration as needed */
+  }
+  .active-li {
+    cursor: pointer; // Add pointer cursor for better UX
+  }
+  
+  .active-li.active {
+    color: rgb(10, 91, 241); // Change text color to white for contrast
+  }

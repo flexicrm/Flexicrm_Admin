@@ -1,0 +1,45 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.grid-item {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+
+.profile-image {
+  width: 100%;
+  border-radius: 50%;
+}
+.p-field-checkbox {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+}
+.permision-slider {
+  position: absolute;
+  top: 0;
+  margin-top: 70px;
+  right: 0;
+  z-index: 9999;
+  overflow-y: auto;
+  height: 89vh !important;
+}
+.small-switch {
+  width: 40px; /* Adjust width as needed */
+  height: 20px; /* Adjust height as needed */
+}
+
+.hovertable:hover {
+  display: block;
+}
+/* styles.css */
+.error-message {
+  color: red;
+  font-size: 0.8rem; /* Smaller font size */
+  margin-top: 4px; /* Small margin for spacing */
+}

@@ -1,0 +1,95 @@
+.text-black-users {
+    border: 0px;
+    // background-color: white;
+
+    .p-button-icon {
+        color: black;
+    }
+    .custom-dropdown .dropdown-item-users span {
+        // width: 12px;
+
+        padding: 5px !important;
+    }
+
+    /* Custom styling for the Dropdown component */
+    // .custom-dropdown .p-dropdown {
+    //     border: none; /* Remove border */
+    //     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add a shadow */
+    //     width: 1490px; /* Set custom width */
+    //     height: 1034px; /* Set custom height */
+    //     top: 85px; /* Set top position */
+    //     left: 81px; /* Set left position */
+    //     gap: 0px; /* No gap */
+    //     border-radius: 60px 6px 6px 6px; /* Custom border radius */
+    //     opacity: 0.9; /* Set opacity */
+    //     position: relative; /* Necessary for 'top' and 'left' to work */
+    // }
+
+    .custom-dropdown .p-dropdown-label {
+        color: black; /* Set text color */
+        font-size: 1rem; /* Optional: adjust font size */
+    }
+}
+.btn-filters {
+    border: 0px;
+    padding: 8px;
+    background-color: #ffff;
+    // gap: 12;
+    box-shadow: 1px 1px 20px 0px #0000001a;
+    color: black;
+    font-size: small;
+    width: 175px;
+    height: 40px;
+    // top: -31px;
+    // left: 14446px;
+    gap: 0px;
+    border-radius: 10px;
+    opacity: 0px;
+}
+.btn-filters-cal {
+    border: 0px;
+    padding: 8px;
+    background-color: #ffff;
+    // gap: 12;
+    box-shadow: 1px 1px 20px 0px #0000001a;
+    color: black;
+    font-size: small;
+    width: 190px;
+    height: 40px;
+    // top: -31px;
+    // left: 14446px;
+    gap: 0px;
+    border-radius: 10px;
+    opacity: 0px;
+}
+.p-col-filters {
+    justify-content: space-between;
+}
+.itemfilter-container{
+    position: relative;
+    // width: fit-content;
+    // height: 20px;
+    // overflow-y:auto ;
+}
+.itemsfilters{
+    position: absolute;
+    // width: 124px;
+    height: 303px;
+    border: 1px solid white;
+    background: white;
+    z-index: 99;
+    padding: 12px 15px;
+    overflow-y: auto;
+    /* box-shadow: 25px 12px 12px 12px white; */
+    box-shadow: 1px 1px 20px 0px rgba(0, 0, 0, 0.1019607843);
+
+}
+.filterbutton-s {
+    // border: 12px;
+    width: 124px;
+    height: 34px;
+    border: 1px solid white;
+    background: white;
+    /* box-shadow: 25px 12px 12px 12px white; */
+    box-shadow: 1px 1px 20px 0px rgba(0, 0, 0, 0.1019607843);
+}

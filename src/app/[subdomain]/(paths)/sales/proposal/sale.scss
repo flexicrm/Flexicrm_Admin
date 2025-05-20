@@ -1,0 +1,46 @@
+.element-color{
+    font-size: 20px !important;
+    font-weight: 700 !important;
+}
+
+.propos-exp{
+    .user-export{
+        margin-top:0px;
+        height: 45px;
+    }
+}
+.propose-search{
+    input{
+        height: 42px;
+    }
+    
+}
+.propsal-add{
+    textarea{
+        height: 50px;
+    }
+}
+
+.estimate-tbl {
+    overflow: auto; /* Allow scrolling if content overflows */
+  }
+  
+  .estimate-tbl .p-datatable-table::-webkit-scrollbar {
+    display: none; /* Hide scrollbar in WebKit browsers */
+  }
+  
+  /* Optional: To maintain scroll behavior without showing the scrollbar, we can ensure smooth scrolling */
+  .estimate-tbl .p-datatable-table {
+    -ms-overflow-style: none; /* Hide scrollbar in Internet Explorer 10+ */
+    scrollbar-width: none; /* Hide scrollbar in Firefox */
+  }
+  .estimate-tbl .p-column-title{
+width:120px;
+  }
+  .estimate-tbl .p-selection-column .p-column-title{
+width: 30px;
+  }
+  .p-button-icon-only{
+background: #133460 ;
+border:1px solid #133460 
+  }

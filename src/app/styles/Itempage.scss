@@ -1,0 +1,97 @@
+// /* Itempage.scss */
+// .item-table {
+//     width: 100%;
+//     border-collapse: collapse;
+  
+//     th {
+//       background: #F1F7FF;
+//       padding: 10px;
+//       text-align: left;
+//       border: 1px solid #ddd;
+//     }
+  
+//     td {
+//       padding: 10px;
+//       text-align: left;
+//       border: 1px solid #ddd;
+//     }
+  
+//     .quantity-controls {
+//       display: flex;
+//       align-items: center;
+  
+//       .pi-minus, .pi-plus {
+//         margin: 0 8px;
+//         cursor: pointer;
+//       }
+//     }
+  
+//     .discount-input {
+//       margin-top: 20px;
+//     }
+  
+//     .totals {
+//       margin-top: 20px;
+  
+//       p {
+//         margin: 5px 0;
+//       }
+//     }
+//   }
+  /* Itempage.scss */
+.item-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    background: #133460 !important;
+    padding: 10px;
+    text-align: center;
+    color:#FFF;
+    border: 0px solid #ddd;
+  }
+
+  td {
+    padding: 10px;
+    text-align: left;
+    border: 0px solid #ddd;
+  }
+
+  .quantity-controls {
+    display: flex;
+    align-items: center;
+
+    .pi-minus, .pi-plus {
+      margin: 0 8px;
+      cursor: pointer;
+    }
+  }
+
+  .discount-input {
+    margin-top: 20px;
+  }
+
+  .totals {
+    margin-top: 20px;
+
+    p {
+      margin: 5px 0;
+    }
+  }
+}
+
+
+.item-table{
+  border: 1px solid #ddd;
+}
+
+.item-table .p-button.p-button-icon-only{
+  background: transparent !important;
+  border-radius: 0px !important;
+  color: #000 !important;
+  margin: 0 !important;
+}
+
+.item-table .in-put{
+  width: 50px;
+}

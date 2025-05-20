@@ -1,0 +1,21 @@
+.profile-image {
+  border-radius: 50%;
+  width: 40px; /* Adjust width as needed */
+  height: 40px; /* Adjust height as needed */
+  object-fit: cover; /* Ensures the image fits nicely */
+}
+.data-table-row {
+  position: relative;
+
+  &:hover .edit-delete-buttons {
+    display: flex; // Show buttons on hover
+  }
+}
+
+.edit-delete-buttons {
+  display: none; // Hide buttons by default
+  position: absolute;
+  right: 10px; // Adjust as needed
+  top: 50%; // Center vertically
+  transform: translateY(-50%); // Center vertically
+}

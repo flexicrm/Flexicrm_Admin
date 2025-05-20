@@ -1,0 +1,84 @@
+
+  
+  .user-view-container {
+    width: 80%;
+    margin: 30px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .user-profile {
+    display: flex;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+  }
+  
+  .profile-header {
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
+  }
+  
+  .profile-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+  }
+  
+  .profile-info {
+    flex: 1;
+  }
+  
+  .profile-info h1 {
+    font-size: 28px;
+    color: #333;
+  }
+  
+  .role {
+    font-size: 18px;
+    color: #777;
+  }
+  
+  .email, .mobile, .salary {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .user-section {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .section-title {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .address-details, .company-details, .permissions-list {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .address-details p, .company-details p, .permissions-list p {
+    margin-bottom: 10px;
+  }
+  
+  /* Loading and No Data States */
+  .loading-container, .no-data {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 20px;
+    color: #888;
+  }
+  

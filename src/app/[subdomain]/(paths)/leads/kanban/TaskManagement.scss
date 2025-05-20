@@ -1,0 +1,213 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Section Styles */
+.mt-3 {
+    margin-top: 1rem;
+}
+
+/* Container and Row Styles */
+.container {
+    padding: 20px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Status Column Styles */
+.col-3 {
+    flex: 0 0 30%;
+    margin: 10px;
+}
+
+.shadow-sm {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.bg-light {
+    background-color: #f8f9fa;
+}
+
+/* Header Styles */
+h5 {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+/* Lead Card Styles */
+.lead-card {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.lead-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Lead Status Styles */
+.lead-status {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Drag-and-Drop Area Styles */
+.status-count {
+    padding: 10px;
+    border-radius: 5px;
+    min-height: 200px;
+    border: 2px dashed #ccc;
+    transition: background-color 0.3s;
+}
+
+.status-count:hover {
+    background-color: #e9ecef;
+}
+
+/* Lead Details Styles */
+.lead-details {
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+    background-color: #f9f9f9;
+}
+
+.lead-details h5 {
+    margin-bottom: 1rem;
+}
+
+/* .lead-drop.col-md-2{
+    width:19% !important;
+    padding: 0px !important;
+} */
+/* .lead-colm{
+    column-gap: 5px;
+} */
+.container {
+    max-width: 1200px; /* Limit the container width */
+    margin: 0 auto; /* Center the container */
+}
+
+.lead-drop {
+    // display: flex; /* Use flexbox for layout */
+    // justify-content: space-around; /* Space items evenly */
+    // flex-wrap: wrap; /* Allow wrapping */
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+}
+
+.shadow-sm {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.bg-light {
+    background-color: #f8f9fa;
+}
+
+.lead-card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: transform 0.2s;
+    background-color: #ffffff; /* Background for each lead card */
+}
+
+.lead-card:hover {
+    transform: scale(1.02); /* Slight scale effect on hover */
+}
+
+.lead-status {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.lead-details {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-top: 20px;
+    background-color: #f8f9fa; /* Light background for details */
+}
+
+h5 {
+    color: #333;
+}
+
+h5.text-center {
+    margin-bottom: 20px;
+}
+
+.col {
+    flex: 1 1 15rem; /* Make columns responsive and set a minimum width */
+    max-width: 15rem; /* Prevent columns from growing too wide */
+    margin-bottom: 20px; /* Add space between rows */
+}
+
+@media (max-width: 768px) {
+    .lead-drop {
+        flex-direction: column; /* Stack items on smaller screens */
+    }
+
+    .col {
+        max-width: 100%; /* Allow full width on mobile */
+    }
+}
+.radius{
+    // border-radius: 12px;
+    // border-top-right-radius: 75px;
+    // border-bottom-right-radius: 75px;
+    // border-top-right-radius: 80px 80px;
+    // border-top-left-radius: 80px 80px;
+    // height: 12%;
+
+    width: 100%;
+    // height: 38px;
+    position: sticky;
+    // top: -1px;
+    // right: -1px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    z-index: 39;
+    background: url("../../../../../../public/stage.svg") no-repeat top left;
+}
+.radius1{
+    // border-top-right-radius:40px ;
+    // border-top-left-radius: 40px;
+}
+.radius-design{
+
+
+ &:after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: 0; width: 0; height: 0;
+    border-left: 25px solid #7eb4e2;
+    border-top: 25px solid transparent;
+    border-bottom: 25px solid transparent;
+  }
+
+//   &:before {
+//     content: '';
+//     position: absolute;
+//     right: -25px;
+//     bottom: 0;
+//     width: 0;
+//     height: 0;
+//     border-left: 25px solid #32557f;
+//     border-top: 25px solid transparent;
+//     border-bottom: 25px solid transparent;
+//   }
+}
+

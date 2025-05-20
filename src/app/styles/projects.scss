@@ -1,0 +1,87 @@
+// .contactsidebar {
+//     position: fixed;
+//     right: 0;
+//     top: 0;
+//     width: 600px;
+//     height: 90vh;
+//     background-color: white;
+//     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+//     padding: 20px;
+//     z-index: 1000;
+//     overflow:auto ;
+//     margin-top: 81px;
+//   }
+.contactsidebar {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 600px;
+  height: 90vh;
+  background-color: white;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  z-index: 1000;
+  overflow:auto ;
+  margin-top: 81px;
+}
+.p-selectable-row td{
+  color: #000000;
+  font-size: 16px;
+  font-weight: 600;
+}
+.project-top .list-inline{
+display: flex;
+justify-content: end;
+}
+
+
+@media screen and (max-width:767px){
+  .project-top .list-inline{
+    display: ruby;
+  }
+  .project-top .list-inline button {
+    width: 44%;
+    margin: 0px !important;
+    margin-left: 5px !important;
+   
+    margin-top: 10px !important;
+}
+.project-top .btn-item .btn1{
+  margin-left: 5px;
+}
+.project-top .dropdown-container{
+ width: 49%;
+}
+.customer-tbl [role="columnheader"] .p-column-title{
+  font-size: 12px !important;
+  width: 80px !important;
+}
+.customer-tbl th{
+  padding: 10px;
+}
+// .customer-tbl td{
+//   padding: 0px;
+//   font-size: 12px;
+// }
+.customer-tbl .p-selectable-row td {
+font-size: 12px;
+padding: 10px 5px;
+}
+.customer-tbl .p-selection-column[role="columnheader"] .p-column-title{
+width:0px !important;
+
+
+}
+}
+
+@media screen and (min-width:768px) and (max-width:1024px){
+.customer-tbl [role="columnheader"] .p-column-title{
+  font-size: 14px !important;
+  width: 100px !important;
+}
+.customer-tbl .p-selection-column[role="columnheader"] .p-column-title{
+  width:0px !important;
+  
+  
+  }
+}

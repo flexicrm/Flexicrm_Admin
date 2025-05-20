@@ -1,0 +1,38 @@
+/* CustomDropdown.scss */
+.custom-dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+.custom-dropdown-button {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.custom-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.custom-dropdown-item {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+.custom-dropdown-item:hover {
+    background-color: #f0f0f0;
+}
+
+.custom-date-selector {
+    padding: 1rem;
+}
