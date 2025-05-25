@@ -11,13 +11,14 @@ import CloseIcon from '@mui/icons-material/Close';
 
 interface LeadStatusType {
     _id: string;
-    statusName: string;
+    statusName?: string;
     color: string;
 }
 
 interface LeadStatusProps {
     onSelect: (id: string) => void;
     leadStatus: any;
+    // error: any;
 }
 
 const LeadStatus: React.FC<LeadStatusProps> = ({ onSelect, leadStatus }) => {
@@ -29,19 +30,21 @@ const LeadStatus: React.FC<LeadStatusProps> = ({ onSelect, leadStatus }) => {
     const subdomain = Cookies.get('subdomain');
     console.log(onSelect, 'onSelect');
     // Set default values if leadStatus is provided
+    console.log(leadStatus, 'leadStatusWWWWWWWWWWWWWWWWWW');
+
     useEffect(() => {
-        if (leadStatus?.leadstatus) {
-            formik.setFieldValue('statusName', leadStatus.leadstatus._id || '');
-            formik.setFieldValue('color', `#${leadStatus.leadstatus.color || '000000'}`);
+        if (leadStatus) {
+            formik.setFieldValue('StatusName', leadStatus._id || '');
+            formik.setFieldValue('color', `#${leadStatus.color || '000000'}`);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [leadStatus]);
     console.log(leadStatus, 'leadStatus>>>>>>>>>>>>>>>>>>>>>>>');
 
     const formik = useFormik({
-        initialValues: { statusName: leadStatus?.leadstatus?._id || '', color: '#000000' },
+        initialValues: { StatusName: leadStatus || '', color: '#000000' },
         onSubmit: async (values, { resetForm }) => {
-            const newLeadSource = values.statusName;
+            const newLeadSource = values.StatusName;
             const colors = values.color;
 
             const headers = { Authorization: `Bearer ${accessToken}` };
@@ -69,6 +72,7 @@ const LeadStatus: React.FC<LeadStatusProps> = ({ onSelect, leadStatus }) => {
         try {
             setLoading(true);
             const response = await axios.get(`${API_BASE_URL}/leadstatus/${subdomain}`, { headers });
+            console.log(response,"response ")
             setLeadStatus(response?.data?.data || []);
         } catch (error) {
             setLeadStatus([]);
@@ -89,7 +93,7 @@ const LeadStatus: React.FC<LeadStatusProps> = ({ onSelect, leadStatus }) => {
     const UsersOptions = useMemo(
         () =>
             leadstatus.map((lead) => ({
-                label: lead.statusName,
+                label: lead?.statusName,
                 value: lead._id,
                 color: lead.color
             })),
@@ -105,16 +109,16 @@ const LeadStatus: React.FC<LeadStatusProps> = ({ onSelect, leadStatus }) => {
                             <InputLabel id="lead-status-label">Select Lead Status</InputLabel>
                             <Select
                                 labelId="lead-status-label"
-                                value={formik.values.statusName}
+                                value={formik.values.StatusName}
                                 label="Select Lead Status"
                                 onChange={(e) => {
                                     const selectedValue = e.target.value;
                                     if (selectedValue === 'addNew') {
                                         setIsAddingNewSource(true);
-                                        formik.setFieldValue('statusName', '');
+                                        formik.setFieldValue('StatusName', '');
                                     } else {
                                         onSelect(selectedValue as string);
-                                        formik.setFieldValue('statusName', selectedValue);
+                                        formik.setFieldValue('StatusName', selectedValue);
                                     }
                                 }}
                                 renderValue={(selected) => {
@@ -125,7 +129,7 @@ const LeadStatus: React.FC<LeadStatusProps> = ({ onSelect, leadStatus }) => {
                                                 sx={{
                                                     width: 16,
                                                     height: 16,
-                                                    borderRadius: '50%',
+                                                    // borderRadius: '15px',
                                                     bgcolor: `#${option.color}`,
                                                     mr: 1
                                                 }}
@@ -144,7 +148,7 @@ const LeadStatus: React.FC<LeadStatusProps> = ({ onSelect, leadStatus }) => {
                                                 sx={{
                                                     width: 16,
                                                     height: 16,
-                                                    borderRadius: '50%',
+                                                    // borderRadius: '15px',
                                                     bgcolor: `#${option.color}`,
                                                     mr: 1
                                                 }}
@@ -171,8 +175,8 @@ const LeadStatus: React.FC<LeadStatusProps> = ({ onSelect, leadStatus }) => {
                 )}
                 {isAddingNewSource && (
                     <Box display="flex" alignItems="center">
-                        <TextField name="statusName" id="statusName" placeholder="New status Name" value={formik.values.statusName} onChange={formik.handleChange} required sx={{ ml: 1 }} />
-                        <input type="color" id="color" name="color" value={formik.values.color} onChange={formik.handleChange} style={{ marginLeft: 8, width: 40, height: 40, border: 'none', background: 'none' }} />
+                        <TextField name="StatusName" id="StatusName" size="small" placeholder="New status Name" value={formik.values.StatusName} onChange={formik.handleChange} required sx={{ ml: 1 }} />
+                        <input type="color" id="color" name="color" value={formik.values.color} onChange={formik.handleChange} style={{ marginLeft: 8, width: 40, border: 'none', background: 'none' }} />
                         <IconButton color="primary" onClick={formik.handleSubmit as any} disabled={loading} sx={{ ml: 1 }}>
                             <CheckIcon />
                         </IconButton>
@@ -182,7 +186,7 @@ const LeadStatus: React.FC<LeadStatusProps> = ({ onSelect, leadStatus }) => {
                     </Box>
                 )}
             </Box>
-            {formik.touched.statusName && formik.errors.statusName && typeof formik.errors.statusName === 'string' && <Typography color="error">{formik.errors.statusName}</Typography>}
+            {formik.touched.StatusName && formik.errors.StatusName && typeof formik.errors.StatusName === 'string' && <Typography color="error">{formik.errors.StatusName}</Typography>}
             {loading && (
                 <Box display="flex" alignItems="center">
                     <CircularProgress size={20} sx={{ mr: 1 }} />

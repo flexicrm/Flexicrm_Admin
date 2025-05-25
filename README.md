@@ -40,3 +40,54 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 "PLAN"
 compare with index of user 
+
+
+
+<!-- 
+   {/* Edit Lead Dialog */}
+                        {/* <Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)} maxWidth="md"> */}
+                        {/* <DialogTitle sx={{ display: 'flex', justifyContent: 'end' }}>
+                                <IconButton onClick={() => setEditDialogOpen(false)}>
+                                    <CloseIcon />
+                                </IconButton>
+                            </DialogTitle>
+                            <DialogContent>
+                                <MyButton
+                                    variant="contained"
+                                    onClick={() => {
+                                        setConfirmationDialogVisible(false);
+                                        setFollowUpFormVisible(true);
+                                        // setSnack({
+                                        //     open: true,
+                                        //     message: 'Follow-up creation started.',
+                                        //     severity: 'info'
+                                        // });
+                                    }}
+                                >
+                                    Create Follow Up
+                                </MyButton>
+                                <br />
+                                <MyButton
+                                    variant="contained"
+                                    onClick={() => {
+                                        setConfirmationDialogVisible(false);
+                                        setConvertFormVisible(true);
+                                        setConvertId(currentLead?.LeadId || '');
+                                    }}
+                                >
+                                    Convert to Customer
+                                </MyButton>
+                                <br />
+                                <MyButton
+                                    variant="contained"
+                                    onClick={() => {
+                                        // setIsFormVisible(true);
+                                        // setEditingLead(currentLead || '');
+
+                                        // setConfirmationDialogVisible(false);
+                                        window.location.href = `/${subdomain}/leads/${currentLead?.LeadId}`;
+                                    }}
+                                >
+                                    Edit Customer
+                                </MyButton>
+                            </DialogContent> */} -->

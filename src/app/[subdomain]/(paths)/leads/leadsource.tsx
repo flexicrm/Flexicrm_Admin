@@ -836,7 +836,7 @@ const LeadSource: React.FC<LeadSourceProps> = ({ onSelect, leadSource }) => {
             <Box display="flex" alignItems="center" mb={2}>
                 {!isAddingNewSource && (
                     <>
-                        <TextField select label="Select Lead Source" value={selectedSource} onChange={handleDropdownChange} fullWidth size="small">
+                        <TextField select label="Select Lead Source" value={selectedSource || leadSource} onChange={handleDropdownChange} fullWidth size="small">
                             {Array.isArray(leadSources?.sourceName) &&
                                 leadSources?.sourceName?.flatMap((source: any, index: number) => (
                                     <MenuItem key={index} value={source}>

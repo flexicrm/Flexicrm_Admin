@@ -2,158 +2,156 @@
 // import React, { useState, useEffect, useMemo, useCallback } from 'react';
 // import Cookies from 'js-cookie';
 // import axios from 'axios';
-// import Swal from 'sweetalert2';
-
-// import LeadTable from './leadsTable';
-// import LeadForm from './leadsForm';
-// import EditLeadForm from './EditleadsForm';
+// import { Dialog, DialogTitle, DialogContent, CircularProgress, Typography, IconButton, Box, Tooltip, Grid, Paper, ToggleButton, ToggleButtonGroup, Menu, MenuItem, ListItemIcon, ListItemText, Divider } from '@mui/material';
+// import {
+//     Close as CloseIcon,
+//     Add as AddIcon,
+//     Edit as EditIcon,
+//     Delete as DeleteIcon,
+//     Visibility as ViewIcon,
+//     Refresh as RefreshIcon,
+//     TableChart as TableIcon,
+//     Dashboard as KanbanIcon,
+//     PersonAdd as ConvertIcon,
+//     Schedule as FollowUpIcon,
+//     CheckCircle as StatusIcon,
+//     Business as CompanyIcon,
+//     Email as EmailIcon,
+//     Phone as PhoneIcon,
+//     Person as AssigneeIcon,
+//     CalendarToday as CalendarIcon,
+//     Note as NotesIcon,
+//     CheckCircle,
+//     CalendarMonth,
+//     Visibility,
+//     Delete
+// } from '@mui/icons-material';
+// import Kanban from './kanban/kanbanleads';
 // import { API_BASE_URL } from '../../../utils';
+// import { MyTable } from '../../../Component/Table/Table';
+// import ModeEditIcon from '@mui/icons-material/ModeEdit';
+// // import { validateEmail, validatePhone, validateRequired } from '../../../Component/Table/Validation';
+// import { MySnackbar } from '../../../Component/Snackbar/Snackbar';
+// import ConvertCustomer from './form/convertcutomer';
+// import FollowUpForm from './form/FollowUpForm';
+// import { MyButton } from '../../../Component/Buttons/Buttons';
+// import DeleteDialog from '../../../Component/CustomiseComponent/DeleteDialog';
+// import { getLeads } from '../../../../../api/Leads';
+// import TaskManagement from './kanban/kanbanleads';
 
-// import { Button, Dialog, DialogTitle, DialogContent, DialogActions, CircularProgress, Typography, IconButton, Box } from '@mui/material';
-// import CloseIcon from '@mui/icons-material/Close';
+// interface Lead {
+//     _id: string;
+//     LeadId: string;
+//     manualData: {
+//         name: string;
+//         company: string;
+//         email?: string;
+//         mobileNo: string;
+//     };
+//     assignTo: {
+//         firstname: string;
+//         lastname: string;
+//         _id: string;
+//         Profile?: string;
+//     };
+//     followUps: Array<{ followUpDate: string; notes: string }>;
+//     leadsource: string;
+//     leadstatus: { _id: string; statusName: string; color: string };
+//     status: number;
+// }
 
 // const LeadsPage: React.FC = () => {
 //     const [leads, setLeads] = useState<any>([]);
-//     const [isFormVisible, setIsFormVisible] = useState(false);
-//     const [editingLead, setEditingLead] = useState<any | null>(null);
 //     const [loading, setLoading] = useState(false);
 //     const [error, setError] = useState<string | null>(null);
-//     const [customers, setCustomers] = useState<any[]>([]);
-//     const [users, setUsers] = useState<any[]>([]);
-//     const [leadSources, setLeadSources] = useState<any[]>([]);
-//     const [leadstatus, setLeadstatus] = useState<any[]>([]);
-//     const [leadType, setLeadType] = useState<any>(null);
+//     const [customers, setCustomers] = useState([]);
+//     const [users, setUsers] = useState([]);
+//     const [leadSources, setLeadSources] = useState([]);
+//     const [leadstatus, setLeadstatus] = useState([]);
+//     // const [users, setUsers] = useState([]);
+//     const [leadType, setLeadType] = useState(null);
+//     const [kanbanView, setKanbanView] = useState(false);
+//     const [snackbarMessage, setSnackbarMessage] = useState('');
+//     const [isFollowUpFormVisible, setFollowUpFormVisible] = useState(false);
+//     const [isConvertFormVisible, setConvertFormVisible] = useState(false);
+//     const [currentLead, setCurrentLead] = useState<Lead | null>(null);
+//     const [actionDialogOpen, setActionDialogOpen] = useState(false);
+//     const [convertId, setConvertId] = useState<string | null>(null);
+//     const [snackbarOpen, setSnackbarOpen] = useState(false);
+//     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+//     const [leadToDelete, setLeadToDelete] = useState<string | null>(null);
+//     const [editDialogOpen, setEditDialogOpen] = useState(false);
+//     const [viewMode, setViewMode] = useState<'kanban' | 'Table'>('Table');
+//     // const [isFollowUpFormVisible, setFollowUpFormVisible] = useState(false);
+//     // const [isConvertFormVisible, setConvertFormVisible] = useState(false);
+//     // const [currentLead, setCurrentLead] = useState<Lead | null>(null);
+//     const [isConfirmationDialogVisible, setConfirmationDialogVisible] = useState(false);
+//     // const [convertId, setConvertId] = useState<string | null>(null);
+//     // const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+//     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+//     // const [currentLead, setCurrentLead] = React.useState<Lead | null>(null);
 
+//     const handleEdit = useCallback((event: React.MouseEvent<HTMLElement>, lead: Lead) => {
+//         setCurrentLead(lead);
+//         setAnchorEl(event.currentTarget);
+//     }, []);
+
+//     const handleMenuClose = useCallback(() => {
+//         setAnchorEl(null);
+//     }, []);
+//     const handleViewModeChange = (event: React.MouseEvent<HTMLElement>, newViewMode: 'kanban' | 'Table') => {
+//         if (newViewMode !== null) {
+//             setViewMode(newViewMode);
+//         }
+//     };
 //     const accessToken = Cookies.get('accessToken');
 //     const subdomain = Cookies.get('subdomain');
 
+//     // Fetch data functions remain the same...
+//     const fetchData = useCallback(
+//         async (url, setData) => {
+//             try {
+//                 const headers = { Authorization: `Bearer ${accessToken}` };
+//                 const response = await axios.get(`${API_BASE_URL}${url}`, { headers });
+//                 setData(response.data.data);
+//             } catch (error) {
+//                 setError(`Error fetching data from ${url}. Please try again.`);
+//             }
+//         },
+//         [accessToken]
+//     );
+//     const fetchProjects = useCallback(async () => {
+//         await fetchData(`/user/${subdomain}`, (data) => setUsers(data.users || []));
+//     }, [fetchData, subdomain]);
+
+//     const fetchLeadstatus = useCallback(async () => {
+//         await fetchData(`/leadstatus/${subdomain}`, setLeadstatus);
+//     }, [fetchData, subdomain]);
+
+//     const fetchLeadSources = useCallback(async () => {
+//         await fetchData(`/leadsource/${subdomain}`, setLeadSources);
+//     }, [fetchData, subdomain]);
 //     const fetchLeads = useCallback(async () => {
 //         setLoading(true);
 //         setError(null);
 //         try {
-//             const headers = { Authorization: `Bearer ${accessToken}` };
-//             const response = await axios.get(`${API_BASE_URL}/lead/${subdomain}`, { headers });
-//             setLeads(response?.data?.data.leads || []);
-//             setLeadType(response.data.data);
-//         } catch (error) {
-//             setError('Error fetching leads. Please try again.');
+//             const response = await getLeads(subdomain);
+//             // await fetchData(`/lead/${subdomain}`, (data) => {
+//             console.log(response, 'response');
+
+//             setLeads(response?.data?.leads || []);
+//             setLeadType(response?.data);
+//             // });
 //         } finally {
 //             setLoading(false);
 //         }
-//     }, [accessToken, subdomain]);
-
+//     }, []);
 //     useEffect(() => {
 //         fetchLeads();
-//     }, [fetchLeads]);
-
-//     const fetchLeadById = async (leadsid: string) => {
-//         try {
-//             const headers = { Authorization: `Bearer ${accessToken}` };
-//             const response = await axios.get(`${API_BASE_URL}/lead/${subdomain}/${leadsid}`, { headers });
-//             setEditingLead(response?.data?.data);
-//             setIsFormVisible(true);
-//         } catch (error) {
-//             setError('Error fetching lead details. Please try again.');
-//         }
-//     };
-
-//     const handleEdit = (leadsid: string) => {
-//         console.log(leadsid, 'leadsid');
-//         setEditingLead(leadsid);
-//         // fetchLeadById(leadsid?.LeadId);
-//     };
-
-//     const handleDelete = async (LeadId: string) => {
-//         const result = await Swal.fire({
-//             title: 'Are you sure?',
-//             text: "You won't be able to revert this!",
-//             icon: 'warning',
-//             showCancelButton: true,
-//             confirmButtonColor: '#3085d6',
-//             cancelButtonColor: '#d33',
-//             confirmButtonText: 'Yes, delete it!'
-//         });
-//         if (result.isConfirmed) {
-//             try {
-//                 const headers = { Authorization: `Bearer ${accessToken}` };
-//                 await axios.delete(`${API_BASE_URL}/lead/${subdomain}/${LeadId}`, { headers });
-//                 setLeads(leads.filter((lead) => lead.LeadId !== LeadId));
-//                 Swal.fire('Deleted!', 'Lead has been deleted.', 'success');
-//                 fetchLeads();
-//             } catch (error) {
-//                 setError('Error deleting lead. Please try again.');
-//                 Swal.fire('Error!', 'Error deleting lead. Please try again.', 'error');
-//             }
-//         }
-//     };
-
-//     const handleSubmit = async (values: any) => {
-//         const headers = {
-//             'Content-Type': 'application/json',
-//             Authorization: `Bearer ${accessToken}`
-//         };
-
-//         try {
-//             let response;
-//             if (editingLead) {
-//                 response = await axios.patch(`${API_BASE_URL}/lead/${subdomain}/${editingLead.LeadId}`, values, { headers });
-//                 Swal.fire('Updated!', 'Lead has been updated.', 'success');
-//                 fetchLeads();
-//             } else {
-//                 response = await axios.post(`${API_BASE_URL}/lead/offline/${subdomain}/addlead`, values, { headers });
-//                 Swal.fire('Created!', 'Lead has been created.', 'success');
-//                 fetchLeads();
-//             }
-
-//             setLeads((prevLeads) => {
-//                 if (editingLead) {
-//                     return prevLeads.map((lead) => (lead._id === editingLead._id ? response.data : lead));
-//                 } else {
-//                     return [...prevLeads, response.data];
-//                 }
-//             });
-//             setIsFormVisible(false);
-//             setEditingLead(null);
-//         } catch (error) {
-//             setError('An error occurred while saving the lead. Please try again.');
-//             Swal.fire('Error!', 'An error occurred while saving the lead. Please try again.', 'error');
-//         }
-//     };
-
-//     const fetchCustomers = useCallback(async () => {
-//         const headers = { Authorization: `Bearer ${accessToken}` };
-//         try {
-//             const response = await axios.get(`${API_BASE_URL}/customer/${subdomain}`, { headers });
-//             setCustomers(response.data.data.customers || []);
-//         } catch (error) {
-//             setError('Error fetching customers. Please try again.');
-//         }
-//     }, [accessToken, subdomain]);
-
-//     const fetchProjects = useCallback(async () => {
-//         const headers = { Authorization: `Bearer ${accessToken}` };
-//         try {
-//             const response = await axios.get(`${API_BASE_URL}/user/${subdomain}`, { headers });
-//             setUsers(response?.data?.data.users || []);
-//         } catch (error) {
-//             setError('Error fetching projects. Please try again.');
-//         }
-//     }, [accessToken, subdomain]);
-
-//     useEffect(() => {
-//         fetchCustomers();
+//         fetchLeadSources();
+//         fetchLeadstatus();
 //         fetchProjects();
-//     }, [fetchCustomers, fetchProjects]);
-
-//     const customerOptions = useMemo(
-//         () =>
-//             customers.map((customer) => ({
-//                 label: customer.Companyname,
-//                 value: customer._id
-//             })),
-//         [customers]
-//     );
-
+//     }, []);
 //     const UsersOptions = useMemo(
 //         () =>
 //             users.map((user) => ({
@@ -163,125 +161,407 @@
 //         [users]
 //     );
 
-//     const handleStatusChange = async (LeadId: string, status: string) => {
-//         const headers = { Authorization: `Bearer ${accessToken}` };
-//         try {
-//             await axios.patch(`${API_BASE_URL}/lead/${subdomain}/${LeadId}`, { status }, { headers });
-//             setLeads((prevLeads) => prevLeads.map((lead) => (lead._id === LeadId ? { ...lead, status } : lead)));
-//             fetchLeads();
-//         } catch (error) {
-//             Swal.fire('Error!', 'Failed to update lead status. Please try again.', 'error');
-//         }
-//     };
+//     // Other fetch functions remain the same...
 
-//     const fetchLeadstatus = async () => {
-//         setError('');
-//         const headers = { Authorization: `Bearer ${accessToken}` };
+//     // const handleEdit = useCallback((event: React.MouseEvent<HTMLElement>, lead: Lead) => {
+//     //     setCurrentLead(lead);
+//     //     setAnchorEl(event.currentTarget);
+//     //     // setEditDialogOpen(true);
+//     // }, []);
 
+//     const handleViewActions = useCallback((lead: Lead) => {
+//         setCurrentLead(lead);
+//         setActionDialogOpen(true);
+//     }, []);
+
+//     const handleDelete = useCallback((leadId: string) => {
+//         setLeadToDelete(leadId);
+//         setDeleteDialogOpen(true);
+//     }, []);
+
+//     const confirmDelete = useCallback(async () => {
+//         if (deleteDialogOpen) return;
 //         try {
-//             setLoading(true);
-//             const response = await axios.get(`${API_BASE_URL}/leadstatus/${subdomain}`, { headers });
-//             setLeadstatus(response?.data?.data || []);
+//             const headers = { Authorization: `Bearer ${accessToken}` };
+//             await axios.delete(`${API_BASE_URL}/lead/${subdomain}/${leadToDelete}`, { headers });
+//             setLeads((prevLeads) => prevLeads.filter((lead) => lead.LeadId !== leadToDelete));
+//             setSnackbarMessage('Lead deleted successfully');
+//             setSnackbarOpen(true);
 //         } catch (error) {
-//             setLeadSources([]);
-//             setError('Error fetching lead sources.');
+//             setError('Error deleting lead. Please try again.');
 //         } finally {
-//             setLoading(false);
+//             setDeleteDialogOpen(false);
+//             setLeadToDelete(null);
 //         }
-//     };
+//     }, [accessToken, subdomain, leadToDelete]);
 
-//     useEffect(() => {
-//         if (subdomain && accessToken) {
-//             fetchLeadstatus();
+//     const handleStatusChange = useCallback(
+//         async (lead: Lead) => {
+//             const status = lead.status === 1 ? 0 : 1;
+//             const headers = { Authorization: `Bearer ${accessToken}` };
+
+//             try {
+//                 const response = await axios.patch(`${API_BASE_URL}/lead/${subdomain}/${lead.LeadId}`, { status }, { headers });
+
+//                 setSnackbarMessage(response?.data?.data?.message || 'Status updated successfully');
+//                 setSnackbarOpen(true);
+//                 setLeads((prevLeads) => prevLeads.map((l) => (l.LeadId === lead.LeadId ? { ...l, status } : l)));
+//             } catch (error) {
+//                 setError('Failed to update status');
+//             }
+//         },
+//         [accessToken, subdomain]
+//     );
+
+//     const rowData = leads.map((item) => ({
+//         ...item,
+//         LeadId: item?.LeadId,
+//         Name: item?.manualData?.name,
+//         Company: item?.manualData?.company,
+//         Email: item?.manualData?.email,
+//         Phone: item?.manualData?.mobileNo,
+//         'Follow-Up':
+//             item?.followUps?.length > 0
+//                 ? `Date: ${new Date(item?.followUps[item?.followUps?.length - 1]?.followUpDate)?.toDateString()},
+//                Notes: ${item?.followUps[item?.followUps?.length - 1]?.notes}`
+//                 : 'No follow-ups',
+//         Assigned: `${item?.assignTo?.firstname} ${item?.assignTo?.lastname}`,
+//         active: item?.status,
+//         leadstatus: item?.leadstatus,
+//         leadsource: item?.leadsource
+//     }));
+
+//     const columns = [
+//         {
+//             id: 'LeadId',
+//             label: 'Lead ID',
+//             align: 'center',
+//             render: (value) => (
+//                 <Tooltip title="View lead details">
+//                     <Typography variant="body2" sx={{ fontWeight: 600 }}>
+//                         {value}
+//                     </Typography>
+//                 </Tooltip>
+//             )
+//         },
+//         {
+//             id: 'Name',
+//             label: 'Name',
+//             align: 'center',
+//             render: (value) => (
+//                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
+//                     <Typography variant="body2" sx={{ ml: 1 }}>
+//                         {value}
+//                     </Typography>
+//                 </Box>
+//             )
+//         },
+//         {
+//             id: 'Company',
+//             label: 'Company',
+//             align: 'center',
+//             render: (value) => (
+//                 <Tooltip title="Company">
+//                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
+//                         <CompanyIcon fontSize="small" sx={{ mr: 1, color: 'action.active' }} />
+//                         <Typography variant="body2">{value}</Typography>
+//                     </Box>
+//                 </Tooltip>
+//             )
+//         },
+//         {
+//             id: 'Phone',
+//             label: 'Phone',
+//             align: 'center',
+//             render: (value) => (
+//                 <Tooltip title="Phone number">
+//                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
+//                         <PhoneIcon fontSize="small" sx={{ mr: 1, color: 'action.active' }} />
+//                         <Typography variant="body2">{value}</Typography>
+//                     </Box>
+//                 </Tooltip>
+//             )
+//         },
+//         {
+//             id: 'Follow-Up',
+//             label: 'Follow-Up',
+//             align: 'center',
+//             render: (value) => (
+//                 <Tooltip title={value.includes('No follow-ups') ? 'No follow-ups scheduled' : value}>
+//                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
+//                         <CalendarIcon fontSize="small" sx={{ mr: 1, color: 'action.active' }} />
+//                         <Typography variant="body2" noWrap>
+//                             {value.split(',')[0]}
+//                         </Typography>
+//                     </Box>
+//                 </Tooltip>
+//             )
+//         },
+//         {
+//             id: 'Assigned',
+//             label: 'Assigned To',
+//             align: 'center',
+//             render: (value) => (
+//                 <Tooltip title="Assigned team member">
+//                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
+//                         <AssigneeIcon fontSize="small" sx={{ mr: 1, color: 'action.active' }} />
+//                         <Typography variant="body2">{value}</Typography>
+//                     </Box>
+//                 </Tooltip>
+//             )
+//         },
+//         {
+//             id: 'leadstatus',
+//             label: 'Status',
+//             align: 'center',
+//             render: (value) => (
+//                 <Tooltip title={`Status: ${value?.statusName || 'Unknown'}`}>
+//                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
+//                         <Box
+//                             sx={{
+//                                 width: 12,
+//                                 height: 12,
+//                                 borderRadius: '50%',
+//                                 bgcolor: value?.color ? `#${value.color}` : 'gray',
+//                                 mr: 1
+//                             }}
+//                         />
+//                         <Typography variant="subtitle2" fontWeight={600}>
+//                             {value?.statusName || 'Unknown'}
+//                         </Typography>
+//                     </Box>
+//                 </Tooltip>
+//             )
+//         },
+//         {
+//             id: 'leadsource',
+//             label: 'Source',
+//             align: 'center',
+//             render: (value) => (
+//                 <Tooltip title={`Source: ${value || 'Unknown'}`}>
+//                     <Typography variant="body2">{value}</Typography>
+//                 </Tooltip>
+//             )
 //         }
-//     }, [subdomain, accessToken]);
+//     ];
 
-//     const fetchLeadSources = async () => {
-//         setError('');
-//         const headers = { Authorization: `Bearer ${accessToken}` };
-
-//         try {
-//             setLoading(true);
-//             const response = await axios.get(`${API_BASE_URL}/leadsource/${subdomain}`, { headers });
-//             setLeadSources(response?.data?.data || []);
-//         } catch (error) {
-//             setLeadSources([]);
-//             setError('Error fetching lead sources.');
-//         } finally {
-//             setLoading(false);
-//         }
-//     };
-
-//     useEffect(() => {
-//         if (subdomain && accessToken) {
-//             fetchLeadSources();
-//         }
-//     }, [subdomain, accessToken]);
+//     // const actionButtons = [
+//     //     {
+//     //         icon: <EditIcon />,
+//     //         tooltip: 'Edit lead',
+//     //         onClick: (row) => handleEdit(row)
+//     //     },
+//     //     {
+//     //         icon: <DeleteIcon />,
+//     //         tooltip: 'Delete lead',
+//     //         onClick: (row) => handleDelete(row.LeadId)
+//     //     },
+//     //     {
+//     //         icon: <StatusIcon />,
+//     //         tooltip: 'Toggle status',
+//     //         onClick: (row) => handleStatusChange(row)
+//     //     },
+//     //     {
+//     //         icon: <ViewIcon />,
+//     //         tooltip: 'View actions',
+//     //         onClick: (row) => handleViewActions(row)
+//     //     }
+//     // ];
+//     console.log(currentLead, 'currentLead');
 
 //     return (
-//         <>
-//             <Box sx={{ p: 2 }}>
-//                 {/* <Button
-//                 variant="contained"
-//                 color="primary"
-//                 onClick={() => {
-//                     setEditingLead(null);
-//                     setIsFormVisible(true);
-//                 }}
-//             >
-//                 New Lead
-//             </Button> */}
+//         <Box>
+//             <Paper elevation={0} sx={{ p: 0, borderRadius: 2, boxShadow: 'none' }}>
+//                 <Grid container spacing={2} alignItems="center" sx={{ mb: 3 }}>
+//                     <Grid size={{ xs: 12, sm: 6 }}>
+//                         <Typography variant="h5" component="h1" sx={{ fontWeight: 600 }}>
+//                             Leads{' '}
+//                             <Tooltip title="Refresh data">
+//                                 <IconButton onClick={fetchLeads} color="primary">
+//                                     <RefreshIcon />
+//                                 </IconButton>
+//                             </Tooltip>
+//                         </Typography>
+//                     </Grid>
+//                     <Grid size={{ xs: 12, sm: 6 }}>
+//                         {/* <Tooltip title={kanbanView ? 'Switch to table view' : 'Switch to kanban view'}> */}
+//                         {/* <MyButton variant="outlined" onClick={() => setKanbanView(!kanbanView)} startIcon={kanbanView ? <TableIcon /> : <KanbanIcon />}>
+//                                 {kanbanView ? 'Table View' : 'Kanban View'}
+//                             </MyButton> */}
+//                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
+//                             <Box sx={{ margin: '5px' }}>
+//                                 <ToggleButtonGroup value={viewMode} exclusive onChange={handleViewModeChange} size="small">
+//                                     <Tooltip title="Kanban">
+//                                         <ToggleButton value="kanban">
+//                                             <TableIcon sx={{ fontSize: '18px' }} />
+//                                         </ToggleButton>
+//                                     </Tooltip>
+//                                     <Tooltip title="Tabel">
+//                                         <ToggleButton value="Tabel">
+//                                             <KanbanIcon sx={{ fontSize: '18px' }} />
+//                                         </ToggleButton>
+//                                     </Tooltip>
+//                                 </ToggleButtonGroup>
+//                             </Box>
+//                             {/* </Tooltip> */}
+//                             <Box>
+//                                 <Tooltip title="Create new lead">
+//                                     <MyButton variant="contained" color="primary" startIcon={<AddIcon />} onClick={() => (window.location.href = `/${subdomain}/leads/create`)}>
+//                                         Lead
+//                                     </MyButton>
+//                                 </Tooltip>
+//                             </Box>
+//                         </Box>
+//                     </Grid>
+//                 </Grid>
+
 //                 {error && (
-//                     <Typography color="error" sx={{ mt: 2 }}>
+//                     <Typography color="error" sx={{ mt: 2, mb: 2 }}>
 //                         {error}
 //                     </Typography>
 //                 )}
+
 //                 {loading ? (
 //                     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
 //                         <CircularProgress />
 //                     </Box>
 //                 ) : (
 //                     <>
-//                         <LeadTable
-//                             leads={leads}
-//                             leadSources={leadSources}
-//                             leadStatus={leadstatus}
-//                             setEditingLead={setEditingLead}
-//                             onDelete={handleDelete}
-//                             handleStatusChange={handleStatusChange}
-//                             setIsFormVisible={setIsFormVisible}
-//                             onSubmit={handleSubmit}
-//                             leadType={leadType}
-//                             fetchDatas={fetchLeads}
-//                         />
-//                         <Dialog open={isFormVisible} onClose={() => setIsFormVisible(false)} maxWidth="md" fullWidth>
-//                             <DialogTitle sx={{ m: 0, p: 2 }}>
-//                                 {editingLead ? 'Edit Lead' : 'New Lead'}
-//                                 <IconButton
-//                                     aria-label="close"
-//                                     onClick={() => setIsFormVisible(false)}
-//                                     sx={{
-//                                         position: 'absolute',
-//                                         right: 8,
-//                                         top: 8,
-//                                         color: (theme) => theme.palette.grey[500]
-//                                     }}
-//                                 >
+//                         {viewMode == 'kanban' ? (
+//                             <TaskManagement leads={leadType} leadStatus={leadstatus} setLeads={setLeads} />
+//                         ) : (
+//                             <MyTable
+//                                 data={rowData}
+//                                 columns={columns}
+//                                 // actionButtons={actionButtons}
+//                                 onEdit={handleEdit}
+//                                 onDelete={handleDelete}
+//                                 // onCreate={() => (window.location.href = `/${subdomain}/leads/create`)}
+//                                 // onToggle={handleStatusChange}
+//                                 snackbarMessage={snackbarMessage}
+//                                 setSnackbarMessage={setSnackbarMessage}
+//                                 subdomain={subdomain}
+//                             />
+//                         )}
+
+//                         {/* Action Dialog */}
+//                         {/* <Dialog open={actionDialogOpen} onClose={() => setActionDialogOpen(false)} maxWidth="xs" fullWidth>
+//                             <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+//                                 Lead Actions
+//                                 <IconButton onClick={() => setActionDialogOpen(false)}>
 //                                     <CloseIcon />
 //                                 </IconButton>
 //                             </DialogTitle>
 //                             <DialogContent dividers>
-//                                 {editingLead ? (
-//                                     <LeadForm lead={editingLead} onSubmit={handleSubmit} customers={customerOptions} UsersOptions={UsersOptions} />
-//                                 ) : (
-//                                     <LeadForm lead={null} onSubmit={handleSubmit} customers={customerOptions} UsersOptions={UsersOptions} />
-//                                 )}
+//                                 <Grid container spacing={2} sx={{ p: 2 }}>
+//                                     <Grid size={{ xs: 12, sm: 12 }}>
+//                                         <MyButton
+//                                             // fullWidth
+//                                             variant="contained"
+//                                             startIcon={<FollowUpIcon />}
+//                                             onClick={() => {
+//                                                 setActionDialogOpen(false);
+//                                                 setFollowUpFormVisible(true);
+//                                             }}
+//                                         >
+//                                             Create Follow Up
+//                                         </MyButton>
+//                                     </Grid>
+//                                     <Grid size={{ xs: 12 }}>
+//                                         <MyButton
+//                                             variant="contained"
+//                                             startIcon={<ConvertIcon />}
+//                                             onClick={() => {
+//                                                 setActionDialogOpen(false);
+//                                                 setConvertFormVisible(true);
+//                                                 setConvertId(currentLead?.LeadId || '');
+//                                             }}
+//                                         >
+//                                             Convert to Customer
+//                                         </MyButton>
+//                                     </Grid>
+//                                     <Grid size={{ xs: 12, sm: 12 }}>
+//                                         <MyButton
+//                                             // fullWidth
+//                                             variant="contained"
+//                                             startIcon={<EditIcon />}
+//                                             onClick={() => {
+//                                                 setActionDialogOpen(false);
+//                                                 setEditDialogOpen(true);
+//                                             }}
+//                                         >
+//                                             Edit Lead
+//                                         </MyButton>
+//                                     </Grid>
+//                                 </Grid>
 //                             </DialogContent>
+//                         </Dialog> */}
+
+//                         {/* Follow Up Form */}
+//
+
+//                         {/* Convert Customer Dialog */}
+//                         <Dialog open={isConvertFormVisible} onClose={() => setConvertFormVisible(false)} maxWidth="md" fullWidth>
+//                             <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+//                                 Convert Lead to Customer
+//                                 <IconButton onClick={() => setConvertFormVisible(false)}>
+//                                     <CloseIcon />
+//                                 </IconButton>
+//                             </DialogTitle>
+//                             <DialogContent dividers>{currentLead && <ConvertCustomer currentLead={currentLead} convertid={convertId} setConvertFormVisible={setConvertFormVisible} leadStatus={leadstatus} />}</DialogContent>
 //                         </Dialog>
+
+//                         <Menu
+//                             anchorEl={anchorEl}
+//                             open={Boolean(anchorEl)}
+//                             onClose={handleMenuClose}
+//                             anchorOrigin={{
+//                                 vertical: 'top',
+//                                 horizontal: 'right'
+//                             }}
+//                             transformOrigin={{
+//                                 vertical: 'top',
+//                                 horizontal: 'right'
+//                             }}
+//                         >
+//                             <MenuItem onClick={() => (window.location.href = `/${subdomain}/leads/edit/${currentLead?.LeadId}`)}>
+//                                 <ListItemIcon>
+//                                     <ModeEditIcon fontSize="small" />
+//                                 </ListItemIcon>
+//                                 <ListItemText>Edit lead</ListItemText>
+//                             </MenuItem>
+//                             <MenuItem onClick={() => setFollowUpFormVisible(true)}>
+//                                 <ListItemIcon>
+//                                     <CalendarMonth fontSize="small" />
+//                                 </ListItemIcon>
+//                                 <ListItemText>Add Follow-Up</ListItemText>
+//                             </MenuItem>
+//                             <MenuItem onClick={() => (window.location.href = `/${subdomain}/leads/${currentLead?.LeadId}`)}>
+//                                 <ListItemIcon>
+//                                     <Visibility fontSize="small" />
+//                                 </ListItemIcon>
+//                                 <ListItemText>View Lead</ListItemText>
+//                             </MenuItem>
+//                             <Divider />
+//                             <MenuItem onClick={() => console.log(`Delete lead ${currentLead?.LeadId}`)} sx={{ color: 'error.main' }}>
+//                                 <ListItemIcon>
+//                                     <Delete fontSize="small" color="error" />
+//                                 </ListItemIcon>
+//                                 <ListItemText>Delete Lead</ListItemText>
+//                             </MenuItem>
+//                         </Menu>
+//                         {/* </Dialog> */}
+
+//                         {/* Delete Confirmation Dialog */}
+//                         {/* <DeleteDialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)} onConfirm={confirmDelete} title="Delete Lead" content="Are you sure you want to delete this lead? This action cannot be undone." /> */}
+
+//                         {/* Snackbar for notifications */}
+//                         <MySnackbar open={snackbarOpen} message={snackbarMessage} severity="success" position={{ vertical: 'top', horizontal: 'right' }} onClose={() => setSnackbarOpen(false)} />
+//                         {/* <FollowUpForm> */}
 //                     </>
 //                 )}
-//             </Box>
-//         </>
+//             </Paper>
+//         </Box>
 //     );
 // };
 
@@ -290,38 +570,104 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import LeadTable from './leadsTable';
-import LeadForm from './create/leadsForm';
-import EditLeadForm from './EditleadsForm';
-import { API_BASE_URL } from '../../../utils';
+import { Dialog, DialogTitle, DialogContent, CircularProgress, Typography, IconButton, Box, Tooltip, Grid, Paper, ToggleButton, ToggleButtonGroup, Menu, MenuItem, ListItemIcon, ListItemText, Divider } from '@mui/material';
+import {
+    Close as CloseIcon,
+    Add as AddIcon,
+    Edit as EditIcon,
+    Delete as DeleteIcon,
+    Visibility as ViewIcon,
+    Refresh as RefreshIcon,
+    TableChart as TableIcon,
+    Dashboard as KanbanIcon,
+    PersonAdd as ConvertIcon,
+    Schedule as FollowUpIcon,
+    CheckCircle as StatusIcon,
+    Business as CompanyIcon,
+    Email as EmailIcon,
+    Phone as PhoneIcon,
+    Person as AssigneeIcon,
+    CalendarToday as CalendarIcon,
+    Note as NotesIcon,
+    CheckCircle,
+    CalendarMonth,
+    Visibility,
+    Delete
+} from '@mui/icons-material';
 import Kanban from './kanban/kanbanleads';
-import { Button, Dialog, DialogTitle, DialogContent, DialogActions, CircularProgress, Typography, IconButton, Box } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import DeleteDialog from '../../../Component/CustomiseComponent/DeleteDialog';
+import { API_BASE_URL } from '../../../utils';
 import { MyTable } from '../../../Component/Table/Table';
-import { validateEmail, validatePhone, validateRequired } from '../../../Component/Table/Validation';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+// import { validateEmail, validatePhone, validateRequired } from '../../../Component/Table/Validation';
 import { MySnackbar } from '../../../Component/Snackbar/Snackbar';
+import ConvertCustomer from './form/convertcutomer';
+import FollowUpForm from './form/FollowUpForm';
+import { MyButton } from '../../../Component/Buttons/Buttons';
+import DeleteDialog from '../../../Component/CustomiseComponent/DeleteDialog';
+import { getLeads } from '../../../../../api/Leads';
+import TaskManagement from './kanban/kanbanleads';
 
+interface Lead {
+    _id: string;
+    LeadId: string;
+    manualData: {
+        name: string;
+        company: string;
+        email?: string;
+        mobileNo: string;
+    };
+    assignTo: {
+        firstname: string;
+        lastname: string;
+        _id: string;
+        Profile?: string;
+    };
+    followUps: Array<{ followUpDate: string; notes: string }>;
+    leadsource: string;
+    leadstatus: { _id: string; statusName: string; color: string };
+    status: number;
+}
+// interface severity {
+type Severity = 'error' | 'warning' | 'info' | 'success';
+// }
 const LeadsPage: React.FC = () => {
-    const [leads, setLeads] = useState([]);
-    const [isFormVisible, setIsFormVisible] = useState(false);
-    const [editingLead, setEditingLead] = useState(null);
+    const [leads, setLeads] = useState<any>([]);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<string | null>(null);
     const [customers, setCustomers] = useState([]);
     const [users, setUsers] = useState([]);
     const [leadSources, setLeadSources] = useState([]);
     const [leadstatus, setLeadstatus] = useState([]);
     const [leadType, setLeadType] = useState(null);
-    const [kanbans, setKanban] = useState(false);
+    const [kanbanView, setKanbanView] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
-    // const [snackbarSeverity setSnackbarSeverity] = useState("success");
-    const [snackbar, setSnackbar] = useState(false);
-    // const [snackbarMessage,]
-    // Delete confirmation popup state
-
+    const [snackbarSeverity, setSnackbarSeverity] = useState<Severity>('success');
+    const [isFollowUpFormVisible, setFollowUpFormVisible] = useState(false);
+    const [isConvertFormVisible, setConvertFormVisible] = useState(false);
+    const [currentLead, setCurrentLead] = useState<Lead | null>(null);
+    const [actionDialogOpen, setActionDialogOpen] = useState(false);
+    const [convertId, setConvertId] = useState<string | null>(null);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [leadToDelete, setLeadToDelete] = useState(null);
+    const [leadToDelete, setLeadToDelete] = useState<string | null>(null);
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
+    const [viewMode, setViewMode] = useState<'kanban' | 'Table'>('Table');
+    const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+
+    const handleEdit = useCallback((event: React.MouseEvent<HTMLElement>, lead: Lead) => {
+        setCurrentLead(lead);
+        setAnchorEl(event.currentTarget);
+    }, []);
+
+    const handleMenuClose = useCallback(() => {
+        setAnchorEl(null);
+    }, []);
+
+    const handleViewModeChange = (event: React.MouseEvent<HTMLElement>, newViewMode: 'kanban' | 'Table') => {
+        if (newViewMode !== null) {
+            setViewMode(newViewMode);
+        }
+    };
 
     const accessToken = Cookies.get('accessToken');
     const subdomain = Cookies.get('subdomain');
@@ -339,23 +685,6 @@ const LeadsPage: React.FC = () => {
         [accessToken]
     );
 
-    const fetchLeads = useCallback(async () => {
-        setLoading(true);
-        setError(null);
-        try {
-            await fetchData(`/lead/${subdomain}`, (data) => {
-                setLeads(data.leads || []);
-                setLeadType(data);
-            });
-        } finally {
-            setLoading(false);
-        }
-    }, [fetchData, subdomain]);
-
-    const fetchCustomers = useCallback(async () => {
-        await fetchData(`/customer/${subdomain}`, (data) => setCustomers(data.customers || []));
-    }, [fetchData, subdomain]);
-
     const fetchProjects = useCallback(async () => {
         await fetchData(`/user/${subdomain}`, (data) => setUsers(data.users || []));
     }, [fetchData, subdomain]);
@@ -368,114 +697,24 @@ const LeadsPage: React.FC = () => {
         await fetchData(`/leadsource/${subdomain}`, setLeadSources);
     }, [fetchData, subdomain]);
 
-    useEffect(() => {
-        if (subdomain && accessToken) {
-            fetchLeads();
-            fetchCustomers();
-            fetchProjects();
-            fetchLeadstatus();
-            fetchLeadSources();
-        }
-    }, [subdomain, accessToken, fetchLeads, fetchCustomers, fetchProjects, fetchLeadstatus, fetchLeadSources]);
-
-    const handleEdit = useCallback((leadsid) => {
-        setIsFormVisible(true);
-        setEditingLead(leadsid);
-    }, []);
-
-    // Open delete confirmation popup
-    const handleDelete = useCallback((LeadId) => {
-        setLeadToDelete(LeadId);
-        setDeleteDialogOpen(true);
-    }, []);
-
-    // Confirm delete action
-    const confirmDelete = useCallback(async () => {
-        if (!leadToDelete) return;
+    const fetchLeads = useCallback(async () => {
+        setLoading(true);
+        setError(null);
         try {
-            const headers = { Authorization: `Bearer ${accessToken}` };
-            await axios.delete(`${API_BASE_URL}/lead/${subdomain}/${leadToDelete}`, { headers });
-            setLeads((prevLeads) => prevLeads.filter((lead) => lead.LeadId !== leadToDelete));
-            fetchLeads();
-        } catch (error) {
-            setError('Error deleting lead. Please try again.');
+            const response = await getLeads(subdomain);
+            setLeads(response?.data?.leads || []);
+            setLeadType(response?.data);
         } finally {
-            setDeleteDialogOpen(false);
-            setLeadToDelete(null);
+            setLoading(false);
         }
-    }, [accessToken, subdomain, leadToDelete, fetchLeads]);
-
-    // Cancel delete action
-    const cancelDelete = useCallback(() => {
-        setDeleteDialogOpen(false);
-        setLeadToDelete(null);
     }, []);
 
-    const handleSubmit = useCallback(
-        async (values) => {
-            const headers = {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${accessToken}`
-            };
-
-            try {
-                let response;
-                if (editingLead) {
-                    response = await axios.patch(`${API_BASE_URL}/lead/${subdomain}/${editingLead.LeadId}`, values, { headers });
-                } else {
-                    response = await axios.post(`${API_BASE_URL}/lead/offline/${subdomain}/addlead`, values, { headers });
-                }
-
-                setLeads((prevLeads) => {
-                    if (editingLead) {
-                        return prevLeads.map((lead) => (lead._id === editingLead._id ? response.data : lead));
-                    } else {
-                        return [...prevLeads, response.data];
-                    }
-                });
-                setIsFormVisible(false);
-                setEditingLead(null);
-                fetchLeads();
-            } catch (error) {
-                setError('An error occurred while saving the lead. Please try again.');
-            }
-        },
-        [accessToken, subdomain, editingLead, fetchLeads]
-    );
-
-    const handleStatusChange = useCallback(
-        async (LeadId) => {
-            // console.log(status, 'status');
-            console.log(LeadId, 'status');
-            const status = LeadId.active === 1 ? 0 : 1;
-
-            const headers = { Authorization: `Bearer ${accessToken}` };
-            try {
-                const response = await axios.patch(`${API_BASE_URL}/lead/${subdomain}/${LeadId.LeadId}`, { status }, { headers });
-                if (response.status === 200 || response.status === 204) {
-                    // Update local leads list only if API call was successful
-                    console.log();
-
-                    setSnackbarMessage(response?.data?.data?.message);
-                    setLeads((prevLeads) => prevLeads.map((lead) => (lead.LeadId === LeadId.LeadId ? { ...lead, status } : lead)));
-                } else {
-                    console.error('Failed to update status. Server responded with:', response.status);
-                }
-            } catch (error) {
-                // Optionally show error
-            }
-        },
-        [accessToken, subdomain]
-    );
-
-    const customerOptions = useMemo(
-        () =>
-            customers.map((customer) => ({
-                label: customer.Companyname,
-                value: customer._id
-            })),
-        [customers]
-    );
+    useEffect(() => {
+        fetchLeads();
+        fetchLeadSources();
+        fetchLeadstatus();
+        fetchProjects();
+    }, []);
 
     const UsersOptions = useMemo(
         () =>
@@ -486,416 +725,356 @@ const LeadsPage: React.FC = () => {
         [users]
     );
 
-    console.log(leads, 'leads,');
+    const handleViewActions = useCallback((lead: Lead) => {
+        setCurrentLead(lead);
+        setActionDialogOpen(true);
+    }, []);
 
-    // const rowData = leads.map((item) => ({
-    //     LeadId: item.LeadId,
-    //     Name: item.manualData.name,
-    //     Company: item.manualData.company,
-    //     Phone: item.manualData.mobileNo,
-    //     'Follow-Up':
-    //         item.followUps.length > 0
-    //             ? `Date: ${new Date(item.followUps[item.followUps.length - 1].followUpDate).toDateString()},
-    //        Notes: ${item.followUps[item.followUps.length - 1].notes}`
-    //             : 'No follow-ups',
-    //     Assigned: `${item.assignTo.firstname} ${item.assignTo.lastname}`,
-    //     active: item.status,
-    //     leadstatus: (
-    //         <>
-    //             <Box
-    //                 sx={{
-    //                     display: 'flex',
-    //                     alignItems: 'center',
-    //                     px: 2,
-    //                     py: 1.5,
-    //                     borderTopLeftRadius: 8,
-    //                     borderTopRightRadius: 8
-    //                 }}
-    //             >
-    //                 <Box
-    //                     sx={{
-    //                         width: 12,
-    //                         height: 12,
-    //                         borderRadius: '50%',
-    //                         bgcolor: item.leadstatus?.color ? `#${item.leadstatus.color}` : undefined,
-    //                         mr: 1
-    //                     }}
-    //                 />
-    //                 {/* <Typography variant="subtitle2" fontWeight={600} onClick={() => handleEditClick(item, 'leadstatus')}> */}
-    //                 <Typography variant="subtitle2" fontWeight={600}>
-    //                     {item.leadstatus?.statusName}
-    //                 </Typography>
-    //             </Box>
-    //         </>
-    //     ),
-    //     leadsource: item.leadsource
-    // }));
+    const handleDelete = useCallback((leadId: string) => {
+        setLeadToDelete(leadId);
+        setDeleteDialogOpen(true);
+    }, []);
+    console.log(leadToDelete, 'leadToDelete');
 
-    // const columns = [
-    //     { id: 'LeadId', label: 'LeadId' },
-    //     { id: 'Name', label: 'Name', align: 'right' },
-    //     { id: 'Company', label: 'Company', align: 'right' },
-    //     { id: 'Phone', label: 'Phone', align: 'right' },
-    //     { id: 'Follow-Up', label: 'Follow-Up', align: 'right' },
-    //     { id: 'Assigned', label: 'Assigned', align: 'right' },
-    //     { id: 'leadstatus', label: 'Leadstatus', align: 'right' },
-    //     { id: 'leadsource', label: 'Leadsource', align: 'right' }
-    // ];
-    // const rowData = leads.map((item) => ({
-    //     LeadId: item.LeadId,
-    //     Name: item.manualData.name,
-    //     Company: item.manualData.company,
-    //     Phone: item.manualData.mobileNo,
-    //     'Follow-Up':
-    //         item.followUps.length > 0
-    //             ? `Date: ${new Date(item.followUps[item.followUps.length - 1].followUpDate).toDateString()},
-    //        Notes: ${item.followUps[item.followUps.length - 1].notes}`
-    //             : 'No follow-ups',
-    //     Assigned: `${item.assignTo.firstname} ${item.assignTo.lastname}`,
-    //     active: item.status,
-    //     leadstatus: (
-    //         <>
-    //             <Box
-    //                 sx={{
-    //                     display: 'flex',
-    //                     alignItems: 'center',
-    //                     px: 2,
-    //                     py: 1.5,
-    //                     borderTopLeftRadius: 8,
-    //                     borderTopRightRadius: 8
-    //                 }}
-    //             >
-    //                 <Box
-    //                     sx={{
-    //                         width: 12,
-    //                         height: 12,
-    //                         borderRadius: '50%',
-    //                         bgcolor: item.leadstatus?.color ? `#${item.leadstatus.color}` : undefined,
-    //                         mr: 1
-    //                     }}
-    //                 />
-    //                 <Typography variant="subtitle2" fontWeight={600}>
-    //                     {item.leadstatus?.statusName}
-    //                 </Typography>
-    //             </Box>
-    //         </>
-    //     ),
-    //     leadsource: item.leadsource
-    // }));
+    const confirmDelete = useCallback(async () => {
+        // if (!leadToDelete) return;
+        try {
+            const headers = { Authorization: `Bearer ${accessToken}` };
+            const response = await axios.delete(`${API_BASE_URL}/lead/${subdomain}/${leadToDelete}`, { headers });
+
+            console.log(response, 'response,,');
+            if (response) {
+                setLeads((prevLeads) => prevLeads.filter((lead) => lead.LeadId !== leadToDelete));
+                setSnackbarMessage('Lead deleted successfully');
+                setSnackbarSeverity('success');
+                setSnackbarOpen(true);
+            } else {
+                setSnackbarMessage('Lead deleted successfully');
+                setSnackbarSeverity('error');
+            }
+        } catch (error) {
+            setError('Error deleting lead. Please try again.');
+        } finally {
+            setDeleteDialogOpen(false);
+            setLeadToDelete(null);
+        }
+    }, [accessToken, subdomain, leadToDelete]);
+
+    const handleStatusChange = useCallback(
+        async (lead: Lead) => {
+            const status = lead.status === 1 ? 0 : 1;
+            const headers = { Authorization: `Bearer ${accessToken}` };
+
+            try {
+                const response = await axios.patch(`${API_BASE_URL}/lead/${subdomain}/${lead.LeadId}`, { status }, { headers });
+                if (response) {
+                    setSnackbarMessage(response?.data?.data?.message || 'Status updated successfully');
+                    setSnackbarSeverity('success');
+                    setSnackbarOpen(true);
+                    setLeads((prevLeads) => prevLeads.map((l) => (l.LeadId === lead.LeadId ? { ...l, status } : l)));
+                } else {
+                    setSnackbarMessage(response?.data?.data?.message || 'Status updated successfully');
+                    setSnackbarSeverity('error');
+                }
+            } catch (error) {
+                setError('Failed to update status');
+            }
+        },
+        [accessToken, subdomain]
+    );
 
     const rowData = leads.map((item) => ({
+        ...item,
         LeadId: item?.LeadId,
-        Name: item?.manualData?.name,
-        Company: item?.manualData?.company,
-        Email: item?.manualData?.email,
-        Phone: item?.manualData?.mobileNo,
+        Name: item?.formData ? item?.formData?.name : item?.manualData?.name,
+        Company: !item?.manualData ? item?.formData?.company : item?.manualData?.company,
+        Email: item?.formData ? item?.formData?.email : item?.manualData?.email,
+        Phone: item?.formData ? item?.formData?.mobile : item?.manualData?.mobileNo,
         'Follow-Up':
             item?.followUps?.length > 0
                 ? `Date: ${new Date(item?.followUps[item?.followUps?.length - 1]?.followUpDate)?.toDateString()},
-           Notes: ${item?.followUps[item?.followUps?.length - 1]?.notes}`
+               Notes: ${item?.followUps[item?.followUps?.length - 1]?.notes}`
                 : 'No follow-ups',
-        Assigned: `${item?.assignTo?.firstname} ${item?.assignTo?.lastname}`,
+        Assigned: `${item?.assignTo?.firstname || ''} ${item?.assignTo?.lastname || 'Not Assign'}`,
         active: item?.status,
         leadstatus: item?.leadstatus,
-        leadsource: item?.leadsource,
-        Address: item?.manualData?.address,
-        assignTo: item?.assignTo?._id,
-        description: item?.description
-
-        // leadsource: item?.leadsource
+        leadsource: item?.leadsource
     }));
+
     const columns = [
-        { id: 'LeadId', label: 'LeadId' },
-        { id: 'Name', label: 'Name', align: 'center' },
-        { id: 'Company', label: 'Company', align: 'center' },
-        { id: 'Phone', label: 'Phone', align: 'center' },
-        { id: 'Follow-Up', label: 'Follow-Up', align: 'center' },
-        { id: 'Assigned', label: 'Assigned', align: 'center' },
         {
-            id: 'leadstatus',
-            label: 'Leadstatus',
+            id: 'LeadId',
+            label: 'Lead ID',
             align: 'center',
-            format: (value) => (
+            render: (value) => (
+                <Tooltip title="View lead details">
+                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                        {value}
+                    </Typography>
+                </Tooltip>
+            )
+        },
+        {
+            id: 'Name',
+            label: 'Name',
+            align: 'center',
+            render: (value) => (
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box
-                        sx={{
-                            width: 12,
-                            height: 12,
-                            borderRadius: '50%',
-                            bgcolor: value?.color ? `#${value.color}` : 'gray',
-                            mr: 1
-                        }}
-                    />
-                    <Typography variant="subtitle2" fontWeight={600}>
-                        {value?.statusName ?? 'Update Status'}
+                    <Typography variant="body2" sx={{ ml: 1 }}>
+                        {value}
                     </Typography>
                 </Box>
             )
         },
-        { id: 'leadsource', label: 'Leadsource', align: 'center' }
-    ];
-
-    // const formFields = [
-    //     {
-    //         id: 'name',
-    //         name: 'name',
-    //         label: 'Name',
-    //         type: 'text',
-    //         required: true,
-    //         fullWidth: true,
-    //         validation: validateRequired
-    //     },
-    //     {
-    //         id: 'email',
-    //         name: 'email',
-    //         label: 'Email',
-    //         type: 'email',
-    //         required: true,
-    //         fullWidth: true,
-    //         validation: validateEmail
-    //     },
-    //     {
-    //         id: 'mobileNo',
-    //         name: 'mobileNo',
-    //         label: 'Phone',
-    //         type: 'number',
-    //         required: true,
-    //         fullWidth: true,
-    //         validation: validatePhone
-    //     },
-    //     {
-    //         id: 'company',
-    //         name: 'company',
-    //         label: 'Company',
-    //         type: 'text',
-    //         required: true,
-    //         fullWidth: true,
-    //         validation: validateRequired
-    //     },
-    //     {
-    //         id: 'address',
-    //         name: 'address',
-    //         label: 'Address',
-    //         type: 'text',
-    //         required: true,
-    //         fullWidth: true,
-    //         validation: validateRequired
-    //     },
-    //     {
-    //         id: 'status',
-    //         name: 'status',
-    //         label: 'active',
-    //         type: 'switch',
-    //         options: [
-    //             { value: 'active', label: 'Active' },
-    //             { value: 'inactive', label: 'Inactive' }
-    //         ],
-    //         required: true
-    //     }
-    // ];
-
-    const formFields = [
         {
-            id: 'manualData.name',
-            name: 'manualData.name',
-            label: 'Name',
-            type: 'text',
-            required: true,
-            fullWidth: true,
-            validation: validateRequired
-        },
-        {
-            id: 'manualData.email',
-            name: 'manualData.email',
+            id: 'Email',
             label: 'Email',
-            type: 'email',
-            required: true,
-            fullWidth: true,
-            validation: validateEmail
+            align: 'center',
+            render: (value) => (
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Typography variant="body2" sx={{ ml: 1 }}>
+                        {value}
+                    </Typography>
+                </Box>
+            )
         },
         {
-            id: 'manualData.mobileNo',
-            name: 'manualData.mobileNo',
-            label: 'Mobile No',
-            type: 'number',
-            required: true,
-            fullWidth: true,
-            validation: validatePhone
-        },
-        {
-            id: 'manualData.company',
-            name: 'manualData.company',
+            id: 'Company',
             label: 'Company',
-            type: 'text',
-            required: true,
-            fullWidth: true,
-            validation: validateRequired
+            align: 'center',
+            render: (value) => (
+                <Tooltip title="Company">
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <CompanyIcon fontSize="small" sx={{ mr: 1, color: 'action.active' }} />
+                        <Typography variant="body2">{value}</Typography>
+                    </Box>
+                </Tooltip>
+            )
         },
         {
-            id: 'manualData.address.street',
-            name: 'manualData.address.street',
-            label: 'Street',
-            type: 'text',
-            required: true,
-            fullWidth: true,
-            validation: validateRequired
+            id: 'Phone',
+            label: 'Phone',
+            align: 'center',
+            render: (value) => (
+                <Tooltip title="Phone number">
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <PhoneIcon fontSize="small" sx={{ mr: 1, color: 'action.active' }} />
+                        <Typography variant="body2">{value}</Typography>
+                    </Box>
+                </Tooltip>
+            )
         },
         {
-            id: 'manualData.address.city',
-            name: 'manualData.address.city',
-            label: 'City',
-            type: 'text',
-            required: true,
-            fullWidth: true,
-            validation: validateRequired
+            id: 'Follow-Up',
+            label: 'Follow-Up',
+            align: 'center',
+            render: (value) => (
+                <Tooltip title={value.includes('No follow-ups') ? 'No follow-ups scheduled' : value}>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <CalendarIcon fontSize="small" sx={{ mr: 1, color: 'action.active' }} />
+                        <Typography variant="body2" noWrap>
+                            {value.split(',')[0]}
+                        </Typography>
+                    </Box>
+                </Tooltip>
+            )
         },
         {
-            id: 'manualData.address.state',
-            name: 'manualData.address.state',
-            label: 'State',
-            type: 'text',
-            required: true,
-            fullWidth: true,
-            validation: validateRequired
+            id: 'Assigned',
+            label: 'Assigned To',
+            align: 'center',
+            render: (value) => (
+                <Tooltip title="Assigned team member">
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <AssigneeIcon fontSize="small" sx={{ mr: 1, color: 'action.active' }} />
+                        <Typography variant="body2">{value}</Typography>
+                    </Box>
+                </Tooltip>
+            )
         },
+        // {
+        //     id: 'leadstatus',
+        //     label: 'Status',
+        //     align: 'center',
+        //     render: (value) => (
+        //         <Tooltip title={`Status: ${value?.statusName || 'Unknown'}`}>
+        //             <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        //                 <Box
+        //                     sx={{
+        //                         width: 12,
+        //                         height: 12,
+        //                         borderRadius: '50%',
+        //                         bgcolor: value?.color ? `#${value.color}` : 'gray',
+        //                         mr: 1
+        //                     }}
+        //                 />
+        //                 <Typography variant="subtitle2" fontWeight={600}>
+        //                     {value?.statusName || 'Unknown'}
+        //                 </Typography>
+        //             </Box>
+        //         </Tooltip>
+        //     )
+        // },
         {
-            id: 'manualData.address.zipCode',
-            name: 'manualData.address.zipCode',
-            label: 'Zip Code',
-            type: 'text',
-            required: true,
-            fullWidth: true,
-            validation: validateRequired
-        },
-        {
-            id: 'manualData.address.country',
-            name: 'manualData.address.country',
-            label: 'Country',
-            type: 'text',
-            required: true,
-            fullWidth: true,
-            validation: validateRequired
-        },
-        {
-            id: 'description',
-            name: 'description',
-            label: 'Description',
-            type: 'textarea',
-            required: false,
-            fullWidth: true
-        },
-        {
-            id: 'assignTo',
-            name: 'assignTo',
-            label: 'Assign To',
-            type: 'select', // or 'autocomplete'
-            required: true,
-            fullWidth: true,
-            options: [] // to be filled dynamically
-        },
-        {
-            id: 'followUp',
-            name: 'followUp',
-            label: 'Follow Ups',
-            type: 'array', // You can use a dynamic array of sub-forms
-            required: false,
-            fullWidth: true
+            id: 'leadsource',
+            label: 'Source',
+            align: 'center',
+            render: (value) => (
+                <Tooltip title={`Source: ${value || 'Unknown'}`}>
+                    <Typography variant="body2">{value}</Typography>
+                </Tooltip>
+            )
         }
     ];
 
-    return (
-        <Box sx={{ p: 2 }}>
-            {error && (
-                <Typography color="error" sx={{ mt: 2 }}>
-                    {error}
-                </Typography>
-            )}
-            {loading ? (
-                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-                    <CircularProgress />
-                </Box>
-            ) : (
-                <>
-                    {/* <LeadTable
-                        leads={leads}
-                        leadSources={leadSources}
-                        leadStatus={leadstatus}
-                        setEditingLead={setEditingLead}
-                        onDelete={handleDelete}
-                        handleStatusChange={handleStatusChange}
-                        setIsFormVisible={setIsFormVisible}
-                        leadType={leadType}
-                        fetchDatas={fetchLeads}
-                        handleEdit={handleEdit}
-                        onEdit={handleEdit}
-                        setLeadsid={setEditingLead}
-                        isFormVisible={isFormVisible}
-                    /> */}
-                    {/* <AdvancedDataGrid initialData={rowData} columns={columns} formFields={formFields} onSave={handleEdit} onDelete={handleDelete} onCreate={handleSubmit} getRowId={(row) => row.LeadId} pageSize={5} pageSizeOptions={[5, 10, 25]} />; */}
-                    {/* <AdvancedDataGrid initialData={rowDatas} columns={columnss} formFields={formFieldss} onSave={handleEdit} onDelete={handleDelete} onCreate={handleSubmit} getRowId={(row) => row.id} pageSize={10} pageSizeOptions={[5, 10, 25]} /> */}
-                    {/* <MyTable data={rowData} onEdit={handleEdit} onDelete={handleDelete} columns={columns} onToggle={handleStatusChange} /> */}
-                    <Box>
-                        <Button variant="contained" onClick={() => setKanban(!kanbans)}>
-                            {kanbans ? 'TableView' : 'Kanban View'}
-                        </Button>
-                    </Box>
-                    {kanbans ? (
-                        <Kanban leads={leadType} leadStatus={leadstatus} setLeads={setLeads} />
-                    ) : (
-                        <MyTable
-                            data={rowData}
-                            columns={columns}
-                            formFields={formFields}
-                            onEdit={handleEdit}
-                            onDelete={handleDelete}
-                            onCreate={() => setIsFormVisible(true)}
-                            onToggle={handleStatusChange}
-                            snackbarMessage={snackbarMessage}
-                            setSnackbarMessage={setSnackbarMessage}
-                            // setKanban={setKanban}
-                            // kanbans={kanbans}
-                        />
-                    )}
+    // const actionButtons = [
+    //     {
+    //         icon: <EditIcon />,
+    //         tooltip: 'Edit lead',
+    //         onClick: (row) => handleEdit(row)
+    //     },
+    //     {
+    //         icon: <DeleteIcon />,
+    //         tooltip: 'Delete lead',
+    //         onClick: (row) => handleDelete(row.LeadId)
+    //     },
+    //     {
+    //         icon: <StatusIcon />,
+    //         tooltip: 'Toggle status',
+    //         onClick: (row) => handleStatusChange(row)
+    //     },
+    //     {
+    //         icon: <ViewIcon />,
+    //         tooltip: 'View actions',
+    //         onClick: (row) => handleViewActions(row)
+    //     }
+    // ];
 
-                    <Dialog open={isFormVisible} onClose={() => setIsFormVisible(false)} maxWidth="md" fullWidth>
-                        <DialogTitle sx={{ m: 0, p: 2 }}>
-                            {editingLead ? 'Edit Lead' : 'New Lead'}
-                            <IconButton
-                                aria-label="close"
-                                onClick={() => setIsFormVisible(false)}
-                                sx={{
-                                    position: 'absolute',
-                                    right: 8,
-                                    top: 8,
-                                    color: (theme) => theme.palette.grey[500]
-                                }}
-                            >
-                                <CloseIcon />
-                            </IconButton>
-                        </DialogTitle>
-                        <DialogContent dividers>
-                            <LeadForm lead={editingLead} onSubmit={handleSubmit} customers={customerOptions} UsersOptions={UsersOptions} />
-                        </DialogContent>
-                    </Dialog>
-                    {/* Delete confirmation popup */}
-                    <Dialog open={deleteDialogOpen} onClose={cancelDelete}>
-                        <DialogTitle>Delete Lead</DialogTitle>
-                        <DialogContent>
-                            <Typography>Are you sure you want to remove this lead?</Typography>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={cancelDelete} color="primary">
-                                Cancel
-                            </Button>
-                            <Button onClick={confirmDelete} color="error" variant="contained">
-                                Delete
-                            </Button>
-                        </DialogActions>
-                    </Dialog>
-                    <DeleteDialog deleteDialogOpen={deleteDialogOpen} cancelDelete={cancelDelete} data={'lead'} confirmDelete={confirmDelete} />
-                </>
-            )}
-            <MySnackbar open={snackbar} message={snackbarMessage} severity={'success'} position={{ vertical: 'top', horizontal: 'right' }} onClose={() => setSnackbar(false)} />
+    return (
+        <Box>
+            <Paper elevation={0} sx={{ p: 0, borderRadius: 2, boxShadow: 'none' }}>
+                <Grid container spacing={2} alignItems="center" sx={{ mb: 3 }}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
+                        <Typography variant="h5" component="h1" sx={{ fontWeight: 600 }}>
+                            Leads{' '}
+                            <Tooltip title="Refresh data">
+                                <IconButton onClick={fetchLeads} color="primary">
+                                    <RefreshIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </Typography>
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 6 }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
+                            <Box sx={{ margin: '5px' }}>
+                                <ToggleButtonGroup value={viewMode} exclusive onChange={handleViewModeChange} size="small">
+                                    <Tooltip title="Kanban">
+                                        <ToggleButton value="kanban">
+                                            <TableIcon sx={{ fontSize: '18px' }} />
+                                        </ToggleButton>
+                                    </Tooltip>
+                                    <Tooltip title="Tabel">
+                                        <ToggleButton value="Tabel">
+                                            <KanbanIcon sx={{ fontSize: '18px' }} />
+                                        </ToggleButton>
+                                    </Tooltip>
+                                </ToggleButtonGroup>
+                            </Box>
+                            <Box>
+                                <Tooltip title="Create new lead">
+                                    <MyButton variant="contained" color="primary" startIcon={<AddIcon />} onClick={() => (window.location.href = `/${subdomain}/leads/create`)}>
+                                        Lead
+                                    </MyButton>
+                                </Tooltip>
+                            </Box>
+                        </Box>
+                    </Grid>
+                </Grid>
+                {/* {console.log(currentLead, 'currentLead')} */}
+                {error && (
+                    <Typography color="error" sx={{ mt: 2, mb: 2 }}>
+                        {error}
+                    </Typography>
+                )}
+
+                {loading ? (
+                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+                        <CircularProgress />
+                    </Box>
+                ) : (
+                    <>
+                        {viewMode == 'kanban' ? (
+                            <TaskManagement leads={leadType} leadStatus={leadstatus} setLeads={setLeads} />
+                        ) : (
+                            <MyTable
+                                data={rowData}
+                                columns={columns}
+                                setDeleteDialogOpen={setDeleteDialogOpen}
+                                onEdit={handleEdit}
+                                onDelete={handleDelete}
+                                snackbarMessage={snackbarMessage}
+                                setSnackbarMessage={setSnackbarMessage}
+                                subdomain={subdomain}
+                            />
+                        )}
+                        {currentLead && <FollowUpForm leadId={currentLead.LeadId} UsersOptions={UsersOptions} open={isFollowUpFormVisible} onOpenChange={setFollowUpFormVisible} followUp={null} />}
+                        <Menu
+                            anchorEl={anchorEl}
+                            open={Boolean(anchorEl)}
+                            onClose={handleMenuClose}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right'
+                            }}
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right'
+                            }}
+                        >
+                            <MenuItem onClick={() => (window.location.href = `/${subdomain}/leads/edit/${currentLead?.LeadId}`)}>
+                                <ListItemIcon>
+                                    <ModeEditIcon fontSize="small" />
+                                </ListItemIcon>
+                                <ListItemText>Edit lead</ListItemText>
+                            </MenuItem>
+                            <MenuItem onClick={() => setFollowUpFormVisible(true)}>
+                                <ListItemIcon>
+                                    <CalendarMonth fontSize="small" />
+                                </ListItemIcon>
+                                <ListItemText>Add Follow-Up</ListItemText>
+                            </MenuItem>
+                            <MenuItem onClick={() => (window.location.href = `/${subdomain}/leads/${currentLead?.LeadId}`)}>
+                                <ListItemIcon>
+                                    <Visibility fontSize="small" />
+                                </ListItemIcon>
+                                <ListItemText>View Lead</ListItemText>
+                            </MenuItem>
+                            <Divider />
+                            {/* <MenuItem onClick={() => (handleDelete(currentLead?.LeadId), setDeleteDialogOpen(true))} sx={{ color: 'error.main' }}>
+                                <ListItemIcon>
+                                    <Delete fontSize="small" color="error" />
+                                </ListItemIcon>
+                                <ListItemText>Delete Lead</ListItemText>
+                            </MenuItem> */}
+                            <MenuItem onClick={() => setConvertFormVisible(true)} sx={{ color: 'error.main' }}>
+                                {/* <ListItemIcon>
+                                    <Delete fontSize="small" color="error" />
+                                </ListItemIcon> */}
+                                <ListItemText>Convert Customer</ListItemText>
+                            </MenuItem>
+                        </Menu>
+                        <Dialog open={isConvertFormVisible} onClose={() => setConvertFormVisible(false)} maxWidth="sm" fullWidth>
+                            <DialogTitle>Convert Customer</DialogTitle>
+                            <DialogContent>
+                                <ConvertCustomer currentLead={currentLead} convertid={currentLead?.LeadId} setConvertFormVisible={setConvertFormVisible} leadStatus={currentLead?.leadstatus} />
+                            </DialogContent>
+                        </Dialog>
+                        <DeleteDialog deleteDialogOpen={deleteDialogOpen} cancelDelete={() => setDeleteDialogOpen(false)} confirmDelete={confirmDelete} data="Lead" />
+
+                        <MySnackbar open={snackbarOpen} message={snackbarMessage} severity={snackbarSeverity} position={{ vertical: 'top', horizontal: 'right' }} onClose={() => setSnackbarOpen(false)} />
+                    </>
+                )}
+            </Paper>
         </Box>
     );
 };

@@ -335,11 +335,15 @@ export default function DynamicLogin() {
                 setIsFirstLogin(data.isFirstlogin);
                 localStorage.setItem('crmaccess', accessToken);
                 localStorage.setItem('crmrefresh', refreshToken);
+
+                // if (accessToken) {
                 Cookies.set('crmaccess', accessToken, {
                     secure: true,
                     sameSite: 'Strict',
                     expires: 1 / 24
                 });
+
+                // }
                 Cookies.set('crmrefresh', refreshToken, {
                     secure: true,
                     sameSite: 'Strict',

@@ -1,21 +1,28 @@
 'use client';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import LeadForm from './leadsForm';
+
 import Cookies from 'js-cookie';
-import { CustomerSingleGET } from '../../../../../../api/Customer';
-import { usersSingleGET } from '../../../../../../api/user';
-import { LeadPost } from '../../../../../../api/Leads';
+import { CustomerSingleGET } from '../../../../../../../api/Customer';
+import { usersSingleGET } from '../../../../../../../api/user';
+import LeadForm from '../../create/leadsForm';
+import { getLeadsByID } from '../../../../../../../api/Leads';
+import { useParams } from 'next/navigation';
+// import { CustomerSingleGET } from '../../../../../../api/Customer';
+// import { usersSingleGET } from '../../../../../../api/user';
+// import { LeadPost } from '../../../../../../api/Leads';
 
 export default function LeadsCreate() {
-    const [customers, setCustomers] = useState([]);
+    const { id } = useParams();
+    const [leads, setLeads] = useState([]);
     const [users, setUsers] = useState([]);
     const subdomain = Cookies.get('subdomain');
     const fetchCustomers = useCallback(async () => {
         // await fetchData(`/customer/${subdomain}`,
-        const response = await CustomerSingleGET(subdomain);
+        const response = await getLeadsByID(subdomain, id);
+        console.log(response, 'response');
 
         // (data) =>
-        setCustomers(response.data.customers || []);
+        setLeads(response.data.lead || []);
     }, [subdomain]);
 
     const fetchProjects = useCallback(async () => {
@@ -25,14 +32,14 @@ export default function LeadsCreate() {
         setUsers(response.data.users || []);
     }, [subdomain]);
 
-    const customerOptions = useMemo(
-        () =>
-            customers.map((customer) => ({
-                label: customer.Companyname,
-                value: customer._id
-            })),
-        [customers]
-    );
+    // const customerOptions = useMemo(
+    //     () =>
+    //         customers.map((customer) => ({
+    //             label: customer.Companyname,
+    //             value: customer._id
+    //         })),
+    //     [customers]
+    // );
 
     const UsersOptions = useMemo(
         () =>
@@ -58,7 +65,7 @@ export default function LeadsCreate() {
             //     response = await axios.patch(`${API_BASE_URL}/lead/${subdomain}/${editingLead.LeadId}`, values, { headers });
             // } else {
             // response = await axios.post(`${API_BASE_URL}/lead/offline/${subdomain}/addlead`, values, { headers });
-            const response = await LeadPost(subdomain, values);
+            // const response = await LeadPost(subdomain, values);
             // }
 
             // setLeads((prevLeads) => {
@@ -81,7 +88,7 @@ export default function LeadsCreate() {
     }, []);
     return (
         <div>
-            <LeadForm lead={null}  UsersOptions={UsersOptions} />
+            <LeadForm lead={leads} UsersOptions={UsersOptions} />
         </div>
     );
 }

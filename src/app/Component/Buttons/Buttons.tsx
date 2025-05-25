@@ -67,9 +67,13 @@ export const MyButton: React.FC<{
     children: React.ReactNode;
     variant?: 'text' | 'outlined' | 'contained';
     color?: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
+    size?: 'small' | 'large';
     disabled?: boolean;
+    startIcon?: any;
+    autoFocus?: boolean;
+    type?: any;
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-}> = ({ children, variant = 'contained', color = 'primary', disabled = false, onClick }) => {
+}> = ({ children, variant = 'contained', color = 'primary', disabled = false, onClick, size = 'small', startIcon, autoFocus, type }) => {
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         if (disabled) return;
         console.log('Custom logic before onClick');
@@ -78,7 +82,40 @@ export const MyButton: React.FC<{
     };
 
     return (
-        <CustomButton variant={variant} color={color} disabled={disabled} onClick={handleClick}>
+        <CustomButton
+            autoFocus={autoFocus}
+            startIcon={startIcon}
+            type={type}
+            sx={{
+                height: '12px',
+                // width: '12px',
+                borderRadius: '5px',
+                margin: '0px',
+                marginTop: '5px',
+                marginLeft: '5px',
+                // padding: '0px',
+                fontSize: '12px',
+                minHeight: '35px',
+                // minWidth: '80px',
+                transition: 'all 0.3s ease',
+                '&.Mui-selected': {
+                    bgcolor: 'primary.main',
+                    color: 'primary.contrastText',
+                    boxShadow: 1
+                },
+                '&:hover': {
+                    bgcolor: 'action.hover'
+                },
+                '&.Mui-selected:hover': {
+                    bgcolor: 'primary.dark'
+                }
+            }}
+            variant={variant}
+            size={size}
+            color={color}
+            disabled={disabled}
+            onClick={handleClick}
+        >
             {children}
         </CustomButton>
     );

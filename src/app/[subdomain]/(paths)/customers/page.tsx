@@ -872,7 +872,7 @@ declare module 'jspdf' {
         autoTable: (...args: any[]) => jsPDF;
     }
 }
-import { CiExport } from 'react-icons/ci';
+// import { CiExport } from 'react-icons/ci';
 import userContext from '../../../UseContext/UseContext';
 import { API_BASE_URL } from '../../../utils';
 
@@ -932,6 +932,7 @@ import {
     ArrowDropDown as ArrowDropDownIcon
 } from '@mui/icons-material';
 import { CustomerDELETe, CustomerPatch, CustomerSingleGET } from '../../../../../api/Customer';
+import { MyButton } from '../../../Component/Buttons/Buttons';
 
 // Types
 interface Customer {
@@ -1311,9 +1312,9 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
                 <Typography color="error" variant="h6">
                     {error}
                 </Typography>
-                <Button variant="outlined" color="primary" startIcon={<RefreshIcon />} onClick={fetchContacts} sx={{ ml: 2 }}>
+                <MyButton variant="outlined" color="primary" startIcon={<RefreshIcon />} onClick={fetchContacts} >
                     Retry
-                </Button>
+                </MyButton>
             </Box>
         );
     }
@@ -1338,7 +1339,7 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
             </Grid>
 
             {/* Toolbar - Enhanced with better responsive behavior */}
-            <Card
+            {/* <Card
                 sx={{
                     mb: 3,
                     p: 2,
@@ -1381,19 +1382,19 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
 
                         <Box display="flex" gap={1}>
                             <Tooltip title="Filter">
-                                <Button
+                                <MyButton
                                     variant={statusFilter !== 'all' ? 'contained' : 'outlined'}
                                     color={statusFilter !== 'all' ? 'primary' : 'inherit'}
                                     startIcon={<FilterListIcon />}
                                     onClick={(e) => setFilterAnchorEl(e.currentTarget)}
-                                    sx={{
-                                        borderRadius: 3,
-                                        textTransform: 'none',
-                                        borderColor: 'divider'
-                                    }}
+                                    // sx={{
+                                    //     borderRadius: 3,
+                                    //     textTransform: 'none',
+                                    //     borderColor: 'divider'
+                                    // }}
                                 >
                                     Filter
-                                </Button>
+                                </MyButton>
                             </Tooltip>
 
                             <Menu
@@ -1460,62 +1461,62 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
                     <Box display="flex" flexWrap="wrap" gap={1}>
                         {userPermissions?.Customer?.canCreate && (
                             <Link href={`/${subdomain}/customers/newcustomber`} passHref>
-                                <Button
+                                <MyButton
                                     variant="contained"
                                     color="primary"
                                     startIcon={<AddIcon />}
-                                    sx={{
-                                        borderRadius: 3,
-                                        textTransform: 'none',
-                                        boxShadow: 'none',
-                                        '&:hover': {
-                                            boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
-                                        }
-                                    }}
+                                    // sx={{
+                                    //     borderRadius: 3,
+                                    //     textTransform: 'none',
+                                    //     boxShadow: 'none',
+                                    //     '&:hover': {
+                                    //         boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
+                                    //     }
+                                    // }}
                                 >
                                     New Customer
-                                </Button>
+                                </MyButton>
                             </Link>
                         )}
 
                         {userPermissions?.Customer?.canDelete && (
-                            <Button
+                            <MyButton
                                 variant="outlined"
                                 color="error"
                                 startIcon={<DeleteIcon />}
                                 onClick={handleBulkDelete}
                                 disabled={selectedContacts.length === 0}
-                                sx={{
-                                    borderRadius: 3,
-                                    textTransform: 'none',
-                                    borderColor: selectedContacts.length > 0 ? 'error.main' : 'divider',
-                                    '&:hover': {
-                                        borderColor: 'error.main',
-                                        bgcolor: 'error.light'
-                                    }
-                                }}
+                                // sx={{
+                                //     borderRadius: 3,
+                                //     textTransform: 'none',
+                                //     borderColor: selectedContacts.length > 0 ? 'error.main' : 'divider',
+                                //     '&:hover': {
+                                //         borderColor: 'error.main',
+                                //         bgcolor: 'error.light'
+                                //     }
+                                // }}
                             >
                                 Delete ({selectedContacts.length})
-                            </Button>
+                            </MyButton>
                         )}
 
-                        <Button
+                        <MyButton
                             variant="outlined"
                             color="inherit"
                             startIcon={<CiExport style={{ fontSize: '1.2rem' }} />}
                             onClick={(e) => setExportAnchorEl(e.currentTarget)}
-                            sx={{
-                                borderRadius: 3,
-                                textTransform: 'none',
-                                borderColor: 'divider',
-                                '&:hover': {
-                                    borderColor: 'primary.main',
-                                    bgcolor: 'primary.light'
-                                }
-                            }}
+                            // sx={{
+                            //     borderRadius: 3,
+                            //     textTransform: 'none',
+                            //     borderColor: 'divider',
+                            //     '&:hover': {
+                            //         borderColor: 'primary.main',
+                            //         bgcolor: 'primary.light'
+                            //     }
+                            // }}
                         >
                             Export
-                        </Button>
+                        </MyButton>
 
                         <Menu
                             anchorEl={exportAnchorEl}
@@ -1550,7 +1551,7 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
                         </Menu>
                     </Box>
                 </Box>
-            </Card>
+            </Card> */}
 
             {/* Status Filter Chips - Enhanced with better visual feedback */}
             <Box sx={{ mb: 2, display: 'flex', gap: 1, flexWrap: 'wrap' }}>
@@ -1642,8 +1643,8 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
                                     <TableCell sx={{ borderBottom: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>Contact</TableCell>
                                     <TableCell sx={{ borderBottom: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>GST No</TableCell>
                                     <TableCell sx={{ borderBottom: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>Created</TableCell>
-                                    <TableCell sx={{ borderBottom: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>Status</TableCell>
-                                    <TableCell sx={{ borderBottom: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>Actions</TableCell>
+                                    {/* <TableCell sx={{ borderBottom: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>Status</TableCell> */}
+                                    {/* <TableCell sx={{ borderBottom: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>Actions</TableCell> */}
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -1663,9 +1664,9 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
                                                     No customers found
                                                 </Typography>
                                                 {searchTerm && (
-                                                    <Button variant="text" color="primary" onClick={() => setSearchTerm('')} sx={{ mt: 1 }}>
+                                                    <MyButton variant="text" color="primary" onClick={() => setSearchTerm('')} >
                                                         Clear search
-                                                    </Button>
+                                                    </MyButton>
                                                 )}
                                             </Box>
                                         </TableCell>
@@ -1745,12 +1746,12 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
                                                         <Typography variant="body2">{formatDate(contact.createdAt)}</Typography>
                                                     </Box>
                                                 </TableCell>
-                                                <TableCell>
+                                                {/* <TableCell>
                                                     <Tooltip title={contact.status === 1 ? 'Active' : 'Inactive'}>
                                                         <Switch checked={contact.status === 1} onChange={() => handleStatusChange(contact._id, contact.status === 1 ? 0 : 1)} color="success" size="small" />
                                                     </Tooltip>
-                                                </TableCell>
-                                                <TableCell>
+                                                </TableCell> */}
+                                                {/* <TableCell>
                                                     <Box display="flex" gap={1}>
                                                         <Tooltip title="View">
                                                             <IconButton
@@ -1802,7 +1803,7 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
                                                             </Tooltip>
                                                         )}
                                                     </Box>
-                                                </TableCell>
+                                                </TableCell> */}
                                             </TableRow>
                                         );
                                     })

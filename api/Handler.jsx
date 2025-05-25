@@ -12,6 +12,7 @@ const fetchHandler = async ({ method, endpoint, data }) => {
     // Attach Authorization token if available
     // const router = useRouter();
     const accessToken = Cookies.get('crmaccess');
+    const subdomain = Cookies.get('subdomain');
     if (accessToken) {
         headers['Authorization'] = `Bearer ${accessToken}`;
     }
@@ -35,7 +36,7 @@ const fetchHandler = async ({ method, endpoint, data }) => {
             if (status === 401) {
                 // Optional: Clear session and redirect to login
                 // sessionStorage.clear();
-                // window.location.assign('/');
+                window.location.href = `/${subdomain}/login`;
                 return { isError: true, data: 'Unauthorized access. Redirecting to login.' };
             }
 

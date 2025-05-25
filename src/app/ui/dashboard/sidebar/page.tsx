@@ -35,8 +35,8 @@ export default function Sidebar({ isOpen }: any) {
         // { label: 'Reports', icon: 'pi pi-fw pi-chart-line', to: 'reports', permission: 'Report', actions: ['canCreate', 'canRead', 'canUpdate', 'canDelete'] },
         // { label: 'Setup', icon: 'pi pi-fw pi-cog', to: 'setup', permission: 'Setup', actions: ['canCreate', 'canRead', 'canUpdate', 'canDelete'] },
         // { label: 'Tasks', icon: 'pi pi-fw pi-check-square', to: 'tasks', permission: 'Task', actions: ['canCreate', 'canRead', 'canUpdate', 'canDelete'] },
-        { label: 'Utilities', icon: 'pi pi-fw pi-hammer', to: 'utilities', permission: 'Utilities', actions: ['canCreate', 'canRead', 'canUpdate', 'canDelete'] }
-        // { label: 'Roles & Permissions', icon: 'pi pi-fw pi-lock', to: '/roles', permission: 'RolesPermissions', actions: ['canCreate', 'canRead', 'canUpdate', 'canDelete'] }
+        { label: 'Utilities', icon: 'pi pi-fw pi-hammer', to: 'utilities', permission: 'Utilities', actions: ['canCreate', 'canRead', 'canUpdate', 'canDelete'] },
+        { label: 'Roles & Permissions', icon: 'pi pi-fw pi-lock', to: '/roles', permission: 'RolesPermissions', actions: ['canCreate', 'canRead', 'canUpdate', 'canDelete'] }
     ];
 
     // Check if the user has the required permission and actions
