@@ -60,6 +60,8 @@
 // //     return context;
 // // };
 // // ThemeContext.tsx
+
+'use client';
 // import React, { createContext, useContext, useMemo, useState, useEffect } from 'react';
 // import { getTheme, baseColors } from './ThemeComponent';
 // import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
@@ -119,6 +121,7 @@
 //     }
 //     return context;
 // };
+'use client';
 import React, { createContext, useContext, useMemo, useState, useEffect } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import { getTheme, baseColors } from './ThemeComponent';
@@ -165,8 +168,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     const resetColors = () => {
         setCurrentColors(baseColors);
-        localStorage.removeItem("themeMode");
-        localStorage.removeItem("themeColors");
+        localStorage.removeItem('themeMode');
+        localStorage.removeItem('themeColors');
     };
 
     const theme = useMemo(() => getTheme(themeMode, currentColors), [themeMode, currentColors]);

@@ -310,7 +310,7 @@
 // export default Dashboard;
 
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import {
     Container,
@@ -348,7 +348,7 @@ const SummaryCard = ({ title, value, change, loading }: { title: string; value: 
 
     return (
         <Grow in={true} timeout={1000}>
-            <Card sx={{ height: '100%', minHeight: 150 }} variant="outlined"  >
+            <Card sx={{ height: '100%', minHeight: 150 }} variant="outlined">
                 <CardContent>
                     {loading ? (
                         <>
@@ -382,7 +382,7 @@ const Dashboard = () => {
     const [error, setError] = useState<string | null>(null);
     const subdomain = Cookies.get('subdomain');
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         try {
             setLoading(true);
             const response = await GETactivity(subdomain);
@@ -396,11 +396,11 @@ const Dashboard = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [subdomain]); // Include any dependencies here
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [fetchData]); // Include fetchData in the dependency array
 
     // Transform data for charts and components
     const monthlyAcquisitionData = data?.acquisition?.monthly?.labels?.map((label: string, index: number) => ({
@@ -468,7 +468,6 @@ const Dashboard = () => {
                 </Grid>
             </Grid>
 
- 
             <Grid container spacing={3} sx={{ mt: 2 }}>
                 <Grid size={{ md: 8, xs: 12 }}>
                     <Slide direction="up" in={!isLoading} mountOnEnter unmountOnExit>
@@ -550,7 +549,6 @@ const Dashboard = () => {
                 </Grid>
             </Grid>
 
-            
             <Grid container spacing={3} sx={{ mt: 2 }}>
                 <Grid size={{ md: 6, xs: 12 }}>
                     <Grow in={!isLoading} timeout={1500}>

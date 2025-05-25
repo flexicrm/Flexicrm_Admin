@@ -1,9 +1,9 @@
 'use client';
 import React from 'react';
-import RestPasswordpage from '../page';
 import { useParams } from 'next/navigation';
+import RestPasswordpage from '../page';
 
-export default function page() {
+export default function Page() {
     const { slug } = useParams();
     return (
         <div>

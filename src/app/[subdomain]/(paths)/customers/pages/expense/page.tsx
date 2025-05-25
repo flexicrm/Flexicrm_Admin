@@ -1,12 +1,19 @@
+// import React from 'react'
+// import ExpensesPage from "./expensePage"
+
+
+
+// export default function page({fetchData}:any) {
+//   return (
+//     <div>
+//         <ExpensesPage fetchData={fetchData} />
+//     </div>
+//   )
+// }
 import React from 'react'
-import ExpensesPage from "./expensePage"
 
-
-
-export default function page({fetchData}:any) {
+export default function Page() {
   return (
-    <div>
-        <ExpensesPage fetchData={fetchData} />
-    </div>
+    <div>P</div>
   )
 }

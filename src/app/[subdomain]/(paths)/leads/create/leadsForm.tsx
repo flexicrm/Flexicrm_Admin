@@ -2104,6 +2104,7 @@
 // };
 
 // export default LeadForm;
+'use client';
 import React, { useContext, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -2205,12 +2206,12 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                 lead?.interactionType?.type === 'email'
                     ? { subject: lead?.interactionType?.subject, priority: lead?.interactionType?.priority }
                     : lead?.interactionType?.type === 'phone'
-                      ? { notes: lead?.integrationType?.notes }
-                      : lead?.interactionType?.type === 'meeting'
-                        ? { date: lead?.interactionType?.date, platform: lead?.interactionType?.meetingType }
-                        : lead?.interactionType?.type === 'others'
-                          ? { details: lead?.interactionType?.details }
-                          : {};
+                    ? { notes: lead?.integrationType?.notes }
+                    : lead?.interactionType?.type === 'meeting'
+                    ? { date: lead?.interactionType?.date, platform: lead?.interactionType?.meetingType }
+                    : lead?.interactionType?.type === 'others'
+                    ? { details: lead?.interactionType?.details }
+                    : {};
 
             formik.setValues({
                 manualData: {
@@ -2285,12 +2286,12 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                 integrationType === 'email'
                     ? { subject: values.integrationDetails.subject, priority: values.integrationDetails.priority }
                     : integrationType === 'phone'
-                      ? { notes: values.integrationDetails.notes }
-                      : integrationType === 'meeting'
-                        ? { date: values.integrationDetails.date, platform: values.integrationDetails.meetingType }
-                        : integrationType === 'others'
-                          ? { details: values.integrationDetails.details }
-                          : {};
+                    ? { notes: values.integrationDetails.notes }
+                    : integrationType === 'meeting'
+                    ? { date: values.integrationDetails.date, platform: values.integrationDetails.meetingType }
+                    : integrationType === 'others'
+                    ? { details: values.integrationDetails.details }
+                    : {};
 
             const interactionType = {
                 type: integrationType,

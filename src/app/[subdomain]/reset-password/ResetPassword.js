@@ -299,9 +299,8 @@
 
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
-import axios from 'axios';
-import { Box, Button, Container, CssBaseline, Grid, IconButton, Paper, TextField, Typography, InputAdornment } from '@mui/material';
-import { API_BASE_URL } from '../../utils/index';
+// import axios from 'axios';
+import { Box, Button, CssBaseline, Grid, IconButton, TextField, Typography, InputAdornment } from '@mui/material';
 import { AiOutlineThunderbolt, AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { Circle1, Circle2, Dot, LeftPanel, LoginContainer, RightPanel } from '../../ReuseableStyle/ReusableStyleCom';
 import Link from 'next/link';
@@ -336,13 +335,13 @@ export default function ResetPasswordPage({ slug }) {
     useEffect(() => {
         if (item.length > 0) {
             const timer = setInterval(() => {
-                setCurrentIndex((prevIndex) => (prevIndex + 1) % item.length);
-                setActiveDot((prevDot) => (prevDot + 1) % item.length);
+                setCurrentIndex((prevIndex) => (prevIndex + 1) % item?.length);
+                setActiveDot((prevDot) => (prevDot + 1) % item?.length);
             }, 5000);
 
             return () => clearInterval(timer);
         }
-    }, []);
+    }, [item.length]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;

@@ -2028,7 +2028,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
 
     useEffect(() => {
         fetchProjects();
-    }, []);
+    }, [fetchProjects]);
     const UsersOptions = useMemo(
         () =>
             users.map((user) => ({
