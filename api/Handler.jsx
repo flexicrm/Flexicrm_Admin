@@ -43,7 +43,7 @@ const fetchHandler = async ({ method, endpoint, data }) => {
             if (status === 404) {
                 // Redirect to 404 Not Found page
                 // Note: Redirection should be handled in the component, not here
-                return { isError: true, data: 'Not Found' };
+                // return { isError: true, data: 'Not Found' };
             }
 
             return { isError: true, data }; // Return the server error response

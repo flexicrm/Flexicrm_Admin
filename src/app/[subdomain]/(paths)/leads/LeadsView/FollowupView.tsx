@@ -1,8 +1,5 @@
-// import React, { useState, useEffect } from 'react';
-// // import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Select, MenuItem, FormControl, InputLabel, Button, Checkbox, FormControlLabel, Grid, Box, Typography, Card, CardContent, Stack, Chip, Avatar } from '@mui/material';
-// // import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-// // import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// // import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+// 'use client';
+// import React, { useEffect, useState } from 'react';
 // import { format } from 'date-fns';
 // import {
 //     Phone as CallIcon,
@@ -19,9 +16,11 @@
 //     Remove as MediumPriorityIcon
 // } from '@mui/icons-material';
 // import { Avatar, Box, Button, Card, Chip, Stack, Typography } from '@mui/material';
-// import FollowUpForm from '../form/FollowUpForm';
-// import { MyButton } from '../../../../Component/Buttons/Buttons';
-
+// import FollowUpForm from '../form/FollowUpForm'; // Adjust the import path as needed
+// import { MyButton } from '../../../../Component/Buttons/Buttons'; // Adjust the import path as needed
+// import { CustomChip } from '../../../../Component/Chip/Chip';
+// import { MySnackbar } from '../../../../Component/Snackbar/Snackbar';
+// type Severity = 'error' | 'warning' | 'info' | 'success';
 // interface FollowUp {
 //     id?: string;
 //     title: string;
@@ -46,18 +45,27 @@
 //         low: { color: 'success', icon: <LowPriorityIcon fontSize="small" /> }
 //     };
 
-//     return <Chip size="small" icon={priorityMap[priority].icon} label={priority} color={priorityMap[priority].color as any} variant="outlined" sx={{ ml: 1 }} />;
+//     return <Chip size="small" icon={priorityMap[priority]?.icon} label={priority} color={priorityMap[priority]?.color as any} variant="outlined" sx={{ ml: 1 }} />;
 // };
 
-// const StatusChip = ({ status }: { status: 'completed' | 'pending' | 'overdue' | 'scheduled' }) => {
+// const StatusChip = ({ status }) => {
+//     console.log(status, 'status');
+
 //     const statusMap = {
-//         completed: { color: 'success', icon: <CompletedIcon fontSize="small" />, label: 'Completed' },
+//         completed: { color: status.color, icon: <CompletedIcon fontSize="small" />, label: status.StatusName },
 //         scheduled: { color: 'info', icon: <ScheduledIcon fontSize="small" />, label: 'Scheduled' },
 //         pending: { color: 'warning', icon: <ScheduledIcon fontSize="small" />, label: 'Pending' },
 //         overdue: { color: 'error', icon: <MissedIcon fontSize="small" />, label: 'Overdue' }
 //     };
 
-//     return <Chip size="small" icon={statusMap[status].icon} label={statusMap[status].label} color={statusMap[status].color as any} variant="outlined" sx={{ ml: 1 }} />;
+//     return (
+//         <CustomChip
+//             status={{
+//                 hexColor: statusMap[status]?.color as any,
+//                 statusName: status.StatusName || 'null'
+//             }}
+//         />
+//     );
 // };
 
 // const TypeIcon = ({ type }: { type: 'call' | 'meeting' | 'email' | 'whatsapp' | 'visit' | 'other' }) => {
@@ -73,50 +81,14 @@
 //     return iconMap[type];
 // };
 
-// // Sample follow-up data
-// const sampleFollowUps: FollowUp[] = [
-//     {
-//         id: '1',
-//         title: 'Initial client call',
-//         notes: 'Discuss project requirements and timeline',
-//         dueDate: new Date(Date.now() + 86400000), // Tomorrow
-//         status: 'scheduled',
-//         priority: 'high',
-//         type: 'call',
-//         assignedTo: 'John Doe',
-//         leadId: 'lead-123',
-//         reminderSet: true,
-//         reminderDate: new Date(Date.now() + 43200000) // 12 hours from now
-//     },
-//     {
-//         id: '2',
-//         title: 'Send proposal',
-//         notes: 'Email the proposal document with pricing',
-//         dueDate: new Date(Date.now() + 172800000), // 2 days from now
-//         status: 'pending',
-//         priority: 'medium',
-//         type: 'email',
-//         leadId: 'lead-123'
-//     },
-//     {
-//         id: '3',
-//         title: 'On-site meeting',
-//         notes: 'Visit client office to finalize details',
-//         dueDate: new Date(Date.now() + 604800000), // 7 days from now
-//         status: 'scheduled',
-//         priority: 'low',
-//         type: 'visit',
-//         assignedTo: 'Jane Smith',
-//         leadId: 'lead-123'
-//     }
-// ];
-
-// export const FollowUpSection = (currentLead, UsersOptions): any => {
-//     console.log(currentLead.currentLead.followUps, 'currentLead?.followUps');
-
-//     const [followups, setFollowups] = useState<FollowUp[]>(currentLead?.currentLead?.followUps);
+// export const FollowUpSection = ({ currentLead, UsersOptions, leadId, fetchLeadData }) => {
+//     const [followups, setFollowups] = useState<FollowUp[]>(currentLead?.currentLead?.followUps || currentLead?.followUps || []);
 //     const [openFollowUpForm, setOpenFollowUpForm] = useState(false);
 //     const [selectedFollowUp, setSelectedFollowUp] = useState<FollowUp | null>(null);
+//     const [snackbarOpen, setSnackbarOpen] = useState(false);
+//     const [snackbarMessage, setSnackbarMessage] = useState('');
+//     const [snackbarSeverity, setSnackbarSeverity] = useState<Severity>('success');
+//     console.log(followups, 'followups');
 
 //     const handleAddFollowUp = () => {
 //         setSelectedFollowUp(null);
@@ -138,6 +110,12 @@
 //         }
 //         setOpenFollowUpForm(false);
 //     };
+//     useEffect(() => {
+//         // if (snackbarSeverity === 'success' && snackbarMessage) {
+//         // alert('demo');
+//         fetchLeadData();
+//         // }
+//     }, [snackbarMessage]);
 
 //     return (
 //         <Box sx={{ p: 0 }}>
@@ -157,9 +135,9 @@
 
 //                 {followups.length > 0 ? (
 //                     <Stack spacing={2}>
-//                         {followups.map((followup) => (
+//                         {[...followups].reverse().map((followup, index) => (
 //                             <Card
-//                                 key={followup.id}
+//                                 key={index}
 //                                 sx={{
 //                                     p: 2,
 //                                     borderRadius: 2,
@@ -178,9 +156,9 @@
 //                                             {followup.title}
 //                                         </Typography>
 //                                     </Box>
-//                                     <Box>
-//                                         {followup.priority && <PriorityChip priority={followup.priority} />}
-//                                         {followup.status && <StatusChip status={followup.status} />}
+//                                     <Box sx={{ gap: 2, display: 'flex' }}>
+//                                         <Box>{followup.priority && <PriorityChip priority={followup.priority} />}</Box>
+//                                         <Box>{followup.status && <StatusChip status={followup.status} />}</Box>
 //                                     </Box>
 //                                 </Box>
 
@@ -220,12 +198,25 @@
 //                 )}
 //             </Card>
 
-//             <FollowUpForm UsersOptions={UsersOptions} open={openFollowUpForm} onOpenChange={setOpenFollowUpForm} leadId="lead-123" followUp={selectedFollowUp} />
+//             <FollowUpForm
+//                 UsersOptions={UsersOptions}
+//                 open={openFollowUpForm}
+//                 onOpenChange={setOpenFollowUpForm}
+//                 leadId={leadId}
+//                 followUp={selectedFollowUp}
+//                 setSnackbarOpen={setSnackbarOpen}
+//                 setLeads={fetchLeadData}
+//                 // snackbarOpen={snackbarOpen}
+//                 handleMenuClose={() => setOpenFollowUpForm(false)}
+//                 setSnackbarSeverity={setSnackbarSeverity}
+//                 setSnackbarMessage={setSnackbarMessage}
+//             />
+
+//             <MySnackbar open={snackbarOpen} message={snackbarMessage} severity={snackbarSeverity} position={{ vertical: 'top', horizontal: 'right' }} onClose={() => setSnackbarOpen(false)} />
 //         </Box>
 //     );
 // };
-'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { format } from 'date-fns';
 import {
     Phone as CallIcon,
@@ -241,10 +232,13 @@ import {
     ArrowDownward as LowPriorityIcon,
     Remove as MediumPriorityIcon
 } from '@mui/icons-material';
-import { Avatar, Box, Button, Card, Chip, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Button, Card, Chip, CircularProgress, Stack, Typography } from '@mui/material';
 import FollowUpForm from '../form/FollowUpForm'; // Adjust the import path as needed
 import { MyButton } from '../../../../Component/Buttons/Buttons'; // Adjust the import path as needed
 import { CustomChip } from '../../../../Component/Chip/Chip';
+import { MySnackbar } from '../../../../Component/Snackbar/Snackbar';
+
+type Severity = 'error' | 'warning' | 'info' | 'success';
 
 interface FollowUp {
     id?: string;
@@ -274,10 +268,8 @@ const PriorityChip = ({ priority }: { priority: 'high' | 'medium' | 'low' }) => 
 };
 
 const StatusChip = ({ status }) => {
-    console.log(status, 'status');
-
     const statusMap = {
-        completed: { color: status.color, icon: <CompletedIcon fontSize="small" />, label: status.StatusName },
+        completed: { color: 'success', icon: <CompletedIcon fontSize="small" />, label: 'Completed' },
         scheduled: { color: 'info', icon: <ScheduledIcon fontSize="small" />, label: 'Scheduled' },
         pending: { color: 'warning', icon: <ScheduledIcon fontSize="small" />, label: 'Pending' },
         overdue: { color: 'error', icon: <MissedIcon fontSize="small" />, label: 'Overdue' }
@@ -287,7 +279,7 @@ const StatusChip = ({ status }) => {
         <CustomChip
             status={{
                 hexColor: statusMap[status]?.color as any,
-                statusName: status.StatusName || 'null'
+                statusName: statusMap[status]?.label || 'null'
             }}
         />
     );
@@ -306,11 +298,16 @@ const TypeIcon = ({ type }: { type: 'call' | 'meeting' | 'email' | 'whatsapp' | 
     return iconMap[type];
 };
 
-export const FollowUpSection = ({ currentLead, UsersOptions, leadId }) => {
+export const FollowUpSection = ({ currentLead, UsersOptions, leadId, fetchLeadData }) => {
     const [followups, setFollowups] = useState<FollowUp[]>(currentLead?.currentLead?.followUps || currentLead?.followUps || []);
     const [openFollowUpForm, setOpenFollowUpForm] = useState(false);
     const [selectedFollowUp, setSelectedFollowUp] = useState<FollowUp | null>(null);
-    console.log(followups, 'followups');
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState<Severity>('success');
+    const [visibleFollowUps, setVisibleFollowUps] = useState(5); // Number of follow-ups to display initially
+    const [loading, setLoading] = useState(false);
+    const observer = useRef<IntersectionObserver | null>(null);
 
     const handleAddFollowUp = () => {
         setSelectedFollowUp(null);
@@ -333,6 +330,33 @@ export const FollowUpSection = ({ currentLead, UsersOptions, leadId }) => {
         setOpenFollowUpForm(false);
     };
 
+    const handleLoadMore = useCallback(() => {
+        if (loading) return;
+        setLoading(true);
+        setTimeout(() => {
+            setVisibleFollowUps((prev) => prev + 5); // Load 5 more follow-ups
+            setLoading(false);
+        }, 1000); // Simulate loading delay
+    }, [loading]);
+
+    useEffect(() => {
+        fetchLeadData();
+    }, [snackbarMessage]);
+
+    const lastFollowUpElementRef = useCallback(
+        (node: HTMLDivElement) => {
+            if (loading) return;
+            if (observer.current) observer.current.disconnect();
+            observer.current = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && visibleFollowUps < followups.length) {
+                    handleLoadMore();
+                }
+            });
+            if (node) observer.current.observe(node);
+        },
+        [loading, visibleFollowUps, followups.length, handleLoadMore]
+    );
+
     return (
         <Box sx={{ p: 0 }}>
             <Card variant="outlined" sx={{ p: 3, mb: 3, borderRadius: 2 }}>
@@ -351,56 +375,120 @@ export const FollowUpSection = ({ currentLead, UsersOptions, leadId }) => {
 
                 {followups.length > 0 ? (
                     <Stack spacing={2}>
-                        {[...followups].reverse().map((followup, index) => (
-                            <Card
-                                key={index}
-                                sx={{
-                                    p: 2,
-                                    borderRadius: 2,
-                                    cursor: 'pointer',
-                                    '&:hover': {
-                                        boxShadow: 2,
-                                        borderColor: 'primary.main'
-                                    }
-                                }}
-                                onClick={() => handleEditFollowUp(followup)}
-                            >
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                        <TypeIcon type={followup.type} />
-                                        <Typography variant="subtitle1" sx={{ fontWeight: 600, ml: 1 }}>
-                                            {followup.title}
-                                        </Typography>
-                                    </Box>
-                                    <Box sx={{ gap: 2, display: 'flex' }}>
-                                        <Box>{followup.priority && <PriorityChip priority={followup.priority} />}</Box>
-                                        <Box>{followup.status && <StatusChip status={followup.status} />}</Box>
-                                    </Box>
-                                </Box>
+                        {[...followups]
+                            .reverse()
+                            .slice(0, visibleFollowUps)
+                            .map((followup, index) => {
+                                if (index + 1 === visibleFollowUps) {
+                                    return (
+                                        <div key={index} ref={lastFollowUpElementRef}>
+                                            <Card
+                                                sx={{
+                                                    p: 2,
+                                                    borderRadius: 2,
+                                                    cursor: 'pointer',
+                                                    '&:hover': {
+                                                        boxShadow: 2,
+                                                        borderColor: 'primary.main'
+                                                    }
+                                                }}
+                                                onClick={() => handleEditFollowUp(followup)}
+                                            >
+                                                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                                        <TypeIcon type={followup.type} />
+                                                        <Typography variant="subtitle1" sx={{ fontWeight: 600, ml: 1 }}>
+                                                            {followup.title}
+                                                        </Typography>
+                                                    </Box>
+                                                    <Box sx={{ gap: 2, display: 'flex' }}>
+                                                        <Box>{followup.priority && <PriorityChip priority={followup.priority} />}</Box>
+                                                        <Box>{followup.status && <StatusChip status={followup.status} />}</Box>
+                                                    </Box>
+                                                </Box>
 
-                                <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                                    Due: {followup.dueDate ? format(followup.dueDate, 'MMM dd, yyyy hh:mm a') : 'Not set'}
-                                </Typography>
+                                                <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                                                    Due: {followup.dueDate ? format(followup.dueDate, 'MMM dd, yyyy hh:mm a') : 'Not set'}
+                                                </Typography>
 
-                                <Typography variant="body2" sx={{ mb: 2 }}>
-                                    {followup.notes}
-                                </Typography>
+                                                <Typography variant="body2" sx={{ mb: 2 }}>
+                                                    {followup.notes}
+                                                </Typography>
 
-                                {followup.assignedTo && (
-                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                        <Avatar sx={{ width: 24, height: 24, mr: 1, fontSize: '0.75rem' }}>
-                                            {followup.assignedTo
-                                                .split(' ')
-                                                .map((n) => n[0])
-                                                .join('')}
-                                        </Avatar>
-                                        <Typography variant="caption" color="text.secondary">
-                                            Assigned to: {followup.assignedTo}
-                                        </Typography>
-                                    </Box>
-                                )}
-                            </Card>
-                        ))}
+                                                {followup.assignedTo && (
+                                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                                        <Avatar sx={{ width: 24, height: 24, mr: 1, fontSize: '0.75rem' }}>
+                                                            {followup.assignedTo
+                                                                .split(' ')
+                                                                .map((n) => n[0])
+                                                                .join('')}
+                                                        </Avatar>
+                                                        <Typography variant="caption" color="text.secondary">
+                                                            Assigned to: {followup.assignedTo}
+                                                        </Typography>
+                                                    </Box>
+                                                )}
+                                            </Card>
+                                        </div>
+                                    );
+                                } else {
+                                    return (
+                                        <Card
+                                            key={index}
+                                            sx={{
+                                                p: 2,
+                                                borderRadius: 2,
+                                                cursor: 'pointer',
+                                                '&:hover': {
+                                                    boxShadow: 2,
+                                                    borderColor: 'primary.main'
+                                                }
+                                            }}
+                                            onClick={() => handleEditFollowUp(followup)}
+                                        >
+                                            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                                    <TypeIcon type={followup.type} />
+                                                    <Typography variant="subtitle1" sx={{ fontWeight: 600, ml: 1 }}>
+                                                        {followup.title}
+                                                    </Typography>
+                                                </Box>
+                                                <Box sx={{ gap: 2, display: 'flex' }}>
+                                                    <Box>{followup.priority && <PriorityChip priority={followup.priority} />}</Box>
+                                                    <Box>{followup.status && <StatusChip status={followup.status} />}</Box>
+                                                </Box>
+                                            </Box>
+
+                                            <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                                                Due: {followup.dueDate ? format(followup.dueDate, 'MMM dd, yyyy hh:mm a') : 'Not set'}
+                                            </Typography>
+
+                                            <Typography variant="body2" sx={{ mb: 2 }}>
+                                                {followup.notes}
+                                            </Typography>
+
+                                            {followup.assignedTo && (
+                                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                                    <Avatar sx={{ width: 24, height: 24, mr: 1, fontSize: '0.75rem' }}>
+                                                        {followup.assignedTo
+                                                            .split(' ')
+                                                            .map((n) => n[0])
+                                                            .join('')}
+                                                    </Avatar>
+                                                    <Typography variant="caption" color="text.secondary">
+                                                        Assigned to: {followup.assignedTo}
+                                                    </Typography>
+                                                </Box>
+                                            )}
+                                        </Card>
+                                    );
+                                }
+                            })}
+                        {loading && (
+                            <Typography sx={{ display: 'flex', justifyContent: 'center' }}>
+                                <CircularProgress />
+                            </Typography>
+                        )}
                     </Stack>
                 ) : (
                     <Box sx={{ textAlign: 'center', py: 4 }}>
@@ -414,7 +502,20 @@ export const FollowUpSection = ({ currentLead, UsersOptions, leadId }) => {
                 )}
             </Card>
 
-            <FollowUpForm UsersOptions={UsersOptions} open={openFollowUpForm} onOpenChange={setOpenFollowUpForm} leadId={leadId} followUp={selectedFollowUp} />
+            <FollowUpForm
+                UsersOptions={UsersOptions}
+                open={openFollowUpForm}
+                onOpenChange={setOpenFollowUpForm}
+                leadId={leadId}
+                followUp={selectedFollowUp}
+                setSnackbarOpen={setSnackbarOpen}
+                setLeads={fetchLeadData}
+                handleMenuClose={() => setOpenFollowUpForm(false)}
+                setSnackbarSeverity={setSnackbarSeverity}
+                setSnackbarMessage={setSnackbarMessage}
+            />
+
+            <MySnackbar open={snackbarOpen} message={snackbarMessage} severity={snackbarSeverity} position={{ vertical: 'top', horizontal: 'right' }} onClose={() => setSnackbarOpen(false)} />
         </Box>
     );
 };

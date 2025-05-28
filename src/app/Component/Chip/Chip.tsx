@@ -104,10 +104,11 @@ const StyledChip = styled(Chip)<{ hexColor?: string }>(({ hexColor }) => {
     return {
         borderRadius: '8px',
         fontSize: '0.75rem',
-        fontWeight: '900',
+        fontWeight: 'bold',
         backgroundColor: lightHexColor,
         border: `1px solid ${lightHexColor || '4285F4'}`,
-        color: `#${hexColor || '4285F4'}`
+        color: `#${hexColor || '4285F4'}`,
+        textTransform: 'capitalize'
 
         // boxShadow: `0px 2px 4px rgba(${parseInt(hexColor || '4285F4', 16) >> 16}, ${(parseInt(hexColor || '4285F4', 16) >> 8) & 0xff}, ${parseInt(hexColor || '4285F4', 16) & 0xff}, 0.2)`
     };

@@ -575,7 +575,7 @@ const LeadStatusPage: React.FC = () => {
                 <Paper elevation={3} sx={{ borderRadius: 2, overflow: 'hidden' }}>
                     <TableContainer>
                         <Table>
-                            <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
+                            <TableHead>
                                 <TableRow>
                                     <TableCell sx={{ fontWeight: 600 }}>Status Name</TableCell>
                                     <TableCell sx={{ fontWeight: 600, width: '150px' }}>Actions</TableCell>
@@ -629,12 +629,12 @@ const LeadStatusPage: React.FC = () => {
                         {editId ? (
                             <>
                                 <Edit fontSize="small" />
-                                <Typography variant="h6">Edit Status</Typography>
+                                <Typography>Edit Follow Up Status</Typography>
                             </>
                         ) : (
                             <>
                                 <Add fontSize="small" />
-                                <Typography variant="h6">Add New Status</Typography>
+                                <Typography> New Follow Up Status</Typography>
                             </>
                         )}
                     </Box>

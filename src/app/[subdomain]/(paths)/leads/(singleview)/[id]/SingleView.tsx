@@ -718,8 +718,8 @@
 
 // export default LeadsActivity;
 'use client';
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Box, Card, Typography, Divider, Paper, Avatar, ListItem, Chip, Stack, Button, Grid, Tabs, Tab, IconButton, Badge } from '@mui/material';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { Box, Card, Typography, Divider, Paper, Avatar, ListItem, Chip, Stack, Button, Grid, Tabs, Tab, IconButton, Badge, CircularProgress } from '@mui/material';
 import {
     Person as PersonIcon,
     Phone as PhoneIcon,
@@ -752,6 +752,7 @@ import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import { MyButton } from '../../../../../Component/Buttons/Buttons';
+import { MySnackbar } from '../../../../../Component/Snackbar/Snackbar';
 
 // Interfaces
 interface User {
@@ -818,6 +819,7 @@ interface Lead {
 interface LeadsActivityProps {
     id: any;
 }
+type Severity = 'error' | 'warning' | 'info' | 'success';
 
 // Sub-components
 const ContactInfoCard: React.FC<{ currentLead?: Lead }> = ({ currentLead }) => {
@@ -926,10 +928,201 @@ export const LeadStatusCard: React.FC<{ currentLead?: Lead }> = ({ currentLead }
     );
 };
 
-const ActivityContent: React.FC<{ activities: ActivityItem[] }> = ({ activities }) => {
+// const ActivityContent: React.FC<{ activities: ActivityItem[] }> = ({ activities }) => {
+//     const [activities, setActivities] = useState(initialActivities);
+//   const [loading, setLoading] = useState(false);
+
+//   // Simulate fetching more activities
+//   const fetchMoreActivities = () => {
+//     setLoading(true);
+//     // Simulate API call
+//     setTimeout(() => {
+//       const newActivities = [
+//         { actionType: 'New Activity', timestamp: new Date(), description: 'Description of new activity' },
+//         // Add more mock activities as needed
+//       ];
+//       setActivities(prevActivities => [...prevActivities, ...newActivities]);
+//       setLoading(false);
+//     }, 1000);
+//   };
+
+//   // Add scroll event listener
+//   useEffect(() => {
+//     const handleScroll = () => {
+//       if (
+//         window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight ||
+//         loading
+//       ) {
+//         return;
+//       }
+//       fetchMoreActivities();
+//     };
+
+//     window.addEventListener('scroll', handleScroll);
+//     return () => window.removeEventListener('scroll', handleScroll);
+//   }, [loading]);
+//     return (
+//         // <Box sx={{ p: 0 }}>
+//         //     <Card sx={{ p: 3, mb: 3, borderRadius: 2 }}>
+//         //         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+//         //             <Typography variant="h6" sx={{ fontWeight: 400 }}>
+//         //                 Activity Timeline
+//         //             </Typography>
+//         //             <Typography variant="subtitle2" color="text.secondary">
+//         //                 Recent interactions with this lead
+//         //             </Typography>
+//         //         </Box>
+
+//         //         <Grid container>
+//         //             <Grid size={{ xs: 12, sm: 12 }}>
+//         //                 {activities.length > 0 ? (
+//         //                     <Timeline position="alternate">
+//         //                         {activities.reverse().map((item, i) => (
+//         //                             <TimelineItem key={i}>
+//         //                                 <TimelineSeparator>
+//         //                                     <TimelineDot />
+//         //                                     {i < activities.length - 1 && <TimelineConnector />}
+//         //                                 </TimelineSeparator>
+//         //                                 <TimelineContent>
+//         //                                     <Card sx={{ p: 2, borderRadius: 2 }}>
+//         //                                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+//         //                                             <Typography variant="subtitle2">{item.actionType || 'Activity'}</Typography>
+//         //                                             <Typography variant="caption" color="text.secondary">
+//         //                                                 {item.timestamp ? format(new Date(item.timestamp), 'MMM d, yyyy') : 'N/A'}
+//         //                                             </Typography>
+//         //                                         </Box>
+//         //                                         <Typography variant="body2">{item.description || 'No description'}</Typography>
+//         //                                     </Card>
+//         //                                 </TimelineContent>
+//         //                             </TimelineItem>
+//         //                         ))}
+//         //                     </Timeline>
+//         //                 ) : (
+//         //                     <Box sx={{ textAlign: 'center', py: 4 }}>
+//         //                         <Typography variant="body1" color="text.secondary">
+//         //                             No activities recorded yet
+//         //                         </Typography>
+//         //                     </Box>
+//         //                 )}
+//         //             </Grid>
+//         //         </Grid>
+//         //     </Card>
+//         // </Box>
+//         <Box sx={{ p: 0 }}>
+//             <Card sx={{ p: 3, mb: 3, borderRadius: 2 }}>
+//                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+//                     <Typography variant="h6" sx={{ fontWeight: 400 }}>
+//                         Activity Timeline
+//                     </Typography>
+//                     <Typography variant="subtitle2" color="text.secondary">
+//                         Recent interactions with this lead
+//                     </Typography>
+//                 </Box>
+
+//                 <Grid container>
+//                     <Grid size={{ xs: 12, sm: 12 }}>
+//                         {activities.length > 0 ? (
+//                             <Timeline position="alternate">
+//                                 {activities.reverse().map((item, i) => (
+//                                     <TimelineItem key={i}>
+//                                         <TimelineSeparator>
+//                                             <TimelineDot />
+//                                             {i < activities.length - 1 && <TimelineConnector />}
+//                                         </TimelineSeparator>
+//                                         <TimelineContent>
+//                                             <Card sx={{ p: 2, borderRadius: 2 }}>
+//                                                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+//                                                     <Typography variant="subtitle2">{item.actionType || 'Activity'}</Typography>
+//                                                     <Typography variant="caption" color="text.secondary">
+//                                                         {item.timestamp ? format(new Date(item.timestamp), 'MMM d, yyyy') : 'N/A'}
+//                                                     </Typography>
+//                                                 </Box>
+//                                                 <Typography variant="body2">{item.description || 'No description'}</Typography>
+//                                             </Card>
+//                                         </TimelineContent>
+//                                     </TimelineItem>
+//                                 ))}
+//                             </Timeline>
+//                         ) : (
+//                             <Box sx={{ textAlign: 'center', py: 4 }}>
+//                                 <Typography variant="body1" color="text.secondary">
+//                                     No activities recorded yet
+//                                 </Typography>
+//                             </Box>
+//                         )}
+//                         {loading && (
+//                             <Box sx={{ display: 'flex', justifyContent: 'center', my: 2 }}>
+//                                 <CircularProgress />
+//                             </Box>
+//                         )}
+//                     </Grid>
+//                 </Grid>
+//             </Card>
+//         </Box>
+//     );
+// };
+
+// Main Component
+
+const ActivityContent: React.FC<{ initialActivities: ActivityItem[] }> = ({ initialActivities }) => {
+    const [loading, setLoading] = useState(false);
+    const [displayedActivities, setDisplayedActivities] = useState<ActivityItem[]>([]);
+    const [hasMore, setHasMore] = useState(true);
+    const pageSize = 5;
+    const loaderRef = useRef<HTMLDivElement>(null);
+
+    // Initialize with first page
+    useEffect(() => {
+        if (initialActivities.length > 0) {
+            const sortedActivities = [...initialActivities].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+            setDisplayedActivities(sortedActivities.slice(0, pageSize));
+            setHasMore(sortedActivities.length > pageSize);
+        }
+    }, [initialActivities]);
+
+    const loadMoreActivities = () => {
+        if (loading || !hasMore) return;
+
+        setLoading(true);
+
+        setTimeout(() => {
+            const nextPageStart = displayedActivities.length;
+            const nextPageEnd = nextPageStart + pageSize;
+            const nextActivities = [...initialActivities].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()).slice(nextPageStart, nextPageEnd);
+
+            setDisplayedActivities((prev) => [...prev, ...nextActivities]);
+            setHasMore(nextPageEnd < initialActivities.length);
+            setLoading(false);
+        }, 500);
+    };
+
+    // Intersection Observer for infinite scroll
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && !loading && hasMore) {
+                    loadMoreActivities();
+                }
+            },
+            { threshold: 0.1 }
+        );
+
+        const currentLoader = loaderRef.current;
+
+        if (currentLoader) {
+            observer.observe(currentLoader);
+        }
+
+        return () => {
+            if (currentLoader) {
+                observer.unobserve(currentLoader);
+            }
+        };
+    }, [loading, hasMore]);
+
     return (
         <Box sx={{ p: 0 }}>
-            <Card sx={{ p: 3, mb: 3, borderRadius: 2 }}>
+            <Card sx={{ p: 3, mb: 3, borderRadius: 2, overflow: 'auto', height: '400px' }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
                     <Typography variant="h6" sx={{ fontWeight: 400 }}>
                         Activity Timeline
@@ -940,14 +1133,14 @@ const ActivityContent: React.FC<{ activities: ActivityItem[] }> = ({ activities 
                 </Box>
 
                 <Grid container>
-                    <Grid size={{ xs: 12, sm: 12 }}>
-                        {activities.length > 0 ? (
+                    <Grid size={{ sm: 12 }}>
+                        {displayedActivities.length > 0 ? (
                             <Timeline position="alternate">
-                                {activities.reverse().map((item, i) => (
-                                    <TimelineItem key={i}>
+                                {displayedActivities.map((item, i) => (
+                                    <TimelineItem key={`${item.timestamp}-${i}`}>
                                         <TimelineSeparator>
                                             <TimelineDot />
-                                            {i < activities.length - 1 && <TimelineConnector />}
+                                            {i < displayedActivities.length - 1 && <TimelineConnector />}
                                         </TimelineSeparator>
                                         <TimelineContent>
                                             <Card sx={{ p: 2, borderRadius: 2 }}>
@@ -970,6 +1163,23 @@ const ActivityContent: React.FC<{ activities: ActivityItem[] }> = ({ activities 
                                 </Typography>
                             </Box>
                         )}
+
+                        {loading && (
+                            <Box sx={{ display: 'flex', justifyContent: 'center', my: 2 }}>
+                                <CircularProgress size={24} />
+                            </Box>
+                        )}
+
+                        {!hasMore && displayedActivities.length > 0 && (
+                            <Box sx={{ textAlign: 'center', py: 2 }}>
+                                <Typography variant="body2" color="text.secondary">
+                                    No more activities to load
+                                </Typography>
+                            </Box>
+                        )}
+
+                        {/* This invisible element triggers loading when it comes into view */}
+                        <div ref={loaderRef} style={{ height: '20px' }} />
                     </Grid>
                 </Grid>
             </Card>
@@ -977,7 +1187,6 @@ const ActivityContent: React.FC<{ activities: ActivityItem[] }> = ({ activities 
     );
 };
 
-// Main Component
 const LeadsActivity: React.FC<LeadsActivityProps> = ({ id }) => {
     const leadId = id;
     const [selectedTab, setSelectedTab] = useState('overview');
@@ -987,6 +1196,9 @@ const LeadsActivity: React.FC<LeadsActivityProps> = ({ id }) => {
     const [openFollowUpForm, setOpenFollowUpForm] = useState(false);
     const [openNoteForm, setOpenNoteForm] = useState(false);
     const [users, setUsers] = useState([]);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState<Severity>('success');
     const accessToken = Cookies.get('accessToken');
     const subdomain = Cookies.get('subdomain');
     const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -1060,13 +1272,13 @@ const LeadsActivity: React.FC<LeadsActivityProps> = ({ id }) => {
             case 'followups':
                 return (
                     <Box sx={{ pr: 2 }}>
-                        <FollowUpSection currentLead={leadData} UsersOptions={UsersOptions} leadId={leadId} />
+                        <FollowUpSection fetchLeadData={fetchLeadData} currentLead={leadData} UsersOptions={UsersOptions} leadId={leadId} />
                     </Box>
                 );
             case 'activity':
                 return (
                     <Box sx={{ pr: 2 }}>
-                        <ActivityContent activities={activities} />
+                        <ActivityContent initialActivities={activities} />
                     </Box>
                 );
             default:
@@ -1107,7 +1319,7 @@ const LeadsActivity: React.FC<LeadsActivityProps> = ({ id }) => {
             </Box>
 
             <Grid container>
-                <Grid size={{ xs: 12, sm: 7 }}>
+                <Grid size={{ xs: 12, sm: 12 }}>
                     <Box sx={{ mt: 2, mb: 2 }}>
                         <Tabs
                             value={selectedTab}
@@ -1161,17 +1373,33 @@ const LeadsActivity: React.FC<LeadsActivityProps> = ({ id }) => {
                             <Typography>Loading lead details...</Typography>
                         </Box>
                     ) : (
-                        renderContent()
+                        <Grid container>
+                            <Grid size={{ sm: 6 }}>{renderContent()}</Grid>
+                            <Grid size={{ sm: 5}}>
+                                <LeadStatusCard currentLead={leadData} />
+                            </Grid>
+                        </Grid>
                     )}
                 </Grid>
                 <Grid size={{ xs: 12, sm: 5 }}>
-                    <Box sx={{ mt: 2, mb: 2 }}>
-                        <LeadStatusCard currentLead={leadData} />
-                    </Box>
+                    <Box sx={{ mt: 2, mb: 2 }}></Box>
                 </Grid>
             </Grid>
-            <FollowUpForm open={openFollowUpForm} UsersOptions={UsersOptions} onOpenChange={setOpenFollowUpForm} leadId={leadId} />
+            <FollowUpForm
+                open={openFollowUpForm}
+                UsersOptions={UsersOptions}
+                onOpenChange={setOpenFollowUpForm}
+                leadId={leadId}
+                setSnackbarOpen={setSnackbarOpen}
+                // snackbarOpen={snackbarOpen}
+                setSnackbarSeverity={setSnackbarSeverity}
+                setSnackbarMessage={setSnackbarMessage}
+                setLeads={fetchLeadData}
+                handleMenuClose={() => setOpenFollowUpForm(false)}
+            />
             <NoteForm open={openNoteForm} onOpenChange={setOpenNoteForm} leadId={leadData} />
+
+            <MySnackbar open={snackbarOpen} message={snackbarMessage} severity={snackbarSeverity} position={{ vertical: 'top', horizontal: 'right' }} onClose={() => ''} />
         </Box>
     );
 };

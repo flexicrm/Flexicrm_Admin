@@ -755,6 +755,12 @@ interface FollowUpFormProps {
     leadId: any;
     followUp?: any;
     UsersOptions: any;
+    setLeads: any;
+    setSnackbarMessage: any;
+    setSnackbarSeverity: any;
+    setSnackbarOpen: any;
+    // snackbarOpen: boolean;
+    handleMenuClose: any;
 }
 
 interface LeadStatus {
@@ -771,10 +777,10 @@ const defaultFollowUp: Partial<FollowUp> = {
     status: 'scheduled'
 };
 
-const FollowUpForm = ({ open, onOpenChange, leadId, followUp, UsersOptions }: FollowUpFormProps) => {
+const FollowUpForm = ({ open, onOpenChange, leadId, followUp, UsersOptions, setLeads, setSnackbarOpen, setSnackbarSeverity, setSnackbarMessage, handleMenuClose }: FollowUpFormProps) => {
     // const { enqueueSnackbar } = useSnackbar();
     const lastFollowUp = Array.isArray(followUp) ? followUp[followUp.length - 1] : followUp;
-    console.log(lastFollowUp, 'followUp');
+    // console.log(snackbarOpen, 'snackbarOpen');
 
     const [formData, setFormData] = useState<Partial<FollowUp>>({
         ...defaultFollowUp
@@ -866,7 +872,6 @@ const FollowUpForm = ({ open, onOpenChange, leadId, followUp, UsersOptions }: Fo
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setIsSubmitting(true);
 
         const followUpData = {
             ...(!followUp || !followUp?._id
@@ -900,18 +905,60 @@ const FollowUpForm = ({ open, onOpenChange, leadId, followUp, UsersOptions }: Fo
         console.log(followUpData, 'followUpData');
 
         try {
-            let response;
-            if (!followUp) {
-                alert('alde');
-                response = await createFollowupdata(subdomain, leadId, followUpData);
-            } else {
-                response = await UpdateFollowupdata(subdomain, leadId, followUpData, followUp._id);
-            }
+            setIsSubmitting(true);
 
-            if (response) {
-                // enqueueSnackbar(isEditMode ? 'Follow-up updated successfully' : 'Follow-up created successfully', { variant: 'success' });
-                onOpenChange(false);
+            if (!followUp) {
+                const response = await createFollowupdata(subdomain, leadId, followUpData);
+                if (response.success) {
+                    // enqueueSnackbar(isEditMode ? 'Follow-up updated successfully' : 'Follow-up created successfully', { variant: 'success' });
+                    handleMenuClose();
+                    setSnackbarOpen(true);
+                    setLeads();
+                    setSnackbarSeverity('success');
+                    setSnackbarMessage(response?.data?.message);
+                    onOpenChange(false);
+                } else {
+                    handleMenuClose();
+                    setSnackbarOpen(true);
+                    setSnackbarSeverity('error');
+                    setSnackbarMessage(response.data.errors);
+                }
+            } else {
+                const response = await UpdateFollowupdata(subdomain, leadId, followUpData, followUp._id);
+                if (response.success) {
+                    handleMenuClose();
+                    setSnackbarOpen(true);
+                    // alert('hellow');
+                    // enqueueSnackbar(isEditMode ? 'Follow-up updated successfully' : 'Follow-up created successfully', { variant: 'success' });
+                    handleCancel();
+                    setSnackbarMessage(response?.data?.message);
+                    setSnackbarSeverity('success');
+                    setLeads();
+                } else {
+                    handleMenuClose();
+                    setSnackbarOpen(true);
+                    setSnackbarSeverity('success');
+                    setSnackbarMessage(response.data.errors);
+                    handleCancel();
+                }
             }
+            // console.log(response, 'setLeads');
+
+            // if (response.success) {
+            //     // enqueueSnackbar(isEditMode ? 'Follow-up updated successfully' : 'Follow-up created successfully', { variant: 'success' });
+            //     setSnackbarOpen(true);
+            //     setLeads((prev) => {
+            //         // Update the state as needed, for example:
+            //         return [...prev, response.data]; // Assuming you want to add the new response data to the leads array
+            //     });
+            //     setSnackbarSeverity('success');
+            //     setSnackbarMessage(response?.data?.message);
+            //     onOpenChange(false);
+            // } else {
+            //     setSnackbarOpen(true);
+            //     setSnackbarSeverity('success');
+            //     setSnackbarMessage(response.data.errors);
+            // }
         } catch (error) {
             // enqueueSnackbar('Failed to save follow-up', { variant: 'error' });
         } finally {
@@ -925,7 +972,7 @@ const FollowUpForm = ({ open, onOpenChange, leadId, followUp, UsersOptions }: Fo
 
     return (
         <Dialog open={open} onClose={handleCancel} fullWidth maxWidth="sm">
-            <DialogTitle>{isEditMode ? 'Edit Follow-Up' : 'Add New Follow-Up'}</DialogTitle>
+            <DialogTitle>{followUp?._id ? 'Edit Follow-Up' : 'Add New Follow-Up'}</DialogTitle>
             <DialogContent>
                 <form onSubmit={handleSubmit}>
                     <Grid container spacing={2} sx={{ mt: 4 }}>

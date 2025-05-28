@@ -617,7 +617,7 @@ import { createTheme, PaletteMode } from '@mui/material';
 // Define your base colors
 const baseColors = {
     primary: {
-        main: '#143560',
+        main: 'rgb(10 45 90)',
         light: '#3d5b8a',
         dark: '#0d2342',
         contrastText: '#ffffff'

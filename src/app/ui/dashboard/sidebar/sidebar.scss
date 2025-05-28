@@ -23,6 +23,20 @@
 //   background-color: #34495e; /* Change background on hover */
 // }
 
+.active {
+    position: relative;
+}
+
+.active::after {
+    width: 20px;
+    height: 20px;
+    content: '';
+    top: 0;
+    right: 0;
+    background: #ffffff;
+    position: absolute;
+}
+
 .link-sidebar {
     display: flex;
     align-items: center;

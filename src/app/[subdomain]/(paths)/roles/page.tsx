@@ -300,7 +300,7 @@ export default function Page() {
                     </Typography>
                 </Box> */}
 
-                <Paper elevation={2}>
+                {/* <Paper elevation={2}> */}
                     <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
                         {/* Sidebar Navigation */}
                         <Box sx={{ width: { xs: '100%', md: 240 }, borderRight: { md: 1 }, borderBottom: { xs: 1, md: 0 }, borderColor: 'divider' }}>
@@ -340,7 +340,7 @@ export default function Page() {
                             </Box>
                         </Box>
                     </Box>
-                </Paper>
+                {/* </Paper> */}
             </Box>
         </Box>
     );

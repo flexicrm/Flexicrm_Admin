@@ -852,7 +852,7 @@ const LeadSource: React.FC<LeadSourceProps> = ({ onSelect, leadSource }) => {
                 )}
                 {isAddingNewSource && (
                     <Box display="flex" alignItems="center" gap={1}>
-                        <TextField name="sourceName" id="sourceName" placeholder="New Source Name" value={sourceName} onChange={(e) => setSourceName(e.target.value)} required />
+                        <TextField name="sourceName" size="small" id="sourceName" placeholder="New Source Name" value={sourceName} onChange={(e) => setSourceName(e.target.value)} required />
                         <IconButton color="primary" onClick={handleAddSource} disabled={loading} sx={{ ml: 1 }}>
                             <CheckIcon />
                         </IconButton>

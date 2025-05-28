@@ -1479,9 +1479,9 @@
 // //                                                 {column.format ? column.format(row[column.id as keyof T]) : String(row[column.id as keyof T])}
 // //                                             </TableCell>
 // //                                         ))}
-// //                                     <TableCell align="right" size="small">
-// //                                         <AntSwitch size="small" checked={row.active === 1} onChange={() => onToggle(row)} />
-// //                                     </TableCell>
+//                                     <TableCell align="right" size="small">
+//                                         <AntSwitch size="small" checked={row.active === 1} onChange={() => onToggle(row)} />
+//                                     </TableCell>
 // //                                     <TableCell align="right" size="small">
 // //                                         <Typography sx={{ display: 'flex' }}>
 // //                                             <IconButton onClick={() => onEdit(row)}>
@@ -2369,6 +2369,8 @@ interface TableProps<T> {
     setSnackbarMessage: (message: string) => void;
     subdomain?: any;
     setDeleteDialogOpen?: any;
+    onToggle: (row: any) => void;
+    leadstatus: any;
 }
 
 const ResizableTableCell = styled(TableCell)(({ theme }) => ({
@@ -2392,7 +2394,7 @@ const StatusChip = styled(Chip)(({ theme, status }: any) => ({
     fontSize: '0.75rem'
 }));
 
-export const MyTable = <T extends { id: number }>({ data, setDeleteDialogOpen, columns, onEdit, onDelete, setSnackbarMessage, snackbarMessage, subdomain }: TableProps<T>) => {
+export const MyTable = <T extends { id: number }>({ data, leadstatus, setDeleteDialogOpen, columns, onEdit, onDelete, setSnackbarMessage, snackbarMessage, subdomain, onToggle }: TableProps<T>) => {
     const theme = useTheme();
     const [order, setOrder] = useState<'asc' | 'desc'>('asc');
     const [orderBy, setOrderBy] = useState<string>(columns[0]?.id || '');
@@ -2424,10 +2426,12 @@ export const MyTable = <T extends { id: number }>({ data, setDeleteDialogOpen, c
 
     useEffect(() => {
         const savedFavorites = localStorage.getItem('favoriteLeads');
+        const savedColumns = localStorage.getItem('selectedColumns');
 
-        if (savedColumnsRef.current && savedColumnsRef.current.length > 0) {
-            setSelectedColumns(JSON.parse(savedColumnsRef.current));
+        if (savedColumns) {
+            setSelectedColumns(JSON.parse(savedColumns));
         } else {
+            // Default to all column IDs if nothing is saved
             setSelectedColumns(columnsRef.current.map((col) => col.id));
         }
 
@@ -2460,7 +2464,11 @@ export const MyTable = <T extends { id: number }>({ data, setDeleteDialogOpen, c
 
     const filteredData = useMemo(() => {
         return data.filter((row) => {
-            if (statusFilter !== 'all' && row.active !== (statusFilter === 'active' ? 1 : 0)) {
+            console.log(row, 'rowsvalue');
+            // if (statusFilter !== 'all' && row.active !== (statusFilter === 'active' ? 1 : 0)) {
+            //     return false;
+            // }
+            if (statusFilter !== 'all' && row?.leadstatus?.statusName !== statusFilter) {
                 return false;
             }
 
@@ -2590,12 +2598,28 @@ export const MyTable = <T extends { id: number }>({ data, setDeleteDialogOpen, c
                         }}
                     />
 
-                    <FormControl size="small" sx={{ minWidth: 120 }}>
+                    {/* <FormControl size="small" sx={{ minWidth: 120 }}>
                         <InputLabel>Status</InputLabel>
                         <Select value={statusFilter} onChange={handleStatusFilterChange} label="Status">
                             <MenuItem value="all">All Statuses</MenuItem>
                             <MenuItem value="active">Active</MenuItem>
                             <MenuItem value="inactive">Inactive</MenuItem>
+                        </Select>
+                    </FormControl> */}
+                    <FormControl size="small" sx={{ minWidth: 120 }}>
+                        <InputLabel>Leads Status</InputLabel>
+                        <Select value={statusFilter} onChange={handleStatusFilterChange} label="Leads Status">
+                            <MenuItem value="all">All Statuses</MenuItem>
+                            {leadstatus.map((status) => (
+                                <MenuItem key={status._id} value={status.statusName}>
+                                    <CustomChip
+                                        status={{
+                                            hexColor: status?.color,
+                                            statusName: status?.statusName || 'null'
+                                        }}
+                                    />
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Box>
@@ -2697,23 +2721,50 @@ export const MyTable = <T extends { id: number }>({ data, setDeleteDialogOpen, c
                                     </Box>
 
                                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <Box sx={{ gap: 2, display: 'flex' }}>
+                                        <Box sx={{ gap: 1, display: 'flex' }}>
+                                            {/* <Tooltip title="Leads Status" followCursor> */}
                                             <Box>
-                                                <CustomChip
-                                                    status={{
-                                                        hexColor: row?.leadstatus?.color,
-                                                        statusName: row?.leadstatus?.statusName || 'null'
-                                                    }}
-                                                />
+                                                {row?.leadstatus?.statusName && (
+                                                    <CustomChip
+                                                        status={{
+                                                            hexColor: row?.leadstatus?.color,
+                                                            statusName: row?.leadstatus?.statusName || 'null'
+                                                        }}
+                                                    />
+                                                )}
                                             </Box>
+                                            {/* </Tooltip> */}
+                                            {/* <Tooltip title="Follow-up Status" followCursor> */}
                                             <Box>
-                                                <CustomChip
-                                                    status={{
-                                                        hexColor: row?.followUps?.slice(-1)[0]?.status?.color,
-                                                        statusName: row?.followUps?.slice(-1)[0]?.status?.StatusName || 'Not Followed'
-                                                    }}
-                                                />
+                                                {row?.followUps?.slice(-1)[0]?.status?.StatusName && (
+                                                    <CustomChip
+                                                        status={{
+                                                            hexColor: row?.followUps?.slice(-1)[0]?.status?.color,
+                                                            statusName: row?.followUps?.slice(-1)[0]?.status?.StatusName || 'Not Followed'
+                                                        }}
+                                                    />
+                                                )}
                                             </Box>
+                                            {/* </Tooltip> */}
+                                            {/* <Tooltip title="Priority" followCursor> */}
+                                            <Box>
+                                                {row?.followUps?.slice(-1)[0]?.priority && (
+                                                    <CustomChip
+                                                        status={{
+                                                            hexColor:
+                                                                row?.followUps?.slice(-1)[0]?.priority === 'medium'
+                                                                    ? 'ff9800'
+                                                                    : row?.followUps?.slice(-1)[0]?.priority === 'high'
+                                                                    ? 'd50000'
+                                                                    : row?.followUps?.slice(-1)[0]?.priority === 'low'
+                                                                    ? '33691e'
+                                                                    : '4caf50',
+                                                            statusName: row?.followUps?.slice(-1)[0]?.priority || 'Not Followed'
+                                                        }}
+                                                    />
+                                                )}
+                                            </Box>
+                                            {/* </Tooltip> */}
                                         </Box>
                                     </Box>
                                 </CardContent>
@@ -2812,16 +2863,22 @@ export const MyTable = <T extends { id: number }>({ data, setDeleteDialogOpen, c
                                             ))}
 
                                         <TableCell align="right">
-                                            <Box sx={{ display: 'flex', gap: 1 }}>
-                                                <IconButton size="small" onClick={(e) => onEdit(e, row)}>
-                                                    <EditIcon fontSize="small" />
-                                                </IconButton>
-
-                                                <Tooltip title="Delete">
-                                                    <IconButton size="small" onClick={() => (onDelete(row.LeadId), setDeleteDialogOpen(true))}>
-                                                        <DeleteIcon fontSize="small" />
+                                            <Box sx={{ display: 'flex', gap: 1, textAlign: 'center' }}>
+                                                <Box>
+                                                    <AntSwitch size="small" checked={row.active === 1} onChange={() => onToggle(row)} />
+                                                </Box>
+                                                <Box>
+                                                    <IconButton size="small" onClick={(e) => onEdit(e, row)}>
+                                                        <EditIcon fontSize="small" />
                                                     </IconButton>
-                                                </Tooltip>
+                                                </Box>
+                                                <Box>
+                                                    <Tooltip title="Delete">
+                                                        <IconButton size="small" onClick={() => (onDelete(row.LeadId), setDeleteDialogOpen(true))}>
+                                                            <DeleteIcon fontSize="small" />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                </Box>
                                             </Box>
                                         </TableCell>
                                     </TableRow>
@@ -2845,11 +2902,11 @@ export const MyTable = <T extends { id: number }>({ data, setDeleteDialogOpen, c
                 </>
             )}
 
-            <Snackbar open={!!snackbarMessage} autoHideDuration={6000} onClose={() => setSnackbarMessage('')} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+            {/* <Snackbar open={!!snackbarMessage} autoHideDuration={6000} onClose={() => ''} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
                 <Alert onClose={() => setSnackbarMessage('')} severity="success">
                     {snackbarMessage}
                 </Alert>
-            </Snackbar>
+            </Snackbar> */}
         </Box>
     );
 };

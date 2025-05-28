@@ -39,6 +39,7 @@ export const AntSwitch = styled(Switch)(({ theme }) => ({
     width: 28,
     height: 16,
     padding: 0,
+    marginTop: 10,
     display: 'flex',
     '&:active': {
         '& .MuiSwitch-thumb': {

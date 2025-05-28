@@ -1151,18 +1151,18 @@ const LeadsPage: React.FC = () => {
     const [leadSources, setLeadSources] = useState([]);
     const [leadstatus, setLeadstatus] = useState([]);
     const [leadType, setLeadType] = useState(null);
-    const [kanbanView, setKanbanView] = useState(false);
+    // const [kanbanView, setKanbanView] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState<Severity>('success');
     const [isFollowUpFormVisible, setFollowUpFormVisible] = useState(false);
     const [isConvertFormVisible, setConvertFormVisible] = useState(false);
     const [currentLead, setCurrentLead] = useState<Lead | null>(null);
     const [actionDialogOpen, setActionDialogOpen] = useState(false);
-    const [convertId, setConvertId] = useState<string | null>(null);
+    // const [convertId, setConvertId] = useState<string | null>(null);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [leadToDelete, setLeadToDelete] = useState<string | null>(null);
-    const [editDialogOpen, setEditDialogOpen] = useState(false);
+    // const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [viewMode, setViewMode] = useState<'kanban' | 'Table'>('Table');
     const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
 
@@ -1183,6 +1183,8 @@ const LeadsPage: React.FC = () => {
             setViewMode(newViewMode);
         }
     };
+
+    console.log(leadstatus, 'leadstatus');
 
     const fetchData = useCallback(
         async (url: string, setData: React.Dispatch<React.SetStateAction<any>>) => {
@@ -1302,14 +1304,15 @@ const LeadsPage: React.FC = () => {
         Phone: item?.formData ? item?.formData?.mobile : item?.manualData?.mobileNo,
         'Follow-Up':
             item?.followUps?.length > 0
-                ? `Date: ${new Date(item?.followUps[item?.followUps?.length - 1]?.followUpDate)?.toDateString()},
-               Notes: ${item?.followUps[item?.followUps?.length - 1]?.notes}`
+                ? `Date: ${new Date(item?.followUps.slice(-1)[0]?.dateTime)?.toDateString()},
+               Notes: ${item?.followUps.slice(-1)[0]?.notes}`
                 : 'No follow-ups',
         Assigned: `${item?.assignTo?.firstname || ''} ${item?.assignTo?.lastname || 'Not Assign'}`,
         active: item?.status,
         leadstatus: item?.leadstatus,
         leadsource: item?.leadsource
     }));
+    console.log(rowData, 'rowData>>>>');
 
     const columns = [
         {
@@ -1416,120 +1419,135 @@ const LeadsPage: React.FC = () => {
 
     return (
         <Box>
-            <Paper elevation={0} sx={{ p: 0, borderRadius: 2, boxShadow: 'none' }}>
-                <Grid container spacing={2} alignItems="center" sx={{ mb: 3 }}>
-                    <Grid size={{ xs: 12, sm: 6 }}>
-                        <Typography variant="h5" component="h1" sx={{ fontWeight: 600 }}>
-                            Leads{' '}
-                            <Tooltip title="Refresh data">
-                                <IconButton onClick={fetchLeads} color="primary">
-                                    <RefreshIcon />
-                                </IconButton>
-                            </Tooltip>
-                        </Typography>
-                    </Grid>
-                    <Grid size={{ xs: 12, sm: 6 }}>
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
-                            <Box sx={{ margin: '5px' }}>
-                                <ToggleButtonGroup value={viewMode} exclusive onChange={handleViewModeChange} size="small">
-                                    <Tooltip title="Kanban">
-                                        <ToggleButton value="kanban">
-                                            <TableIcon sx={{ fontSize: '18px' }} />
-                                        </ToggleButton>
-                                    </Tooltip>
-                                    <Tooltip title="Tabel">
-                                        <ToggleButton value="Tabel">
-                                            <KanbanIcon sx={{ fontSize: '18px' }} />
-                                        </ToggleButton>
-                                    </Tooltip>
-                                </ToggleButtonGroup>
-                            </Box>
-                            <Box>
-                                <Tooltip title="Create new lead">
-                                    <MyButton variant="contained" color="primary" startIcon={<AddIcon />} onClick={() => (window.location.href = `/${subdomain}/leads/create`)}>
-                                        Lead
-                                    </MyButton>
-                                </Tooltip>
-                            </Box>
-                        </Box>
-                    </Grid>
-                </Grid>
-
-                {error && (
-                    <Typography color="error" sx={{ mt: 2, mb: 2 }}>
-                        {error}
+            {/* <Paper elevation={0} > */}
+            <Grid container spacing={2} alignItems="center" sx={{ mb: 3 }}>
+                <Grid size={{ xs: 12, sm: 6 }}>
+                    <Typography variant="h5" color="primary" component="h1" sx={{ fontWeight: 600 }}>
+                        Leads{' '}
+                        <Tooltip title="Refresh data">
+                            <IconButton onClick={fetchLeads} color="primary">
+                                <RefreshIcon />
+                            </IconButton>
+                        </Tooltip>
                     </Typography>
-                )}
-
-                {loading ? (
-                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-                        <CircularProgress />
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
+                        <Box sx={{ margin: '5px' }}>
+                            <ToggleButtonGroup color="primary" value={viewMode} exclusive onChange={handleViewModeChange} size="small">
+                                <Tooltip title="Kanban">
+                                    <ToggleButton value="kanban" color="primary">
+                                        <TableIcon sx={{ fontSize: '18px' }} />
+                                    </ToggleButton>
+                                </Tooltip>
+                                <Tooltip title="Tabel">
+                                    <ToggleButton value="Tabel" color="primary">
+                                        <KanbanIcon sx={{ fontSize: '18px' }} />
+                                    </ToggleButton>
+                                </Tooltip>
+                            </ToggleButtonGroup>
+                        </Box>
+                        <Box>
+                            <Tooltip title="Create new lead">
+                                <MyButton variant="contained" color="primary" startIcon={<AddIcon />} onClick={() => (window.location.href = `/${subdomain}/leads/create`)}>
+                                    Lead
+                                </MyButton>
+                            </Tooltip>
+                        </Box>
                     </Box>
-                ) : (
-                    <>
-                        {viewMode == 'kanban' ? (
-                            <TaskManagement leads={leadType} leadStatus={leadstatus} setLeads={setLeads} />
-                        ) : (
-                            <MyTable
-                                data={rowData}
-                                columns={columns}
-                                setDeleteDialogOpen={setDeleteDialogOpen}
-                                onEdit={handleEdit}
-                                onDelete={handleDelete}
-                                snackbarMessage={snackbarMessage}
-                                setSnackbarMessage={setSnackbarMessage}
-                                subdomain={subdomain}
-                            />
-                        )}
-                        {currentLead && <FollowUpForm leadId={currentLead.LeadId} UsersOptions={UsersOptions} open={isFollowUpFormVisible} onOpenChange={setFollowUpFormVisible} followUp={null} />}
-                        <Menu
-                            anchorEl={anchorEl}
-                            open={Boolean(anchorEl)}
-                            onClose={handleMenuClose}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right'
-                            }}
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right'
-                            }}
-                        >
-                            <MenuItem onClick={() => (window.location.href = `/${subdomain}/leads/edit/${currentLead?.LeadId}`)}>
-                                <ListItemIcon>
-                                    <ModeEditIcon fontSize="small" />
-                                </ListItemIcon>
-                                <ListItemText>Edit lead</ListItemText>
-                            </MenuItem>
-                            <MenuItem onClick={() => setFollowUpFormVisible(true)}>
-                                <ListItemIcon>
-                                    <CalendarMonth fontSize="small" />
-                                </ListItemIcon>
-                                <ListItemText>Add Follow-Up</ListItemText>
-                            </MenuItem>
-                            <MenuItem onClick={() => (window.location.href = `/${subdomain}/leads/${currentLead?.LeadId}`)}>
-                                <ListItemIcon>
-                                    <Visibility fontSize="small" />
-                                </ListItemIcon>
-                                <ListItemText>View Lead</ListItemText>
-                            </MenuItem>
-                            <Divider />
-                            <MenuItem onClick={() => setConvertFormVisible(true)}>
-                                <ListItemText>Convert Customer</ListItemText>
-                            </MenuItem>
-                        </Menu>
-                        <Dialog open={isConvertFormVisible} onClose={() => setConvertFormVisible(false)} maxWidth="sm" fullWidth>
-                            <DialogTitle>Convert Customer</DialogTitle>
-                            <DialogContent>
-                                <ConvertCustomer currentLead={currentLead} convertid={currentLead?.LeadId} setConvertFormVisible={setConvertFormVisible} leadStatus={currentLead?.leadstatus} />
-                            </DialogContent>
-                        </Dialog>
-                        <DeleteDialog deleteDialogOpen={deleteDialogOpen} cancelDelete={() => setDeleteDialogOpen(false)} confirmDelete={confirmDelete} data="Lead" />
+                </Grid>
+            </Grid>
 
-                        <MySnackbar open={snackbarOpen} message={snackbarMessage} severity={snackbarSeverity} position={{ vertical: 'top', horizontal: 'right' }} onClose={() => setSnackbarOpen(false)} />
-                    </>
-                )}
-            </Paper>
+            {error && (
+                <Typography color="error" sx={{ mt: 2, mb: 2 }}>
+                    {error}
+                </Typography>
+            )}
+
+            {loading ? (
+                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+                    <CircularProgress />
+                </Box>
+            ) : (
+                <>
+                    {viewMode == 'kanban' ? (
+                        <TaskManagement leads={leadType} leadStatus={leadstatus} setLeads={setLeads} />
+                    ) : (
+                        <MyTable
+                            data={rowData}
+                            columns={columns}
+                            setDeleteDialogOpen={setDeleteDialogOpen}
+                            onEdit={handleEdit}
+                            onDelete={handleDelete}
+                            snackbarMessage={snackbarMessage}
+                            setSnackbarMessage={setSnackbarMessage}
+                            subdomain={subdomain}
+                            onToggle={handleStatusChange}
+                            leadstatus={leadstatus}
+                        />
+                    )}
+                    {currentLead && (
+                        <FollowUpForm
+                            leadId={currentLead.LeadId}
+                            UsersOptions={UsersOptions}
+                            open={isFollowUpFormVisible}
+                            onOpenChange={setFollowUpFormVisible}
+                            followUp={null}
+                            setLeads={fetchLeads}
+                            setSnackbarOpen={setSnackbarOpen}
+                            setSnackbarSeverity={setSnackbarSeverity}
+                            setSnackbarMessage={setSnackbarMessage}
+                            handleMenuClose={handleMenuClose}
+                        />
+                    )}
+                    <Menu
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl)}
+                        onClose={handleMenuClose}
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right'
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right'
+                        }}
+                    >
+                        <MenuItem onClick={() => (window.location.href = `/${subdomain}/leads/edit/${currentLead?.LeadId}`)}>
+                            <ListItemIcon>
+                                <ModeEditIcon fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText>Edit lead</ListItemText>
+                        </MenuItem>
+                        <MenuItem onClick={() => setFollowUpFormVisible(true)}>
+                            <ListItemIcon>
+                                <CalendarMonth fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText>Add Follow-Up</ListItemText>
+                        </MenuItem>
+                        <MenuItem onClick={() => (window.location.href = `/${subdomain}/leads/${currentLead?.LeadId}`)}>
+                            <ListItemIcon>
+                                <Visibility fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText>View Lead</ListItemText>
+                        </MenuItem>
+                        <Divider />
+                        <MenuItem onClick={() => setConvertFormVisible(true)}>
+                            <ListItemText>Convert Customer</ListItemText>
+                        </MenuItem>
+                    </Menu>
+                    <Dialog open={isConvertFormVisible} onClose={() => setConvertFormVisible(false)} maxWidth="sm" fullWidth>
+                        <DialogTitle>Convert Customer</DialogTitle>
+                        <DialogContent>
+                            <ConvertCustomer currentLead={currentLead} convertid={currentLead?.LeadId} setConvertFormVisible={setConvertFormVisible} leadStatus={currentLead?.leadstatus} />
+                        </DialogContent>
+                    </Dialog>
+                    <DeleteDialog deleteDialogOpen={deleteDialogOpen} cancelDelete={() => setDeleteDialogOpen(false)} confirmDelete={confirmDelete} data="Lead" />
+                    {console.log(snackbarOpen, 'snackbarOpen')}
+                    <MySnackbar open={snackbarOpen} message={snackbarMessage} severity={snackbarSeverity} position={{ vertical: 'top', horizontal: 'right' }} onClose={() => setSnackbarOpen(false)} />
+                </>
+            )}
+            {/* </Paper> */}
         </Box>
     );
 };

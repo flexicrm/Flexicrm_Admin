@@ -2153,6 +2153,7 @@ import { MyButton } from '../../../../Component/Buttons/Buttons';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { LeadPost, UpdateLeadsByID } from '../../../../../../api/Leads';
+import { MySnackbar } from '../../../../Component/Snackbar/Snackbar';
 
 // Country-based potential values (example values)
 const COUNTRY_POTENTIAL_VALUES: Record<string, number> = {
@@ -2732,11 +2733,12 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                     </Grid> */}
                 </Grid>
             </form>
-            <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose}>
+            {/* <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose}>
                 <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
                     {snackbarMessage}
                 </Alert>
-            </Snackbar>
+            </Snackbar> */}
+            <MySnackbar open={snackbarOpen} message={snackbarMessage} severity={snackbarSeverity} position={{ vertical: 'top', horizontal: 'right' }} onClose={handleSnackbarClose} />
         </Paper>
     );
 };

@@ -567,7 +567,7 @@ const LeadfollowPage: React.FC = () => {
                 }}
             >
                 <MyButton variant="contained" onClick={openCreate} startIcon={<Add />}>
-                    New Type
+                     Type
                 </MyButton>
             </Box>
 
@@ -579,7 +579,7 @@ const LeadfollowPage: React.FC = () => {
                 <Paper elevation={3} sx={{ borderRadius: 2, overflow: 'hidden' }}>
                     <TableContainer>
                         <Table>
-                            <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
+                            <TableHead >
                                 <TableRow>
                                     <TableCell sx={{ fontWeight: 600 }}>Type Name</TableCell>
                                     <TableCell sx={{ fontWeight: 600, width: '150px' }}>Actions</TableCell>
@@ -626,12 +626,12 @@ const LeadfollowPage: React.FC = () => {
                         {editId ? (
                             <>
                                 <Edit fontSize="small" />
-                                <Typography variant="h6"> Status</Typography>
+                                <Typography> FollowUp Type</Typography>
                             </>
                         ) : (
                             <>
                                 <Add fontSize="small" />
-                                <Typography variant="h6"> New Status</Typography>
+                                <Typography> FollowUp Type</Typography>
                             </>
                         )}
                     </Box>

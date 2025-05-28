@@ -150,7 +150,7 @@ const SummaryCard: React.FC<SummaryCardProps> = ({ title, value, icon, color }) 
                     }}
                 >
                     {React.cloneElement(icon as React.ReactElement, {
-                        // sx: { color: 'white', fontSize: 'medium' }
+                        sx: { color: 'white' }
                     })}
                 </Box>
             </Box>
@@ -789,7 +789,7 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
                 >
                     <TableContainer>
                         <Table>
-                            <TableHead sx={{ bgcolor: 'background.paper' }}>
+                            <TableHead sx={{ bgcolor: 'background.paper', overflow: 'hidden' }}>
                                 <TableRow>
                                     <TableCell padding="checkbox" sx={{ borderBottom: '1px solid', borderColor: 'divider' }}>
                                         <Checkbox
@@ -797,6 +797,7 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
                                             checked={paginatedContacts?.length > 0 && selectedContacts?.length === paginatedContacts?.length}
                                             onChange={handleSelectAllClick}
                                             sx={{ color: 'text.secondary' }}
+                                            size="small"
                                         />
                                     </TableCell>
                                     <TableCell sx={{ borderBottom: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>Profile</TableCell>
@@ -843,17 +844,18 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
                                                 hover
                                                 selected={isItemSelected}
                                                 sx={{
-                                                    '&:last-child td': { borderBottom: 0 },
-                                                    '&:hover': {
-                                                        backgroundColor: 'action.hover',
-                                                        transform: 'scale(1.002)',
-                                                        boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-                                                    },
-                                                    transition: 'all 0.2s ease'
+                                                    // '&:last-child td': { borderBottom: 0 },
+                                                    // '&:hover': {
+                                                    //     backgroundColor: 'action.hover',
+                                                    //     transform: 'scale(1.002)',
+                                                    //     boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+                                                    // },
+                                                    // transition: 'all 0.2s ease',
+                                                    overflow: 'hidden'
                                                 }}
                                             >
                                                 <TableCell padding="checkbox">
-                                                    <Checkbox checked={isItemSelected} onChange={(event) => handleCheckboxClick(event, contact)} sx={{ color: 'text.secondary' }} />
+                                                    <Checkbox size="small" checked={isItemSelected} onChange={(event) => handleCheckboxClick(event, contact)} sx={{ color: 'text.secondary' }} />
                                                 </TableCell>
                                                 <TableCell>
                                                     <Avatar

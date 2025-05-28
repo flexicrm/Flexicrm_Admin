@@ -342,6 +342,7 @@ import { TrendingUp, TrendingDown, Schedule } from '@mui/icons-material';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { GETactivity } from '../../../../../api/dashboardApi';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 const SummaryCard = ({ title, value, change, loading }: { title: string; value: any; change: number; loading?: boolean }) => {
     const isPositive = change >= 0;
@@ -415,7 +416,8 @@ const Dashboard = () => {
         value: lead.potentialValue || 0,
         status: lead.leadstatus?.statusName || 'New',
         email: lead.manualData?.email,
-        phone: lead.manualData?.mobileNo
+        phone: lead.manualData?.mobileNo,
+        LeadId: lead?.LeadId
     }));
 
     const highValueOpportunities = recentLeads
@@ -427,7 +429,8 @@ const Dashboard = () => {
             company: lead.company,
             value: `$${lead.value.toLocaleString()}`,
             email: lead.email,
-            phone: lead.phone
+            phone: lead.phone,
+            LeadId: lead?.LeadId
         }));
 
     const totalPotentialValue = recentLeads?.reduce((sum: number, lead: any) => sum + (lead.value || 0), 0) || 0;
@@ -580,8 +583,11 @@ const Dashboard = () => {
                                                 <motion.tr key={lead.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }}>
                                                     <TableCell>
                                                         <strong>{lead.name}</strong>
+
                                                         <Typography variant="body2" color="textSecondary">
-                                                            {lead.company}
+                                                            <Link href={`/${subdomain}/leads/${lead.LeadId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                                                {lead.company}
+                                                            </Link>
                                                         </Typography>
                                                     </TableCell>
                                                     <TableCell>
@@ -621,27 +627,29 @@ const Dashboard = () => {
                                         highValueOpportunities.map((opp: any, index: number) => (
                                             <motion.div key={opp.id} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: index * 0.1 }}>
                                                 <ListItem>
-                                                    <ListItemText
-                                                        primary={
-                                                            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                                <Box>
-                                                                    <Typography variant="subtitle1">
-                                                                        <strong>{opp.name}</strong>
-                                                                    </Typography>
-                                                                    <Typography variant="body2" color="textSecondary">
-                                                                        {opp.company}
-                                                                    </Typography>
+                                                    <Link href={`/${subdomain}/leads/${opp.LeadId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                                        <ListItemText
+                                                            primary={
+                                                                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                                    <Box>
+                                                                        <Typography variant="subtitle1">
+                                                                            <strong>{opp.name}</strong>
+                                                                        </Typography>
+                                                                        <Typography variant="body2" color="textSecondary">
+                                                                            {opp.company}
+                                                                        </Typography>
+                                                                    </Box>
+                                                                    <Chip label={opp.value} color="success" variant="outlined" />
                                                                 </Box>
-                                                                <Chip label={opp.value} color="success" variant="outlined" />
-                                                            </Box>
-                                                        }
-                                                        secondary={
-                                                            <Box sx={{ mt: 1 }}>
-                                                                <Typography variant="body2">{opp.email}</Typography>
-                                                                <Typography variant="body2">{opp.phone}</Typography>
-                                                            </Box>
-                                                        }
-                                                    />
+                                                            }
+                                                            secondary={
+                                                                <Box sx={{ mt: 1 }}>
+                                                                    <Typography variant="body2">{opp.email}</Typography>
+                                                                    <Typography variant="body2">{opp.phone}</Typography>
+                                                                </Box>
+                                                            }
+                                                        />
+                                                    </Link>
                                                 </ListItem>
                                                 {index < highValueOpportunities.length - 1 && <Divider />}
                                             </motion.div>
