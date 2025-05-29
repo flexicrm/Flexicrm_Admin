@@ -730,6 +730,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { MyButton } from '../../../../Component/Buttons/Buttons';
 import { createFollowupdata, GetFollowupStatus, GetStatus, UpdateFollowupdata } from '../../../../../../api/Leads';
 import Cookies from 'js-cookie';
+import { DateTimePicker } from '@mui/x-date-pickers';
 // import { useSnackbar } from 'notistack';
 
 interface FollowUp {
@@ -992,7 +993,7 @@ const FollowUpForm = ({ open, onOpenChange, leadId, followUp, UsersOptions, setL
                         </Grid>
                         <Grid size={{ xs: 12, sm: 6 }}>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                <DatePicker
+                                <DateTimePicker
                                     label="Due Date"
                                     value={dueDate}
                                     onChange={(newValue) => setDueDate(newValue)}
@@ -1048,7 +1049,7 @@ const FollowUpForm = ({ open, onOpenChange, leadId, followUp, UsersOptions, setL
                         {reminderEnabled && (
                             <Grid size={{ xs: 12, sm: 12 }}>
                                 <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                    <DatePicker
+                                    <DateTimePicker
                                         label="Reminder Date"
                                         value={reminderDate}
                                         onChange={(newValue) => setReminderDate(newValue)}
