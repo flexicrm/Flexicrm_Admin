@@ -1106,7 +1106,8 @@ import {
     CheckCircle,
     CalendarMonth,
     Visibility,
-    Delete
+    Delete,
+    People
 } from '@mui/icons-material';
 import Kanban from './kanban/kanbanleads';
 import { API_BASE_URL } from '../../../utils';
@@ -1119,6 +1120,7 @@ import { MyButton } from '../../../Component/Buttons/Buttons';
 import DeleteDialog from '../../../Component/CustomiseComponent/DeleteDialog';
 import { getLeads } from '../../../../../api/Leads';
 import TaskManagement from './kanban/kanbanleads';
+import Link from 'next/link';
 
 interface Lead {
     _id: string;
@@ -1448,11 +1450,13 @@ const LeadsPage: React.FC = () => {
                             </ToggleButtonGroup>
                         </Box>
                         <Box>
-                            <Tooltip title="Create new lead">
-                                <MyButton variant="contained" color="primary" startIcon={<AddIcon />} onClick={() => (window.location.href = `/${subdomain}/leads/create`)}>
+                            {/* <Tooltip title="Create new lead"> */}
+                            <Link href={`/${subdomain}/leads/create`}>
+                                <MyButton variant="contained" color="primary" startIcon={<AddIcon />}>
                                     Lead
                                 </MyButton>
-                            </Tooltip>
+                            </Link>
+                            {/* </Tooltip> */}
                         </Box>
                     </Box>
                 </Grid>
@@ -1484,6 +1488,7 @@ const LeadsPage: React.FC = () => {
                             subdomain={subdomain}
                             onToggle={handleStatusChange}
                             leadstatus={leadstatus}
+                            fetchLeads={fetchLeads}
                         />
                     )}
                     {currentLead && (
@@ -1513,26 +1518,33 @@ const LeadsPage: React.FC = () => {
                             horizontal: 'right'
                         }}
                     >
-                        <MenuItem onClick={() => (window.location.href = `/${subdomain}/leads/edit/${currentLead?.LeadId}`)}>
-                            <ListItemIcon>
-                                <ModeEditIcon fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText>Edit lead</ListItemText>
-                        </MenuItem>
+                        <Link href={`/${subdomain}/leads/edit/${currentLead?.LeadId}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                            <MenuItem>
+                                <ListItemIcon>
+                                    <ModeEditIcon fontSize="small" />
+                                </ListItemIcon>
+                                <ListItemText>Edit lead</ListItemText>
+                            </MenuItem>
+                        </Link>
                         <MenuItem onClick={() => setFollowUpFormVisible(true)}>
                             <ListItemIcon>
                                 <CalendarMonth fontSize="small" />
                             </ListItemIcon>
                             <ListItemText>Add Follow-Up</ListItemText>
                         </MenuItem>
-                        <MenuItem onClick={() => (window.location.href = `/${subdomain}/leads/${currentLead?.LeadId}`)}>
-                            <ListItemIcon>
-                                <Visibility fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText>View Lead</ListItemText>
-                        </MenuItem>
+                        <Link href={`/${subdomain}/leads/${currentLead?.LeadId}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                            <MenuItem>
+                                <ListItemIcon>
+                                    <Visibility fontSize="small" />
+                                </ListItemIcon>
+                                <ListItemText>View Lead</ListItemText>
+                            </MenuItem>
+                        </Link>
                         <Divider />
                         <MenuItem onClick={() => setConvertFormVisible(true)}>
+                            <ListItemIcon>
+                                <People fontSize="small" />
+                            </ListItemIcon>
                             <ListItemText>Convert Customer</ListItemText>
                         </MenuItem>
                     </Menu>

@@ -734,10 +734,11 @@ export default function Navbar({ isOpen, toggleSidebar }: any) {
         setLoading(true);
         const fetchData = async () => {
             try {
-                const headers = { Authorization: `Bearer ${accessToken}` };
-                const response = await axios.get(`${API_BASE_URL}/activity/own/activity/${subdomain}`, { headers });
-                setData(response.data.data.activities);
-                setNotifications(response?.data?.data?.activities || []);
+                // const headers = { Authorization: `Bearer ${accessToken}` };
+                // const response = await axios.get(`${API_BASE_URL}/activity/own/activity/${subdomain}`, { headers });
+                // const response = '';
+                // setData(response?.data?.data?.activities || '');
+                // setNotifications(response?.data?.data?.activities || []);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -833,10 +834,10 @@ export default function Navbar({ isOpen, toggleSidebar }: any) {
                     <Navbars sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                         <Box>
                             <Link href="profile">
-                                <ProfileImage src={data?.Profile} alt="Company Logo" width="30px" />
+                                <ProfileImage src={data?.Profile || '/image/Exclude.png'} alt="Company Logo" width="30px" />
                             </Link>
-                            <span className="m-3 fw-bold" style={{ color: theme.palette.primary.contrastText }}>
-                                {data?.company?.companyName || 'null'}
+                            <span className="m-3 ms-1 fw-bold" style={{ color: theme.palette.primary.contrastText }}>
+                                {data?.company?.companyName || ''}
                             </span>
                         </Box>
                         <div className="navbar-topbar d-flex">

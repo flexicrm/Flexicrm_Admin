@@ -434,8 +434,8 @@ import { CssBaseline, Box, styled } from '@mui/material';
 // Styled components using Material-UI
 const LayoutContainer = styled(Box)({
     marginTop: '48px',
-    backgroundColor: 'rgba(10, 45, 90, 0.966)',
-    height: '89vh',
+    backgroundColor: 'rgba(10, 45, 90)',
+    height: 'calc(100% - 48px)',
     overflow: 'hidden',
     bottom: 0
 });
@@ -455,8 +455,8 @@ const LayoutContainers = styled(Box)({
 const LayoutContent = styled(Box)({
     // marginTop: '12px',
     // paddingTop: '5rem',
-    backgroundColor: 'white',
-    padding: '2rem',
+    backgroundColor: '#f8f8fb',
+    padding: '18px',
     height: 'calc(100vh - 3rem)',
     boxShadow: 'inset 0 3px 4px rgba(0, 0, 0, 0.1)',
     borderTop: '1px solid var(--surface-border)',

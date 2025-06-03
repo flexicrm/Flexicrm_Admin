@@ -138,7 +138,7 @@
 // };
 
 // export default LeadStatusPage;
-"use client"
+'use client';
 import React, { useState } from 'react';
 import { Box, Tab, Tabs, Typography } from '@mui/material';
 import LeadfollowPage from './pages/FollowupStatusPage';
@@ -148,32 +148,32 @@ import LeadsStatus from '../Leads/LeadsStatus';
 // import FollowupStatusPage from '../components/FollowupStatusPage'; // You can create this based on LeadStatusPage
 
 const LeadManagement: React.FC = () => {
-  const [tabIndex, setTabIndex] = useState(0);
+    const [tabIndex, setTabIndex] = useState(0);
 
-  const handleChange = (_: React.SyntheticEvent, newValue: number) => {
-    setTabIndex(newValue);
-  };
+    const handleChange = (_: React.SyntheticEvent, newValue: number) => {
+        setTabIndex(newValue);
+    };
 
-  return (
-    <Box sx={{ width: '100%', p: 1 }}>
-      {/* <Typography variant="h5" mb={2}>
+    return (
+        <Box sx={{ width: '100%', p: 1 }}>
+            {/* <Typography variant="h5" mb={2}>
         Lead Configuration
       </Typography> */}
-      <Tabs value={tabIndex} onChange={handleChange} aria-label="lead config tabs">
-        <Tab label="Follow-up Status" />
-        <Tab label="Follow-up Type" />
-        <Tab label="Lead Status" />
-        {/* Add more tabs as needed */}
-      </Tabs>
+            <Tabs value={tabIndex} onChange={handleChange} aria-label="lead config tabs">
+                <Tab label="Follow-up Status" />
+                <Tab label="Follow-up Type" />
+                <Tab label="Lead Status" />
+                {/* Add more tabs as needed */}
+            </Tabs>
 
-      <Box mt={2}>
-        {tabIndex === 0 && <LeadStatusPage />}
-        {tabIndex === 1 && <LeadfollowPage />}
-        {tabIndex === 2 && <LeadsStatus />}
-        {/* Render other tab pages conditionally */}
-      </Box>
-    </Box>
-  );
+            <Box>
+                {tabIndex === 0 && <LeadStatusPage />}
+                {tabIndex === 1 && <LeadfollowPage />}
+                {tabIndex === 2 && <LeadsStatus />}
+                {/* Render other tab pages conditionally */}
+            </Box>
+        </Box>
+    );
 };
 
 export default LeadManagement;

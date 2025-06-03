@@ -36,7 +36,7 @@
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "jspdf": "^2.5.2",
-    "jspdf-autotable": "^3.8.3",
+    "jspdf-autotable": "^3.8.4",
     "libphonenumber-js": "^1.12.8",
     "my-app": "file:",
     "next": "^15.1.7",

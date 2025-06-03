@@ -419,7 +419,7 @@ const LeadStatusPage: React.FC = () => {
                     display: 'flex',
                     justifyContent: 'end',
                     alignItems: 'center',
-                    mb: 4,
+                    mb: 1,
                     flexWrap: 'wrap',
                     gap: 2
                 }}
@@ -487,7 +487,7 @@ const LeadStatusPage: React.FC = () => {
             ) : (
                 <Paper elevation={3} sx={{ borderRadius: 2, overflow: 'hidden' }}>
                     <TableContainer>
-                        <Table>
+                        <Table size="small">
                             <TableHead>
                                 <TableRow>
                                     <TableCell sx={{ fontWeight: 600 }}>Status Name</TableCell>
@@ -508,13 +508,13 @@ const LeadStatusPage: React.FC = () => {
                                             </TableCell>
                                             <TableCell>
                                                 <Tooltip title="Edit">
-                                                    <IconButton onClick={() => handleEdit(status)} color="primary" sx={{ '&:hover': { backgroundColor: 'rgba(25, 118, 210, 0.08)' } }}>
-                                                        <Edit />
+                                                    <IconButton onClick={() => handleEdit(status)} sx={{ '&:hover': { backgroundColor: 'rgba(25, 118, 210, 0.08)' } }}>
+                                                        <Edit fontSize="small" />
                                                     </IconButton>
                                                 </Tooltip>
                                                 <Tooltip title="Delete">
-                                                    <IconButton onClick={() => handleDeleteClick(status._id)} color="error" sx={{ '&:hover': { backgroundColor: 'rgba(211, 47, 47, 0.08)' } }}>
-                                                        <Delete />
+                                                    <IconButton onClick={() => handleDeleteClick(status._id)} sx={{ '&:hover': { backgroundColor: 'rgba(211, 47, 47, 0.08)' } }}>
+                                                        <Delete fontSize="small" />
                                                     </IconButton>
                                                 </Tooltip>
                                             </TableCell>

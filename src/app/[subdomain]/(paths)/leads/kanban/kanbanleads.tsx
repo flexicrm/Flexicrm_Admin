@@ -3314,7 +3314,30 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { Box, Typography, Card, CardContent, IconButton, Chip, Avatar, Divider, Dialog, DialogTitle, DialogContent, DialogActions, TextareaAutosize, Menu, MenuItem, ListItemIcon, ListItemText, Fade, Stack, Button } from '@mui/material';
+import {
+    Box,
+    Typography,
+    Card,
+    CardContent,
+    IconButton,
+    Chip,
+    Avatar,
+    Divider,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    TextareaAutosize,
+    Menu,
+    MenuItem,
+    ListItemIcon,
+    ListItemText,
+    Fade,
+    Stack,
+    Button,
+    AvatarGroup,
+    Tooltip
+} from '@mui/material';
 import { DragIndicator, CalendarToday, MoreVert, CheckCircle, CalendarMonth, Visibility, Delete, Add as AddIcon, Close, Celebration, SentimentVeryDissatisfied, EmojiEvents, Source, People } from '@mui/icons-material';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import confetti from 'canvas-confetti';
@@ -3324,7 +3347,9 @@ import { CustomChip } from '../../../../Component/Chip/Chip';
 import FollowUpForm from '../form/FollowUpForm';
 import ConvertCustomer from '../form/convertcutomer';
 import { MySnackbar } from '../../../../Component/Snackbar/Snackbar';
-
+import ApartmentIcon from '@mui/icons-material/Apartment';
+import EmailIcon from '@mui/icons-material/Email';
+import PhoneIcon from '@mui/icons-material/Phone';
 interface LeadStatus {
     _id: string;
     statusName: string;
@@ -3335,19 +3360,10 @@ interface LeadStatus {
 interface Lead {
     _id: string;
     LeadId: string;
-    assignTo: { firstname: string; lastname: string; email?: string };
+    assignTo: { firstname: string; lastname: string; email?: string; Profile?: string };
     createdAt: string;
     description: string;
-    manualData: {
-        company: string;
-        address?: {
-            street?: string;
-            city?: string;
-            state?: string;
-            zipCode?: string;
-            country?: string;
-        };
-    };
+    manualData: any;
     leadsource: string;
     leadstatus: LeadStatus;
     [key: string]: any;
@@ -3516,51 +3532,6 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
         }
     };
 
-    // const handleDragEnd = async (result: any) => {
-    //     if (!result.destination) return;
-
-    //     const { source, destination, draggableId } = result;
-
-    //     if (source.droppableId === destination.droppableId && source.index === destination.index) {
-    //         return;
-    //     }
-
-    //     const startColumn = leadStatuses[source.droppableId];
-    //     const finishColumn = leadStatuses[destination.droppableId];
-
-    //     if (!startColumn || !finishColumn) return;
-
-    //     const isWon = finishColumn.statusName.toLowerCase().includes('won');
-    //     const isLost = finishColumn.statusName.toLowerCase().includes('lost');
-
-    //     if (startColumn._id === finishColumn._id) {
-    //         const newLeadData = [...leadData];
-    //         const [removed] = newLeadData.splice(source.index, 1);
-    //         newLeadData.splice(destination.index, 0, removed);
-    //         setLeadData(newLeadData);
-    //         return;
-    //     }
-
-    //     const newLeadData = [...leadData];
-    //     const [movedLead] = newLeadData.splice(source.index, 1);
-    //     const updatedLead = {
-    //         ...movedLead,
-    //         leadstatus: finishColumn
-    //     };
-    //     newLeadData.splice(destination.index, 0, updatedLead);
-
-    //     setLeadData(newLeadData);
-    //     setSelectedLead(updatedLead);
-    //     setNoteDialogOpen(true);
-    //     await updateLeadStatus(draggableId, destination.droppableId, movedLead.LeadId);
-
-    //     if (isWon) {
-    //         setShowWonAnimation(true);
-    //     } else if (isLost) {
-    //         setShowLostAnimation(true);
-    //     }
-    // };
-
     const handleDragEnd = async (result) => {
         if (!result.destination) return;
 
@@ -3716,7 +3687,11 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                                                         <Box sx={{ mr: 1 }}>
                                                             <DragIndicator fontSize="small" sx={{ color: '#b6b9be' }} />
                                                         </Box>
-                                                        <Chip label={lead.LeadId} size="small" sx={{ bgcolor: '#f1f3f4', color: '#3c4043', fontWeight: 500 }} />
+                                                        <Box>
+                                                            <Chip label={lead.LeadId} size="small" sx={{ bgcolor: '#f1f3f4', color: '#3c4043', fontWeight: 500 }} />
+
+                                                            <Typography variant="body2">{lead?.manualData?.name}</Typography>
+                                                        </Box>
                                                         <Box ml="auto">
                                                             <IconButton
                                                                 size="small"
@@ -3731,13 +3706,25 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                                                     </Box>
                                                     <Divider sx={{ mb: 1 }} />
                                                     <Box display="flex" alignItems="center" mb={0.5}>
-                                                        <Avatar sx={{ width: 24, height: 24, mr: 1, bgcolor: '#4285F4', fontSize: '0.75rem' }}>
+                                                        {/* {console.log(lead.assignTo.Profile, 'assignToo')} */}
+
+                                                        {/* <Avatar sx={{ width: 24, height: 24, mr: 1, bgcolor: '#4285F4', fontSize: '0.75rem' }}>
                                                             {lead?.assignTo?.firstname.charAt(0) || null}
                                                             {lead?.assignTo?.lastname.charAt(0) || null}
-                                                        </Avatar>
-                                                        <Typography variant="caption">
-                                                            {lead?.assignTo?.firstname || null} {lead?.assignTo?.lastname || 'Not Assign'}
-                                                        </Typography>
+                                                        </Avatar> */}
+                                                    </Box>
+                                                    {/* {console.log(lead, 'lead>>>>>>>>>>>>>>>')} */}
+                                                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                                                        <ApartmentIcon color="action" sx={{ mr: 1, fontSize: 16 }} />
+                                                        <Typography variant="body2">{lead?.manualData?.company}</Typography>
+                                                    </Box>
+                                                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                                                        <EmailIcon color="action" sx={{ mr: 1, fontSize: 16 }} />
+                                                        <Typography variant="body2">{lead?.manualData?.email}</Typography>
+                                                    </Box>
+                                                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                                                        <PhoneIcon color="action" sx={{ mr: 1, fontSize: 16 }} />
+                                                        <Typography variant="body2">{lead?.manualData?.mobileNo}</Typography>
                                                     </Box>
                                                     <Box display="flex" alignItems="center" mb={0.5}>
                                                         <Source fontSize="small" sx={{ color: '#b6b9be', mr: 0.5 }} />
@@ -3748,9 +3735,14 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                                                     <Box display="flex" alignItems="center">
                                                         <CalendarToday fontSize="small" sx={{ color: '#b6b9be', mr: 0.5 }} />
                                                         <Typography variant="caption" sx={{ color: '#5f6368' }}>
-                                                            {new Date(lead?.createdAt).toLocaleDateString()}
+                                                            {new Date(lead?.createdAt).toDateString()}
                                                         </Typography>
                                                     </Box>
+                                                    <AvatarGroup max={4}>
+                                                        <Tooltip title={`${lead?.assignTo?.firstname || null} ${lead?.assignTo?.lastname || 'Not Assign'}`}>
+                                                            <Avatar sx={{ width: 30, height: 30 }} alt={`${lead?.assignTo?.firstname}`} src={lead?.assignTo?.Profile} />
+                                                        </Tooltip>
+                                                    </AvatarGroup>
                                                 </CardContent>
                                             </Card>
                                         )}
@@ -3983,6 +3975,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                     </ListItemIcon>
                     <ListItemText>View Lead</ListItemText>
                 </MenuItem>
+                <Divider />
                 <MenuItem onClick={() => setConvertFormVisible(true)}>
                     <ListItemIcon>
                         <People fontSize="small" />

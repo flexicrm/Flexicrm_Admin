@@ -719,7 +719,7 @@
 // export default LeadsActivity;
 'use client';
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { Box, Card, Typography, Divider, Paper, Avatar, ListItem, Chip, Stack, Button, Grid, Tabs, Tab, IconButton, Badge, CircularProgress } from '@mui/material';
+import { Box, Card, Typography, Divider, Paper, Avatar, ListItem, Chip, Stack, Button, Grid, Tabs, Tab, IconButton, Badge, CircularProgress, Tooltip } from '@mui/material';
 import {
     Person as PersonIcon,
     Phone as PhoneIcon,
@@ -753,6 +753,7 @@ import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 import { MyButton } from '../../../../../Component/Buttons/Buttons';
 import { MySnackbar } from '../../../../../Component/Snackbar/Snackbar';
+import Link from 'next/link';
 
 // Interfaces
 interface User {
@@ -827,8 +828,57 @@ const ContactInfoCard: React.FC<{ currentLead?: Lead }> = ({ currentLead }) => {
     const addressString = address ? `${address.city || ''}, ${address.state || ''}, ${address.country || ''}` : '';
 
     return (
-        <Card variant="outlined" sx={{ p: 3, mb: 3, borderRadius: 2 }}>
-            <Typography variant="h6" gutterBottom sx={{ mb: 2, fontWeight: 400 }}>
+        // <Card sx={{ p: '16px', mb: 2, borderRadius: 2, boxShadow: '0 6px 30px rgba(182, 186, 203, 0.3)', border: '0px' }}>
+        //     <Typography variant="h5" component="h2" fontWeight={600} mb={1}>
+        //         Contact Information
+        //     </Typography>
+
+        //     <Grid container spacing={2}>
+        //         <Grid size={{ xs: 12, sm: 6 }}>
+        //             <Typography variant="subtitle2" color="text.secondary">
+        //                 Full Name
+        //             </Typography>
+        //             <Typography variant="body1">{currentLead?.manualData?.name || 'Not provided'}</Typography>
+        //         </Grid>
+
+        //         <Grid size={{ xs: 12, sm: 6 }}>
+        //             <Typography variant="subtitle2" color="text.secondary">
+        //                 Phone
+        //             </Typography>
+        //             <Typography variant="body1">{currentLead?.manualData?.mobileNo || 'Not provided'}</Typography>
+        //         </Grid>
+
+        //         <Grid size={{ xs: 12, sm: 6 }}>
+        //             <Typography variant="subtitle2" color="text.secondary">
+        //                 Website
+        //             </Typography>
+        //             <Typography variant="body1">{currentLead?.manualData?.website || 'Not provided'}</Typography>
+        //         </Grid>
+
+        //         <Grid size={{ xs: 12, sm: 6 }}>
+        //             <Typography variant="subtitle2" color="text.secondary">
+        //                 Email
+        //             </Typography>
+        //             <Typography variant="body1">{currentLead?.manualData?.email || 'Not provided'}</Typography>
+        //         </Grid>
+
+        //         <Grid size={{ xs: 12, sm: 6 }}>
+        //             <Typography variant="subtitle2" color="text.secondary">
+        //                 Company
+        //             </Typography>
+        //             <Typography variant="body1">{currentLead?.manualData?.company || 'Not provided'}</Typography>
+        //         </Grid>
+
+        //         <Grid size={{ xs: 12, sm: 6 }}>
+        //             <Typography variant="subtitle2" color="text.secondary">
+        //                 Location
+        //             </Typography>
+        //             <Typography variant="body1">{addressString || 'Not provided'}</Typography>
+        //         </Grid>
+        //     </Grid>
+        // </Card>
+        <Card sx={{ p: '16px', mb: 2, borderRadius: 2, boxShadow: '0 6px 30px rgba(182, 186, 203, 0.3)', border: '0px' }}>
+            <Typography variant="h5" component="h2" fontWeight={600} mb={1}>
                 Contact Information
             </Typography>
 
@@ -837,42 +887,66 @@ const ContactInfoCard: React.FC<{ currentLead?: Lead }> = ({ currentLead }) => {
                     <Typography variant="subtitle2" color="text.secondary">
                         Full Name
                     </Typography>
-                    <Typography variant="body1">{currentLead?.manualData?.name || 'Not provided'}</Typography>
+                    <Tooltip title={currentLead?.manualData?.name || ''} arrow>
+                        <Typography variant="body1" noWrap sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                            {currentLead?.manualData?.name || 'Not provided'}
+                        </Typography>
+                    </Tooltip>
                 </Grid>
 
                 <Grid size={{ xs: 12, sm: 6 }}>
                     <Typography variant="subtitle2" color="text.secondary">
                         Phone
                     </Typography>
-                    <Typography variant="body1">{currentLead?.manualData?.mobileNo || 'Not provided'}</Typography>
+                    <Tooltip title={currentLead?.manualData?.mobileNo || ''} arrow>
+                        <Typography variant="body1" noWrap sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                            {currentLead?.manualData?.mobileNo || 'Not provided'}
+                        </Typography>
+                    </Tooltip>
                 </Grid>
 
                 <Grid size={{ xs: 12, sm: 6 }}>
                     <Typography variant="subtitle2" color="text.secondary">
                         Website
                     </Typography>
-                    <Typography variant="body1">{currentLead?.manualData?.website || 'Not provided'}</Typography>
+                    <Tooltip title={currentLead?.manualData?.website || ''} arrow>
+                        <Typography variant="body1" noWrap sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                            {currentLead?.manualData?.website || 'Not provided'}
+                        </Typography>
+                    </Tooltip>
                 </Grid>
 
                 <Grid size={{ xs: 12, sm: 6 }}>
                     <Typography variant="subtitle2" color="text.secondary">
                         Email
                     </Typography>
-                    <Typography variant="body1">{currentLead?.manualData?.email || 'Not provided'}</Typography>
+                    <Tooltip title={currentLead?.manualData?.email || ''} arrow>
+                        <Typography variant="body1" noWrap sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                            {currentLead?.manualData?.email || 'Not provided'}
+                        </Typography>
+                    </Tooltip>
                 </Grid>
 
                 <Grid size={{ xs: 12, sm: 6 }}>
                     <Typography variant="subtitle2" color="text.secondary">
                         Company
                     </Typography>
-                    <Typography variant="body1">{currentLead?.manualData?.company || 'Not provided'}</Typography>
+                    <Tooltip title={currentLead?.manualData?.company || ''} arrow>
+                        <Typography variant="body1" noWrap sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                            {currentLead?.manualData?.company || 'Not provided'}
+                        </Typography>
+                    </Tooltip>
                 </Grid>
 
                 <Grid size={{ xs: 12, sm: 6 }}>
                     <Typography variant="subtitle2" color="text.secondary">
                         Location
                     </Typography>
-                    <Typography variant="body1">{addressString || 'Not provided'}</Typography>
+                    <Tooltip title={addressString || ''} arrow>
+                        <Typography variant="body1" noWrap sx={{ textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                            {addressString || 'Not provided'}
+                        </Typography>
+                    </Tooltip>
                 </Grid>
             </Grid>
         </Card>
@@ -881,21 +955,12 @@ const ContactInfoCard: React.FC<{ currentLead?: Lead }> = ({ currentLead }) => {
 
 export const LeadStatusCard: React.FC<{ currentLead?: Lead }> = ({ currentLead }) => {
     return (
-        <Card variant="outlined" sx={{ p: 3, mb: 3, borderRadius: 2 }}>
-            <Typography variant="h6" gutterBottom sx={{ fontWeight: 400 }}>
-                Lead Status
+        <Card sx={{ p: '16px', mb: 2, borderRadius: 2, boxShadow: '0 6px 30px rgba(182, 186, 203, 0.3)', border: '0px' }}>
+            <Typography variant="h5" component="h2" fontWeight={600} mb={1}>
+                Lead Status <Chip label={currentLead?.leadStatus || 'New'} color="primary" size="small" />
             </Typography>
 
             <Grid container spacing={2}>
-                <Grid size={{ xs: 12, sm: 6 }}>
-                    <Typography variant="subtitle2" color="text.secondary">
-                        Current Status
-                    </Typography>
-                    <Typography variant="body1">
-                        <Chip label={currentLead?.leadStatus || 'New'} color="primary" />
-                    </Typography>
-                </Grid>
-
                 <Grid size={{ xs: 12, sm: 6 }}>
                     <Typography variant="subtitle2" color="text.secondary">
                         Potential Value
@@ -910,7 +975,7 @@ export const LeadStatusCard: React.FC<{ currentLead?: Lead }> = ({ currentLead }
                     <Typography variant="body1">{currentLead?.createdAt ? format(new Date(currentLead.createdAt), 'MMM d, yyyy') : 'N/A'}</Typography>
                 </Grid>
 
-                <Grid size={{ xs: 12, sm: 6 }}>
+                <Grid size={{ xs: 12, sm: 12 }}>
                     <Typography variant="subtitle2" color="text.secondary">
                         Last Activity
                     </Typography>
@@ -927,142 +992,6 @@ export const LeadStatusCard: React.FC<{ currentLead?: Lead }> = ({ currentLead }
         </Card>
     );
 };
-
-// const ActivityContent: React.FC<{ activities: ActivityItem[] }> = ({ activities }) => {
-//     const [activities, setActivities] = useState(initialActivities);
-//   const [loading, setLoading] = useState(false);
-
-//   // Simulate fetching more activities
-//   const fetchMoreActivities = () => {
-//     setLoading(true);
-//     // Simulate API call
-//     setTimeout(() => {
-//       const newActivities = [
-//         { actionType: 'New Activity', timestamp: new Date(), description: 'Description of new activity' },
-//         // Add more mock activities as needed
-//       ];
-//       setActivities(prevActivities => [...prevActivities, ...newActivities]);
-//       setLoading(false);
-//     }, 1000);
-//   };
-
-//   // Add scroll event listener
-//   useEffect(() => {
-//     const handleScroll = () => {
-//       if (
-//         window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight ||
-//         loading
-//       ) {
-//         return;
-//       }
-//       fetchMoreActivities();
-//     };
-
-//     window.addEventListener('scroll', handleScroll);
-//     return () => window.removeEventListener('scroll', handleScroll);
-//   }, [loading]);
-//     return (
-//         // <Box sx={{ p: 0 }}>
-//         //     <Card sx={{ p: 3, mb: 3, borderRadius: 2 }}>
-//         //         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-//         //             <Typography variant="h6" sx={{ fontWeight: 400 }}>
-//         //                 Activity Timeline
-//         //             </Typography>
-//         //             <Typography variant="subtitle2" color="text.secondary">
-//         //                 Recent interactions with this lead
-//         //             </Typography>
-//         //         </Box>
-
-//         //         <Grid container>
-//         //             <Grid size={{ xs: 12, sm: 12 }}>
-//         //                 {activities.length > 0 ? (
-//         //                     <Timeline position="alternate">
-//         //                         {activities.reverse().map((item, i) => (
-//         //                             <TimelineItem key={i}>
-//         //                                 <TimelineSeparator>
-//         //                                     <TimelineDot />
-//         //                                     {i < activities.length - 1 && <TimelineConnector />}
-//         //                                 </TimelineSeparator>
-//         //                                 <TimelineContent>
-//         //                                     <Card sx={{ p: 2, borderRadius: 2 }}>
-//         //                                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-//         //                                             <Typography variant="subtitle2">{item.actionType || 'Activity'}</Typography>
-//         //                                             <Typography variant="caption" color="text.secondary">
-//         //                                                 {item.timestamp ? format(new Date(item.timestamp), 'MMM d, yyyy') : 'N/A'}
-//         //                                             </Typography>
-//         //                                         </Box>
-//         //                                         <Typography variant="body2">{item.description || 'No description'}</Typography>
-//         //                                     </Card>
-//         //                                 </TimelineContent>
-//         //                             </TimelineItem>
-//         //                         ))}
-//         //                     </Timeline>
-//         //                 ) : (
-//         //                     <Box sx={{ textAlign: 'center', py: 4 }}>
-//         //                         <Typography variant="body1" color="text.secondary">
-//         //                             No activities recorded yet
-//         //                         </Typography>
-//         //                     </Box>
-//         //                 )}
-//         //             </Grid>
-//         //         </Grid>
-//         //     </Card>
-//         // </Box>
-//         <Box sx={{ p: 0 }}>
-//             <Card sx={{ p: 3, mb: 3, borderRadius: 2 }}>
-//                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-//                     <Typography variant="h6" sx={{ fontWeight: 400 }}>
-//                         Activity Timeline
-//                     </Typography>
-//                     <Typography variant="subtitle2" color="text.secondary">
-//                         Recent interactions with this lead
-//                     </Typography>
-//                 </Box>
-
-//                 <Grid container>
-//                     <Grid size={{ xs: 12, sm: 12 }}>
-//                         {activities.length > 0 ? (
-//                             <Timeline position="alternate">
-//                                 {activities.reverse().map((item, i) => (
-//                                     <TimelineItem key={i}>
-//                                         <TimelineSeparator>
-//                                             <TimelineDot />
-//                                             {i < activities.length - 1 && <TimelineConnector />}
-//                                         </TimelineSeparator>
-//                                         <TimelineContent>
-//                                             <Card sx={{ p: 2, borderRadius: 2 }}>
-//                                                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-//                                                     <Typography variant="subtitle2">{item.actionType || 'Activity'}</Typography>
-//                                                     <Typography variant="caption" color="text.secondary">
-//                                                         {item.timestamp ? format(new Date(item.timestamp), 'MMM d, yyyy') : 'N/A'}
-//                                                     </Typography>
-//                                                 </Box>
-//                                                 <Typography variant="body2">{item.description || 'No description'}</Typography>
-//                                             </Card>
-//                                         </TimelineContent>
-//                                     </TimelineItem>
-//                                 ))}
-//                             </Timeline>
-//                         ) : (
-//                             <Box sx={{ textAlign: 'center', py: 4 }}>
-//                                 <Typography variant="body1" color="text.secondary">
-//                                     No activities recorded yet
-//                                 </Typography>
-//                             </Box>
-//                         )}
-//                         {loading && (
-//                             <Box sx={{ display: 'flex', justifyContent: 'center', my: 2 }}>
-//                                 <CircularProgress />
-//                             </Box>
-//                         )}
-//                     </Grid>
-//                 </Grid>
-//             </Card>
-//         </Box>
-//     );
-// };
-
-// Main Component
 
 const ActivityContent: React.FC<{ initialActivities: ActivityItem[] }> = ({ initialActivities }) => {
     const [loading, setLoading] = useState(false);
@@ -1122,9 +1051,9 @@ const ActivityContent: React.FC<{ initialActivities: ActivityItem[] }> = ({ init
 
     return (
         <Box sx={{ p: 0 }}>
-            <Card sx={{ p: 3, mb: 3, borderRadius: 2, overflow: 'auto', height: '400px' }}>
+            <Card sx={{ p: 3, mb: 3, borderRadius: 2, overflow: 'auto', height: '400px', boxShadow: '0 6px 30px rgba(182, 186, 203, 0.3)', border: '0px' }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-                    <Typography variant="h6" sx={{ fontWeight: 400 }}>
+                    <Typography variant="h5" component="h2" fontWeight={600} mb={1}>
                         Activity Timeline
                     </Typography>
                     <Typography variant="subtitle2" color="text.secondary">
@@ -1289,9 +1218,11 @@ const LeadsActivity: React.FC<LeadsActivityProps> = ({ id }) => {
     return (
         <Box sx={{ flexGrow: 1 }}>
             <Box>
-                <Button variant="text" startIcon={<ArrowBackIosIcon />} sx={{ textTransform: 'none' }} onClick={() => history.back()}>
-                    Back to Leads
-                </Button>
+                <Link href={`/${subdomain}/leads`}>
+                    <Button variant="text" startIcon={<ArrowBackIosIcon />} sx={{ textTransform: 'none' }}>
+                        Back to Leads
+                    </Button>
+                </Link>
                 <Typography variant="h5" sx={{ fontWeight: 400, mt: 1, fontSize: '15px' }}>
                     {leadData?.manualData?.name || 'Lead Details'}
                 </Typography>
@@ -1375,7 +1306,7 @@ const LeadsActivity: React.FC<LeadsActivityProps> = ({ id }) => {
                     ) : (
                         <Grid container>
                             <Grid size={{ sm: 6 }}>{renderContent()}</Grid>
-                            <Grid size={{ sm: 5}}>
+                            <Grid size={{ sm: 5 }}>
                                 <LeadStatusCard currentLead={leadData} />
                             </Grid>
                         </Grid>

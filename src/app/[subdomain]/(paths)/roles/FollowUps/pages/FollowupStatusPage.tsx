@@ -409,7 +409,7 @@ const LeadfollowPage: React.FC = () => {
                     display: 'flex',
                     justifyContent: 'end',
                     alignItems: 'center',
-                    mb: 4,
+                    mb: 1,
                     flexWrap: 'wrap',
                     gap: 2
                 }}
@@ -475,48 +475,47 @@ const LeadfollowPage: React.FC = () => {
                     <CircularProgress />
                 </Box>
             ) : (
-                <Paper elevation={3} sx={{ borderRadius: 2, overflow: 'hidden' }}>
-                    <TableContainer>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell sx={{ fontWeight: 600 }}>Type Name</TableCell>
-                                    <TableCell sx={{ fontWeight: 600, width: '150px' }}>Actions</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {statuses.length > 0 ? (
-                                    statuses.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((status) => (
-                                        <TableRow key={status._id} hover sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                            <TableCell>{status.typeName}</TableCell>
-                                            <TableCell>
-                                                <Tooltip title="Edit">
-                                                    <IconButton onClick={() => handleEdit(status)} color="primary" sx={{ '&:hover': { backgroundColor: 'rgba(25, 118, 210, 0.08)' } }}>
-                                                        <Edit />
-                                                    </IconButton>
-                                                </Tooltip>
-                                                <Tooltip title="Delete">
-                                                    <IconButton onClick={() => handleDeleteClick(status._id)} color="error" sx={{ '&:hover': { backgroundColor: 'rgba(211, 47, 47, 0.08)' } }}>
-                                                        <Delete />
-                                                    </IconButton>
-                                                </Tooltip>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))
-                                ) : (
-                                    <TableRow>
-                                        <TableCell colSpan={2} sx={{ textAlign: 'center', py: 4 }}>
-                                            <Typography variant="body1" color="textSecondary">
-                                                No follow-up statuses found. Add one to get started.
-                                            </Typography>
+                // <Paper elevation={1} sx={{ borderRadius: 2, overflow: 'hidden' }}>
+                <TableContainer component={Paper} elevation={1}>
+                    <Table size="small">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell sx={{ fontWeight: 600 }}>Type Name</TableCell>
+                                <TableCell sx={{ fontWeight: 600, width: '150px' }}>Actions</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {statuses.length > 0 ? (
+                                statuses.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((status) => (
+                                    <TableRow key={status._id} hover sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                        <TableCell>{status.typeName}</TableCell>
+                                        <TableCell>
+                                            <Tooltip title="Edit">
+                                                <IconButton size="small" onClick={() => handleEdit(status)} sx={{ '&:hover': { backgroundColor: 'rgba(25, 118, 210, 0.08)' } }}>
+                                                    <Edit fontSize="small" />
+                                                </IconButton>
+                                            </Tooltip>
+                                            <Tooltip title="Delete">
+                                                <IconButton size="small" onClick={() => handleDeleteClick(status._id)} sx={{ '&:hover': { backgroundColor: 'rgba(211, 47, 47, 0.08)' } }}>
+                                                    <Delete fontSize="small" />
+                                                </IconButton>
+                                            </Tooltip>
                                         </TableCell>
                                     </TableRow>
-                                )}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={2} sx={{ textAlign: 'center', py: 4 }}>
+                                        <Typography variant="body1" color="textSecondary">
+                                            No follow-up statuses found. Add one to get started.
+                                        </Typography>
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
                     <TablePagination rowsPerPageOptions={[5, 10, 25]} component="div" count={statuses.length} rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} />
-                </Paper>
+                </TableContainer>
             )}
 
             {/* Delete Confirmation Dialog */}
@@ -529,7 +528,7 @@ const LeadfollowPage: React.FC = () => {
                     <MyButton variant="outlined" onClick={() => setDeleteConfirmOpen(false)}>
                         Cancel
                     </MyButton>
-                    <MyButton variant="contained" onClick={handleDeleteConfirm} color="error" startIcon={<Delete />}>
+                    <MyButton variant="contained" onClick={handleDeleteConfirm} startIcon={<Delete />}>
                         Delete
                     </MyButton>
                 </DialogActions>

@@ -289,7 +289,7 @@ export default function Page() {
     };
 
     return (
-        <Box sx={{ minHeight: '50vh', bgcolor: 'background.default', p: 2 }}>
+        <Box sx={{ minHeight: '50vh', p: 2 }}>
             <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
                 {/* <Box mb={4}>
                     <Typography variant="h4" component="h1" gutterBottom>
@@ -301,45 +301,45 @@ export default function Page() {
                 </Box> */}
 
                 {/* <Paper elevation={2}> */}
-                    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
-                        {/* Sidebar Navigation */}
-                        <Box sx={{ width: { xs: '100%', md: 240 }, borderRight: { md: 1 }, borderBottom: { xs: 1, md: 0 }, borderColor: 'divider' }}>
-                            <List>
-                                {tabs.map((tab) => (
-                                    <ListItem key={tab.label} disablePadding>
-                                        <ListItemButton
-                                            selected={selectedTab === tab.label}
-                                            onClick={() => setSelectedTab(tab.label)}
-                                            sx={{
-                                                '&.Mui-selected': {
-                                                    bgcolor: 'action.selected',
-                                                    borderLeft: 3,
-                                                    borderColor: 'primary.main'
-                                                },
-                                                '&.Mui-selected:hover': {
-                                                    bgcolor: 'action.selected'
-                                                }
-                                            }}
-                                        >
-                                            <ListItemIcon sx={{ minWidth: 40 }}>{tab.icon}</ListItemIcon>
-                                            <ListItemText primary={tab.label} />
-                                        </ListItemButton>
-                                    </ListItem>
-                                ))}
-                            </List>
-                        </Box>
+                <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
+                    {/* Sidebar Navigation */}
+                    <Box sx={{ width: { xs: '100%', md: 240 }, borderRight: { md: 1 }, borderBottom: { xs: 1, md: 0 }, borderColor: 'divider' }}>
+                        <List>
+                            {tabs.map((tab) => (
+                                <ListItem key={tab.label} disablePadding>
+                                    <ListItemButton
+                                        selected={selectedTab === tab.label}
+                                        onClick={() => setSelectedTab(tab.label)}
+                                        sx={{
+                                            '&.Mui-selected': {
+                                                bgcolor: 'action.selected',
+                                                borderLeft: 3,
+                                                borderColor: 'primary.main'
+                                            },
+                                            '&.Mui-selected:hover': {
+                                                bgcolor: 'action.selected'
+                                            }
+                                        }}
+                                    >
+                                        <ListItemIcon sx={{ minWidth: 40 }}>{tab.icon}</ListItemIcon>
+                                        <ListItemText primary={tab.label} />
+                                    </ListItemButton>
+                                </ListItem>
+                            ))}
+                        </List>
+                    </Box>
 
-                        {/* Main Content Area */}
-                        <Box sx={{ flex: 1 }}>
-                            <Box p={3}>
-                                <Typography variant="h5" component="h2" gutterBottom>
-                                    {selectedTab}
-                                </Typography>
-                                <Divider sx={{ mb: 3 }} />
-                                {renderContent()}
-                            </Box>
+                    {/* Main Content Area */}
+                    <Box sx={{ flex: 1 }}>
+                        <Box p={3}>
+                            <Typography variant="h5" component="h2" gutterBottom>
+                                {selectedTab}
+                            </Typography>
+                            <Divider />
+                            {renderContent()}
                         </Box>
                     </Box>
+                </Box>
                 {/* </Paper> */}
             </Box>
         </Box>
