@@ -549,7 +549,7 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
 
                                 <Box>
                                     <Link href={`/${subdomain}/leads/${row?.LeadId}`} style={{ textDecoration: 'none' }}>
-                                        <Typography variant="subtitle1" fontWeight="bold" color="text.primary">
+                                        <Typography variant="subtitle1" fontWeight="bold" color="text.primary" textTransform="capitalize">
                                             {row?.Name}
                                         </Typography>
                                     </Link>
@@ -562,7 +562,9 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                             <Box sx={{ mb: 1 }}>
                                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                                     <ApartmentIcon color="action" sx={{ mr: 1, fontSize: 16 }} />
-                                    <Typography variant="body2">{row?.Company}</Typography>
+                                    <Typography variant="body2" textTransform="capitalize">
+                                        {row?.Company}
+                                    </Typography>
                                 </Box>
                                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                                     <EmailIcon color="action" sx={{ mr: 1, fontSize: 16 }} />
@@ -574,7 +576,7 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                                 </Box>
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                                     <CalendarIcon color="action" sx={{ mr: 1, fontSize: 16 }} />
-                                    <Typography variant="body2">{row?.updatedAt ? new Date(row.updatedAt).toLocaleDateString() : 'No contact'}</Typography>
+                                    <Typography variant="body2">{row?.updatedAt ? new Date(row.updatedAt).toDateString() : 'No contact'}</Typography>
                                 </Box>
                             </Box>
 

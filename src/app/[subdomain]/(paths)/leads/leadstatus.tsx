@@ -304,7 +304,7 @@ const LeadStatus: React.FC<LeadStatusProps> = ({ onSelect, leadStatus }) => {
 
     return (
         <>
-            <Box display="flex" alignItems="center" mb={2}>
+            <Box display="flex" alignItems="center">
                 {!isAddingNewSource && (
                     <>
                         <FormControl sx={{ minWidth: 200 }} fullWidth size="small">

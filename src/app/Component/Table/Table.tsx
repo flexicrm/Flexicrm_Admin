@@ -1074,9 +1074,9 @@ export const MyTable = <T extends { id: number }>({ fetchLeads, data, leadstatus
                     }}
                 >
                     <Typography sx={{ flexGrow: 1 }}>{selectedCount} selected</Typography>
-                    <MyButton startIcon={<DeleteIcon />} onClick={handleBulkDelete} color="error" size="small">
+                    {/* <MyButton startIcon={<DeleteIcon />} onClick={handleBulkDelete} color="error" size="small">
                         Delete
-                    </MyButton>
+                    </MyButton> */}
                     <MyButton
                         startIcon={<CancelIcon />}
                         onClick={() => {
@@ -1332,11 +1332,11 @@ export const MyTable = <T extends { id: number }>({ fetchLeads, data, leadstatus
                                                     </IconButton>
                                                 </Box>
                                                 <Box>
-                                                    <Tooltip title="Delete">
+                                                    {/* <Tooltip title="Delete">
                                                         <IconButton size="small" onClick={() => (onDelete(row.LeadId), setDeleteDialogOpen(true))}>
                                                             <DeleteIcon fontSize="small" />
                                                         </IconButton>
-                                                    </Tooltip>
+                                                    </Tooltip> */}
                                                 </Box>
                                             </Box>
                                         </TableCell>

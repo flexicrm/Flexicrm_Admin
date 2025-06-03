@@ -3716,7 +3716,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                                                     {/* {console.log(lead, 'lead>>>>>>>>>>>>>>>')} */}
                                                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                                                         <ApartmentIcon color="action" sx={{ mr: 1, fontSize: 16 }} />
-                                                        <Typography variant="body2">{lead?.manualData?.company}</Typography>
+                                                        <Typography variant="body2">{lead?.manualData?.company||"-"}</Typography>
                                                     </Box>
                                                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                                                         <EmailIcon color="action" sx={{ mr: 1, fontSize: 16 }} />

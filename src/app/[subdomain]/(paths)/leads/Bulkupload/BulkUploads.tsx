@@ -284,7 +284,7 @@ const ResearchPage = (fetchLeads: any) => {
         fetchLeads();
         // Simulate API call
         await new Promise((resolve) => setTimeout(resolve, 2000));
-
+        setUploadDialogOpen(false);
         // In a real app, you would do something like:
         // try {
         //   const response = await fetch('/api/upload', {

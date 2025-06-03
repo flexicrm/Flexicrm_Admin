@@ -19,6 +19,6 @@
             }
         ]
     },
-    "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx", "src/app/[subdomain]/(paths)/customers/cutombersedit/[slug]/page.tsx"],
+    "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx", "src/app/[subdomain]/(paths)/customers/cutombersedit/[slug]/page.tsx", "next.config.js", "middleware.ts"],
     "exclude": ["node_modules"]
 }

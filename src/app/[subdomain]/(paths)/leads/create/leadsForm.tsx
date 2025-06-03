@@ -2354,7 +2354,7 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                 return (
                     <Grid container spacing={2}>
                         <Grid size={{ xs: 12, sm: 6 }}>
-                            <TextField fullWidth size="small" label="Email Subject *" name="integrationDetails.subject" value={formik.values.integrationDetails?.subject || ''} onChange={formik.handleChange} onBlur={formik.handleBlur} />
+                            <TextField fullWidth size="small" label="Email Subject" name="integrationDetails.subject" value={formik.values.integrationDetails?.subject || ''} onChange={formik.handleChange} onBlur={formik.handleBlur} />
                         </Grid>
                         <Grid size={{ xs: 12, sm: 6 }}>
                             <TextField fullWidth size="small" label="Priority" name="integrationDetails.priority" value={formik.values.integrationDetails?.priority || ''} onChange={formik.handleChange} select>
@@ -2369,7 +2369,7 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                 return (
                     <Grid container spacing={2}>
                         <Grid size={{ xs: 12, sm: 6 }}>
-                            <TextField fullWidth size="small" multiline rows={3} label="Call Notes *" name="integrationDetails.notes" value={formik.values.integrationDetails?.notes || ''} onChange={formik.handleChange} onBlur={formik.handleBlur} />
+                            <TextField fullWidth size="small" multiline rows={3} label="Call Notes" name="integrationDetails.notes" value={formik.values.integrationDetails?.notes || ''} onChange={formik.handleChange} onBlur={formik.handleBlur} />
                         </Grid>
                     </Grid>
                 );
@@ -2380,7 +2380,7 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                             <TextField
                                 fullWidth
                                 size="small"
-                                label="Meeting Date *"
+                                label="Meeting Date "
                                 type="datetime-local"
                                 name="integrationDetails.date"
                                 value={formik.values.integrationDetails?.date || ''}
@@ -2392,7 +2392,7 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                         <Grid size={{ xs: 12, sm: 4 }}>
                             <FormControl component="fieldset" sx={{ mt: 1 }}>
                                 <Typography variant="subtitle2" sx={{ mb: 1 }}>
-                                    Meeting Type *
+                                    Meeting Type
                                 </Typography>
                                 <RadioGroup row name="integrationDetails.meetingType" value={meetingType} onChange={handleMeetingTypeChange}>
                                     {MEETING_TYPES.map((type) => (
@@ -2416,7 +2416,7 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                                 <TextField
                                     fullWidth
                                     size="small"
-                                    label={meetingType === 'office' ? 'Office Location *' : 'Location Details *'}
+                                    label={meetingType === 'office' ? 'Office Location ' : 'Location Details '}
                                     name="integrationDetails.location"
                                     value={formik.values.integrationDetails?.location || ''}
                                     onChange={formik.handleChange}
@@ -2430,7 +2430,7 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                 return (
                     <Grid container spacing={2}>
                         <Grid size={{ xs: 12, sm: 12 }}>
-                            <TextField fullWidth size="small" multiline rows={3} label="Details *" name="integrationDetails.details" value={formik.values.integrationDetails?.details || ''} onChange={formik.handleChange} onBlur={formik.handleBlur} />
+                            <TextField fullWidth size="small" multiline rows={3} label="Details " name="integrationDetails.details" value={formik.values.integrationDetails?.details || ''} onChange={formik.handleChange} onBlur={formik.handleBlur} />
                         </Grid>
                     </Grid>
                 );
@@ -2440,7 +2440,7 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
     };
 
     return (
-        <Paper elevation={0} sx={{ p: 0, boxShadow: 'none' }}>
+        <Box>
             <MyButton variant="text" startIcon={<ArrowBackIosIcon />} onClick={() => history.back()}>
                 Back to Leads
             </MyButton>
@@ -2629,7 +2629,7 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                         <Grid container spacing={2}>
                             <Grid size={{ xs: 12, sm: 12 }}>
                                 <Typography variant="subtitle2" sx={{ mb: 1 }}>
-                                    Interaction Type *
+                                    Interaction Type
                                 </Typography>
                             </Grid>
                             <Grid size={{ xs: 12, sm: 12 }}>
@@ -2660,7 +2660,7 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                                     select
                                     fullWidth
                                     size="small"
-                                    label="Assign To *"
+                                    label="Assign To "
                                     name="assignTo"
                                     value={formik.values.assignTo}
                                     onChange={formik.handleChange}
@@ -2739,7 +2739,7 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                 </Alert>
             </Snackbar> */}
             <MySnackbar open={snackbarOpen} message={snackbarMessage} severity={snackbarSeverity} position={{ vertical: 'top', horizontal: 'right' }} onClose={handleSnackbarClose} />
-        </Paper>
+        </Box>
     );
 };
 

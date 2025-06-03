@@ -692,7 +692,7 @@ export default function DynamicLogin() {
 
                                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
                                         <FormControlLabel control={<Checkbox checked={rememberMe} onChange={handleRememberMeChange} value="remember" color="primary" size="small" />} label="Remember me" />
-                                        <Link href={`/${subdomain}/forgot-password`} passHref>
+                                        <Link href={`/${subdomain}/forgot-password`} passHref style={{ textDecoration: 'none' }}>
                                             <Typography variant="body2" color="primary">
                                                 Forgot Password?
                                             </Typography>

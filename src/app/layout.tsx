@@ -119,6 +119,8 @@ import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import { Provider } from 'react-redux';
 import store from './store/store';
 import { ThemeProvider } from './Theme/ThemeContext';
+import { usePathname, useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 // import { ThemeProvider } from '@mui/material';
 // import theme from './Theme/ThemeComponent';
 // import { metadata } from "./serverLayout"; // Import metadata from server-side layout
@@ -126,6 +128,33 @@ import { ThemeProvider } from './Theme/ThemeContext';
 const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout({ children }: any) {
+    const location = usePathname();
+    const subdomain = Cookies.get('subdomain');
+    const crmaccess = Cookies.get('crmaccess');
+    const router = useRouter();
+
+    // Split the path and filter out empty segments
+    const pathSegments = location.split('/').filter(Boolean);
+    const [location1, location2] = pathSegments;
+
+    // Paths that don't require authentication
+    const publicPaths = ['login', 'forgot-password', 'reset-password'];
+
+    if (!crmaccess) {
+        // If not authenticated and not already on a public path, redirect to login
+        if (!publicPaths.includes(pathSegments[1] || pathSegments[0])) {
+            router.push(`/${subdomain || 'flex'}/login`);
+        }
+    } else {
+        // If authenticated but on login page, redirect to dashboard
+        if (pathSegments[1] === 'login' || pathSegments[0] === 'login') {
+            router.push(`/${subdomain || 'flex'}/dashboard`);
+        }
+    }
+    // else
+    // {
+    //     window.location.href = `/felxi/login`
+    // }
     return (
         <html lang="en">
             <head>
