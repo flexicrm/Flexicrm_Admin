@@ -477,11 +477,11 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
         <Box
             ref={containerRef}
             sx={{
-                display: 'flex',
-                flexWrap: 'wrap',
+                // display: 'flex',
+                // flexWrap: 'wrap',
                 gap: 2,
                 overflowY: 'auto',
-                maxHeight: '60vh',
+                // maxHeight: '60vh',
 
                 padding: '8px',
                 '&::-webkit-scrollbar': {
@@ -499,23 +499,29 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                 }
             }}
         >
-            <Grid container spacing={2} minWidth="lg">
+            <Grid container spacing={2}>
                 {sortedData.slice(0, visibleCards).map((row, index) => (
                     <Grid
-                        size={{ xs: 12, sm: 6, md: 4, lg: sortedData.length == 1 ? 12 : 3 }}
+                        size={{
+                            xs: 12,
+                            sm: 6,
+                            md: 4,
+                            lg: 3
+                        }}
                         key={index}
                         sx={{
-                            // width: '100%',
                             animation: `${scrollIn} 0.5s ease-out ${index * 0.1}s both`,
-                            opacity: 0 // Start invisible, animation will make it visible
+                            opacity: 0
                         }}
                     >
                         <Card
                             sx={{
+                                flexGrow: 1,
                                 position: 'relative',
                                 boxShadow: 'rgba(182, 186, 203, 0.3) 0px 6px 30px',
                                 paddingBottom: '0px',
                                 height: '100%',
+                                // width: '400px',
                                 transition: 'transform 0.3s ease, box-shadow 0.3s ease',
                                 '&:hover': {
                                     transform: 'translateY(-5px)',

@@ -332,7 +332,7 @@ export default function Navbar({ isOpen, toggleSidebar }: any) {
 
     const handleLogout = () => {
         handleProfileMenuClose();
-        // Clear cookies or perform logout logic
+    
 
         Cookies.remove('crmaccess');
         router.push(`/${subdomain}/login`);
