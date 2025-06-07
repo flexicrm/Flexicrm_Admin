@@ -266,7 +266,7 @@ const Leadstatus = () => {
     const [leadSources, setLeadSources] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const accessToken = Cookies.get('accessToken');
+    const accessToken = Cookies.get('crmaccess');
     const subdomain = Cookies.get('subdomain');
     const [colors, setColors] = useState('#ffffff');
 

@@ -269,7 +269,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ data, onClose }) => {
     const [profileImage, setProfileImage] = useState<File | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const subdomain = Cookies.get('subdomain');
-    const accessToken = Cookies.get('accessToken');
+    const accessToken = Cookies.get('crmaccess');
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;

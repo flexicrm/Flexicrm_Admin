@@ -46,7 +46,7 @@ function TabPanel(props: { children?: React.ReactNode; value: number; index: num
 export default function Profiles() {
     const subdomain = Cookies.get('subdomain');
     const CustomerIddata = useContext(userContext);
-    const accessToken = Cookies.get('accessToken');
+    const accessToken = Cookies.get('crmaccess');
     const [tabIndex, setTabIndex] = useState(0);
     const router = useRouter();
     const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' }>({

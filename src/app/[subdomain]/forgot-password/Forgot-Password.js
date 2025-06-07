@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
 // import axios from 'axios';
 import { useParams } from 'next/navigation';
@@ -8,7 +8,8 @@ import { Box, Button, Container, CssBaseline, Grid, IconButton, Paper, TextField
 import { AiOutlineThunderbolt } from 'react-icons/ai';
 import { Circle1, Circle2, Dot, LeftPanel, LoginContainer, RightPanel } from '../../ReuseableStyle/ReusableStyleCom';
 import { ResetPassword } from '../../../../api/auth';
-
+import userContext from '../../UseContext/UseContext';
+import Cookies from 'js-cookie';
 export default function ForgotPasswordPage() {
     const { subdomain } = useParams();
     const [email, setEmail] = useState('');
@@ -18,6 +19,10 @@ export default function ForgotPasswordPage() {
     const [activeDot, setActiveDot] = useState(0);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [emailError, setEmailError] = useState('');
+    const contextvalue = useContext(userContext);
+    const { flexilogo } = contextvalue;
+    const subdomain2 = Cookies.get('subdomain');
+    console.log(flexilogo, 'flexilogo');
 
     const item = [{ img: '/Group.png' }, { img: '/Group.png' }, { img: '/Group.png' }];
 
@@ -70,14 +75,14 @@ export default function ForgotPasswordPage() {
             <LoginContainer maxWidth={false} disableGutters>
                 <Grid container component="main" sx={{ height: '100vh' }}>
                     {/* Left Panel - Same as login page */}
-                    <Grid item xs={false} sm={6} md={6} lg={6} width={'50%'} sx={{ display: { xs: 'none', sm: 'block' } }}>
+                    <Grid size={{ xs: false, sm: 6, md: 6, lg: 6 }} sx={{ display: { xs: 'none', sm: 'block' } }}>
                         <LeftPanel elevation={3}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', alignSelf: 'flex-start', p: 1 }}>
+                            {/* <Box sx={{ display: 'flex', alignItems: 'center', alignSelf: 'flex-start', p: 1 }}>
                                 <IconButton sx={{ color: 'secondary.main' }}>
                                     <AiOutlineThunderbolt />
                                 </IconButton>
                                 <Typography variant="body1">{subdomain}</Typography>
-                            </Box>
+                            </Box> */}
 
                             <Box sx={{ textAlign: 'center', mt: 4 }}>
                                 <Circle1>
@@ -103,9 +108,18 @@ export default function ForgotPasswordPage() {
                     </Grid>
 
                     {/* Right Panel - Modified for forgot password */}
-                    <Grid item xs={12} sm={6} md={6} lg={6} width={'50%'} sx={{ display: { xs: 'none', sm: 'block' } }}>
+                    <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }} width={'50%'} sx={{ display: { xs: 'none', sm: 'block' } }}>
                         <RightPanel>
                             <Box sx={{ width: '100%', maxWidth: 400, mx: 'auto', textAlign: 'center' }}>
+                                {flexilogo?.logo ? (
+                                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                                        <Box component="img" src={flexilogo.logo} alt="FlexiCRM Logo" sx={{ width: '100px', height: 'auto' }} />
+                                    </Box>
+                                ) : (
+                                    <Typography variant="h6" gutterBottom>
+                                        {subdomain2}
+                                    </Typography>
+                                )}
                                 <Typography variant="h6" gutterBottom>
                                     Forgot Your Password
                                 </Typography>

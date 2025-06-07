@@ -37,7 +37,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import Cookies from "js-cookie";
 const initialState = {
-  accessToken: Cookies.get("accessToken") || null,
+  accessToken: Cookies.get("crmaccess") || null,
   isFirstlogin: Cookies.get("isFirstlogin") === "true" || false,
   refreshToken: Cookies.get("refreshToken") || null,
 };

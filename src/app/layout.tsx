@@ -119,8 +119,15 @@ import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import { Provider } from 'react-redux';
 import store from './store/store';
 import { ThemeProvider } from './Theme/ThemeContext';
-import { usePathname, useRouter } from 'next/navigation';
+import { notFound, usePathname, useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
+import axios from 'axios';
+import { API_BASE_URL } from './utils';
+import { useEffect } from 'react';
+import UserContextProvider from './UseContext/Appprovider';
+
+// import userContext from './UseContext/UseContext';
+// import NotFound from './not-found';
 // import { ThemeProvider } from '@mui/material';
 // import theme from './Theme/ThemeComponent';
 // import { metadata } from "./serverLayout"; // Import metadata from server-side layout
@@ -137,24 +144,44 @@ export default function RootLayout({ children }: any) {
     const pathSegments = location.split('/').filter(Boolean);
     const [location1, location2] = pathSegments;
 
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/user/check-subdomain/${location1}`);
+
+            if (response?.data?.success && !crmaccess) {
+                Cookies.set('subdomain', response.data.data.urlPath);
+                router.push(`/${subdomain}/login`);
+            }
+        } catch (error) {
+            if (error.status == 404) {
+                // alert('demo');
+                // notFound();
+                router.push(`/`);
+                // NotFound();
+                // setSubdmoainchecker(error || '');
+            }
+
+            console.log(error, 'error');
+        }
+    };
+    useEffect(() => {
+        fetchData();
+    }, []);
     // Paths that don't require authentication
     const publicPaths = ['login', 'forgot-password', 'reset-password'];
 
-    if (!crmaccess) {
-        // If not authenticated and not already on a public path, redirect to login
-        if (!publicPaths.includes(pathSegments[1] || pathSegments[0])) {
-            router.push(`/${subdomain || 'flex'}/login`);
-        }
-    } else {
-        // If authenticated but on login page, redirect to dashboard
-        if (pathSegments[1] === 'login' || pathSegments[0] === 'login') {
-            router.push(`/${subdomain || 'flex'}/dashboard`);
-        }
-    }
-    // else
-    // {
-    //     window.location.href = `/felxi/login`
+    // if (!crmaccess) {
+    //     // If not authenticated and not already on a public path, redirect to login
+    //     if (!publicPaths.includes(pathSegments[1] || pathSegments[0])) {
+    //         router.push(`/${subdomain || subdomain}/login`);
+    //     }
+    // } else {
+    //     // If authenticated but on login page, redirect to dashboard
+    //     if (pathSegments[1] === 'login' || pathSegments[0] === 'login') {
+    //         router.push(`/${subdomain || subdomain}/login`);
+    //     }
     // }
+
     return (
         <html lang="en">
             <head>
@@ -183,43 +210,15 @@ export default function RootLayout({ children }: any) {
                 <meta name="msapplication-TileImage" content="/logo/ms-icon-144x144.png" />
                 <meta name="theme-color" content="#ffffff"></meta>
             </head>
-            <body className={inter.className}>
+            <body>
                 <div>
-                    <ThemeProvider>
-                        <Provider store={store}>{children}</Provider>
-                    </ThemeProvider>
+                    {/* <UserContextProvider> */}
+                        <ThemeProvider>
+                            <Provider store={store}>{children}</Provider>
+                        </ThemeProvider>
+                    {/* </UserContextProvider> */}
                 </div>
             </body>
         </html>
     );
 }
-// src/app/layout.tsx
-
-// import { Inter } from 'next/font/google';
-// import './globals.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'primeicons/primeicons.css';
-// import 'primereact/resources/themes/lara-light-cyan/theme.css';
-// import { Provider } from 'react-redux';
-// import store from './store/store';
-// import { ThemeProvider } from './Theme/ThemeContext';
-
-// const inter = Inter({ subsets: ['latin'] });
-
-// export default function RootLayout({ children }: any) {
-//     return (
-//         <html lang="en">
-//             <head>
-//                 <meta name="format-detection" content="telephone=no, date=no, email=no, address=no" />
-//                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
-//             </head>
-//             <body className={inter.className}>
-//                 <div>
-//                     <ThemeProvider>
-//                         <Provider store={store}>{children}</Provider>
-//                     </ThemeProvider>
-//                 </div>
-//             </body>
-//         </html>
-//     );
-// }

@@ -1222,8 +1222,10 @@ const SummaryCard: React.FC<SummaryCardProps> = ({ title, value, icon, color }) 
                     boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
                     transition: 'transform 0.3s ease, box-shadow 0.3s ease',
                     '&:hover': {
-                        boxShadow: '0 8px 30px rgba(0,0,0,0.12)'
-                    }
+                        // boxShadow: `0 4px 5px ${color}`,
+                        background: `${color}24`
+                    },
+                    borderBottom: `5px solid ${color}`
                 }}
             >
                 <Box sx={{ padding: '16px' }}>
@@ -1238,7 +1240,7 @@ const SummaryCard: React.FC<SummaryCardProps> = ({ title, value, icon, color }) 
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    boxShadow: `0 4px 10px ${color}`,
+                                    // boxShadow: `0 4px 10px ${color}`,
                                     border: `1px solid ${color}`
                                 }}
                             >
@@ -1285,7 +1287,7 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
     const exportMenuOpen = Boolean(exportAnchorEl);
     const filterMenuOpen = Boolean(filterAnchorEl);
 
-    const accessToken = Cookies.get('accessToken') || '';
+    const accessToken = Cookies.get('crmaccess') || '';
     const subdomain = Cookies.get('subdomain') || '';
     const router = useRouter();
     const { data } = useContext(userContext);
@@ -1567,16 +1569,16 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
             {/* Summary Cards */}
             <Grid container spacing={2} sx={{ mb: 3 }}>
                 <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                    <SummaryCard title="Total Customers" value={totalCustomers} icon={<PeopleIcon />} color="#8496b3" />
+                    <SummaryCard title="Total Customers" value={totalCustomers} icon={<PeopleIcon />} color="#0367CA" />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                    <SummaryCard title="Active Customers" value={activeCustomers} icon={<ActiveIcon />} color="#58985eab" />
+                    <SummaryCard title="Active Customers" value={activeCustomers} icon={<ActiveIcon />} color="#00A65A" />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                    <SummaryCard title="Inactive Customers" value={inactiveCustomers} icon={<InactiveIcon />} color="#db5858b0" />
+                    <SummaryCard title="Inactive Customers" value={inactiveCustomers} icon={<InactiveIcon />} color="#DD4B39" />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                    <SummaryCard title="New This Month" value={newThisMonth} icon={<CalendarIcon />} color="#f08934bf" />
+                    <SummaryCard title="New This Month" value={newThisMonth} icon={<CalendarIcon />} color="#605CA8" />
                 </Grid>
             </Grid>
 
@@ -1698,134 +1700,134 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
             </motion.div>
 
             {/* Table */}
-            {userPermissions?.Customer?.canRead && (
-                <motion.div variants={fadeIn('up', 'spring', 0.5, 0.75)}>
-                    <Card
-                        sx={{
-                            boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
-                            borderColor: 'divider',
-                            overflow: 'hidden'
-                        }}
-                    >
-                        <TableContainer>
-                            <Table>
-                                <TableHead sx={{ bgcolor: 'background.paper', overflow: 'hidden' }}>
+            {/* {userPermissions?.Customer?.canRead && ( */}
+            <motion.div variants={fadeIn('up', 'spring', 0.5, 0.75)}>
+                <Card
+                    sx={{
+                        // boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
+                        borderColor: 'divider',
+                        overflow: 'hidden'
+                    }}
+                >
+                    <TableContainer>
+                        <Table>
+                            <TableHead sx={{ bgcolor: 'background.paper', overflow: 'hidden' }}>
+                                <TableRow>
+                                    <TableCell padding="checkbox" sx={{ borderBottom: '1px solid', borderColor: 'divider' }}>
+                                        <Checkbox
+                                            indeterminate={selectedContacts?.length > 0 && selectedContacts?.length < paginatedContacts?.length}
+                                            checked={paginatedContacts?.length > 0 && selectedContacts?.length === paginatedContacts?.length}
+                                            onChange={handleSelectAllClick}
+                                            sx={{ color: 'text.secondary' }}
+                                            size="small"
+                                        />
+                                    </TableCell>
+                                    <TableCell sx={{ borderBottom: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>Profile</TableCell>
+                                    <TableCell sx={{ borderBottom: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>Company</TableCell>
+                                    <TableCell sx={{ borderBottom: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>Customer ID</TableCell>
+                                    <TableCell sx={{ borderBottom: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>Contact</TableCell>
+                                    <TableCell sx={{ borderBottom: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>GST No</TableCell>
+                                    <TableCell sx={{ borderBottom: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>Created</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {paginatedContacts?.length === 0 ? (
                                     <TableRow>
-                                        <TableCell padding="checkbox" sx={{ borderBottom: '1px solid', borderColor: 'divider' }}>
-                                            <Checkbox
-                                                indeterminate={selectedContacts?.length > 0 && selectedContacts?.length < paginatedContacts?.length}
-                                                checked={paginatedContacts?.length > 0 && selectedContacts?.length === paginatedContacts?.length}
-                                                onChange={handleSelectAllClick}
-                                                sx={{ color: 'text.secondary' }}
-                                                size="small"
-                                            />
-                                        </TableCell>
-                                        <TableCell sx={{ borderBottom: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>Profile</TableCell>
-                                        <TableCell sx={{ borderBottom: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>Company</TableCell>
-                                        <TableCell sx={{ borderBottom: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>Customer ID</TableCell>
-                                        <TableCell sx={{ borderBottom: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>Contact</TableCell>
-                                        <TableCell sx={{ borderBottom: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>GST No</TableCell>
-                                        <TableCell sx={{ borderBottom: '1px solid', borderColor: 'divider', fontWeight: 'bold' }}>Created</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {paginatedContacts?.length === 0 ? (
-                                        <TableRow>
-                                            <TableCell colSpan={7} align="center" sx={{ py: 6 }}>
-                                                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
-                                                    <motion.div animate={{ y: [-5, 5, -5] }} transition={{ duration: 2, repeat: Infinity }}>
-                                                        <SearchIcon sx={{ fontSize: 48, color: 'text.disabled', opacity: 0.5 }} />
+                                        <TableCell colSpan={7} align="center" sx={{ py: 6 }}>
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                                                <motion.div animate={{ y: [-5, 5, -5] }} transition={{ duration: 2, repeat: Infinity }}>
+                                                    <SearchIcon sx={{ fontSize: 48, color: 'text.disabled', opacity: 0.5 }} />
+                                                </motion.div>
+                                                <Typography variant="h6" color="text.secondary">
+                                                    No customers found
+                                                </Typography>
+                                                {searchTerm && (
+                                                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                                        <MyButton variant="text" color="primary" onClick={() => setSearchTerm('')}>
+                                                            Clear search
+                                                        </MyButton>
                                                     </motion.div>
-                                                    <Typography variant="h6" color="text.secondary">
-                                                        No customers found
-                                                    </Typography>
-                                                    {searchTerm && (
-                                                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                                            <MyButton variant="text" color="primary" onClick={() => setSearchTerm('')}>
-                                                                Clear search
-                                                            </MyButton>
+                                                )}
+                                            </Box>
+                                        </TableCell>
+                                    </TableRow>
+                                ) : (
+                                    <AnimatePresence>
+                                        {paginatedContacts?.map((contact, index) => {
+                                            const isItemSelected = isSelected(contact._id);
+                                            return (
+                                                <motion.tr key={contact._id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.05 }} whileHover={{ backgroundColor: 'rgba(0, 0, 0, 0.02)' }}>
+                                                    <TableCell padding="checkbox">
+                                                        <Checkbox size="small" checked={isItemSelected} onChange={(event) => handleCheckboxClick(event, contact)} sx={{ color: 'text.secondary' }} />
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <motion.div whileHover={{ scale: 1.1 }}>
+                                                            <Avatar
+                                                                src={typeof contact.customerProfile === 'string' ? contact.customerProfile : ''}
+                                                                alt={contact.Companyname}
+                                                                sx={{
+                                                                    width: 40,
+                                                                    height: 40,
+                                                                    bgcolor: 'primary.light',
+                                                                    color: 'primary.main',
+                                                                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                                                                }}
+                                                            >
+                                                                {contact.Companyname?.charAt(0) || 'C'}
+                                                            </Avatar>
                                                         </motion.div>
-                                                    )}
-                                                </Box>
-                                            </TableCell>
-                                        </TableRow>
-                                    ) : (
-                                        <AnimatePresence>
-                                            {paginatedContacts?.map((contact, index) => {
-                                                const isItemSelected = isSelected(contact._id);
-                                                return (
-                                                    <motion.tr key={contact._id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.05 }} whileHover={{ backgroundColor: 'rgba(0, 0, 0, 0.02)' }}>
-                                                        <TableCell padding="checkbox">
-                                                            <Checkbox size="small" checked={isItemSelected} onChange={(event) => handleCheckboxClick(event, contact)} sx={{ color: 'text.secondary' }} />
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <motion.div whileHover={{ scale: 1.1 }}>
-                                                                <Avatar
-                                                                    src={typeof contact.customerProfile === 'string' ? contact.customerProfile : ''}
-                                                                    alt={contact.Companyname}
-                                                                    sx={{
-                                                                        width: 40,
-                                                                        height: 40,
-                                                                        bgcolor: 'primary.light',
-                                                                        color: 'primary.main',
-                                                                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-                                                                    }}
-                                                                >
-                                                                    {contact.Companyname?.charAt(0) || 'C'}
-                                                                </Avatar>
-                                                            </motion.div>
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <Typography fontWeight="medium">{contact.Companyname || 'N/A'}</Typography>
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <motion.div whileHover={{ scale: 1.05 }}>
-                                                                <Chip
-                                                                    label={contact.customerId || 'N/A'}
-                                                                    size="small"
-                                                                    variant="outlined"
-                                                                    sx={{
-                                                                        borderRadius: 1,
-                                                                        borderColor: 'divider',
-                                                                        bgcolor: 'background.default'
-                                                                    }}
-                                                                />
-                                                            </motion.div>
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <Box>
-                                                                <Box display="flex" alignItems="center" gap={1}>
-                                                                    <PhoneIcon color="action" fontSize="small" />
-                                                                    <Typography variant="body2">{contact.phone || '-'}</Typography>
-                                                                </Box>
-                                                                <Box display="flex" alignItems="center" gap={1}>
-                                                                    <EmailIcon color="action" fontSize="small" />
-                                                                    <Typography variant="body2" color="text.secondary">
-                                                                        {contact.email || '-'}
-                                                                    </Typography>
-                                                                </Box>
-                                                            </Box>
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <Typography variant="body2">{contact.GSTno || '-'}</Typography>
-                                                        </TableCell>
-                                                        <TableCell>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <Typography fontWeight="medium">{contact.Companyname || 'N/A'}</Typography>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <motion.div whileHover={{ scale: 1.05 }}>
+                                                            <Chip
+                                                                label={contact.customerId || 'N/A'}
+                                                                size="small"
+                                                                variant="outlined"
+                                                                sx={{
+                                                                    borderRadius: 1,
+                                                                    borderColor: 'divider',
+                                                                    bgcolor: 'background.default'
+                                                                }}
+                                                            />
+                                                        </motion.div>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <Box>
                                                             <Box display="flex" alignItems="center" gap={1}>
-                                                                <CalendarIcon color="action" fontSize="small" />
-                                                                <Typography variant="body2">{formatDate(contact.createdAt)}</Typography>
+                                                                <PhoneIcon color="action" fontSize="small" />
+                                                                <Typography variant="body2">{contact.phone || '-'}</Typography>
                                                             </Box>
-                                                        </TableCell>
-                                                    </motion.tr>
-                                                );
-                                            })}
-                                        </AnimatePresence>
-                                    )}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </Card>
-                </motion.div>
-            )}
+                                                            <Box display="flex" alignItems="center" gap={1}>
+                                                                <EmailIcon color="action" fontSize="small" />
+                                                                <Typography variant="body2" color="text.secondary">
+                                                                    {contact.email || '-'}
+                                                                </Typography>
+                                                            </Box>
+                                                        </Box>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <Typography variant="body2">{contact.GSTno || '-'}</Typography>
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <Box display="flex" alignItems="center" gap={1}>
+                                                            <CalendarIcon color="action" fontSize="small" />
+                                                            <Typography variant="body2">{formatDate(contact.createdAt)}</Typography>
+                                                        </Box>
+                                                    </TableCell>
+                                                </motion.tr>
+                                            );
+                                        })}
+                                    </AnimatePresence>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Card>
+            </motion.div>
+            {/* )} */}
 
             {/* Pagination */}
             {filteredContacts?.length > 0 && (
@@ -1838,9 +1840,9 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
                             justifyContent: 'space-between',
                             alignItems: 'center',
                             p: 2,
-                            borderRadius: 2,
+                            // borderRadius: 2,
                             bgcolor: 'background.paper',
-                            border: '1px solid',
+                            // border: '1px solid',
                             borderColor: 'divider',
                             gap: 2
                         }}
@@ -1878,7 +1880,7 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
                             page={page}
                             onChange={(_, value) => setPage(value)}
                             color="primary"
-                            shape="rounded"
+                            // shape="rounded"
                             size="small"
                             showFirstButton
                             showLastButton
@@ -1886,7 +1888,7 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
                             boundaryCount={1}
                             sx={{
                                 '& .MuiPaginationItem-root': {
-                                    borderRadius: 1,
+                                    // borderRadius: 1,
                                     minWidth: 32,
                                     height: 32
                                 }

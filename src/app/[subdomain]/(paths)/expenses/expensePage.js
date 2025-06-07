@@ -18,7 +18,7 @@ const ExpensesPage = () => {
     const [editingExpense, setEditingExpense] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const accessToken = Cookies.get("accessToken");
+    const accessToken = Cookies.get("crmaccess");
     const subdomain = Cookies.get("subdomain");
     const [customers, setCustomers] = useState([]);
     const [projects, setProjects] = useState([]);

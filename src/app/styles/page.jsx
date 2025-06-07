@@ -34,7 +34,7 @@ export default function Login() {
 
       const { accessToken, refreshToken } = response.data.data;
 
-      Cookies.set("accessToken", accessToken,{
+      Cookies.set("crmaccess", accessToken,{
         secure: true,
         sameSite: "Strict",
         expires: 7, 
@@ -86,7 +86,7 @@ export default function Login() {
   };
 
   const logout = () => {
-    localStorage.removeItem("accessToken");
+    localStorage.removeItem("crmaccess");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("accessTokenExpiry");
     localStorage.removeItem("refreshTokenExpiry");

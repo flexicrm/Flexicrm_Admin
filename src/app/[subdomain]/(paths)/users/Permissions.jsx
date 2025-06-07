@@ -301,7 +301,7 @@ const initialPermissions = {
 export default function Permissions({ permissionsShow, permissionsShows,fetchRoles }) {
   const [userRole, setRole] = useState("");
   const [permissions, setPermissions] = useState(initialPermissions);
-  const accessToken = Cookies.get("accessToken");
+  const accessToken = Cookies.get("crmaccess");
   const subdomain = Cookies.get("subdomain");
   const permissionsRef = useRef(null);
   const toast = useRef(null);

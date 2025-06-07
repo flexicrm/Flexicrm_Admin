@@ -721,7 +721,7 @@ export default function Navbar({ isOpen, toggleSidebar }: any) {
     const [notifications, setNotifications] = useState([]);
     const [showNotifications, setShowNotifications] = useState(false);
     const [countVisible, setCountVisible] = useState(true);
-    const accessToken = Cookies.get('accessToken');
+    const accessToken = Cookies.get('crmaccess');
     const subdomain = Cookies.get('subdomain');
     const contextValue = useContext(userContext);
     console.log('Context Value:', contextValue);

@@ -22,7 +22,7 @@ const items = [
 ];
 
 const LeadsActivity: React.FC<LeadsActivityProps> = ({ leadId, currentLead, convertUnder }) => {
-    const accessToken = Cookies.get('accessToken');
+    const accessToken = Cookies.get('crmaccess');
     const subdomain = Cookies.get('subdomain');
     const [leads, setLeads] = useState<any>({});
     const [selectedTab, setSelectedTab] = useState(0);

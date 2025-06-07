@@ -501,7 +501,7 @@ const LeadStatusPage: React.FC = () => {
                                             <TableCell>
                                                 <CustomChip
                                                     status={{
-                                                        hexColor: status?.color,
+                                                        hexcolor: status?.color,
                                                         statusName: status?.StatusName || 'null'
                                                     }}
                                                 />

@@ -32,7 +32,7 @@ const stylesofborderleft = {
 const SaleTable = ({ expenses, onEdit, onDelete }) => {
 
     const [statuses, setStatuses] = useState([]);
-    const accessToken = Cookies.get("accessToken");
+    const accessToken = Cookies.get("crmaccess");
     const subdomain = Cookies.get("subdomain");
 
     useEffect(() => {

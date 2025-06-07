@@ -1,11 +1,11 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 import React from 'react';
 
-export default function DeleteDialog({ deleteDialogOpen, cancelDelete, data, confirmDelete }) {
+export default function DeleteDialog({ deleteDialogOpen, cancelDelete, data, confirmDelete, title }: any) {
     return (
         <div>
             <Dialog open={deleteDialogOpen} onClose={cancelDelete}>
-                <DialogTitle>Delete Lead</DialogTitle>
+                {title ? <DialogTitle>{title}</DialogTitle> : <DialogTitle>Delete Lead</DialogTitle>}
                 <DialogContent>
                     <Typography>Are you sure you want to remove this {`${data}`}?</Typography>
                 </DialogContent>

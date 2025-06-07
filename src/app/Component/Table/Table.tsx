@@ -741,7 +741,7 @@ interface TableProps<T> {
     setDeleteDialogOpen?: any;
     onToggle: (row: any) => void;
     leadstatus: any;
-    fetchLeads: () => void;
+    fetchLeads: any;
 }
 
 const ResizableTableCell = styled(TableCell)(({ theme }) => ({
@@ -834,7 +834,7 @@ export const MyTable = <T extends { id: number }>({ fetchLeads, data, leadstatus
     };
 
     const filteredData = useMemo(() => {
-        return data.filter((row) => {
+        return data?.filter((row) => {
             if (statusFilter !== 'all' && row?.leadstatus?.statusName !== statusFilter) {
                 return false;
             }
@@ -1010,7 +1010,7 @@ export const MyTable = <T extends { id: number }>({ fetchLeads, data, leadstatus
                                     <MenuItem key={status._id} value={status.statusName}>
                                         <CustomChip
                                             status={{
-                                                hexColor: status?.color,
+                                                hexcolor: status?.color,
                                                 statusName: status?.statusName || 'null'
                                             }}
                                         />
@@ -1095,140 +1095,7 @@ export const MyTable = <T extends { id: number }>({ fetchLeads, data, leadstatus
             )}
 
             {viewMode === 'grid' ? (
-                <Grid container spacing={2}>
-                    {/* {sortedData.map((row, index) => (
-                        // <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={index}>
-                        //     <Card sx={{ position: 'relative', boxShadow: 'rgba(182, 186, 203, 0.3) 0px 6px 30px', paddingBottom: '0px' }}>
-                        //         <Box sx={{ position: 'absolute', top: 8, right: 8, zIndex: 1 }}>
-                        //             <IconButton size="small" onClick={(e) => onEdit(e, row)}>
-                        //                 <MoreVertIcon fontSize="small" />
-                        //             </IconButton>
-                        //         </Box>
-
-                        //         <Box padding={'16px'}>
-                        //             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                        //                 <Avatar sx={{ bgcolor: theme.palette.primary.main, mr: 2 }}>{row.Name?.charAt(0)}</Avatar>
-                        //                 <Box>
-                        //                     <Link href={`/${subdomain}/leads/${row?.LeadId}`} style={{ textDecoration: 'none' }}>
-                        //                         <Typography variant="subtitle1" fontWeight="bold" color="text.primary">
-                        //                             {row?.Name}
-                        //                         </Typography>
-                        //                     </Link>
-                        //                     <Typography variant="body2" color="text.secondary">
-                        //                         {row?.Company}
-                        //                     </Typography>
-                        //                 </Box>
-                        //             </Box>
-
-                        //             <Box sx={{ mb: 1 }}>
-                        //                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                        //                     <EmailIcon color="action" sx={{ mr: 1, fontSize: 16 }} />
-                        //                     <Typography variant="body2">{row?.Email}</Typography>
-                        //                 </Box>
-                        //                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                        //                     <PhoneIcon color="action" sx={{ mr: 1, fontSize: 16 }} />
-                        //                     <Typography variant="body2">{row?.Phone}</Typography>
-                        //                 </Box>
-                        //                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        //                     <CalendarIcon color="action" sx={{ mr: 1, fontSize: 16 }} />
-                        //                     <Typography variant="body2">{row?.updatedAt ? new Date(row?.updatedAt).toLocaleDateString() : 'No contact'}</Typography>
-                        //                 </Box>
-                        //                 {row?.followUps?.slice(-1)[0]?.dateTime && (
-                        //                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        //                         <NotificationsActiveIcon fontSize="small" sx={{ color: '#f57c00' }} />
-                        //                         <Typography variant="body2" color="text.secondary">
-                        //                             {new Date(row?.followUps?.slice(-1)[0]?.dateTime).toLocaleString()}
-                        //                         </Typography>
-                        //                     </Box>
-                        //                 )}
-                        //             </Box>
-
-                        //             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        //                 <Box sx={{ gap: 1, display: 'flex' }}>
-                        //                     <Box>
-                        //                         {row?.leadstatus?.statusName && (
-                        //                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        //                                 <Box
-                        //                                     sx={{
-                        //                                         width: 8,
-                        //                                         height: 8,
-                        //                                         borderRadius: '50%',
-                        //                                         backgroundColor: `#${row?.leadstatus?.color || '#4285F4'}`
-                        //                                     }}
-                        //                                 />
-                        //                                 <Typography variant="body2" color="text.primary" sx={{ color: `#${row?.leadstatus?.color || '#4285F4'}`, textTransform: 'capitalize' }}>
-                        //                                     {row?.leadstatus?.statusName || 'Not Followed'}
-                        //                                 </Typography>
-                        //                             </Box>
-                        //                         )}
-                        //                     </Box>
-
-                        //                     <Box>
-                        //                         {row?.followUps?.slice(-1)[0]?.status?.StatusName && (
-                        //                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        //                                 <Box
-                        //                                     sx={{
-                        //                                         width: 8,
-                        //                                         height: 8,
-                        //                                         borderRadius: '50%',
-                        //                                         backgroundColor: `${row?.followUps?.slice(-1)[0]?.status?.color || '#4285F4'}`
-                        //                                     }}
-                        //                                 />
-                        //                                 <Typography variant="body2" sx={{ textTransform: 'capitalize', color: `${row?.followUps?.slice(-1)[0]?.status?.color || '#4285F4'}` }}>
-                        //                                     {row?.followUps?.slice(-1)[0]?.status?.StatusName || 'Not Followed'}
-                        //                                 </Typography>
-                        //                             </Box>
-                        //                         )}
-                        //                     </Box>
-
-                        //                     <Box>
-                        //                         {row?.followUps?.slice(-1)[0]?.priority && (
-                        //                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        //                                 <Box
-                        //                                     sx={{
-                        //                                         width: 8,
-                        //                                         height: 8,
-                        //                                         borderRadius: '50%',
-                        //                                         backgroundColor:
-                        //                                             row?.followUps?.slice(-1)[0]?.priority === 'medium'
-                        //                                                 ? '#ff9800'
-                        //                                                 : row?.followUps?.slice(-1)[0]?.priority === 'high'
-                        //                                                 ? '#d50000'
-                        //                                                 : row?.followUps?.slice(-1)[0]?.priority === 'low'
-                        //                                                 ? '#33691e'
-                        //                                                 : '#4caf50'
-                        //                                     }}
-                        //                                 />
-                        //                                 <Typography
-                        //                                     variant="body2"
-                        //                                     color="text.primary"
-                        //                                     style={{
-                        //                                         color:
-                        //                                             row?.followUps?.slice(-1)[0]?.priority === 'medium'
-                        //                                                 ? '#ff9800'
-                        //                                                 : row?.followUps?.slice(-1)[0]?.priority === 'high'
-                        //                                                 ? '#d50000'
-                        //                                                 : row?.followUps?.slice(-1)[0]?.priority === 'low'
-                        //                                                 ? '#33691e'
-                        //                                                 : '#4caf50',
-                        //                                         textTransform: 'capitalize'
-                        //                                     }}
-                        //                                 >
-                        //                                     {row?.followUps?.slice(-1)[0]?.priority || 'Not Followed'}
-                        //                                 </Typography>
-                        //                             </Box>
-                        //                         )}
-                        //                     </Box>
-                        //                 </Box>
-                        //             </Box>
-                        //         </Box>
-                        //     </Card>
-                        // </Grid>
-                        
-                        
-                    ))} */}
-                    <ReminderCard sortedData={sortedData} subdomain={subdomain} onEdit={onEdit} />
-                </Grid>
+                <ReminderCard sortedData={sortedData} subdomain={subdomain} onEdit={onEdit} />
             ) : (
                 <>
                     {showColumnSelector && (

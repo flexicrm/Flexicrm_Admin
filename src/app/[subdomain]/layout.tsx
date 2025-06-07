@@ -1,16 +1,23 @@
-import { Fragment } from 'react';
+'use client';
+import { Fragment, useContext } from 'react';
+import UserContextProvider from '../UseContext/Appprovider';
 
-export const metadata = {
-    title: 'Flexi CRM',
-    description: 'Welcome to Flexi CRM'
-};
+import SubdomainChecker from '../UseContext/SubdomainChecker';
+
+// export const metadata = {
+//     title: 'Flexi CRM',
+//     description: 'Welcome to Flexi CRM'
+// };
 
 export default function RootLayout({ children }) {
     return (
         <Fragment>
             {/* <Header/>
       <MyProvider> */}
-            {children}
+            <UserContextProvider>
+                {children}
+                <SubdomainChecker />
+            </UserContextProvider>
             {/* </MyProvider>
       <Footer/> */}
         </Fragment>

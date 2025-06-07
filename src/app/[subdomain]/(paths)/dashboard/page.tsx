@@ -735,12 +735,12 @@ const SummaryCard = ({ title, value, change, loading, onClick }: { title: string
                         <Typography variant="h5" component="h2" fontWeight={600}>
                             {value}
                         </Typography>
-                        <Box display="flex" alignItems="center" sx={{ marginTop: '2px' }}>
+                        {/* <Box display="flex" alignItems="center" sx={{ marginTop: '2px' }}>
                             <Chip icon={isPositive ? <TrendingUp /> : <TrendingDown />} label={`${Math.abs(change)}%`} color={isPositive ? 'success' : 'error'} variant="outlined" size="small" sx={{ border: 'none' }} />
                             <Typography variant="caption" color="text.secondary">
                                 vs last month
                             </Typography>
-                        </Box>
+                        </Box> */}
                     </>
                 )}
                 {/* </CardContent> */}
@@ -805,7 +805,7 @@ const Dashboard = () => {
         .slice(0, 5)
         .map((lead: any) => ({
             ...lead,
-            valueFormatted: `$${lead.value.toLocaleString()}`
+            valueFormatted: `₹ ${lead.value.toLocaleString()}`
         }));
 
     const totalPotentialValue = recentLeads?.reduce((sum: number, lead: any) => sum + (lead.value || 0), 0) || 0;
@@ -862,7 +862,7 @@ const Dashboard = () => {
                     <SummaryCard title="Active Opportunities" value={data?.summary?.activeLeads || 0} change={12.3} loading={isLoading} onClick={() => handleSummaryClick('opportunities')} />
                 </Grid>
                 <Grid size={{ xs: 12, md: 3 }}>
-                    <SummaryCard title="Potential Value" value={`$${totalPotentialValue.toLocaleString()}`} change={3.2} loading={isLoading} onClick={() => handleSummaryClick('high value leads')} />
+                    <SummaryCard title="Potential Value" value={`₹ ${totalPotentialValue.toLocaleString()}`} change={3.2} loading={isLoading} onClick={() => handleSummaryClick('high value leads')} />
                 </Grid>
                 <Grid size={{ xs: 12, md: 3 }}>
                     <SummaryCard title="Conversion Rate" value={`${data?.summary?.conversionRate || 0}%`} change={2.5} loading={isLoading} onClick={() => handleSummaryClick('conversions')} />
@@ -889,7 +889,7 @@ const Dashboard = () => {
                                 <Typography variant="h5" component="h2" fontWeight={600}>
                                     Lead Acquisition
                                 </Typography>
-                                <Chip label="Last 6 Months" size="small" />
+                                {/* <Chip label="Last 6 Months" size="small" /> */}
                             </Box>
                             {isLoading ? (
                                 <Skeleton variant="rectangular" height={320} />
@@ -948,7 +948,8 @@ const Dashboard = () => {
                                 </>
                             ) : data?.upcomingFollowups?.length > 0 ? (
                                 <List sx={{ flex: 1, overflow: 'auto' }}>
-                                    {data.upcomingFollowups.map((followup: any, index: number) => (
+                                    {console.log(data.upcomingFollowups, 'data.upcomingFollowups')}
+                                    {data.upcomingFollowups[0].followUps.map((followup: any, index: number) => (
                                         <motion.div key={index} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }}>
                                             <ListItem
                                                 sx={{
@@ -970,13 +971,16 @@ const Dashboard = () => {
                                                             <Box component="span" mx={1}>
                                                                 •
                                                             </Box>
-                                                            {followup.assignee}
+                                                            {`${followup.assignTo.firstname} ${followup.assignTo.lastname}`}
                                                         </>
                                                     }
                                                 />
-                                                <IconButton edge="end" size="small">
+                                                {/* {console.log(followup, 'followup')} */}
+                                                {/* <Link href={`/${subdomain}/leads/${followup.leadsId}`}> */}
+                                                {/* <IconButton edge="end" size="small">
                                                     <ArrowForward fontSize="small" />
-                                                </IconButton>
+                                                </IconButton> */}
+                                                {/* </Link> */}
                                             </ListItem>
                                             {index < data.upcomingFollowups.length - 1 && <Divider />}
                                         </motion.div>
@@ -999,7 +1003,7 @@ const Dashboard = () => {
             </Grid>
 
             <Grid container spacing={2} sx={{ mt: 2 }}>
-                <Grid size={{ xs: 12, md: 6 }}>
+                <Grid size={{ xs: 12, md: 6 }} sx={{ background: 'white', width: '100%' }}>
                     <Grow in={!isLoading} timeout={1500}>
                         <Card
                             sx={{

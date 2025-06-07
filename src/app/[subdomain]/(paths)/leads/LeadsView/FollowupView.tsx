@@ -594,7 +594,7 @@ const StatusChip = ({ status }) => {
     return (
         <CustomChip
             status={{
-                hexColor: statusMap[status]?.color as any,
+                hexcolor: statusMap[status]?.color as any,
                 statusName: status?.StatusName || '-'
             }}
         />
@@ -614,7 +614,7 @@ const TypeIcon = ({ type }: { type: FollowUp['type'] }) => {
     return iconMap[type];
 };
 
-export const FollowUpSection = ({ currentLead, UsersOptions, leadId, fetchLeadData }) => {
+export const FollowUpSection = ({ currentLead, UsersOptions, leadId, setLeadData }) => {
     const [followups, setFollowups] = useState<FollowUp[]>(currentLead?.followUps || []);
     const [openFollowUpForm, setOpenFollowUpForm] = useState(false);
     const [selectedFollowUp, setSelectedFollowUp] = useState<FollowUp | null>(null);
@@ -652,10 +652,6 @@ export const FollowUpSection = ({ currentLead, UsersOptions, leadId, fetchLeadDa
             setLoading(false);
         }, 1000);
     }, [loading]);
-
-    useEffect(() => {
-        fetchLeadData();
-    }, [snackbarMessage]);
 
     const lastFollowUpElementRef = useCallback(
         (node: HTMLDivElement) => {
@@ -764,7 +760,7 @@ export const FollowUpSection = ({ currentLead, UsersOptions, leadId, fetchLeadDa
                 leadId={leadId}
                 followUp={selectedFollowUp}
                 setSnackbarOpen={setSnackbarOpen}
-                setLeads={fetchLeadData}
+                setLeads={setLeadData}
                 handleMenuClose={() => setOpenFollowUpForm(false)}
                 setSnackbarSeverity={setSnackbarSeverity}
                 setSnackbarMessage={setSnackbarMessage}

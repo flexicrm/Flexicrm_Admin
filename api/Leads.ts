@@ -197,13 +197,34 @@ export const GETactivity = async (slugname: string, id?: any) => {
     }
 };
 
+// Leads  status
+// Leads  status
+// Leads  status
+// Leads  status
 
-
-
-// Leads  status 
-// Leads  status 
-// Leads  status 
-// Leads  status 
-
-
-
+export const GETLeadsStatus = async (slugname: string, id?: any) => {
+    try {
+        // /lead/ajin-company/OFFLINE8400/followups
+        const response = await fetchHandler({
+            method: 'GET',
+            endpoint: `/leadstatus/${slugname}`,
+            data: undefined
+        });
+        return response;
+    } catch (error) {
+        console.error('Unexpected error:', error);
+    }
+};
+export const GETLeadSource = async (slugname: string) => {
+    try {
+        // /lead/ajin-company/OFFLINE8400/followups
+        const response = await fetchHandler({
+            method: 'GET',
+            endpoint: `/leadsource/${slugname}`,
+            data: undefined
+        });
+        return response;
+    } catch (error) {
+        console.error('Unexpected error:', error);
+    }
+};

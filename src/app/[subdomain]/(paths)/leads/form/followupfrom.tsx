@@ -115,7 +115,7 @@ interface FollowupFormProps {
 const FollowupForm: React.FC<FollowupFormProps> = ({ leadId, onFormSubmit, fetchDatas }) => {
     const [followUpDate, setFollowUpDate] = useState<Date | null>(null);
     const [notes, setNotes] = useState<string>('');
-    const accessToken = Cookies.get('accessToken');
+    const accessToken = Cookies.get('crmaccess');
     const subdomain = Cookies.get('subdomain');
 
     const onSubmit = async (event: React.FormEvent) => {

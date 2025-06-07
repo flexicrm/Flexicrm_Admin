@@ -2152,6 +2152,7 @@ import userContext from '../../../../UseContext/UseContext';
 import { MyButton } from '../../../../Component/Buttons/Buttons';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import { LeadPost, UpdateLeadsByID } from '../../../../../../api/Leads';
 import { MySnackbar } from '../../../../Component/Snackbar/Snackbar';
 
@@ -2171,7 +2172,7 @@ const INTEGRATION_TYPES = [
     { value: 'email', label: 'Email', icon: <EmailIcon /> },
     { value: 'phone', label: 'Phone Call', icon: <PhoneIcon /> },
     { value: 'meeting', label: 'Meeting', icon: <MeetingIcon /> },
-    { value: 'other', label: 'Other', icon: <MeetingIcon /> }
+    { value: 'other', label: 'Other', icon: <MoreHorizOutlinedIcon /> }
 ];
 
 const MEETING_TYPES = [
@@ -2310,7 +2311,7 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                     assignTo: values.assignTo,
                     customFields: valuesdataleads,
                     notes: values.description,
-                    interactionType: interactionType,
+                    ...(interactionType.type && { interactionType: interactionType }),
                     potentialValue: values.potentialValue
                 };
 
@@ -2636,7 +2637,7 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                                 <ButtonGroup>
                                     {INTEGRATION_TYPES.map((type) => (
                                         <Tooltip key={type.value} title={type.label}>
-                                            <MyButton
+                                            <Button
                                                 size="small"
                                                 variant={integrationType === type.value ? 'contained' : 'outlined'}
                                                 startIcon={type.icon}
@@ -2644,9 +2645,10 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                                                     setIntegrationType(type.value);
                                                     formik.setFieldValue('integrationType', type.value);
                                                 }}
-                                            >
-                                                {type?.label || integrationType}
-                                            </MyButton>
+                                                sx={{ p: 1, textAlign: 'center', pl: 2 }}
+                                            />
+                                            {/* {type?.label || integrationType} */}
+                                            {/* </Button> */}
                                         </Tooltip>
                                     ))}
                                 </ButtonGroup>

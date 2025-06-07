@@ -198,7 +198,7 @@ const ExpenseTable = ({ expenses, onEdit, onDelete, setIsFormVisible }) => {
     const { data } = useContext(userContext);
     const [statuses, setStatuses] = useState([]);
     const [selectedRows, setSelectedRows] = useState([]);
-    const accessToken = Cookies.get('accessToken');
+    const accessToken = Cookies.get('crmaccess');
     const subdomain = Cookies.get('subdomain');
     const [userPermissions, setUserPermissions] = useState({});
     // console.log(userPermissions, 'userssssss');

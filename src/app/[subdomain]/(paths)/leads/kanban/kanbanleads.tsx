@@ -3311,7 +3311,7 @@
 // };
 
 // export default TaskManagement;
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useContext } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import {
@@ -3350,6 +3350,7 @@ import { MySnackbar } from '../../../../Component/Snackbar/Snackbar';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
+import userContext from '../../../../UseContext/UseContext';
 interface LeadStatus {
     _id: string;
     statusName: string;
@@ -3381,6 +3382,7 @@ const COLUMN_WIDTH = 320;
 const motivationalMessages = ['Better luck next time!', "Every 'no' brings you closer to 'yes'", 'This setback is just setup for a comeback', 'The comeback is always stronger than the setback', 'Learn from this and come back stronger'];
 
 const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setLeads }) => {
+    const { leadscon } = useContext<any>(userContext);
     const [leadData, setLeadData] = useState<Lead[]>(leads?.leads || []);
     const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
     const [loading, setLoading] = useState(false);
@@ -3400,7 +3402,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
     const [users, setUsers] = useState([]);
     const [isConvertFormVisible, setConvertFormVisible] = useState(false);
 
-    const accessToken = Cookies.get('accessToken');
+    const accessToken = Cookies.get('crmaccess');
     const subdomain = Cookies.get('subdomain');
 
     const runConfetti = () => {
@@ -3523,9 +3525,18 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                 Authorization: `Bearer ${accessToken}`
             };
             const response = await axios.patch(`${API_BASE_URL}/lead/update-lead-status/${subdomain}/${leadIdValue}`, { leadstatusid: newStatusId }, { headers });
-            if (response) {
+            if (response.data.success) {
+                console.log(response, 'response?????');
                 const LeadsId = response?.data?.data?.leadId;
-                setLeads((prevLeads: any) => prevLeads.map((lead: any) => (lead.LeadId === LeadsId ? { ...lead, leadstatus: leadStatuses[newStatusId] } : lead)));
+                // setLeadsCon((prev) => !prev);
+                // setLeadsCon((prevLeads: any) => prevLeads.map((lead: any) => (lead.LeadId === LeadsId ? { ...lead, leadstatus: leadStatuses[newStatusId] } : lead)));
+                // const updatedLead = response.data.updatedLead;
+                const leadExists = leadscon.some((lead) => lead.LeadId === LeadsId);
+                console.log(leadExists, 'response?????');
+                const updatedLeads = leadExists ? leadscon.map((lead) => (lead.LeadId === LeadsId ? LeadsId : lead)) : [...leadscon, LeadsId];
+                console.log(updatedLeads, 'response?????');
+
+                setLeads(updatedLeads);
             }
         } catch (error) {
             console.error('Error updating lead status:', error);
@@ -3625,7 +3636,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                 >
                     <CustomChip
                         status={{
-                            hexColor: status?.color,
+                            hexcolor: status?.color,
                             statusName: status?.statusName || 'null'
                         }}
                     />
@@ -3716,7 +3727,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                                                     {/* {console.log(lead, 'lead>>>>>>>>>>>>>>>')} */}
                                                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                                                         <ApartmentIcon color="action" sx={{ mr: 1, fontSize: 16 }} />
-                                                        <Typography variant="body2">{lead?.manualData?.company||"-"}</Typography>
+                                                        <Typography variant="body2">{lead?.manualData?.company || '-'}</Typography>
                                                     </Box>
                                                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                                                         <EmailIcon color="action" sx={{ mr: 1, fontSize: 16 }} />
@@ -3989,13 +4000,15 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                     <ConvertCustomer currentLead={selectedLeadId} convertid={selectedLeadId} setConvertFormVisible={setConvertFormVisible} leadStatus={selectedLeadId?.leadstatus} />
                 </DialogContent>
             </Dialog>
+
             <FollowUpForm
                 open={openFollowUpForm}
                 UsersOptions={UsersOptions}
                 onOpenChange={setOpenFollowUpForm}
-                leadId={selectedLeadId}
+                leadId={selectedLeadId?.LeadId}
                 setSnackbarOpen={setSnackbarOpen}
                 setLeads={''}
+                followUp={''}
                 setSnackbarSeverity={setSnackbarSeverity}
                 setSnackbarMessage={setSnackbarMessage}
                 handleMenuClose={() => setOpenFollowUpForm(false)}

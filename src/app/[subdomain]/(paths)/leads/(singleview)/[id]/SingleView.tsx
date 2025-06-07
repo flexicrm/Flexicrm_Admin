@@ -754,6 +754,7 @@ import TimelineDot from '@mui/lab/TimelineDot';
 import { MyButton } from '../../../../../Component/Buttons/Buttons';
 import { MySnackbar } from '../../../../../Component/Snackbar/Snackbar';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 // Interfaces
 interface User {
@@ -965,7 +966,7 @@ export const LeadStatusCard: React.FC<{ currentLead?: Lead }> = ({ currentLead }
                     <Typography variant="subtitle2" color="text.secondary">
                         Potential Value
                     </Typography>
-                    <Typography variant="body1">${currentLead?.potentialValue?.toLocaleString() || '0'}</Typography>
+                    <Typography variant="body1">₹{currentLead?.potentialValue?.toLocaleString() || '0'}</Typography>
                 </Grid>
 
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -1128,8 +1129,9 @@ const LeadsActivity: React.FC<LeadsActivityProps> = ({ id }) => {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState<Severity>('success');
-    const accessToken = Cookies.get('accessToken');
+    const accessToken = Cookies.get('crmaccess');
     const subdomain = Cookies.get('subdomain');
+    const router = useRouter();
     const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
     const fetchLeadData = useCallback(async () => {
@@ -1201,7 +1203,7 @@ const LeadsActivity: React.FC<LeadsActivityProps> = ({ id }) => {
             case 'followups':
                 return (
                     <Box sx={{ pr: 2 }}>
-                        <FollowUpSection fetchLeadData={fetchLeadData} currentLead={leadData} UsersOptions={UsersOptions} leadId={leadId} />
+                        <FollowUpSection setLeadData={setLeadData} currentLead={leadData} UsersOptions={UsersOptions} leadId={leadId} />
                     </Box>
                 );
             case 'activity':
@@ -1223,30 +1225,39 @@ const LeadsActivity: React.FC<LeadsActivityProps> = ({ id }) => {
                         Back to Leads
                     </Button>
                 </Link>
-                <Typography variant="h5" sx={{ fontWeight: 400, mt: 1, fontSize: '15px' }}>
-                    {leadData?.manualData?.name || 'Lead Details'}
-                </Typography>
-                <Typography variant="subtitle1" color="text.secondary" sx={{ display: 'flex', fontWeight: '400', justifyContent: 'space-between' }}>
-                    <Typography variant="subtitle1" sx={{ display: 'flex' }}>
-                        <Typography variant="subtitle1" sx={{ textAlign: 'center' }}>
-                            {' '}
-                            <ApartmentIcon />
-                            {leadData?.manualData?.company || 'Company'}
+                <Grid container>
+                    <Grid size={{ xs: 12, sm: 12, md: 8 }}>
+                        <Typography variant="h5" sx={{ fontWeight: 400, mt: 1, fontSize: '15px' }}>
+                            {leadData?.manualData?.name || 'Lead Details'}
                         </Typography>
-                        <Divider sx={{ ml: 2 }} orientation="vertical" variant="middle" flexItem />
-                        <Chip label={leadData?.leadStatus || 'New'} color="primary" sx={{ ml: 2 }} />
-                    </Typography>
-                    <Typography variant="subtitle1">
-                        <Typography sx={{ display: 'flex', justifyContent: 'space-between', gap: 0 }}>
-                            <MyButton onClick={() => (window.location.href = `/${subdomain}/leads/edit/${leadId}`)} variant="outlined" size="small">
+                        {/* <Typography variant="subtitle1" color="text.secondary" sx={{ display: 'flex', fontWeight: '400', justifyContent: 'space-between' }}> */}
+                        <Typography variant="subtitle1" sx={{ display: 'flex' }}>
+                            <Typography variant="subtitle1" sx={{ textAlign: 'center' }}>
+                                {' '}
+                                <ApartmentIcon />
+                                {leadData?.manualData?.company || 'Company'}
+                            </Typography>
+                            <Divider sx={{ ml: 2 }} orientation="vertical" variant="middle" flexItem />
+                            <Chip label={leadData?.leadStatus || 'New'} color="primary" sx={{ ml: 2 }} />
+                        </Typography>
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 12, md: 2 }}>
+                        <Typography variant="subtitle1" sx={{ display: 'flex', justifyContent: 'end' }}>
+                            {/* <Typography sx={{ display: 'flex', justifyContent: 'space-between', gap: 0 }}> */}
+                            <MyButton onClick={() => router.push(`/${subdomain}/leads/edit/${leadId}`)} variant="outlined" size="small">
                                 Edit Lead
                             </MyButton>
-                            <MyButton variant="contained" size="small" onClick={() => setOpenFollowUpForm(true)}>
-                                Schedule Follow-Up
-                            </MyButton>
                         </Typography>
-                    </Typography>
-                </Typography>
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 12, md: 2 }}>
+                        <MyButton variant="contained" size="small" onClick={() => setOpenFollowUpForm(true)}>
+                            Schedule Follow-Up
+                        </MyButton>
+                        {/* </Typography> */}
+                        {/* </Typography> */}
+                        {/* </Typography> */}
+                    </Grid>
+                </Grid>
             </Box>
 
             <Grid container>
@@ -1322,10 +1333,10 @@ const LeadsActivity: React.FC<LeadsActivityProps> = ({ id }) => {
                 onOpenChange={setOpenFollowUpForm}
                 leadId={leadId}
                 setSnackbarOpen={setSnackbarOpen}
-                // snackbarOpen={snackbarOpen}
+                setLeads={setLeadData}
                 setSnackbarSeverity={setSnackbarSeverity}
                 setSnackbarMessage={setSnackbarMessage}
-                setLeads={fetchLeadData}
+                // setLeads={fetchLeadData}
                 handleMenuClose={() => setOpenFollowUpForm(false)}
             />
             <NoteForm open={openNoteForm} onOpenChange={setOpenNoteForm} leadId={leadData} />

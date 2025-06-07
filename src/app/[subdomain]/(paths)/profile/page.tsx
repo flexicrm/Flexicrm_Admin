@@ -110,7 +110,7 @@ interface UserData {
 const ProfilePage: React.FC = () => {
     const { data, setData } = useContext(userContext);
     const [showEdit, setShowEdit] = useState(false);
-    const accessToken = Cookies.get('accessToken');
+    const accessToken = Cookies.get('crmaccess');
     const subdomain = Cookies.get('subdomain');
 
     useEffect(() => {

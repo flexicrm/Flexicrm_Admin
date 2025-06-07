@@ -1,8 +1,4 @@
-// import { createContext } from "react";
-
-// const userContext = createContext<string>("");
-
-// export default userContext;
+// UseContext/UseContext.tsx
 import { createContext } from 'react';
 
 interface UserContextType {
@@ -28,7 +24,14 @@ interface UserContextType {
     setData: any;
     report: any[];
     setReport: React.Dispatch<React.SetStateAction<any[]>>;
+    leadscon: any[];
+    setLeadsCon: React.Dispatch<React.SetStateAction<any[]>>;
+    subdmoainchecker: boolean;
+    setSubdmoainchecker: React.Dispatch<React.SetStateAction<boolean>>;
+    flexilogo: any;
+    setFlexilogo: React.Dispatch<React.SetStateAction<any>>;
 }
 
 const userContext = createContext<UserContextType | undefined>(undefined);
+
 export default userContext;

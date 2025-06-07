@@ -482,6 +482,7 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                 gap: 2,
                 overflowY: 'auto',
                 maxHeight: '60vh',
+
                 padding: '8px',
                 '&::-webkit-scrollbar': {
                     width: '6px'
@@ -498,194 +499,211 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                 }
             }}
         >
-            {sortedData.slice(0, visibleCards).map((row, index) => (
-                <Grid
-                    size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
-                    key={index}
-                    sx={{
-                        // height: '100%',
-                        animation: `${scrollIn} 0.5s ease-out ${index * 0.1}s both`,
-                        opacity: 0 // Start invisible, animation will make it visible
-                    }}
-                >
-                    <Card
+            <Grid container spacing={2} minWidth="lg">
+                {sortedData.slice(0, visibleCards).map((row, index) => (
+                    <Grid
+                        size={{ xs: 12, sm: 6, md: 4, lg: sortedData.length == 1 ? 12 : 3 }}
+                        key={index}
                         sx={{
-                            position: 'relative',
-                            boxShadow: 'rgba(182, 186, 203, 0.3) 0px 6px 30px',
-                            paddingBottom: '0px',
-                            height: '100%',
-                            transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                            '&:hover': {
-                                transform: 'translateY(-5px)',
-                                boxShadow: 'rgba(182, 186, 203, 0.6) 0px 10px 40px'
-                            }
+                            // width: '100%',
+                            animation: `${scrollIn} 0.5s ease-out ${index * 0.1}s both`,
+                            opacity: 0 // Start invisible, animation will make it visible
                         }}
                     >
-                        {/* Rest of your card content remains the same */}
-                        <Box sx={{ position: 'absolute', top: 8, right: 8, zIndex: 1 }}>
-                            <IconButton size="small" onClick={(e) => onEdit(e, row)}>
-                                <MoreVertIcon fontSize="small" />
-                            </IconButton>
-                        </Box>
+                        <Card
+                            sx={{
+                                position: 'relative',
+                                boxShadow: 'rgba(182, 186, 203, 0.3) 0px 6px 30px',
+                                paddingBottom: '0px',
+                                height: '100%',
+                                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                                '&:hover': {
+                                    transform: 'translateY(-5px)',
+                                    boxShadow: 'rgba(182, 186, 203, 0.6) 0px 10px 40px'
+                                }
+                            }}
+                        >
+                            {/* Rest of your card content remains the same */}
+                            <Box sx={{ position: 'absolute', top: 8, right: 8, zIndex: 1 }}>
+                                <IconButton size="small" onClick={(e) => onEdit(e, row)}>
+                                    <MoreVertIcon fontSize="small" />
+                                </IconButton>
+                            </Box>
 
-                        <Box padding={'16px'}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, position: 'relative' }}>
-                                <Avatar sx={{ bgcolor: theme.palette.primary.main, mr: 1 }}>{row?.Name?.charAt(0)}</Avatar>
+                            <Box padding={'16px'}>
+                                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, position: 'relative' }}>
+                                    <Avatar sx={{ bgcolor: theme.palette.primary.main, mr: 1 }}>{row?.Name?.charAt(0)}</Avatar>
 
-                                {row?.followUps?.slice(-1)[0]?.dateTime && (
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, position: 'absolute', left: '131px', top: '3px' }}>
-                                        <Tooltip title={new Date(row?.followUps?.slice(-1)[0]?.dateTime).toLocaleString()}>
-                                            <NotificationsActiveIcon
-                                                fontSize="small"
-                                                sx={{
-                                                    color: '#f57c00',
-                                                    animation: animateBell ? `${ringAnimation} 0.5s ease-in-out 2` : 'none',
-                                                    transformOrigin: 'top center'
-                                                }}
-                                            />
-                                        </Tooltip>
-                                    </Box>
-                                )}
-
-                                <Box>
-                                    <Link href={`/${subdomain}/leads/${row?.LeadId}`} style={{ textDecoration: 'none' }}>
+                                    <Box>
+                                        {/* <Link href={`/${subdomain}/leads/${row?.LeadId}`} style={{ textDecoration: 'none' }}>
                                         <Typography variant="subtitle1" fontWeight="bold" color="text.primary" textTransform="capitalize">
                                             {row?.Name}
                                         </Typography>
-                                    </Link>
-                                    <Typography variant="body2" color="text.secondary">
-                                        <Chip label={row.LeadId} size="small" />
-                                    </Typography>
-                                </Box>
-                            </Box>
-
-                            <Box sx={{ mb: 1 }}>
-                                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                                    <ApartmentIcon color="action" sx={{ mr: 1, fontSize: 16 }} />
-                                    <Typography variant="body2" textTransform="capitalize">
-                                        {row?.Company}
-                                    </Typography>
-                                </Box>
-                                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                                    <EmailIcon color="action" sx={{ mr: 1, fontSize: 16 }} />
-                                    <Typography variant="body2">{row?.Email}</Typography>
-                                </Box>
-                                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                                    <PhoneIcon color="action" sx={{ mr: 1, fontSize: 16 }} />
-                                    <Typography variant="body2">{row?.Phone}</Typography>
-                                </Box>
-                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                    <CalendarIcon color="action" sx={{ mr: 1, fontSize: 16 }} />
-                                    <Typography variant="body2">{row?.updatedAt ? new Date(row.updatedAt).toDateString() : 'No contact'}</Typography>
-                                </Box>
-                            </Box>
-
-                            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <Box sx={{ gap: 1, display: 'flex', flexWrap: 'wrap' }}>
-                                    {/* Lead Status */}
-                                    {row?.leadstatus?.statusName && (
-                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                            <Box
-                                                sx={{
-                                                    width: 8,
-                                                    height: 8,
-                                                    borderRadius: '50%',
-                                                    backgroundColor: `#${row?.leadstatus?.color || '4285F4'}`
-                                                }}
-                                            />
+                                    </Link> */}
+                                        <Link href={`/${subdomain}/leads/${row?.LeadId}`} style={{ textDecoration: 'none' }}>
                                             <Typography
-                                                variant="body2"
+                                                variant="subtitle1"
+                                                fontWeight="bold"
                                                 color="text.primary"
+                                                textTransform="capitalize"
                                                 sx={{
-                                                    color: `#${row?.leadstatus?.color || '4285F4'}`,
-                                                    textTransform: 'capitalize'
+                                                    whiteSpace: 'nowrap',
+                                                    overflow: 'hidden',
+                                                    textOverflow: 'ellipsis',
+                                                    maxWidth: '90px' // Adjust this value as needed
                                                 }}
                                             >
-                                                {row?.leadstatus?.statusName || 'Not Followed'}
+                                                {row?.Name}
                                             </Typography>
+                                        </Link>
+                                        {row?.followUps?.slice(-1)[0]?.dateTime && (
+                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, position: 'absolute', left: '131px', top: '3px' }}>
+                                                <Tooltip title={new Date(row?.followUps?.slice(-1)[0]?.dateTime).toLocaleString()}>
+                                                    <NotificationsActiveIcon
+                                                        fontSize="small"
+                                                        sx={{
+                                                            color: '#f57c00',
+                                                            animation: animateBell ? `${ringAnimation} 0.5s ease-in-out 2` : 'none',
+                                                            transformOrigin: 'top center'
+                                                        }}
+                                                    />
+                                                </Tooltip>
+                                            </Box>
+                                        )}
+                                        <Box color="text.secondary">
+                                            <Chip label={row.LeadId} size="small" />
                                         </Box>
-                                    )}
-
-                                    {/* Follow-up Status */}
-                                    {row?.followUps?.slice(-1)[0]?.status?.StatusName && (
-                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                            <Box
-                                                sx={{
-                                                    width: 8,
-                                                    height: 8,
-                                                    borderRadius: '50%',
-                                                    backgroundColor: `${row?.followUps?.slice(-1)[0]?.status?.color || '#4285F4'}`
-                                                }}
-                                            />
-                                            <Typography
-                                                variant="body2"
-                                                sx={{
-                                                    textTransform: 'capitalize',
-                                                    color: `${row?.followUps?.slice(-1)[0]?.status?.color || '#4285F4'}`
-                                                }}
-                                            >
-                                                {row?.followUps?.slice(-1)[0]?.status?.StatusName || 'Not Followed'}
-                                            </Typography>
-                                        </Box>
-                                    )}
-
-                                    {/* Priority */}
-                                    {row?.followUps?.slice(-1)[0]?.priority && (
-                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                            <Box
-                                                sx={{
-                                                    width: 8,
-                                                    height: 8,
-                                                    borderRadius: '50%',
-                                                    backgroundColor:
-                                                        row?.followUps?.slice(-1)[0]?.priority === 'medium'
-                                                            ? '#ff9800'
-                                                            : row?.followUps?.slice(-1)[0]?.priority === 'high'
-                                                            ? '#d50000'
-                                                            : row?.followUps?.slice(-1)[0]?.priority === 'low'
-                                                            ? '#33691e'
-                                                            : '#4caf50'
-                                                }}
-                                            />
-                                            <Typography
-                                                variant="body2"
-                                                style={{
-                                                    color:
-                                                        row?.followUps?.slice(-1)[0]?.priority === 'medium'
-                                                            ? '#ff9800'
-                                                            : row?.followUps?.slice(-1)[0]?.priority === 'high'
-                                                            ? '#d50000'
-                                                            : row?.followUps?.slice(-1)[0]?.priority === 'low'
-                                                            ? '#33691e'
-                                                            : '#4caf50',
-                                                    textTransform: 'capitalize'
-                                                }}
-                                            >
-                                                {row?.followUps?.slice(-1)[0]?.priority || 'Not Followed'}
-                                            </Typography>
-                                        </Box>
-                                    )}
+                                    </Box>
                                 </Box>
-                                <Box>
-                                    {row?.assignTo && (
-                                        <AvatarGroup spacing={1}>
-                                            <Tooltip title={`${row?.assignTo?.firstname}${row?.assignTo?.lastname}`}>
-                                                <Avatar sx={{ width: 30, height: 30 }} alt={`${row?.assignTo?.firstname}${row?.assignTo?.lastname}`} src={row?.assignTo?.Profile} />
-                                            </Tooltip>
-                                        </AvatarGroup>
-                                    )}
+
+                                <Box sx={{ mb: 1 }}>
+                                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                                        <ApartmentIcon color="action" sx={{ mr: 1, fontSize: 16 }} />
+                                        <Typography variant="body2" textTransform="capitalize">
+                                            {row?.Company || '-'}
+                                        </Typography>
+                                    </Box>
+                                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                                        <EmailIcon color="action" sx={{ mr: 1, fontSize: 16 }} />
+                                        <Typography variant="body2">{row?.Email}</Typography>
+                                    </Box>
+                                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                                        <PhoneIcon color="action" sx={{ mr: 1, fontSize: 16 }} />
+                                        <Typography variant="body2">{row?.Phone}</Typography>
+                                    </Box>
+                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                        <CalendarIcon color="action" sx={{ mr: 1, fontSize: 16 }} />
+                                        <Typography variant="body2">{row?.updatedAt ? new Date(row.updatedAt).toDateString() : 'No contact'}</Typography>
+                                    </Box>
+                                </Box>
+
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                    <Box sx={{ gap: 1, display: 'flex', flexWrap: 'wrap' }}>
+                                        {/* Lead Status */}
+                                        {row?.leadstatus?.statusName && (
+                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                                <Box
+                                                    sx={{
+                                                        width: 8,
+                                                        height: 8,
+                                                        borderRadius: '50%',
+                                                        backgroundColor: `#${row?.leadstatus?.color || '4285F4'}`
+                                                    }}
+                                                />
+                                                <Typography
+                                                    variant="body2"
+                                                    color="text.primary"
+                                                    sx={{
+                                                        color: `#${row?.leadstatus?.color || '4285F4'}`,
+                                                        textTransform: 'capitalize'
+                                                    }}
+                                                >
+                                                    {row?.leadstatus?.statusName || 'Not Followed'}
+                                                </Typography>
+                                            </Box>
+                                        )}
+
+                                        {/* Follow-up Status */}
+                                        {row?.followUps?.slice(-1)[0]?.status?.StatusName && (
+                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                                <Box
+                                                    sx={{
+                                                        width: 8,
+                                                        height: 8,
+                                                        borderRadius: '50%',
+                                                        backgroundColor: `${row?.followUps?.slice(-1)[0]?.status?.color || '#4285F4'}`
+                                                    }}
+                                                />
+                                                <Typography
+                                                    variant="body2"
+                                                    sx={{
+                                                        textTransform: 'capitalize',
+                                                        color: `${row?.followUps?.slice(-1)[0]?.status?.color || '#4285F4'}`
+                                                    }}
+                                                >
+                                                    {row?.followUps?.slice(-1)[0]?.status?.StatusName || 'Not Followed'}
+                                                </Typography>
+                                            </Box>
+                                        )}
+
+                                        {/* Priority */}
+                                        {row?.followUps?.slice(-1)[0]?.priority && (
+                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                                <Box
+                                                    sx={{
+                                                        width: 8,
+                                                        height: 8,
+                                                        borderRadius: '50%',
+                                                        backgroundColor:
+                                                            row?.followUps?.slice(-1)[0]?.priority === 'medium'
+                                                                ? '#ff9800'
+                                                                : row?.followUps?.slice(-1)[0]?.priority === 'high'
+                                                                ? '#d50000'
+                                                                : row?.followUps?.slice(-1)[0]?.priority === 'low'
+                                                                ? '#33691e'
+                                                                : '#4caf50'
+                                                    }}
+                                                />
+                                                <Typography
+                                                    variant="body2"
+                                                    style={{
+                                                        color:
+                                                            row?.followUps?.slice(-1)[0]?.priority === 'medium'
+                                                                ? '#ff9800'
+                                                                : row?.followUps?.slice(-1)[0]?.priority === 'high'
+                                                                ? '#d50000'
+                                                                : row?.followUps?.slice(-1)[0]?.priority === 'low'
+                                                                ? '#33691e'
+                                                                : '#4caf50',
+                                                        textTransform: 'capitalize'
+                                                    }}
+                                                >
+                                                    {row?.followUps?.slice(-1)[0]?.priority || 'Not Followed'}
+                                                </Typography>
+                                            </Box>
+                                        )}
+                                    </Box>
+                                    <Box>
+                                        {row?.assignTo && (
+                                            <AvatarGroup spacing={1}>
+                                                <Tooltip title={`${row?.assignTo?.firstname}${row?.assignTo?.lastname}`}>
+                                                    <Avatar sx={{ width: 30, height: 30 }} alt={`${row?.assignTo?.firstname}${row?.assignTo?.lastname}`} src={row?.assignTo?.Profile} />
+                                                </Tooltip>
+                                            </AvatarGroup>
+                                        )}
+                                    </Box>
                                 </Box>
                             </Box>
-                        </Box>
 
-                        {/* Hidden audio element with multiple format support */}
-                        <audio ref={audioRef} preload="auto">
-                            <source src="/image/ding-sound-246413.mp3" type="audio/mpeg" />
-                            <source src="/image/ding-sound-246413.ogg" type="audio/ogg" />
-                        </audio>
-                    </Card>
-                </Grid>
-            ))}
+                            {/* Hidden audio element with multiple format support */}
+                            <audio ref={audioRef} preload="auto">
+                                <source src="/image/ding-sound-246413.mp3" type="audio/mpeg" />
+                                <source src="/image/ding-sound-246413.ogg" type="audio/ogg" />
+                            </audio>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
         </Box>
     );
 };

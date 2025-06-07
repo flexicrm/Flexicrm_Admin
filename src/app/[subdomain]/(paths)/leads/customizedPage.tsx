@@ -233,7 +233,7 @@ const CustomizedLeadPage = () => {
     const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
     const { setValues } = useContext(userContext);
     const subdomain = Cookies.get('subdomain');
-    const accessToken = Cookies.get('accessToken');
+    const accessToken = Cookies.get('crmaccess');
 
     const handleSubmit = async () => {
         if (!fieldName || !fieldType) {

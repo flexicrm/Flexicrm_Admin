@@ -31,7 +31,7 @@ const ConvertCustomer: React.FC<ConvertCustomerProps> = ({ currentLead, setConve
     // const status = 'status';
     console.log(leadStatus, 'convertedStatus');
 
-    const accessToken = Cookies.get('accessToken');
+    const accessToken = Cookies.get('crmaccess');
     const subdomain = Cookies.get('subdomain');
 
     // Snackbar state

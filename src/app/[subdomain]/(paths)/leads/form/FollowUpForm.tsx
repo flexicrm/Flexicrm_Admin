@@ -1,352 +1,5 @@
-// 'use client';
-// import React, { useState, useEffect, useMemo, useCallback } from 'react';
-// import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Select, MenuItem, FormControl, InputLabel, Checkbox, FormControlLabel, Grid, Box } from '@mui/material';
-// import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-// import { MyButton } from '../../../../Component/Buttons/Buttons';
-// import { createFollowupdata, GetFollowupStatus, GetStatus, UpdateFollowupdata } from '../../../../../../api/Leads';
-// import Cookies from 'js-cookie';
-// import { DateTimePicker } from '@mui/x-date-pickers';
-// import LeadStatus from '../leadstatus';
-
-// interface FollowUp {
-//     id?: string;
-//     title?: string;
-//     notes: string;
-//     dueDate: any;
-//     followUpDate?: any;
-//     status?: 'completed' | 'pending' | 'overdue' | 'scheduled';
-//     priority?: 'high' | 'medium' | 'low';
-//     assignTo?: string;
-//     type?: 'call' | 'meeting' | 'email' | 'whatsapp' | 'visit' | 'other';
-//     isSetTimer?: boolean;
-//     dateTime?: string;
-//     outcome?: string;
-//     leadId?: any;
-//     createdAt?: any;
-// }
-
-// interface FollowUpFormProps {
-//     open: boolean;
-//     onOpenChange: (open: boolean) => void;
-//     leadId: any;
-//     followUp?: any;
-//     UsersOptions: any;
-//     setLeads: any;
-//     setSnackbarMessage: any;
-//     setSnackbarSeverity: any;
-//     setSnackbarOpen: any;
-//     // snackbarOpen: boolean;
-//     handleMenuClose: any;
-// }
-
-// interface LeadStatus {
-//     _id: string;
-//     StatusName: string;
-//     color: string;
-// }
-
-// const defaultFollowUp: Partial<FollowUp> = {
-//     title: '',
-//     type: 'call',
-//     notes: '',
-//     priority: 'medium',
-//     status: 'scheduled'
-// };
-
-// const FollowUpForm = ({ open, onOpenChange, leadId, followUp, UsersOptions, setLeads, setSnackbarOpen, setSnackbarSeverity, setSnackbarMessage, handleMenuClose }: FollowUpFormProps) => {
-//     // const { enqueueSnackbar } = useSnackbar();
-//     const lastFollowUp = Array.isArray(followUp) ? followUp[followUp.length - 1] : followUp;
-//     // console.log(snackbarOpen, 'snackbarOpen');
-
-//     const [formData, setFormData] = useState<Partial<FollowUp>>({
-//         ...defaultFollowUp
-//     });
-//     const [dueDate, setDueDate] = useState<any | null>(null);
-//     const [reminderDate, setReminderDate] = useState<any | null>(null);
-//     const [statuses, setStatuses] = useState<LeadStatus[]>([]);
-//     const [isSubmitting, setIsSubmitting] = useState(false);
-//     const [types, setTypes] = useState([]);
-//     const [leadStatus, setLeadStatus] = useState(null);
-//     const [reminderEnabled, setReminderEnabled] = useState(false);
-//     const subdomain = Cookies.get('subdomain');
-//     const isEditMode = !!followUp?.id;
-
-//     const fetchStatuses = useCallback(async () => {
-//         try {
-//             const res = await GetStatus(subdomain);
-//             setStatuses(res.data);
-//         } catch (err) {
-//             console.error(err);
-//             // enqueueSnackbar('Failed to fetch statuses', { variant: 'error' });
-//         }
-//     }, [subdomain]);
-
-//     useEffect(() => {
-//         const fetchData = async () => {
-//             try {
-//                 const response = await GetFollowupStatus(subdomain);
-//                 setTypes(response.data);
-//             } catch (err) {
-//                 console.error(err);
-//                 // enqueueSnackbar('Failed to fetch follow-up types', { variant: 'error' });
-//             }
-//         };
-//         fetchData();
-//     }, [subdomain]);
-
-//     useEffect(() => {
-//         fetchStatuses();
-//     }, [fetchStatuses]);
-
-//     useEffect(() => {
-//         if (followUp) {
-//             setFormData({
-//                 title: lastFollowUp?.title || '',
-//                 type: lastFollowUp?.type?._id || 'call',
-//                 notes: lastFollowUp?.notes || '',
-//                 priority: lastFollowUp?.priority || 'medium',
-//                 status: lastFollowUp?.status?._id || 'scheduled',
-//                 assignTo: lastFollowUp?.assignTo?._id || ''
-//             });
-//             setDueDate(lastFollowUp?.dueDate ? new Date(lastFollowUp.dueDate) : null);
-//             setReminderEnabled(!!lastFollowUp?.isSettimer);
-//             setReminderDate(lastFollowUp?.dateTime ? new Date(lastFollowUp.dateTime) : null);
-//         } else {
-//             setFormData({ ...defaultFollowUp, leadId });
-//             setDueDate(null);
-//             setReminderEnabled(false);
-//             setReminderDate(null);
-//         }
-//     }, [followUp, leadId, lastFollowUp?.assignTo?._id, lastFollowUp?.dateTime, lastFollowUp?.dueDate, lastFollowUp?.isSettimer, lastFollowUp?.notes, lastFollowUp?.priority, lastFollowUp?.status?._id, lastFollowUp?.title, lastFollowUp?.type?._id]);
-
-//     const statusesOptions = useMemo(
-//         () =>
-//             statuses?.map((lead) => ({
-//                 label: lead.StatusName,
-//                 value: lead._id,
-//                 color: lead.color
-//             })),
-//         [statuses]
-//     );
-
-//     const usersType = useMemo(
-//         () =>
-//             types?.map((type) => ({
-//                 label: type.typeName,
-//                 value: type._id
-//             })),
-//         [types]
-//     );
-
-//     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//         const { name, value } = e.target;
-//         setFormData((prev) => ({ ...prev, [name]: value }));
-//     };
-
-//     const handleSelectChange = (name: string, value: string) => {
-//         setFormData((prev) => ({ ...prev, [name]: value }));
-//     };
-
-//     const handleSubmit = async (e: React.FormEvent) => {
-//         e.preventDefault();
-
-//         const followUpData = {
-//             ...(!followUp || !followUp?._id
-//                 ? {
-//                       followUps: [
-//                           {
-//                               title: formData.title!,
-//                               type: formData.type as FollowUp['type'],
-//                               notes: formData.notes,
-//                               dueDate: dueDate?.toISOString(),
-//                               priority: formData.priority as FollowUp['priority'],
-//                               status: formData.status as FollowUp['status'],
-//                               assignTo: formData.assignTo,
-//                               isSetTimer: reminderEnabled,
-//                               dateTime: reminderEnabled && reminderDate ? reminderDate.toISOString() : undefined
-//                           }
-//                       ]
-//                   }
-//                 : {
-//                       title: formData.title!,
-//                       type: formData.type as FollowUp['type'],
-//                       notes: formData.notes,
-//                       dueDate: dueDate?.toISOString(),
-//                       priority: formData.priority as FollowUp['priority'],
-//                       status: formData.status as FollowUp['status'],
-//                       assignTo: formData.assignTo,
-//                       isSetTimer: reminderEnabled,
-//                       dateTime: reminderEnabled && reminderDate ? reminderDate.toISOString() : undefined
-//                   })
-//         };
-
-//         try {
-//             setIsSubmitting(true);
-
-//             if (!followUp) {
-//                 const response = await createFollowupdata(subdomain, leadId, followUpData);
-//                 if (response.success) {
-//                     // enqueueSnackbar(isEditMode ? 'Follow-up updated successfully' : 'Follow-up created successfully', { variant: 'success' });
-//                     handleMenuClose();
-//                     setSnackbarOpen(true);
-//                     setLeads();
-//                     setSnackbarSeverity('success');
-//                     setSnackbarMessage(response?.data?.message);
-//                     onOpenChange(false);
-//                 } else {
-//                     handleMenuClose();
-//                     setSnackbarOpen(true);
-//                     setSnackbarSeverity('error');
-//                     setSnackbarMessage(response.data.errors);
-//                 }
-//             } else {
-//                 const response = await UpdateFollowupdata(subdomain, leadId, followUpData, followUp._id);
-//                 if (response.success) {
-//                     handleMenuClose();
-//                     setSnackbarOpen(true);
-//                     // alert('hellow');
-//                     // enqueueSnackbar(isEditMode ? 'Follow-up updated successfully' : 'Follow-up created successfully', { variant: 'success' });
-//                     handleCancel();
-//                     setSnackbarMessage(response?.data?.message);
-//                     setSnackbarSeverity('success');
-//                     setLeads();
-//                 } else {
-//                     handleMenuClose();
-//                     setSnackbarOpen(true);
-//                     setSnackbarSeverity('success');
-//                     setSnackbarMessage(response.data.errors);
-//                     handleCancel();
-//                 }
-//             }
-//         } catch (error) {
-//             // enqueueSnackbar('Failed to save follow-up', { variant: 'error' });
-//         } finally {
-//             setIsSubmitting(false);
-//         }
-//     };
-
-//     const handleCancel = () => {
-//         onOpenChange(false);
-//     };
-
-//     return (
-//         <Dialog open={open} onClose={handleCancel} fullWidth maxWidth="sm">
-//             <DialogTitle>{followUp?._id ? 'Edit Follow-Up' : 'Add New Follow-Up'}</DialogTitle>
-//             <DialogContent>
-//                 <form onSubmit={handleSubmit}>
-//                     <Grid container spacing={2} sx={{ mt: 4 }}>
-//                         <Grid size={{ xs: 12, sm: 6 }}>
-// {/* <TextField fullWidth label="Title" size="small" name="title" value={formData.title} onChange={handleInputChange} required /> */}
-//                             <LeadStatus leadStatus={leadStatus} onSelect={setLeadStatus} />
-//                         </Grid>
-//                         <Grid size={{ xs: 12, sm: 6 }}>
-//                             <FormControl fullWidth size="small">
-//                                 <TextField select fullWidth size="small" label="Type" name="type" value={formData.type} onChange={(e) => handleSelectChange('type', e.target.value)}>
-//                                     {usersType?.map((option) => (
-//                                         <MenuItem key={option.value} value={option.value}>
-//                                             {option.label}
-//                                         </MenuItem>
-//                                     ))}
-//                                 </TextField>
-//                             </FormControl>
-//                         </Grid>
-//                         <Grid size={{ xs: 12, sm: 6 }}>
-//                             <LocalizationProvider dateAdapter={AdapterDateFns}>
-//                                 <DateTimePicker
-//                                     label="Due Date"
-//                                     value={dueDate}
-//                                     onChange={(newValue) => setDueDate(newValue)}
-//                                     enableAccessibleFieldDOMStructure={false}
-//                                     slots={{ textField: TextField }}
-//                                     slotProps={{ textField: { size: 'small', fullWidth: true, required: true } }}
-//                                 />
-//                             </LocalizationProvider>
-//                         </Grid>
-//                         <Grid size={{ xs: 12, sm: 6 }}>
-//                             <FormControl fullWidth size="small">
-//                                 <InputLabel>Priority</InputLabel>
-//                                 <Select value={formData.priority} onChange={(e) => handleSelectChange('priority', e.target.value)} label="Priority">
-//                                     <MenuItem value="low">Low</MenuItem>
-//                                     <MenuItem value="medium">Medium</MenuItem>
-//                                     <MenuItem value="high">High</MenuItem>
-//                                 </Select>
-//                             </FormControl>
-//                         </Grid>
-//                         <Grid size={{ xs: 12, sm: 6 }}>
-//                             <FormControl fullWidth size="small">
-//                                 <TextField select fullWidth size="small" label="Status" name="status" value={formData.status} onChange={(e) => handleSelectChange('status', e.target.value)}>
-//                                     {statusesOptions.map((option) => (
-//                                         <MenuItem key={option.value} value={option.value}>
-//                                             <Box display="flex" alignItems="center">
-//                                                 <Box
-//                                                     sx={{
-//                                                         width: 16,
-//                                                         height: 16,
-//                                                         bgcolor: `#${option.color}`,
-//                                                         mr: 1
-//                                                     }}
-//                                                 />
-//                                                 {option.label}
-//                                             </Box>
-//                                         </MenuItem>
-//                                     ))}
-//                                 </TextField>
-//                             </FormControl>
-//                         </Grid>
-//                         <Grid size={{ xs: 12, sm: 6 }}>
-//                             <TextField select fullWidth size="small" label="Assign To" name="assignTo" value={formData.assignTo} onChange={handleInputChange}>
-//                                 {UsersOptions?.map((option) => (
-//                                     <MenuItem key={option.value || option.id} value={option.value || option.id}>
-//                                         {option.label || option.name}
-//                                     </MenuItem>
-//                                 ))}
-//                             </TextField>
-//                         </Grid>
-//                         <Grid size={{ xs: 12, sm: 12 }}>
-//                             <FormControlLabel control={<Checkbox size="small" checked={reminderEnabled} onChange={(e) => setReminderEnabled(e.target.checked)} />} label="Set reminder" />
-//                         </Grid>
-//                         {reminderEnabled && (
-//                             <Grid size={{ xs: 12, sm: 12 }}>
-//                                 <LocalizationProvider dateAdapter={AdapterDateFns}>
-//                                     <DateTimePicker
-//                                         label="Reminder Date"
-//                                         value={reminderDate}
-//                                         onChange={(newValue) => setReminderDate(newValue)}
-//                                         enableAccessibleFieldDOMStructure={false}
-//                                         slots={{ textField: TextField }}
-//                                         slotProps={{ textField: { size: 'small', fullWidth: true, required: true } }}
-//                                     />
-//                                 </LocalizationProvider>
-//                             </Grid>
-//                         )}
-//                         {formData.status === 'completed' && (
-//                             <Grid size={{ xs: 12, sm: 12 }}>
-//                                 <TextField size="small" fullWidth label="Outcome" name="outcome" value={formData.outcome || ''} onChange={handleInputChange} multiline rows={3} />
-//                             </Grid>
-//                         )}
-//                         <Grid size={{ xs: 12, sm: 12 }}>
-//                             <TextField size="small" fullWidth label="Notes" name="notes" value={formData.notes || ''} onChange={handleInputChange} multiline rows={3} />
-//                         </Grid>
-//                     </Grid>
-//                     <DialogActions>
-//                         <MyButton variant="text" onClick={handleCancel} color="primary">
-//                             Cancel
-//                         </MyButton>
-//                         <MyButton color="primary" disabled={isSubmitting} type="submit">
-//                             {isSubmitting ? 'Saving...' : isEditMode ? 'Update Follow-Up' : 'Create Follow-Up'}
-//                         </MyButton>
-//                     </DialogActions>
-//                 </form>
-//             </DialogContent>
-//         </Dialog>
-//     );
-// };
-
-// export default FollowUpForm;
 'use client';
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useContext } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Select, MenuItem, FormControl, InputLabel, Checkbox, FormControlLabel, Grid, Box, Fade, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -358,6 +11,7 @@ import { DateTimePicker } from '@mui/x-date-pickers';
 import confetti from 'canvas-confetti';
 import LeadStatus from '../leadstatus';
 import { EmojiEvents, SentimentVeryDissatisfied } from '@mui/icons-material';
+import userContext from '../../../../UseContext/UseContext';
 
 interface FollowUp {
     id?: string;
@@ -406,6 +60,8 @@ const motivationalMessages = ['Better luck next time!', "Every 'no' brings you c
 
 const FollowUpForm = ({ open, onOpenChange, leadId, followUp, UsersOptions, setLeads, setSnackbarOpen, setSnackbarSeverity, setSnackbarMessage, handleMenuClose }: FollowUpFormProps) => {
     const lastFollowUp = Array.isArray(followUp) ? followUp[followUp.length - 1] : followUp;
+    console.log(followUp, 'followUp');
+    const { leadscon } = useContext<any>(userContext);
     const [formData, setFormData] = useState<Partial<FollowUp>>({ ...defaultFollowUp });
     const [dueDate, setDueDate] = useState<any | null>(null);
     const [reminderDate, setReminderDate] = useState<any | null>(null);
@@ -604,23 +260,34 @@ const FollowUpForm = ({ open, onOpenChange, leadId, followUp, UsersOptions, setL
 
             if (!followUp) {
                 const response = await createFollowupdata(subdomain, leadId, followUpData);
+                console.log(response, 'response');
                 if (response.success) {
                     setSnackbarOpen(true);
-                    setLeads();
+
                     setSnackbarSeverity('success');
                     setSnackbarMessage(response?.data?.message);
                     onOpenChange(false);
-                    console.log(response, 'response');
-
+                    handleMenuClose();
                     if (response?.data?.updatedLead?.leadstatus.statusName.toLowerCase() == 'won') {
                         setShowWonAnimation(true);
                         handleMenuClose();
-                    } else {
-                        alert('demo');
+                        onOpenChange(false);
+                        // setLeads();
+                        // setLeadsCon((prev) => !prev);
+                    } else if (response?.data?.updatedLead?.leadstatus.statusName.toLowerCase() == 'lost') {
                         setShowLostAnimation(true);
                         setCurrentMessage(response.data.message || 'Opportunity lost.');
                         handleMenuClose();
+                        // setLeads();
+                        // setLeadsCon((prev) => !prev);
                     }
+                    const updatedLead = response.data.updatedLead;
+                    const leadExists = leadscon.some((lead) => lead.LeadId === updatedLead.LeadId);
+
+                    const updatedLeads = leadExists ? leadscon.map((lead) => (lead.LeadId === updatedLead.LeadId ? updatedLead : lead)) : [...leadscon, updatedLead];
+
+                    setLeads(updatedLeads);
+                    // setLeads((prev) => console.log(prev));
                 } else {
                     handleMenuClose();
                     setSnackbarOpen(true);
@@ -629,23 +296,52 @@ const FollowUpForm = ({ open, onOpenChange, leadId, followUp, UsersOptions, setL
                 }
             } else {
                 const response = await UpdateFollowupdata(subdomain, leadId, followUpData, followUp._id);
-                console.log(response, 'response');
                 if (response.success) {
                     setSnackbarOpen(true);
-                    handleCancel();
-                    // setSnackbarMessage(response?.data?.updatedLead.followUps.slice(-1)[0]);
+                    // handleCancel();
+                    console.log(response, 'response');
+
                     setSnackbarSeverity('success');
+                    setSnackbarMessage(response?.data?.message);
                     // console.log(response?.data?.updatedLead.followUps.slice(-1)[0], 'response');
-                    setLeads();
+                    // setLeads();
+                    // const updatedLead = response.data.updatedLead;
+
+                    // // Ensure followUp is an object
+                    // const followUpObject = typeof followUp === 'object' && followUp !== null ? followUp : {};
+
+                    // // Check if the LeadId exists in the followUp object
+                    // const leadExists = updatedLead.LeadId in followUpObject;
+
+                    // // Update or add the lead to the followUp object
+                    // const updatedLeads = {
+                    //     ...followUpObject,
+                    //     [updatedLead.LeadId]: leadExists ? { ...followUpObject[updatedLead.LeadId], ...updatedLead } : updatedLead
+                    // };
+
+                    // // If you need to convert the object back to an array or another format, do it here
+                    // // For example, converting the object values to an array
+                    // const updatedLeadsArray = Object.values(updatedLeads);
+                    // console.log(updatedLeadsArray, 'updatedLeadsArray');
+                    // // Set the state with the updated leads
+                    // setLeads(updatedLeadsArray);
 
                     if (response?.data?.updatedLead?.leadstatus.statusName.toLowerCase() == 'won') {
                         setShowWonAnimation(true);
                         handleMenuClose();
-                    } else {
+                        onOpenChange(false);
+                        // setLeads();
+                        // setLeadsCon((prev) => !prev);
+                    } else if (response?.data?.updatedLead?.leadstatus.statusName.toLowerCase() == 'lost') {
                         setShowLostAnimation(true);
                         setCurrentMessage(response.data.message || 'Opportunity lost.');
                         handleMenuClose();
+                        // setLeads();
+                        // setLeadsCon((prev) => !prev);
                     }
+
+                    handleMenuClose();
+                    // setLeadsCon((prev) => console.log(prev, 'aaaa'));
                 } else {
                     handleMenuClose();
                     setSnackbarOpen(true);
@@ -740,14 +436,14 @@ const FollowUpForm = ({ open, onOpenChange, leadId, followUp, UsersOptions, setL
                                         {statusesOptions.map((option) => (
                                             <MenuItem key={option.value} value={option.value}>
                                                 <Box display="flex" alignItems="start">
-                                                    <Box
+                                                    {/* <Box
                                                         sx={{
                                                             width: 16,
                                                             height: 16,
                                                             bgcolor: `#${option.color}`
                                                             // mr: 1
                                                         }}
-                                                    />
+                                                    /> */}
                                                     {option.label}
                                                 </Box>
                                             </MenuItem>
@@ -823,7 +519,7 @@ const FollowUpForm = ({ open, onOpenChange, leadId, followUp, UsersOptions, setL
                                 Cancel
                             </MyButton>
                             <MyButton color="primary" disabled={isSubmitting} type="submit">
-                                {isSubmitting ? 'Saving...' : isEditMode ? 'Update Follow-Up' : 'Create Follow-Up'}
+                                {isSubmitting ? 'Saving...' : !followUp ? 'Create Follow-Up' : 'Update Follow-Up'}
                             </MyButton>
                         </DialogActions>
                     </form>

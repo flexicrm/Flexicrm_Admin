@@ -1,11 +1,12 @@
 'use client';
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useContext } from 'react';
 import { Box, Typography, Button, Paper, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, CircularProgress, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Snackbar, Alert } from '@mui/material';
 import { CloudUpload as UploadIcon, Close as CloseIcon } from '@mui/icons-material';
 import * as XLSX from 'xlsx';
 import { MyButton } from '../../../../Component/Buttons/Buttons';
 import { bulkUpload } from '../../../../../../api/BulkUpload';
 import Cookies from 'js-cookie';
+import userContext from '../../../../UseContext/UseContext';
 
 interface FileWithPreview extends File {
     preview?: string;
@@ -212,6 +213,32 @@ const BulkUploadDialog: React.FC<BulkUploadDialogProps> = ({ open, onClose, onUp
                         </Paper>
                     </Box>
                 )}
+                <TableContainer component={Paper} sx={{ maxHeight: 400, overflow: 'auto' }}>
+                    <Table stickyHeader>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Name</TableCell>
+                                <TableCell>Email</TableCell>
+                                <TableCell>Mobile No</TableCell>
+                                <TableCell>Company</TableCell>
+                                <TableCell>Job Title</TableCell>
+                                <TableCell>Website</TableCell>
+                                <TableCell>leadsource</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell>John</TableCell>
+                                <TableCell>John@gmail.com</TableCell>
+                                <TableCell>+91 74339073..</TableCell>
+                                <TableCell>ABC Company</TableCell>
+                                <TableCell>Developer</TableCell>
+                                <TableCell>www.cabc.com</TableCell>
+                                <TableCell>eg..Facebook,Instagram</TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
 
                 {uploadedData.length > 0 && (
                     <Box sx={{ mt: 2 }}>
@@ -275,28 +302,21 @@ const BulkUploadDialog: React.FC<BulkUploadDialogProps> = ({ open, onClose, onUp
 const ResearchPage = (fetchLeads: any) => {
     const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
     const [uploadSuccess, setUploadSuccess] = useState(false);
+    const { leadscon } = useContext<any>(userContext);
     const subdomain = Cookies.get('subdomain');
-    const handleUpload = async (data: UploadedData[]) => {
-        console.log('Data to be uploaded:', data);
+    const handleUpload = async (data: any) => {
         const payload = { leads: data };
-        const response = bulkUpload(subdomain, payload);
+        const response = await bulkUpload(subdomain, payload);
         console.log(response, 'response');
-        fetchLeads();
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        setUploadDialogOpen(false);
-        // In a real app, you would do something like:
-        // try {
-        //   const response = await fetch('/api/upload', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(data)
-        //   });
-        //   if (!response.ok) throw new Error('Upload failed');
-        //   setUploadSuccess(true);
-        // } catch (error) {
-        //   throw error;
-        // }
+        if (response) {
+            setUploadDialogOpen(false);
+
+            const updatedLead = response?.data;
+
+            const updatedLeads = [...leadscon, updatedLead];
+
+            fetchLeads(updatedLeads);
+        }
 
         setUploadSuccess(true);
     };
