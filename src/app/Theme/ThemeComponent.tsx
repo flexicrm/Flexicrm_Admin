@@ -681,14 +681,14 @@ const getTheme = (mode: PaletteMode, customColors = baseColors) => {
                 lineHeight: 1.2
             },
             h2: {
-                fontWeight: 700,
-                fontSize: '2rem',
-                lineHeight: 1.3
+                fontWeight: 600,
+                fontSize: '1.5rem',
+                lineHeight: '2rem'
             },
             h3: {
-                fontWeight: 600,
-                fontSize: '1.75rem',
-                lineHeight: 1.3
+                fontWeight: 500,
+                fontSize: '.875rem',
+                lineHeight: "1.25rem"
             },
             h4: {
                 fontWeight: 600,
@@ -769,8 +769,11 @@ const getTheme = (mode: PaletteMode, customColors = baseColors) => {
                     root: {
                         borderRadius: '6px',
                         padding: '10px 20px',
-                        fontWeight: 600,
+                        // fontWeight: 600,
                         boxShadow: 'none',
+                        fontSize: '14px',
+                        fontWeight: 400,
+                        height: '2.5rem',
                         '&:hover': {
                             boxShadow: 'none'
                         }
@@ -832,6 +835,7 @@ const getTheme = (mode: PaletteMode, customColors = baseColors) => {
                             color: 'rgba(0, 0, 0, 0.38)'
                         }
                     },
+
                     input: {
                         '&::placeholder': {
                             opacity: 0.6

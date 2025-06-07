@@ -41,6 +41,7 @@ import TaskManagement from './kanban/kanbanleads';
 import Link from 'next/link';
 import userContext from '../../../UseContext/UseContext';
 import { usersSingleGET } from '../../../../../api/user';
+// import TaskManagement from './kanban/TaskMagement';
 
 interface Lead {
     _id: string;
@@ -373,7 +374,7 @@ const LeadsPage: React.FC = () => {
     return (
         <Box>
             {/* <Paper elevation={0} > */}
-            <Grid container spacing={2} alignItems="center" sx={{ mb: 3 }}>
+            <Grid container spacing={2} alignItems="center">
                 <Grid size={{ xs: 12, sm: 6 }}>
                     <Typography variant="h5" color="primary" component="h1" sx={{ fontWeight: 600 }}>
                         Leads{' '}

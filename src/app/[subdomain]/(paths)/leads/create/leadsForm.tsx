@@ -2162,9 +2162,9 @@ const COUNTRY_POTENTIAL_VALUES: Record<string, number> = {
     ca: 8000, // Canada
     gb: 9000, // United Kingdom
     au: 8500, // Australia
-    in: 5000, // India
+    in: 0, // India
     // Add more countries as needed
-    default: 6000 // Default value
+    default: 0 // Default value
 };
 type Severity = 'error' | 'warning' | 'info' | 'success';
 
@@ -2276,7 +2276,7 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
         validationSchema: Yup.object({
             manualData: Yup.object().shape({
                 name: Yup.string().required('Full name is required'),
-                email: Yup.string().email('Invalid email').required('Email is required'),
+                // email: Yup.string().email('Invalid email').required('Email is required'),
                 mobileNo: Yup.string().required('Phone number is required')
             })
         }),
@@ -2575,47 +2575,6 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                                     }}
                                 />
                             </Grid>
-                            <Typography variant="h6" gutterBottom sx={{ fontWeight: '400' }}>
-                                Lead Details
-                            </Typography>
-
-                            <Grid container spacing={2}>
-                                <Grid size={{ xs: 12, sm: 6 }}>
-                                    <LeadStatus leadStatus={leadStatus} onSelect={setLeadStatus} />
-                                </Grid>
-
-                                <Grid size={{ xs: 12, sm: 6 }}>
-                                    <LeadSource onSelect={setLeadSource} leadSource={leadSource} />
-                                </Grid>
-
-                                <Grid size={{ xs: 12, sm: 12 }}>
-                                    <TextField
-                                        fullWidth
-                                        size="small"
-                                        label={`Potential Value ${countryCode.toUpperCase()}`}
-                                        name="potentialValue"
-                                        type="number"
-                                        value={formik.values.potentialValue}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        error={!!(formik.touched.potentialValue && formik.errors.potentialValue)}
-                                        InputProps={{
-                                            startAdornment: <InputAdornment position="start">{countryCode.toUpperCase()}</InputAdornment>,
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    <Typography variant="caption" color="textSecondary">
-                                                        {countryCode.toUpperCase()}
-                                                    </Typography>
-                                                </InputAdornment>
-                                            )
-                                        }}
-                                    />
-                                </Grid>
-
-                                <Grid size={{ xs: 12, sm: 12 }}>
-                                    <TextField fullWidth size="small" multiline rows={3} label="Notes" name="description" value={formik.values.description} onChange={formik.handleChange} />
-                                </Grid>
-                            </Grid>
                         </Grid>
 
                         <Divider sx={{ my: 1 }} />
@@ -2623,11 +2582,71 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
 
                     {/* Right Column - Interaction & Assignment */}
                     <Grid size={{ xs: 12, sm: 6 }}>
-                        <Typography variant="h6" gutterBottom sx={{ fontWeight: '400', display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <MeetingIcon /> Interaction Details
+                        <Typography variant="h6" gutterBottom sx={{ fontWeight: '400' }}>
+                            Lead Details
                         </Typography>
 
                         <Grid container spacing={2}>
+                            <Grid size={{ xs: 12, sm: 6 }}>
+                                <LeadStatus leadStatus={leadStatus} onSelect={setLeadStatus} />
+                            </Grid>
+
+                            <Grid size={{ xs: 12, sm: 6 }}>
+                                <LeadSource onSelect={setLeadSource} leadSource={leadSource} />
+                            </Grid>
+
+                            <Grid size={{ xs: 12, sm: 6 }}>
+                                <TextField
+                                    fullWidth
+                                    size="small"
+                                    label={`Potential Value ${countryCode.toUpperCase()}`}
+                                    name="potentialValue"
+                                    type="number"
+                                    value={formik.values.potentialValue}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={!!(formik.touched.potentialValue && formik.errors.potentialValue)}
+                                    InputProps={{
+                                        startAdornment: <InputAdornment position="start">{countryCode.toUpperCase()}</InputAdornment>,
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <Typography variant="caption" color="textSecondary">
+                                                    {countryCode.toUpperCase()}
+                                                </Typography>
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                />
+                            </Grid>
+                            <Grid size={{ xs: 12, sm: 6 }}>
+                                <TextField
+                                    select
+                                    fullWidth
+                                    size="small"
+                                    label="Assign To "
+                                    name="assignTo"
+                                    value={formik.values.assignTo}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={!!(formik.touched.assignTo && formik.errors.assignTo)}
+                                >
+                                    {UsersOptions?.map((option) => (
+                                        <MenuItem key={option.value || option.id} value={option.value || option.id}>
+                                            {option.label || option.name}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            </Grid>
+
+                            <Grid size={{ xs: 12, sm: 12 }}>
+                                <TextField fullWidth size="small" multiline rows={3} label="Notes" name="description" value={formik.values.description} onChange={formik.handleChange} />
+                            </Grid>
+                        </Grid>
+                        {/* <Typography variant="h6" gutterBottom sx={{ fontWeight: '400', display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <MeetingIcon /> Interaction Details
+                        </Typography> */}
+
+                        {/* <Grid container spacing={2}>
                             <Grid size={{ xs: 12, sm: 12 }}>
                                 <Typography variant="subtitle2" sx={{ mb: 1 }}>
                                     Interaction Type
@@ -2647,8 +2666,8 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                                                 }}
                                                 sx={{ p: 1, textAlign: 'center', pl: 2 }}
                                             />
-                                            {/* {type?.label || integrationType} */}
-                                            {/* </Button> */}
+                                            {type?.label || integrationType}
+                                            </Button>
                                         </Tooltip>
                                     ))}
                                 </ButtonGroup>
@@ -2676,7 +2695,7 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                                     ))}
                                 </TextField>
                             </Grid>
-                        </Grid>
+                        </Grid> */}
 
                         {submitError && (
                             <Typography color="error" sx={{ mt: 2 }}>

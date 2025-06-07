@@ -98,6 +98,7 @@ export const LeftPanel = styled(Paper)<LeftPanelProps>(({ theme, width }) => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 0,
     // width: width ?? '50%',
     [theme.breakpoints.down('sm')]: {
         display: 'none'
@@ -111,7 +112,8 @@ export const RightPanel = styled(Paper)(({ theme }: { theme: Theme }) => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    height: '100%'
+    height: '100%',
+    borderRadius: 0
 }));
 
 // Large background circle
@@ -151,7 +153,7 @@ export const Dot = styled(Box, {
     width: 8,
     height: 8,
     borderRadius: '50%',
-    backgroundColor: active ? theme.palette.secondary.main : 'transparent',
+    backgroundColor: active ? theme.palette.secondary.contrastText : 'white',
     border: `1px solid ${theme.palette.secondary.main}`,
     transition: 'background-color 0.3s ease'
 }));

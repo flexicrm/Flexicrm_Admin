@@ -334,7 +334,7 @@ export default function ResetPasswordPage({ slug }: any) {
     const { flexilogo } = contextvalue;
 
     const subdomain2 = Cookies.get('subdomain');
-    const item = [{ img: '/Group.png' }, { img: '/Group.png' }, { img: '/Group.png' }];
+    const item = [{ img: '/Group.png' }, { img: '/slider1.png' }, { img: '/slider2.png' }];
 
     useEffect(() => {
         if (item.length > 0) {

@@ -698,7 +698,7 @@ export default function Sidebar({ isOpen, toggleSidebar }: any) {
                     ) : null;
                 })}
 
-                <ListItem disablePadding sx={{ marginTop: 'auto' }}>
+                {/* <ListItem disablePadding sx={{ marginTop: 'auto' }}>
                     <ListItemButton
                         onClick={handleLogOff}
                         sx={{
@@ -728,7 +728,7 @@ export default function Sidebar({ isOpen, toggleSidebar }: any) {
                             }}
                         />
                     </ListItemButton>
-                </ListItem>
+                </ListItem> */}
             </MenuList>
         </SidebarContainer>
     );

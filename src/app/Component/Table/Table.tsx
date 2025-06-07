@@ -483,19 +483,19 @@
 
 //                                             <Box>
 //                                                 {row?.followUps?.slice(-1)[0]?.priority && (
-//                                                     <CustomChip
-//                                                         status={{
-//                                                             hexColor:
-//                                                                 row?.followUps?.slice(-1)[0]?.priority === 'medium'
-//                                                                     ? 'ff9800'
-//                                                                     : row?.followUps?.slice(-1)[0]?.priority === 'high'
-//                                                                     ? 'd50000'
-//                                                                     : row?.followUps?.slice(-1)[0]?.priority === 'low'
-//                                                                     ? '33691e'
-//                                                                     : '4caf50',
-//                                                             statusName: row?.followUps?.slice(-1)[0]?.priority || 'Not Followed'
-//                                                         }}
-//                                                     />
+                                                    // <CustomChip
+                                                    //     status={{
+                                                    //         hexColor:
+                                                    //             row?.followUps?.slice(-1)[0]?.priority === 'medium'
+                                                    //                 ? 'ff9800'
+                                                    //                 : row?.followUps?.slice(-1)[0]?.priority === 'high'
+                                                    //                 ? 'd50000'
+                                                    //                 : row?.followUps?.slice(-1)[0]?.priority === 'low'
+                                                    //                 ? '33691e'
+                                                    //                 : '4caf50',
+                                                    //         statusName: row?.followUps?.slice(-1)[0]?.priority || 'Not Followed'
+                                                    //     }}
+                                                    // />
 //                                                 )}
 //                                             </Box>
 //                                             {/* </Tooltip> */}

@@ -24,7 +24,7 @@ export default function ForgotPasswordPage() {
     const subdomain2 = Cookies.get('subdomain');
     console.log(flexilogo, 'flexilogo');
 
-    const item = [{ img: '/Group.png' }, { img: '/Group.png' }, { img: '/Group.png' }];
+    const item = [{ img: '/Group.png' }, { img: '/slider1.png' }, { img: '/slider2.png' }];
 
     useEffect(() => {
         if (item?.length > 0) {
@@ -84,17 +84,17 @@ export default function ForgotPasswordPage() {
                                 <Typography variant="body1">{subdomain}</Typography>
                             </Box> */}
 
-                            <Box sx={{ textAlign: 'center', mt: 4 }}>
+                            <Box sx={{ textAlign: 'center', mt: 2 }}>
                                 <Circle1>
                                     <Circle2>
                                         <Box component="img" src={item[currentIndex].img} alt="Group" loading="lazy" sx={{ width: '80%', height: 'auto' }} />
                                     </Circle2>
                                 </Circle1>
 
-                                <Typography variant="h6" sx={{ mt: 5 }}>
+                                <Typography variant="h6" sx={{ mt: 1 }}>
                                     Customizable Multipurpose Dashboard
                                 </Typography>
-                                <Typography variant="body1" sx={{ mt: 2, fontSize: '12px' }}>
+                                <Typography variant="body1" sx={{ mt: 1, fontSize: '12px' }}>
                                     Everything you need in an easily customizable dashboard.
                                 </Typography>
 
@@ -120,7 +120,7 @@ export default function ForgotPasswordPage() {
                                         {subdomain2}
                                     </Typography>
                                 )}
-                                <Typography variant="h6" gutterBottom>
+                                <Typography variant="h2" gutterBottom>
                                     Forgot Your Password
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary" sx={{ mb: 3, textAlign: 'start' }}>
@@ -142,10 +142,29 @@ export default function ForgotPasswordPage() {
                                     <TextField
                                         margin="normal"
                                         // required
+                                        sx={{
+                                            '& .MuiOutlinedInput-root': {
+                                                height: '40px',
+                                                '& input': {
+                                                    // padding: '10px 1px', // Adjust based on height
+                                                    fontSize: '14px',
+                                                    lineHeight: '2.10rem'
+                                                    // textIndent: '1rem'
+                                                }
+                                            },
+                                            '& .MuiInputLabel-root': {
+                                                // fontSize: '1rem',
+                                                lineHeight: '1.3rem'
+                                            },
+                                            '& .MuiFormHelperText-root': {
+                                                fontSize: '0.875rem'
+                                            }
+                                        }}
                                         fullWidth
                                         id="email"
                                         label="Email Address"
                                         name="email"
+                                        size="small"
                                         autoComplete="email"
                                         autoFocus
                                         value={email}
@@ -155,14 +174,14 @@ export default function ForgotPasswordPage() {
                                         }}
                                         error={!!emailError}
                                         helperText={emailError}
-                                        sx={{ mb: 2 }}
+                                        // sx={{ mb: 2 }}
                                     />
 
-                                    <Button type="submit" fullWidth variant="contained" disabled={loading} sx={{ mt: 2, mb: 2 }}>
+                                    <Button type="submit" fullWidth variant="contained" disabled={loading} sx={{ mt: '19px', fontSize: '14px', fontWeight: 400 }}>
                                         {loading ? 'Sending...' : 'Send Reset Link'}
                                     </Button>
 
-                                    <Typography variant="body2" sx={{ mt: 2 }}>
+                                    <Typography variant="body2" sx={{ fontSize: '14px', fontWeight: 400, mt: 2 }}>
                                         Remember your password?{' '}
                                         <Link href={`/${subdomain}/login`} passHref style={{ textDecoration: 'none', color: 'primary.main' }}>
                                             Sign in

@@ -38,6 +38,7 @@
         "jspdf": "^2.5.2",
         "jspdf-autotable": "^3.8.4",
         "libphonenumber-js": "^1.12.8",
+        "lucide-react": "^0.513.0",
         "my-app": "file:",
         "next": "^15.1.7",
         "npm": "^11.4.1",
