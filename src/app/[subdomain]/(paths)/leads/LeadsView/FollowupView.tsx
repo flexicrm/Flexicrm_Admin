@@ -550,9 +550,9 @@ import { Avatar, Box, Button, Card, Chip, CircularProgress, Stack, Typography } 
 import { Timeline, TimelineItem, TimelineSeparator, TimelineDot, TimelineConnector, TimelineContent } from '@mui/lab';
 
 import FollowUpForm from '../form/FollowUpForm';
-import { MyButton } from '../../../../Component/Buttons/Buttons';
-import { CustomChip } from '../../../../Component/Chip/Chip';
-import { MySnackbar } from '../../../../Component/Snackbar/Snackbar';
+import { MyButton } from '../../../../ui-components/Buttons/Buttons';
+import { CustomChip } from '../../../../ui-components/Chip/Chip';
+import { MySnackbar } from '../../../../ui-components/Snackbar/Snackbar';
 
 type Severity = 'error' | 'warning' | 'info' | 'success';
 

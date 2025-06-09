@@ -2149,12 +2149,12 @@ import LeadStatus from '../leadstatus';
 import LeadSource from '../leadsource';
 import Cookies from 'js-cookie';
 import userContext from '../../../../UseContext/UseContext';
-import { MyButton } from '../../../../Component/Buttons/Buttons';
+import { MyButton } from '../../../../ui-components/Buttons/Buttons';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import { LeadPost, UpdateLeadsByID } from '../../../../../../api/Leads';
-import { MySnackbar } from '../../../../Component/Snackbar/Snackbar';
+import { MySnackbar } from '../../../../ui-components/Snackbar/Snackbar';
 
 // Country-based potential values (example values)
 const COUNTRY_POTENTIAL_VALUES: Record<string, number> = {

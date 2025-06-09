@@ -239,7 +239,7 @@ import { Edit, Email, Phone, Business, LocationOn } from '@mui/icons-material';
 import userContext from '../../../UseContext/UseContext';
 import { API_BASE_URL } from '../../../utils';
 import Cookies from 'js-cookie';
-import { MyButton } from '../../../Component/Buttons/Buttons';
+import { MyButton } from '../../../ui-components/Buttons/Buttons';
 
 interface UserData {
     firstname?: string;
@@ -315,7 +315,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ data, onClose }) => {
         }
 
         if (profileImage) {
-            formDataToSend.append('profile', profileImage);
+            formDataToSend.append('Profile', profileImage);
         }
 
         try {
@@ -380,7 +380,7 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ data, onClose }) => {
                         <Grid size={{ xs: 12, sm: 12 }}>
                             <MyButton variant="contained">
                                 Upload Profile Image
-                                <input type="file" hidden accept="image/*" onChange={handleImageUpload} />
+                                <input type="file" accept="image/*" onChange={handleImageUpload} />
                             </MyButton>
                             {profileImage && (
                                 <Typography variant="caption" display="block" gutterBottom>

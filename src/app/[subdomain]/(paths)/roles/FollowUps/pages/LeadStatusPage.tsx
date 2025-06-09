@@ -297,8 +297,8 @@ import {
 import { Edit, Delete, Add, CheckCircle, Close } from '@mui/icons-material';
 import Cookies from 'js-cookie';
 import { createStatus, DELETEStatus, GetStatus, UpdateStatus } from '../../../../../../../api/Leads';
-import { MyButton } from '../../../../../Component/Buttons/Buttons';
-import { CustomChip } from '../../../../../Component/Chip/Chip';
+import { MyButton } from '../../../../../ui-components/Buttons/Buttons';
+import { CustomChip } from '../../../../../ui-components/Chip/Chip';
 
 interface LeadStatus {
     _id: string;

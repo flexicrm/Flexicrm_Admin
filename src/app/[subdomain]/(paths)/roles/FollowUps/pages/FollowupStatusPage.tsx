@@ -289,7 +289,7 @@ import {
 import { Edit, Delete, Add, CheckCircle, Close } from '@mui/icons-material';
 import Cookies from 'js-cookie';
 import { createFollowupStatus, DELETEFollowupStatus, GetFollowupStatus, UpdateFollowupStatus } from '../../../../../../../api/Leads';
-import { MyButton } from '../../../../../Component/Buttons/Buttons';
+import { MyButton } from '../../../../../ui-components/Buttons/Buttons';
 
 interface LeadStatus {
     _id: string;

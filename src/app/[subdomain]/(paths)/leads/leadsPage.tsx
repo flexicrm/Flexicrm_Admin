@@ -29,13 +29,13 @@ import {
 } from '@mui/icons-material';
 import Kanban from './kanban/kanbanleads';
 import { API_BASE_URL } from '../../../utils';
-import { MyTable } from '../../../Component/Table/Table';
+import { MyTable } from '../../../ui-components/Table/Table';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
-import { MySnackbar } from '../../../Component/Snackbar/Snackbar';
+import { MySnackbar } from '../../../ui-components/Snackbar/Snackbar';
 import ConvertCustomer from './form/convertcutomer';
 import FollowUpForm from './form/FollowUpForm';
-import { MyButton } from '../../../Component/Buttons/Buttons';
-import DeleteDialog from '../../../Component/CustomiseComponent/DeleteDialog';
+import { MyButton } from '../../../ui-components/Buttons/Buttons';
+import DeleteDialog from '../../../ui-components/CustomiseComponent/DeleteDialog';
 import { getLeads, GETLeadSource, GETLeadsStatus } from '../../../../../api/Leads';
 import TaskManagement from './kanban/kanbanleads';
 import Link from 'next/link';
@@ -109,25 +109,6 @@ const LeadsPage: React.FC = () => {
         }
     };
 
-    console.log(leadstatus, 'leadstatus');
-
-    // const fetchData = useCallback(
-    //     async (url: string, setData: React.Dispatch<React.SetStateAction<any>>) => {
-    //         try {
-    //             const headers = { Authorization: `Bearer ${accessToken}` };
-    //             const response = await axios.get(`${API_BASE_URL}${url}`, { headers });
-    //             setData(response.data.data);
-    //         } catch (error) {
-    //             setError(`Error fetching data from ${url}. Please try again.`);
-    //         }
-    //     },
-    //     [accessToken]
-    // );
-
-    // const fetchProjects = useCallback(async () => {
-    //     await fetchData(`/user/${subdomain}`, (data) => setUsers(data.users || []));
-    // }, [fetchData, subdomain]);
-
     const fetchUsers = async () => {
         const response = await usersSingleGET(subdomain);
         console.log();
@@ -135,9 +116,7 @@ const LeadsPage: React.FC = () => {
             setUsers(response.data.users || []);
         }
     };
-    // const fetchLeadstatus = useCallback(async () => {
-    //     await fetchData(`/leadstatus/${subdomain}`, setLeadstatus);
-    // }, [fetchData, subdomain]);
+
     const fetchLeadstatus = async () => {
         try {
             const response = await GETLeadsStatus(subdomain);
@@ -158,10 +137,6 @@ const LeadsPage: React.FC = () => {
             console.error(error);
         }
     };
-
-    // const fetchLeadSources = useCallback(async () => {
-    //     await fetchData(`/leadsource/${subdomain}`, setLeadSources);
-    // }, [fetchData, subdomain]);
 
     const fetchLeads = useCallback(async () => {
         setLoading(true);
@@ -372,7 +347,7 @@ const LeadsPage: React.FC = () => {
     ];
 
     return (
-        <Box>
+        <Box sx={{ p: 2 }}>
             {/* <Paper elevation={0} > */}
             <Grid container spacing={2} alignItems="center">
                 <Grid size={{ xs: 12, sm: 6 }}>

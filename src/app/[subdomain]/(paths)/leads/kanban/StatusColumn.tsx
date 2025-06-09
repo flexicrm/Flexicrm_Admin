@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Stack, Button, Typography, Chip } from '@mui/material';
 import { Droppable } from '@hello-pangea/dnd';
 
-import { CustomChip } from '../../../../Component/Chip/Chip';
+import { CustomChip } from '../../../../ui-components/Chip/Chip';
 import { Add as AddIcon } from '@mui/icons-material';
 import LeadCard from './LeadCard';
 

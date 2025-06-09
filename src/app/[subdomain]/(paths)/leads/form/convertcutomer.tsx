@@ -4,7 +4,7 @@ import axios from 'axios';
 import { TextField, Button, Snackbar, Alert, Box, Typography } from '@mui/material';
 import Cookies from 'js-cookie';
 import { API_BASE_URL } from '../../../../utils';
-import { MyButton } from '../../../../Component/Buttons/Buttons';
+import { MyButton } from '../../../../ui-components/Buttons/Buttons';
 
 interface ConvertCustomerProps {
     currentLead: any;

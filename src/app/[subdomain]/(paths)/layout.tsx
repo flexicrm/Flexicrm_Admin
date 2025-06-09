@@ -1,677 +1,101 @@
-// // // 'use client';
-
-// // // import '../../globals.css';
-// // // // import NotFound from '../../ui/dashboard/notfound/page';
-// // // import { useRouter } from 'next/navigation';
-// // // import React, { useContext, useEffect, useState, ReactNode } from 'react';
-// // // import Cookies from 'js-cookie';
-// // // import axios from 'axios';
-// // // import { useSelector, useDispatch } from 'react-redux';
-// // // import { setSlugname } from '../../store/slice/slug';
-// // // import { setChangeColor } from '../../store/slice/colorslice';
-// // // import { API_BASE_URL } from '../../utils';
-// // // import Sidebar from '../../ui/dashboard/sidebar/page';
-// // // import userContext from '../../UseContext/UseContext';
-// // // import Navbar from '../../ui/dashboard/navbar/page';
-// // // import { CssBaseline } from '@mui/material';
-// // // import { styled } from '@mui/material/styles';
-
-// // // // Global styles
-// // // const GlobalStyles = styled('div')({
-// // //     body: {
-// // //         textDecoration: 'none !important',
-// // //         fontFamily: '"Titillium Web", serif !important'
-// // //     },
-// // //     a: {
-// // //         textDecoration: 'none !important'
-// // //     },
-// // //     '.p-component': {
-// // //         fontFamily: '"Titillium Web", serif !important'
-// // //     }
-// // // });
-
-// // // // Container styles
-// // // const ContainerNavbar = styled('div')({
-// // //     display: 'flex',
-// // //     backgroundColor: 'rgba(10, 45, 90, 0.966)',
-// // //     height: '100vh',
-// // //     position: 'fixed',
-// // //     zIndex: 1000
-// // // });
-
-// // // const ContainerSidebar = styled('div')({
-// // //     position: 'fixed',
-// // //     marginTop: '15px',
-// // //     zIndex: 1000
-// // // });
-
-// // // const LayoutContainer = styled('div')({
-// // //     marginTop: '5rem',
-// // //     backgroundColor: 'rgba(10, 45, 90, 0.966)'
-// // // });
-
-// // // const LayoutSidebar = styled('div')({
-// // //     zIndex: 999,
-// // //     position: 'fixed',
-// // //     top: '4rem'
-// // // });
-
-// // // const LayoutContainers = styled('div')({
-// // //     flex: '0 1 1',
-// // //     height: '80%',
-// // //     marginLeft: '5%'
-// // // });
-
-// // // const LayoutContent = styled('div')({
-// // //     marginTop: '12px',
-// // //     paddingTop: '5rem',
-// // //     backgroundColor: 'white',
-// // //     padding: '2rem',
-// // //     height: 'calc(100vh - 5rem)',
-// // //     boxShadow: 'inset 0 3px 4px rgba(0, 0, 0, .1)',
-// // //     borderTop: '1px solid var(--surface-border)',
-// // //     overflow: 'auto',
-// // //     borderTopLeftRadius: '30px'
-// // // });
-
-// // // interface LayoutProps {
-// // //     children: ReactNode;
-// // // }
-
-// // // interface RootState {
-// // //     auth: {
-// // //         accessToken: string;
-// // //     };
-// // // }
-
-// // // export default function Layout({ children }: LayoutProps) {
-// // //     const router = useRouter();
-// // //     const [isOpen, setIsOpen] = useState<boolean>(false);
-// // //     const [isLoading, setIsLoading] = useState<boolean>(true);
-// // //     const subdomain = Cookies.get('subdomain') as string;
-// // //     const dispatch = useDispatch();
-// // //     const [data, setData] = useState<any>([]);
-// // //     const toggleSidebar = () => setIsOpen(!isOpen);
-// // //     const [cutomber, setCustomerId] = useState<any[]>([]);
-// // //     const [Customber, setCustomber] = useState<any[]>([]);
-// // //     const [singledata, setSingledata] = useState<any>({});
-// // //     const [refreshdata, setrefreshdata] = useState<boolean>(false);
-// // //     const [singleitem, setSingleitem] = useState<any[]>([]);
-// // //     const [finalTotals, setFinalTotal] = useState<any[]>([]);
-// // //     const [subtotals, setSubtotal] = useState<any[]>([]);
-// // //     const [discounts, setDiscount] = useState<any[]>([]);
-// // //     const [valuesdataleads, setValues] = useState<any[]>([]);
-// // //     const [report, setReport] = useState<any[]>([]);
-
-// // //     const accessToken = useSelector((state: RootState) => state.auth.accessToken);
-
-// // //     useEffect(() => {
-// // //         if (accessToken) {
-// // //             dispatch(setSlugname({ slugname: subdomain }));
-// // //             const headers = {
-// // //                 Authorization: `Bearer ${accessToken}`
-// // //             };
-// // //             axios.get(`${API_BASE_URL}/user/${subdomain}/me`, { headers }).then((response) => {
-// // //                 setData(response.data.data);
-// // //             });
-// // //         }
-// // //     }, [accessToken, dispatch, subdomain]);
-
-// // //     useEffect(() => {
-// // //         if (!accessToken) {
-// // //             router.push(`/${subdomain}/login`);
-// // //         } else {
-// // //             setIsLoading(false);
-// // //         }
-// // //     }, [accessToken, router, subdomain]);
-
-// // //     useEffect(() => {
-// // //         const interval = setInterval(() => {
-// // //             Cookies.remove('accessToken');
-// // //             Cookies.remove('refreshToken');
-// // //             Cookies.remove('isFirstlogin');
-// // //             router.push(`/${subdomain}/login`);
-// // //         }, 3600000);
-// // //         return () => clearInterval(interval);
-// // //     }, [router, subdomain]);
-
-// // //     if (isLoading) {
-// // //         return null;
-// // //     }
-
-// // //     const defaultvalues = {
-// // //         singleitem,
-// // //         setSingleitem,
-// // //         cutomber,
-// // //         setCustomerId,
-// // //         setCustomber,
-// // //         Customber,
-// // //         setSingledata,
-// // //         singledata,
-// // //         refreshdata,
-// // //         setrefreshdata,
-// // //         setFinalTotal,
-// // //         setSubtotal,
-// // //         setDiscount,
-// // //         discounts,
-// // //         subtotals,
-// // //         finalTotals,
-// // //         setValues,
-// // //         valuesdataleads,
-// // //         data,
-// // //         setData,
-// // //         report,
-// // //         setReport
-// // //     };
-
-// // //     return (
-// // //         <>
-// // //             <CssBaseline />
-// // //             <GlobalStyles />
-// // //             <userContext.Provider value={defaultvalues}>
-// // //                 <LayoutContainer>
-// // //                     <ContainerNavbar>
-// // //                         <Navbar isOpen={isOpen} toggleSidebar={toggleSidebar} />
-// // //                     </ContainerNavbar>
-// // //                     <LayoutSidebar>
-// // //                         <ContainerSidebar>
-// // //                             <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
-// // //                         </ContainerSidebar>
-// // //                     </LayoutSidebar>
-// // //                     <LayoutContainers>
-// // //                         <LayoutContent>{children}</LayoutContent>
-// // //                     </LayoutContainers>
-// // //                 </LayoutContainer>
-// // //             </userContext.Provider>
-// // //         </>
-// // //     );
-// // // }
-// // 'use client';
-
-// // import { useRouter } from 'next/navigation';
-// // import React, { useContext, useEffect, useState, ReactNode } from 'react';
-// // import Cookies from 'js-cookie';
-// // import axios from 'axios';
-// // import '../../globals.css';
-// // import { useSelector, useDispatch } from 'react-redux';
-// // import { setSlugname } from '../../store/slice/slug';
-// // import { setChangeColor } from '../../store/slice/colorslice';
-// // import { API_BASE_URL } from '../../utils';
-// // import Sidebar from '../../ui/dashboard/sidebar/page';
-// // import userContext from '../../UseContext/UseContext';
-// // import Navbar from '../../ui/dashboard/navbar/page';
-// // import { CssBaseline, styled, Box, createTheme, Theme, useTheme } from '@mui/material';
-// // import { ThemeProvider } from '../../Theme/ThemeContext';
-
-// // // Styled components using theme
-// // const GlobalContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
-// //     display: 'flex',
-// //     flexDirection: 'column',
-// //     minHeight: '100vh',
-// //     backgroundColor: theme.palette.background.default
-// // }));
-
-// // const NavbarContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
-// //     position: 'fixed',
-// //     top: 0,
-// //     left: 0,
-// //     right: 0,
-// //     height: '2rem',
-// //     backgroundColor: theme.palette.primary.main,
-// //     color: theme.palette.primary.contrastText,
-// //     zIndex: theme.zIndex.drawer + 1,
-// //     display: 'flex',
-// //     alignItems: 'center'
-// // }));
-
-// // const SidebarContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
-// //     position: 'fixed',
-// //     top: '4rem',
-// //     left: 0,
-// //     bottom: 0,
-// //     zIndex: theme.zIndex.drawer,
-// //     backgroundColor: theme.palette.primary.main,
-// //     color: theme.palette.primary.contrastText,
-// //     transition: theme.transitions.create('width', {
-// //         easing: theme.transitions.easing.sharp,
-// //         duration: theme.transitions.duration.leavingScreen
-// //     })
-// // }));
-
-// // const MainContent = styled(Box)(({ theme }: { theme: Theme }) => ({
-// //     // marginTop: '4rem',
-// //     // // marginLeft: '5%',
-// //     // padding: theme.spacing(3),
-// //     // flexGrow: 1,
-// //     // // backgroundColor: theme.palette.primary.main,
-// //     // minHeight: 'calc(100vh - 4rem)',
-// //     // borderTopLeftRadius: '30px',
-// //     // boxShadow: 'inset 0 3px 4px rgba(0, 0, 0, .1)',
-// //     // borderTop: `1px solid ${theme.palette.divider}`,
-// //     // overflow: 'auto'
-// //     marginTop: '12px',
-// //     paddingTop: '5rem',
-// //     backgroundColor: 'white',
-// //     padding: '2rem',
-// //     height: 'calc(100vh - 5rem)',
-// //     boxShadow: 'inset 0 3px 4px rgba(0, 0, 0, .1)',
-// //     borderTop: '1px solid var(--surface-border)',
-// //     overflow: 'auto',
-// //     borderTopLeftRadius: '30px'
-// // }));
-
-// // const ButtonPrimary = styled('button')(({ theme }: { theme: Theme }) => ({
-// //     background: `${theme.palette.secondary.main} `,
-// //     borderRadius: '10px ',
-// //     color: `${theme.palette.secondary.contrastText} `,
-// //     border: '1px solid transparent ',
-// //     padding: '10px !important',
-// //     fontFamily: theme.typography.fontFamily,
-// //     '&:hover': {
-// //         background: `${theme.palette.background.paper} `,
-// //         borderRadius: '10px !important',
-// //         color: `${theme.palette.secondary.main} `,
-// //         border: `1px solid ${theme.palette.divider} `,
-// //         boxShadow: theme.shadows[2]
-// //     }
-// // }));
-
-// // const ButtonSecondary = styled('button')(({ theme }: { theme: Theme }) => ({
-// //     background: `${theme.palette.background.paper} `,
-// //     borderRadius: '10px ',
-// //     color: `${theme.palette.secondary.main} `,
-// //     border: `1px solid ${theme.palette.divider} `,
-// //     padding: '10px ',
-// //     fontFamily: theme.typography.fontFamily,
-// //     boxShadow: theme.shadows[1]
-// // }));
-
-// // const CustomLabel = styled('label')(({ theme }: { theme: Theme }) => ({
-// //     color: theme.palette.text.primary,
-// //     fontFamily: theme.typography.fontFamily,
-// //     fontSize: '16px',
-// //     fontWeight: 700
-// // }));
-
-// // interface LayoutProps {
-// //     children: ReactNode;
-// // }
-
-// // interface RootState {
-// //     auth: {
-// //         accessToken: string;
-// //     };
-// // }
-
-// // export default function Layout({ children }: LayoutProps) {
-// //     const router = useRouter();
-// //     const [isOpen, setIsOpen] = useState<boolean>(false);
-// //     const [isLoading, setIsLoading] = useState<boolean>(true);
-// //     const subdomain = Cookies.get('subdomain') as string;
-// //     const dispatch = useDispatch();
-// //     const [data, setData] = useState<any>([]);
-// //     const toggleSidebar = () => setIsOpen(!isOpen);
-// //     const [cutomber, setCustomerId] = useState<any[]>([]);
-// //     const [Customber, setCustomber] = useState<any[]>([]);
-// //     const [singledata, setSingledata] = useState<any>({});
-// //     const [refreshdata, setrefreshdata] = useState<boolean>(false);
-// //     const [singleitem, setSingleitem] = useState<any[]>([]);
-// //     const [finalTotals, setFinalTotal] = useState<any[]>([]);
-// //     const [subtotals, setSubtotal] = useState<any[]>([]);
-// //     const [discounts, setDiscount] = useState<any[]>([]);
-// //     const [valuesdataleads, setValues] = useState<any[]>([]);
-// //     const [report, setReport] = useState<any[]>([]);
-
-// //     const accessToken = useSelector((state: RootState) => state.auth.accessToken);
-
-// //     useEffect(() => {
-// //         if (accessToken) {
-// //             dispatch(setSlugname({ slugname: subdomain }));
-// //             const headers = {
-// //                 Authorization: `Bearer ${accessToken}`
-// //             };
-// //             axios.get(`${API_BASE_URL}/user/${subdomain}/me`, { headers }).then((response) => {
-// //                 setData(response.data.data);
-// //             });
-// //         }
-// //     }, [accessToken, dispatch, subdomain]);
-
-// //     useEffect(() => {
-// //         if (!accessToken) {
-// //             router.push(`/${subdomain}/login`);
-// //         } else {
-// //             setIsLoading(false);
-// //         }
-// //     }, [accessToken, router, subdomain]);
-
-// //     useEffect(() => {
-// //         const interval = setInterval(() => {
-// //             Cookies.remove('accessToken');
-// //             Cookies.remove('refreshToken');
-// //             Cookies.remove('isFirstlogin');
-// //             router.push(`/${subdomain}/login`);
-// //         }, 3600000);
-// //         return () => clearInterval(interval);
-// //     }, [router, subdomain]);
-
-// //     if (isLoading) {
-// //         return null;
-// //     }
-
-// //     const defaultvalues = {
-// //         singleitem,
-// //         setSingleitem,
-// //         cutomber,
-// //         setCustomerId,
-// //         setCustomber,
-// //         Customber,
-// //         setSingledata,
-// //         singledata,
-// //         refreshdata,
-// //         setrefreshdata,
-// //         setFinalTotal,
-// //         setSubtotal,
-// //         setDiscount,
-// //         discounts,
-// //         subtotals,
-// //         finalTotals,
-// //         setValues,
-// //         valuesdataleads,
-// //         data,
-// //         setData,
-// //         report,
-// //         setReport
-// //     };
-
-// //     return (
-// //         <ThemeProvider>
-// //             <CssBaseline />
-// //             <userContext.Provider value={defaultvalues}>
-// //                 <GlobalContainer>
-// //                     <NavbarContainer>
-// //                         <Navbar isOpen={isOpen} toggleSidebar={toggleSidebar} />
-// //                     </NavbarContainer>
-
-// //                     <SidebarContainer sx={{ width: isOpen ? 250 : 70 }}>
-// //                         <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
-// //                     </SidebarContainer>
-
-// //                     <MainContent
-// //                         sx={{
-// //                             marginLeft: {
-// //                                 xs: 0,
-// //                                 sm: isOpen ? 'calc(5% + 250px)' : 'calc(0% + 70px)'
-// //                             }
-// //                             // transition: theme.transitions.create('margin', {
-// //                             //     easing: theme.transitions.easing.sharp,
-// //                             //     duration: theme.transitions.duration.leavingScreen
-// //                             // })
-// //                         }}
-// //                     >
-// //                         {children}
-// //                     </MainContent>
-// //                 </GlobalContainer>
-// //             </userContext.Provider>
-// //         </ThemeProvider>
-// //     );
-// // }
 // 'use client';
-
 // import '../../globals.css';
-// import { usePathname, useRouter } from 'next/navigation';
-// import React, { useContext, useEffect, useState, ReactNode } from 'react';
+// import React, { useEffect, useState, ReactNode, useContext } from 'react';
+// import { useRouter } from 'next/navigation';
 // import Cookies from 'js-cookie';
-// import axios from 'axios';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { setSlugname } from '../../store/slice/slug';
-// import { setChangeColor } from '../../store/slice/colorslice';
-// import { API_BASE_URL } from '../../utils';
+// import { useSelector } from 'react-redux';
 // import Sidebar from '../../ui/dashboard/sidebar/page';
-// import userContext from '../../UseContext/UseContext';
 // import Navbar from '../../ui/dashboard/navbar/page';
 // import { CssBaseline, Box, styled } from '@mui/material';
-
-// // Styled components using Material-UI
-// const LayoutContainer = styled(Box)({
-//     marginTop: '48px',
-//     backgroundColor: 'rgba(10, 45, 90)',
-//     height: 'calc(100% - 48px)',
-//     overflow: 'hidden',
-//     bottom: 0
-// });
-
-// const LayoutSidebar = styled(Box)({
-//     zIndex: 999,
-//     position: 'fixed'
-//     // top: '0rem'
-// });
-
-// const LayoutContainers = styled(Box)({
-//     flex: '0 1 1',
-//     height: '80%',
-//     marginLeft: '48px'
-// });
-
-// const LayoutContent = styled(Box)({
-//     // marginTop: '12px',
-//     // paddingTop: '5rem',
-//     backgroundColor: '#f8f8fb',
-//     padding: '18px',
-//     height: 'calc(100vh - 3rem)',
-//     boxShadow: 'inset 0 3px 4px rgba(0, 0, 0, 0.1)',
-//     borderTop: '1px solid var(--surface-border)',
-//     overflow: 'auto',
-//     borderTopLeftRadius: '30px'
-// });
+// import userContext from '../../UseContext/UseContext';
+// import ClientWrapper from '../../Components/wrappers/useSubdomainCheck';
+// import { UsersMe } from '../../../../api/user';
+// import { LayoutContainer, LayoutContainers, LayoutContent, LayoutSidebar } from '../../ReuseableStyle/ReusableStyleCom';
 
 // interface LayoutProps {
 //     children: ReactNode;
 // }
-
 // interface RootState {
 //     auth: {
 //         accessToken: string;
 //     };
 // }
-
 // export default function Layout({ children }: LayoutProps) {
-//     // const router = useRouter()/;
 //     const [isOpen, setIsOpen] = useState(false);
-//     const [isLoading, setIsLoading] = useState<boolean>(true);
+//     const { setData, data } = useContext(userContext);
+//     console.log(data, 'data');
 //     const subdomain = Cookies.get('subdomain') as string;
-//     const dispatch = useDispatch();
-//     const [data, setData] = useState<any>([]);
-//     const toggleSidebar = () => setIsOpen(!isOpen);
-//     const [cutomber, setCustomerId] = useState<any[]>([]);
-//     const [Customber, setCustomber] = useState<any[]>([]);
-//     const [singledata, setSingledata] = useState<any>({});
-//     const [refreshdata, setrefreshdata] = useState<boolean>(false);
-//     const [singleitem, setSingleitem] = useState<any[]>([]);
-//     const [finalTotals, setFinalTotal] = useState<any[]>([]);
-//     const [subtotals, setSubtotal] = useState<any[]>([]);
-//     const [discounts, setDiscount] = useState<any[]>([]);
-//     const [valuesdataleads, setValues] = useState<any[]>([]);
-//     const [report, setReport] = useState<any[]>([]);
-//     const [leadscon, setLeadsCon] = useState<any>([]);
-//     const [subdmoainchecker, setSubdmoainchecker] = useState(null);
-
-//     const accessToken = useSelector((state: RootState) => state.auth.accessToken);
-
-//     useEffect(() => {
-//         if (accessToken) {
-//             dispatch(setSlugname({ slugname: subdomain }));
-//             const headers = {
-//                 Authorization: `Bearer ${accessToken}`
-//             };
-//             axios.get(`${API_BASE_URL}/user/${subdomain}/me`, { headers }).then((response) => {
-//                 setData(response.data.data);
-//             });
-//         }
-//     }, [accessToken, dispatch, subdomain]);
-
-//     // useEffect(() => {
-//     //     if (!accessToken) {
-//     //         router.push(`/${subdomain}/login`);
-//     //     } else {
-//     //         setIsLoading(false);
-//     //     }
-//     // }, [accessToken, router, subdomain]);
-
-//     useEffect(() => {
-//         const interval = setInterval(() => {
-//             Cookies.remove('accessToken');
-//             Cookies.remove('refreshToken');
-//             Cookies.remove('isFirstlogin');
-//             router.push(`/${subdomain}/login`);
-//         }, 3600000);
-//         return () => clearInterval(interval);
-//     }, [subdomain]);
-
-//     if (isLoading) {
-//         return null;
-//     }
-
-//     const defaultvalues = {
-//         singleitem,
-//         setSingleitem,
-//         cutomber,
-//         setCustomerId,
-//         setCustomber,
-//         Customber,
-//         setSingledata,
-//         singledata,
-//         refreshdata,
-//         setrefreshdata,
-//         setFinalTotal,
-//         setSubtotal,
-//         setDiscount,
-//         discounts,
-//         subtotals,
-//         finalTotals,
-//         setValues,
-//         valuesdataleads,
-//         data,
-//         setData,
-//         report,
-//         setReport,
-//         leadscon,
-//         setLeadsCon,
-//         subdmoainchecker,
-//         setSubdmoainchecker,
-//     };
-//     const location = usePathname();
-//     // const subdomain = Cookies.get('subdomain');
 //     const crmaccess = Cookies.get('crmaccess');
-//     const router = useRouter();
-//     // const { setSubdmoainchecker } = useContext(userContext);
-
-//     // Split the path and filter out empty segments
-//     const pathSegments = location.split('/').filter(Boolean);
-//     const [location1, location2] = pathSegments;
-
-//     const fetchData = async () => {
+//     const accessToken = useSelector((state: RootState) => state.auth.accessToken);
+//     const toggleSidebar = () => setIsOpen(!isOpen);
+//     const fetcHusers = async () => {
 //         try {
-//             const response = await axios.get(`${API_BASE_URL}/user/check-subdomain/${location1}`);
-//             // console.log(response.data.data.urlPath);
-//             setValues(response?.data?.success || '');
-//             if (response?.data?.success && !crmaccess) {
-//                 Cookies.set('subdomain', response.data.data.urlPath);
-//                 router.push(`/${subdomain}/login`);
+//             if (crmaccess) {
+//                 const response = await UsersMe(subdomain);
+
+//                 setData(response.data);
+//             } else {
 //             }
 //         } catch (error) {
-//             if (error.status == 404) {
-//                 // alert('demo');
-//                 // router.push(`/`);
-//                 // setSubdmoainchecker(error || '');
-//             }
-
-//             console.log(error, 'error');
+//             console.error('Error fetching user data:', error);
 //         }
 //     };
+
 //     useEffect(() => {
-//         fetchData();
-//     }, []);
-//     // console.log(subdmoainchecker, 'subdmoainchecker');
+//         fetcHusers();
+//     }, [accessToken, subdomain]);
+
 //     return (
 //         <>
 //             <CssBaseline />
-//             <userContext.Provider value={defaultvalues}>
+//             <ClientWrapper>
 //                 <LayoutContainer>
-//                     <Box sx={{ display: 'flex', backgroundColor: 'rgba(10, 45, 90, 0.966)', height: '100vh', position: 'fixed', zIndex: 1000 }}>
+//                     <Box
+//                         sx={{
+//                             display: 'flex',
+//                             backgroundColor: 'rgba(10, 45, 90, 0.966)',
+//                             height: '100vh',
+//                             position: 'fixed',
+//                             zIndex: 1000
+//                         }}
+//                     >
 //                         <Navbar isOpen={isOpen} toggleSidebar={toggleSidebar} />
 //                     </Box>
+
 //                     <LayoutSidebar>
-//                         <Box sx={{ position: 'fixed', marginTop: '0px', zIndex: 1000, width: isOpen ? 250 : '48px' }}>
+//                         <Box
+//                             sx={{
+//                                 position: 'fixed',
+//                                 marginTop: '0px',
+//                                 zIndex: 1000
+//                             }}
+//                         >
 //                             <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
 //                         </Box>
 //                     </LayoutSidebar>
-//                     <LayoutContainers>
+
+//                     <LayoutContainers isOpen={isOpen}>
 //                         <LayoutContent>{children}</LayoutContent>
 //                     </LayoutContainers>
 //                 </LayoutContainer>
-//             </userContext.Provider>
+//             </ClientWrapper>
 //         </>
 //     );
 // }
 'use client';
-import '../../globals.css';
-import React, { useEffect, useState, ReactNode, useContext } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import Cookies from 'js-cookie';
-import axios from 'axios';
-import { useSelector, useDispatch } from 'react-redux';
-import { setSlugname } from '../../store/slice/slug';
-import { setChangeColor } from '../../store/slice/colorslice';
 
+import '../../globals.css';
+import React, { useEffect, useState, ReactNode, useContext, useRef } from 'react';
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
+import { useSelector } from 'react-redux';
+import { CssBaseline, Box } from '@mui/material';
 import Sidebar from '../../ui/dashboard/sidebar/page';
 import Navbar from '../../ui/dashboard/navbar/page';
-
-import { CssBaseline, Box, styled } from '@mui/material';
-import { API_BASE_URL } from '../../utils';
-import { boolean } from 'yup';
-import ClientWrapper from '../../ClientWrapper';
-import UserContextProvider from '../../UseContext/Appprovider';
 import userContext from '../../UseContext/UseContext';
-
-// Styled components
-const LayoutContainer = styled(Box)({
-    marginTop: '48px',
-    backgroundColor: 'rgba(10, 45, 90)',
-    height: 'calc(100% - 48px)',
-    overflow: 'hidden',
-    bottom: 0
-});
-
-const LayoutSidebar = styled(Box)({
-    zIndex: 999,
-    position: 'fixed'
-});
-
-const LayoutContainers = styled(Box, {
-    shouldForwardProp: (prop) => prop !== 'isOpen'
-})<{ isOpen?: boolean }>(({ isOpen, theme }) => ({
-    flex: '0 1 1',
-    height: '80%',
-    transition: 'margin-left 0.3s ease-in-out',
-    marginLeft: isOpen ? '250px' : '48px', // Default for desktop
-
-    [theme.breakpoints.down('md')]: {
-        marginLeft: isOpen ? '200px' : '48px'
-    },
-    [theme.breakpoints.down('sm')]: {
-        marginLeft: isOpen ? '150px' : '48px'
-    }
-}));
-
-const LayoutContent = styled(Box)({
-    backgroundColor: '#f8f8fb',
-    padding: '18px',
-    height: 'calc(100vh - 3rem)',
-    boxShadow: 'inset 0 3px 4px rgba(0, 0, 0, 0.1)',
-    borderTop: '1px solid var(--surface-border)',
-    overflow: 'auto',
-    borderTopLeftRadius: '30px'
-});
+import ClientWrapper from '../../Components/wrappers/useSubdomainCheck';
+import { UsersMe } from '../../../../api/user';
+import { LayoutContainer, LayoutContainers, LayoutContent, LayoutSidebar } from '../../ReuseableStyle/ReusableStyleCom';
 
 interface LayoutProps {
     children: ReactNode;
@@ -685,98 +109,50 @@ interface RootState {
 
 export default function Layout({ children }: LayoutProps) {
     const [isOpen, setIsOpen] = useState(false);
-    // const [isLoading, setIsLoading] = useState<boolean>(true);
-    // const [data, setData] = useState<any>([]);
+    const sidebarRef = useRef<HTMLDivElement>(null);
+    const { setData } = useContext(userContext);
 
-    // const [cutomber, setCustomerId] = useState<any[]>([]);
-    // const [Customber, setCustomber] = useState<any[]>([]);
-    // const [singledata, setSingledata] = useState<any>({});
-    // const [refreshdata, setrefreshdata] = useState<boolean>(false);
-    // const [singleitem, setSingleitem] = useState<any[]>([]);
-    // const [finalTotals, setFinalTotal] = useState<any[]>([]);
-    // const [subtotals, setSubtotal] = useState<any[]>([]);
-    // const [discounts, setDiscount] = useState<any[]>([]);
-    // const [valuesdataleads, setValues] = useState<any[]>([]);
-    // const [report, setReport] = useState<any[]>([]);
-    // const [leadscon, setLeadsCon] = useState<any[]>([]);
-    // const [subdmoainchecker, setSubdmoainchecker] = useState(false);
-    // const [flexilogo, setFlexilogo] = useState<any>(null);
-    const { setData, data } = useContext(userContext);
-    console.log(data, 'data');
-    const subdomain = Cookies.get('subdomain') as string;
+    const subdomain = Cookies.get('subdomain') || '';
     const crmaccess = Cookies.get('crmaccess');
-    const dispatch = useDispatch();
-    const router = useRouter();
     const accessToken = useSelector((state: RootState) => state.auth.accessToken);
-    const location = usePathname();
 
-    const toggleSidebar = () => setIsOpen(!isOpen);
+    const toggleSidebar = () => setIsOpen((prev) => !prev);
 
-    // const defaultvalues = {
-    //     flexilogo,
-    //     setFlexilogo,
-    //     singleitem,
-    //     setSingleitem,
-    //     cutomber,
-    //     setCustomerId,
-    //     setCustomber,
-    //     Customber,
-    //     setSingledata,
-    //     singledata,
-    //     refreshdata,
-    //     setrefreshdata,
-    //     setFinalTotal,
-    //     setSubtotal,
-    //     setDiscount,
-    //     discounts,
-    //     subtotals,
-    //     finalTotals,
-    //     setValues,
-    //     valuesdataleads,
-    //     data,
-    //     setData,
-    //     report,
-    //     setReport,
-    //     leadscon,
-    //     setLeadsCon,
-    //     subdmoainchecker,
-    //     setSubdmoainchecker
-    // };
-
-    const pathSegments = location.split('/').filter(Boolean);
-    const [location1, location2] = pathSegments;
-
-    useEffect(() => {
-        if (crmaccess) {
-            // dispatch(setSlugname({ slugname: subdomain }));
-            const headers = {
-                Authorization: `Bearer ${crmaccess}`
-            };
-            axios.get(`${API_BASE_URL}/user/${subdomain}/me`, { headers }).then((response) => {
-                setData(response.data.data);
-                // setIsLoading(false);
-            });
-        } else {
-            // setIsLoading(false);
+    const handleClickOutside = (event: MouseEvent) => {
+        if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
+            setIsOpen(false);
         }
-    }, [accessToken, dispatch, subdomain]);
+    };
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            Cookies.remove('crmaccess');
-            Cookies.remove('crmrefresh');
-            Cookies.remove('isFirstlogin');
-            router.push(`/${subdomain}/login`);
-        }, 3600000); // 1 hour
-        return () => clearInterval(interval);
-    }, [subdomain, router]);
+        if (isOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [isOpen]);
+
+    const fetchUserDetails = async () => {
+        if (!crmaccess || !subdomain) return;
+        try {
+            const response = await UsersMe(subdomain);
+            setData(response.data);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchUserDetails();
+    }, [accessToken, subdomain]);
 
     return (
         <>
             <CssBaseline />
-            {/* <userContext.Provider value={defaultvalues}> */}
             <ClientWrapper>
                 <LayoutContainer>
+                    {/* Top Navbar */}
                     <Box
                         sx={{
                             display: 'flex',
@@ -789,25 +165,26 @@ export default function Layout({ children }: LayoutProps) {
                         <Navbar isOpen={isOpen} toggleSidebar={toggleSidebar} />
                     </Box>
 
+                    {/* Sidebar with click detection */}
                     <LayoutSidebar>
                         <Box
+                            ref={sidebarRef}
                             sx={{
                                 position: 'fixed',
-                                marginTop: '0px',
+                                marginTop: 0,
                                 zIndex: 1000
-                                // width: isOpen ? 250 : '48px'
                             }}
                         >
                             <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
                         </Box>
                     </LayoutSidebar>
 
+                    {/* Main Content */}
                     <LayoutContainers isOpen={isOpen}>
                         <LayoutContent>{children}</LayoutContent>
                     </LayoutContainers>
                 </LayoutContainer>
             </ClientWrapper>
-            {/* </userContext.Provider> */}
         </>
     );
 }

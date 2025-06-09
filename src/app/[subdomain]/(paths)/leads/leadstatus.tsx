@@ -376,7 +376,7 @@ import { TextField, Button, MenuItem, Select, InputLabel, FormControl, CircularP
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import { CustomChip } from '../../../Component/Chip/Chip';
+import { CustomChip } from '../../../ui-components/Chip/Chip';
 
 interface LeadStatusType {
     _id: string;

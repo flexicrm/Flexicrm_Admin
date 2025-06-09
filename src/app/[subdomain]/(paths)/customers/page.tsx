@@ -1177,7 +1177,7 @@ import {
     ArrowDropDown as ArrowDropDownIcon
 } from '@mui/icons-material';
 import { CustomerDELETe, CustomerPatch, CustomerSingleGET } from '../../../../../api/Customer';
-import { MyButton } from '../../../Component/Buttons/Buttons';
+import { MyButton } from '../../../ui-components/Buttons/Buttons';
 
 // Types
 interface Customer {

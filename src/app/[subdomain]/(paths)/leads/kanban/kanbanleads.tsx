@@ -31,7 +31,9 @@ import {
     FormControl,
     InputLabel,
     ToggleButtonGroup,
-    ToggleButton
+    ToggleButton,
+    keyframes,
+    Link
 } from '@mui/material';
 import {
     DragIndicator,
@@ -55,16 +57,17 @@ import {
 } from '@mui/icons-material';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import confetti from 'canvas-confetti';
-import { MyButton } from '../../../../Component/Buttons/Buttons';
+import { MyButton } from '../../../../ui-components/Buttons/Buttons';
 import { API_BASE_URL } from '../../../../utils';
-import { CustomChip } from '../../../../Component/Chip/Chip';
+import { CustomChip } from '../../../../ui-components/Chip/Chip';
 import FollowUpForm from '../form/FollowUpForm';
 import ConvertCustomer from '../form/convertcutomer';
-import { MySnackbar } from '../../../../Component/Snackbar/Snackbar';
+import { MySnackbar } from '../../../../ui-components/Snackbar/Snackbar';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import userContext from '../../../../UseContext/UseContext';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 
 interface LeadStatus {
     _id: string;
@@ -135,6 +138,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
     const [priorityFilter, setPriorityFilter] = useState<string>('');
     const [followUpStatusFilter, setFollowUpStatusFilter] = useState<string>('');
     const [showFilters, setShowFilters] = useState(false);
+    const [animateBell, setAnimateBell] = useState(true);
 
     const accessToken = Cookies.get('crmaccess');
     const subdomain = Cookies.get('subdomain');
@@ -366,6 +370,32 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
         setFilteredLeadData(leadData);
     };
 
+    // Optimized bell animation
+    const ringAnimation = keyframes`
+      0% { transform: rotate(0); }
+      10% { transform: rotate(10deg); }
+      20% { transform: rotate(-10deg); }
+      30% { transform: rotate(10deg); }
+      40% { transform: rotate(-10deg); }
+      50% { transform: rotate(5deg); }
+      60% { transform: rotate(-5deg); }
+      70% { transform: rotate(2deg); }
+      80% { transform: rotate(-2deg); }
+      90% { transform: rotate(1deg); }
+      100% { transform: rotate(0); }
+    `;
+
+    // Scroll animation
+    const scrollIn = keyframes`
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    `;
     const renderLeadStatusColumn = (status: LeadStatus) => {
         const leadsInStatus = filteredLeadData.filter((lead) => lead?.leadstatus?._id === status?._id);
 
@@ -449,6 +479,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                                                     background: '#ffffff',
                                                     boxShadow: 'none',
                                                     transition: 'all 0.2s ease',
+                                                    position: 'relative',
                                                     '&:hover': {
                                                         borderColor: '#c2c8d0',
                                                         boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
@@ -480,7 +511,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                                                             }}
                                                         />
                                                         <Typography
-                                                            variant="subtitle2"
+                                                            variant="h3"
                                                             fontWeight="600"
                                                             sx={{
                                                                 flex: 1,
@@ -492,68 +523,46 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                                                         >
                                                             {lead?.manualData?.name || 'New Lead'}
                                                         </Typography>
-                                                        <IconButton
-                                                            size="small"
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                handleMenuOpen(e, lead);
-                                                            }}
-                                                            sx={{
-                                                                ml: 'auto',
-                                                                p: '4px',
-                                                                color: '#a0aec0',
-                                                                '&:hover': {
-                                                                    color: '#718096',
-                                                                    background: 'transparent'
-                                                                }
-                                                            }}
-                                                        >
-                                                            <MoreVert fontSize="small" />
-                                                        </IconButton>
+                                                        {lead?.followUps?.slice(-1)[0]?.dateTime && (
+                                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, position: 'absolute', right: '40px', top: '10px' }}>
+                                                                <Tooltip title={new Date(lead?.followUps?.slice(-1)[0]?.dateTime).toLocaleString()}>
+                                                                    <NotificationsActiveIcon
+                                                                        fontSize="small"
+                                                                        sx={{
+                                                                            color: '#f57c00',
+                                                                            animation: animateBell ? `${ringAnimation} 0.5s ease-in-out 2` : 'none',
+                                                                            transformOrigin: 'top center'
+                                                                        }}
+                                                                    />
+                                                                </Tooltip>
+                                                            </Box>
+                                                        )}
+
+                                                        <Box sx={{ position: 'absolute', top: 8, right: 8, zIndex: 1 }}>
+                                                            <IconButton
+                                                                size="small"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    handleMenuOpen(e, lead);
+                                                                }}
+                                                                sx={{
+                                                                    ml: 'auto',
+                                                                    p: '4px',
+                                                                    color: '#a0aec0',
+                                                                    backgroundColor: '#abb4c245',
+                                                                    '&:hover': {
+                                                                        color: '#718096',
+                                                                        background: 'transparent'
+                                                                    }
+                                                                }}
+                                                                // sx={{ backgroundColor: '#abb4c245', '&:hover': { backgroundColor: 'transparent' } }}
+                                                            >
+                                                                <MoreVert fontSize="small" />
+                                                            </IconButton>
+                                                        </Box>
                                                     </Box>
 
                                                     {/* Status Indicators */}
-                                                    <Box display="flex" gap="6px" mb="8px">
-                                                        <CustomChip
-                                                            status={{
-                                                                hexcolor: lead?.followUps?.slice(-1)[0]?.status?.color,
-                                                                statusName: lead?.followUps?.slice(-1)[0]?.status?.StatusName || 'Not Followed'
-                                                            }}
-                                                            sx={{
-                                                                // height: '22px',
-                                                                fontSize: '0.65rem !important',
-                                                                fontWeight: '600',
-                                                                // backgroundColor: `${lead?.followUps?.[0]?.status?.color || '#edf2f7'}`,
-                                                                // color: lead?.followUps?.[0]?.status?.color || '#718096',
-                                                                border: 'none'
-                                                            }}
-                                                        />
-                                                        <CustomChip
-                                                            // label={lead?.followUps?.[0]?.priority ? lead.followUps[0].priority.charAt(0).toUpperCase() + lead.followUps[0].priority.slice(1) : 'Normal'}
-                                                            // size="small"
-                                                            sx={{
-                                                                // height: '22px !important',
-                                                                padding: '1px 1px',
-                                                                // fontSize: '0.65rem',
-                                                                // fontWeight: '600',
-                                                                // backgroundColor:
-                                                                //     lead?.followUps?.[0]?.priority === 'high' ? '#fff5f5' : lead?.followUps?.[0]?.priority === 'medium' ? '#fffaf0' : lead?.followUps?.[0]?.priority === 'low' ? '#f0fff4' : '#f8fafc',
-                                                                // color: lead?.followUps?.[0]?.priority === 'high' ? '#e53e3e' : lead?.followUps?.[0]?.priority === 'medium' ? '#dd6b20' : lead?.followUps?.[0]?.priority === 'low' ? '#38a169' : '#718096',
-                                                                border: 'none'
-                                                            }}
-                                                            status={{
-                                                                hexcolor:
-                                                                    lead?.followUps?.slice(-1)[0]?.priority === 'medium'
-                                                                        ? 'ff9800'
-                                                                        : lead?.followUps?.slice(-1)[0]?.priority === 'high'
-                                                                        ? 'd50000'
-                                                                        : lead?.followUps?.slice(-1)[0]?.priority === 'low'
-                                                                        ? '33691e'
-                                                                        : '4caf50',
-                                                                statusName: lead?.followUps?.slice(-1)[0]?.priority || 'Not Followed'
-                                                            }}
-                                                        />
-                                                    </Box>
 
                                                     {/* Contact Info */}
                                                     <Box mb="8px">
@@ -567,16 +576,16 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                                                                 }}
                                                             />
                                                             <Typography
-                                                                variant="body2"
+                                                                variant="h3"
                                                                 sx={{
                                                                     whiteSpace: 'nowrap',
                                                                     overflow: 'hidden',
                                                                     textOverflow: 'ellipsis',
-                                                                    fontSize: '0.75rem',
+                                                                    // fontSize: '0.75rem',
                                                                     color: '#4a5568'
                                                                 }}
                                                             >
-                                                                {lead?.manualData?.company || 'No company'}
+                                                                {lead?.manualData?.company || 'No company'} <Chip label={lead.leadsource} size="small" sx={{ fontSize: '10px' }} />
                                                             </Typography>
                                                         </Box>
                                                         <Box display="flex" alignItems="center">
@@ -589,6 +598,8 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                                                                 }}
                                                             />
                                                             <Typography
+                                                                component={Link}
+                                                                href={`mailto:${lead?.manualData?.email}`}
                                                                 variant="body2"
                                                                 sx={{
                                                                     whiteSpace: 'nowrap',
@@ -614,13 +625,20 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                                                                 }}
                                                             />
                                                             <Typography
+                                                                component={Link}
+                                                                href={`tel:${lead?.manualData?.mobileNo}`}
                                                                 variant="caption"
                                                                 sx={{
                                                                     fontSize: '0.7rem',
-                                                                    color: '#718096'
+                                                                    color: '#718096',
+                                                                    '&hover': {
+                                                                        // textDecoration: 'underline',
+                                                                        color: 'primary.main'
+                                                                    }
                                                                 }}
                                                             >
-                                                                {lead?.createdAt ? new Date(lead.createdAt).toLocaleDateString() : 'No date'}
+                                                                {console.log(lead, 'lead')}
+                                                                {lead?.manualData?.mobileNo || '-'}
                                                             </Typography>
                                                         </Box>
 
@@ -639,6 +657,66 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                                                                 {lead?.assignTo?.lastname?.charAt(0)}
                                                             </Avatar>
                                                         </Tooltip>
+                                                    </Box>
+                                                    <Box display="flex" gap="6px" mb="8px">
+                                                        {lead?.followUps?.slice(-1)[0]?.status?.StatusName && (
+                                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                                                <Box
+                                                                    sx={{
+                                                                        width: 8,
+                                                                        height: 8,
+                                                                        borderRadius: '50%',
+                                                                        backgroundColor: `${lead?.followUps?.slice(-1)[0]?.status?.color || '#4285F4'}`
+                                                                    }}
+                                                                />
+                                                                <Typography
+                                                                    variant="body2"
+                                                                    sx={{
+                                                                        textTransform: 'capitalize',
+                                                                        color: `${lead?.followUps?.slice(-1)[0]?.status?.color || '#4285F4'}`
+                                                                    }}
+                                                                >
+                                                                    {lead?.followUps?.slice(-1)[0]?.status?.StatusName || 'Not Followed'}
+                                                                </Typography>
+                                                            </Box>
+                                                        )}
+
+                                                        {/* Priority */}
+                                                        {lead?.followUps?.slice(-1)[0]?.priority && (
+                                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                                                <Box
+                                                                    sx={{
+                                                                        width: 8,
+                                                                        height: 8,
+                                                                        borderRadius: '50%',
+                                                                        backgroundColor:
+                                                                            lead?.followUps?.slice(-1)[0]?.priority === 'medium'
+                                                                                ? '#ff9800'
+                                                                                : lead?.followUps?.slice(-1)[0]?.priority === 'high'
+                                                                                ? '#d50000'
+                                                                                : lead?.followUps?.slice(-1)[0]?.priority === 'low'
+                                                                                ? '#33691e'
+                                                                                : '#4caf50'
+                                                                    }}
+                                                                />
+                                                                <Typography
+                                                                    variant="body2"
+                                                                    style={{
+                                                                        color:
+                                                                            lead?.followUps?.slice(-1)[0]?.priority === 'medium'
+                                                                                ? '#ff9800'
+                                                                                : lead?.followUps?.slice(-1)[0]?.priority === 'high'
+                                                                                ? '#d50000'
+                                                                                : lead?.followUps?.slice(-1)[0]?.priority === 'low'
+                                                                                ? '#33691e'
+                                                                                : '#4caf50',
+                                                                        textTransform: 'capitalize'
+                                                                    }}
+                                                                >
+                                                                    {lead?.followUps?.slice(-1)[0]?.priority || 'Not Followed'}
+                                                                </Typography>
+                                                            </Box>
+                                                        )}
                                                     </Box>
                                                 </CardContent>
                                             </Card>
@@ -780,7 +858,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
     };
 
     return (
-        <Box sx={{ p: 0, bgcolor: '#f4f6fa', minHeight: '100vh', position: 'relative' }}>
+        <Box sx={{ p: 0, bgcolor: '', minHeight: '100vh', position: 'relative' }}>
             {showWonAnimation && (
                 <Box
                     sx={{
@@ -843,7 +921,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
             )}
 
             {/* Header with search and filters */}
-            <Box sx={{ p: 1, bgcolor: 'white', boxShadow: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Box sx={{ p: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 {/* Filter panel */}
 
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>

@@ -730,7 +730,7 @@ import {
     TablePagination
 } from '@mui/material';
 import { Add, Check, Close, Edit, Delete } from '@mui/icons-material';
-import { MyButton } from '../../../../Component/Buttons/Buttons';
+import { MyButton } from '../../../../ui-components/Buttons/Buttons';
 
 interface LeadStatusType {
     _id: string;

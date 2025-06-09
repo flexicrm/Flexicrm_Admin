@@ -3,7 +3,7 @@ import React, { useState, useCallback, useRef, useContext } from 'react';
 import { Box, Typography, Button, Paper, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, CircularProgress, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Snackbar, Alert } from '@mui/material';
 import { CloudUpload as UploadIcon, Close as CloseIcon } from '@mui/icons-material';
 import * as XLSX from 'xlsx';
-import { MyButton } from '../../../../Component/Buttons/Buttons';
+import { MyButton } from '../../../../ui-components/Buttons/Buttons';
 import { bulkUpload } from '../../../../../../api/BulkUpload';
 import Cookies from 'js-cookie';
 import userContext from '../../../../UseContext/UseContext';

@@ -4,7 +4,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Select, M
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { MyButton } from '../../../../Component/Buttons/Buttons';
+import { MyButton } from '../../../../ui-components/Buttons/Buttons';
 import { createFollowupdata, GetFollowupStatus, GetStatus, UpdateFollowupdata } from '../../../../../../api/Leads';
 import Cookies from 'js-cookie';
 import { DateTimePicker } from '@mui/x-date-pickers';

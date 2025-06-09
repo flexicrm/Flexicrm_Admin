@@ -5,6 +5,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import userContext from '../UseContext/UseContext';
 import { API_BASE_URL } from '../utils';
+import { useAuthRedirect } from '../Components/wrappers/useAuthRedirect';
 // Replace with real URL
 
 export default function SubdomainChecker() {
@@ -23,14 +24,12 @@ export default function SubdomainChecker() {
             try {
                 const res = await axios.get(`${API_BASE_URL}/user/check-subdomain/${location1}`);
                 setFlexilogo(res.data.data);
-                if (res?.data?.success && !crmaccess) {
-                    Cookies.set('subdomain', res.data.data.urlPath);
-                    router.push(`/${subdomain}/login`);
-                } else if (!publicPaths.includes(location2) && !crmaccess) {
-                    // ❌ Not public and invalid subdomain
+
+                Cookies.set('subdomain', res.data.data.urlPath);
+                // router.push(`/${subdomain}/login`);
+                if (!publicPaths.includes(location2) && !res.data.success) {
                     router.push('/');
                 }
-                // ✅ If public path, just stay
             } catch (err) {
                 if (!publicPaths.includes(location2)) {
                     router.push('/');
@@ -39,6 +38,7 @@ export default function SubdomainChecker() {
         };
 
         checkSubdomain();
+        // useAuthRedirect();
     }, [location]); // runs on every route change
 
     return null;

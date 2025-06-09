@@ -12,7 +12,6 @@ export default function DyanimcRouterpage() {
     const crmaccess = Cookies.get('crmaccess');
     const router = useRouter();
 
-    // Split the path and filter out empty segments
     const pathSegments = location.split('/').filter(Boolean);
     const [location1, location2] = pathSegments;
 
@@ -21,17 +20,12 @@ export default function DyanimcRouterpage() {
             const response = await axios.get(`${API_BASE_URL}/user/check-subdomain/${location1}`);
 
             if (response?.data?.success && !crmaccess) {
-                alert('demo');
                 Cookies.set('subdomain', response.data.data.urlPath);
-                router.push(`/${subdomain}/login`);
+                // router.push(`/${subdomain}/login`);
             }
         } catch (error) {
             if (error.status == 404) {
-                // alert('demo');
-                // notFound();
                 router.push(`/`);
-                // NotFound();
-                // setSubdmoainchecker(error || '');
             }
 
             console.log(error, 'error');

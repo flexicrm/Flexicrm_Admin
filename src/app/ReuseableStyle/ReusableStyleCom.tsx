@@ -157,3 +157,42 @@ export const Dot = styled(Box, {
     border: `1px solid ${theme.palette.secondary.main}`,
     transition: 'background-color 0.3s ease'
 }));
+
+export const LayoutContainer = styled(Box)({
+    marginTop: '48px',
+    backgroundColor: 'rgba(10, 45, 90)',
+    height: 'calc(100% - 48px)',
+    overflow: 'hidden',
+    bottom: 0
+});
+
+export const LayoutSidebar = styled(Box)({
+    zIndex: 999,
+    position: 'fixed'
+});
+
+export const LayoutContainers = styled(Box, {
+    shouldForwardProp: (prop) => prop !== 'isOpen'
+})<{ isOpen?: boolean }>(({ isOpen, theme }) => ({
+    flex: '0 1 1',
+    height: '80%',
+    transition: 'margin-left 0.3s ease-in-out',
+    marginLeft: isOpen ? '250px' : '48px', // Default for desktop
+
+    [theme.breakpoints.down('md')]: {
+        marginLeft: isOpen ? '200px' : '48px'
+    },
+    [theme.breakpoints.down('sm')]: {
+        marginLeft: isOpen ? '150px' : '48px'
+    }
+}));
+
+export const LayoutContent = styled(Box)({
+    backgroundColor: '#f8f8fb',
+    padding: '18px',
+    height: 'calc(100vh - 3rem)',
+    boxShadow: 'inset 0 3px 4px rgba(0, 0, 0, 0.1)',
+    borderTop: '1px solid var(--surface-border)',
+    overflow: 'auto',
+    borderTopLeftRadius: '30px'
+});

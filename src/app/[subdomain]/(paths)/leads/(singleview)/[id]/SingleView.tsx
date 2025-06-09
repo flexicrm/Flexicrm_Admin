@@ -751,8 +751,8 @@ import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
-import { MyButton } from '../../../../../Component/Buttons/Buttons';
-import { MySnackbar } from '../../../../../Component/Snackbar/Snackbar';
+import { MyButton } from '../../../../../ui-components/Buttons/Buttons';
+import { MySnackbar } from '../../../../../ui-components/Snackbar/Snackbar';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 

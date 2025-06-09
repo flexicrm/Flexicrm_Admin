@@ -138,7 +138,7 @@ import React, { useEffect, useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button, Grid } from '@mui/material';
 import { UpdateLeadsByID } from '../../../../../../api/Leads';
 import Cookies from 'js-cookie';
-import { MyButton } from '../../../../Component/Buttons/Buttons';
+import { MyButton } from '../../../../ui-components/Buttons/Buttons';
 
 interface Note {
     id?: string;
