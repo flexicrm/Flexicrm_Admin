@@ -31,7 +31,7 @@ class ErrorBoundary extends Component<Props, State> {
             return (
                 <div style={{ padding: '2rem', textAlign: 'center' }}>
                     <h1>Something went wrong.</h1>
-                    <p>{this.state.error?.message}</p>
+                    <p>{this.state.error ? this.state.error.message : 'An unexpected error occurred.'}</p>
                 </div>
             );
         }
