@@ -726,6 +726,8 @@ import { CustomChip } from '../Chip/Chip';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
+import jsPDFAutotable from 'jspdf-autotable';
+
 import Link from 'next/link';
 import ResearchPage from '../../[subdomain]/(paths)/leads/Bulkupload/BulkUploads';
 import ReminderCard from './ReminderCard';
@@ -954,7 +956,7 @@ export const MyTable = <T extends { id: number }>({ fetchLeads, data, leadstatus
 
     const exportToPDF = () => {
         const doc = new jsPDF();
-        doc.autoTable({
+        jsPDFAutotable(doc, {
             head: [columns.map((col) => col.label)],
             body: data.map((row) => columns.map((col) => row[col.id]))
         });
