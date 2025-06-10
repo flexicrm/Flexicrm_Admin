@@ -2155,6 +2155,7 @@ import 'react-phone-input-2/lib/style.css';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import { LeadPost, UpdateLeadsByID } from '../../../../../../api/Leads';
 import { MySnackbar } from '../../../../ui-components/Snackbar/Snackbar';
+import { useRouter } from 'next/navigation';
 
 // Country-based potential values (example values)
 const COUNTRY_POTENTIAL_VALUES: Record<string, number> = {
@@ -2196,6 +2197,7 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
     const { valuesdataleads } = useContext(userContext);
     const subdomain = Cookies.get('subdomain');
     console.log(lead, 'lead');
+    const router = useRouter()
 
     useEffect(() => {
         if (lead) {
@@ -2321,7 +2323,8 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                         setSnackbarMessage(response.data.message);
                         setSnackbarOpen(true);
                         setSnackbarSeverity('success');
-                        window.location.href = `/${subdomain}/leads`;
+                        router.push(`/${subdomain}/leads`);
+                        // window.location.href = `/${subdomain}/leads`;
                     } else {
                         setSnackbarMessage(response.data.errors);
                         setSnackbarOpen(true);
@@ -2333,7 +2336,8 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                         setSnackbarMessage(response.data.message);
                         setSnackbarOpen(true);
                         setSnackbarSeverity('success');
-                        window.location.href = `/${subdomain}/leads`;
+                        // window.location.href = `/${subdomain}/leads`;
+                         router.push(`/${subdomain}/leads`);
                     } else {
                         setSnackbarMessage(response.data.errors);
                         setSnackbarOpen(true);

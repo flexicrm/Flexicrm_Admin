@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Card, Typography, IconButton, Avatar, Link, Tooltip, keyframes, Grid, Chip, AvatarGroup } from '@mui/material';
+import { Box, Card, Typography, IconButton, Avatar, Link, Tooltip, Grid, Chip, AvatarGroup } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -9,38 +9,12 @@ import ApartmentIcon from '@mui/icons-material/Apartment';
 import { useTheme } from '@mui/material/styles';
 import './Tabel.css';
 import { BoxIcon } from 'lucide-react';
+import { ringAnimation, scrollIn } from './animation';
 interface ReminderCardProps {
     sortedData: any;
     subdomain: string;
     onEdit: (e: React.MouseEvent, row: any) => void;
 }
-
-// Optimized bell animation
-const ringAnimation = keyframes`
-  0% { transform: rotate(0); }
-  10% { transform: rotate(10deg); }
-  20% { transform: rotate(-10deg); }
-  30% { transform: rotate(10deg); }
-  40% { transform: rotate(-10deg); }
-  50% { transform: rotate(5deg); }
-  60% { transform: rotate(-5deg); }
-  70% { transform: rotate(2deg); }
-  80% { transform: rotate(-2deg); }
-  90% { transform: rotate(1deg); }
-  100% { transform: rotate(0); }
-`;
-
-// Scroll animation
-const scrollIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
 
 const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEdit }) => {
     const theme = useTheme();
@@ -78,8 +52,6 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
         <Box
             ref={containerRef}
             sx={{
-                // display: 'flex',
-                // flexWrap: 'wrap',
                 gap: 2,
                 overflowY: 'auto',
                 // maxHeight: '60vh',
@@ -140,7 +112,7 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                                 </IconButton>
                             </Box>
 
-                            <Box padding={'16px'}>
+                            <Box padding={'16px'} sx={{ paddingBottom: '5px' }}>
                                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, position: 'relative' }}>
                                     <Avatar sx={{ bgcolor: theme.palette.primary.main, mr: 1 }}>{row?.Name?.charAt(0)}</Avatar>
 
@@ -187,19 +159,19 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                                 {/* {console.log(row, 'row')} */}
                                 <Box sx={{ mb: 1 }}>
                                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                                        <ApartmentIcon color="action" sx={{ mr: 1, fontSize: 16 }} />
+                                        <ApartmentIcon color="action" sx={{ mr: 0.55, fontSize: 16 }} />
                                         <Box textTransform="capitalize" sx={{ color: '#64748b' }}>
                                             {row?.Company || '-'} <Chip label={row.leadsource} size="small" />
                                         </Box>
                                     </Box>
                                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                                        <EmailIcon color="action" sx={{ mr: 1, fontSize: 16, color: '#64748b' }} />
+                                        <EmailIcon color="action" sx={{ mr: 0.55, fontSize: 16, color: '#64748b' }} />
                                         <Typography variant="body2" sx={{ color: '#64748b' }} component={Link} href={`mailto:${row?.Email}`}>
                                             {row?.Email}
                                         </Typography>
                                     </Box>
                                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                                        <PhoneIcon color="action" sx={{ mr: 1, fontSize: 16 }} />
+                                        <PhoneIcon color="action" sx={{ mr: 0.55, fontSize: 16 }} />
                                         <Typography variant="body2" sx={{ color: '#64748b' }} component={Link} href={`tel:${row?.Phone}`}>
                                             {row?.Phone}
                                         </Typography>
@@ -207,10 +179,10 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                                 </Box>
 
                                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                    <Box sx={{ display: 'flex', wdith: '100px' }}>
+                                    <Box sx={{ display: 'flex', wdith: '130px', overflow: 'auto', justifyContent: 'space-evenly', gap: 2 }}>
                                         {/* Lead Status */}
                                         {row?.leadstatus?.statusName && (
-                                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', minWidth: 80 }}>
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                                     <Box
                                                         sx={{
@@ -225,7 +197,12 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                                                         color="text.primary"
                                                         sx={{
                                                             color: `#${row?.leadstatus?.color || '4285F4'}`,
-                                                            textTransform: 'capitalize'
+                                                            textTransform: 'capitalize',
+                                                            fontSize: '10px',
+                                                            whiteSpace: 'nowrap',
+                                                            overflow: 'hidden',
+                                                            textOverflow: 'ellipsis',
+                                                            maxWidth: '90px'
                                                         }}
                                                     >
                                                         {row?.leadstatus?.statusName || 'Not Followed'}
@@ -239,7 +216,7 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
 
                                         {/* Follow-up Status */}
                                         {row?.followUps?.slice(-1)[0]?.status?.StatusName && (
-                                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', minWidth: 90 }}>
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                                     <Box
                                                         sx={{
@@ -253,7 +230,12 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                                                         variant="body2"
                                                         sx={{
                                                             textTransform: 'capitalize',
-                                                            color: `${row?.followUps?.slice(-1)[0]?.status?.color || '#4285F4'}`
+                                                            color: `${row?.followUps?.slice(-1)[0]?.status?.color || '#4285F4'}`,
+                                                            fontSize: '10px',
+                                                            whiteSpace: 'nowrap',
+                                                            overflow: 'hidden',
+                                                            textOverflow: 'ellipsis',
+                                                            maxWidth: '90px'
                                                         }}
                                                     >
                                                         {row?.followUps?.slice(-1)[0]?.status?.StatusName || 'Not Followed'}
@@ -267,7 +249,7 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
 
                                         {/* Priority */}
                                         {row?.followUps?.slice(-1)[0]?.priority && (
-                                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', minWidth: 80 }}>
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                                     <Box
                                                         sx={{
@@ -295,7 +277,12 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                                                                     : row?.followUps?.slice(-1)[0]?.priority === 'low'
                                                                     ? '#33691e'
                                                                     : '#4caf50',
-                                                            textTransform: 'capitalize'
+                                                            textTransform: 'capitalize',
+                                                            fontSize: '10px',
+                                                            whiteSpace: 'nowrap',
+                                                            overflow: 'hidden',
+                                                            textOverflow: 'ellipsis',
+                                                            maxWidth: '90px'
                                                         }}
                                                     >
                                                         {row?.followUps?.slice(-1)[0]?.priority}
@@ -311,15 +298,17 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                                     {/* Assigned User Avatar */}
                                     <Box>
                                         {row?.assignTo && (
-                                            <AvatarGroup >
-                                                <Tooltip title={`${row?.assignTo?.firstname} ${row?.assignTo?.lastname}`}>
-                                                    <Avatar sx={{ width: 14, height: 14 }} alt={`${row?.assignTo?.firstname}${row?.assignTo?.lastname}`} src={row?.assignTo?.Profile} />
-                                                </Tooltip>
-                                            </AvatarGroup>
+                                            <>
+                                                <AvatarGroup>
+                                                    <Tooltip title={`${row?.assignTo?.firstname} ${row?.assignTo?.lastname}`}>
+                                                        <Avatar sx={{ width: 14, height: 14 }} alt={`${row?.assignTo?.firstname}${row?.assignTo?.lastname}`} src={row?.assignTo?.Profile} />
+                                                    </Tooltip>
+                                                </AvatarGroup>
+                                                <label htmlFor="" className="leadsgrid-style-flex">
+                                                    Assigned
+                                                </label>
+                                            </>
                                         )}
-                                        <label htmlFor="" className="leadsgrid-style-flex">
-                                            Assigned
-                                        </label>
                                     </Box>
                                 </Box>
                             </Box>

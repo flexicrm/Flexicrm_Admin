@@ -1,19 +1,25 @@
 import React from 'react';
 import { Card, CardContent, Box, Typography, Skeleton } from '@mui/material';
 import { motion } from 'framer-motion';
+import { TrendingDown, TrendingUp } from 'lucide-react';
 
 interface SummaryCardProps {
     title: string;
     value: string | number;
     loading: boolean;
     icon: React.ReactNode;
+    trend: string;
+    change: number;
 }
 
-const SummaryCard: React.FC<SummaryCardProps> = ({ title, value, loading, icon }) => {
+const SummaryCard: React.FC<SummaryCardProps> = ({ title, value, loading, icon, trend, change }) => {
+    {
+        console.log(value, 'SummaryCard Props');
+    }
     return (
         <motion.div transition={{ duration: 0.2 }}>
-            <Card sx={{ borderRadius: 2, padding: 2, boxShadow: '0 6px 30px rgba(182, 186, 203, 0.3)', border: '1px solid #e5e7eb' }}>
-                <CardContent sx={{ paddingBottom: '16px !important' }}>
+            <Card sx={{ borderRadius: 2, padding: 2, border: '1px solid #e5e7eb', boxShadow: 0 }}>
+                <CardContent sx={{ paddingBottom: '0px !important', paddingTop: '0px' }}>
                     <Box display="flex" justifyContent="space-between" alignItems="flex-start">
                         <Box flexGrow={1}>
                             {loading ? (
@@ -30,6 +36,12 @@ const SummaryCard: React.FC<SummaryCardProps> = ({ title, value, loading, icon }
                                     <Typography variant="h5" fontWeight={600}>
                                         {value}
                                     </Typography>
+                                    <Box display="flex" alignItems="center" gap={0.5} mt={0.5}>
+                                        {trend == 'increased' ? <TrendingUp fontSize="small" style={{ color: 'green' }} /> : <TrendingDown fontSize="small" style={{ color: 'red' }} />}
+                                        <Typography variant="caption" fontWeight={500} color={trend == 'increased' ? 'success.main' : 'error.main'}>
+                                            {Math.abs(change)}%
+                                        </Typography>
+                                    </Box>
                                 </>
                             )}
                         </Box>

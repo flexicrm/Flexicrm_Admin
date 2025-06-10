@@ -5,6 +5,7 @@ import { ThemeProvider } from '../../Theme/ThemeContext'; // ✅ Correct path
 import { Provider } from 'react-redux';
 import store from '../../store/store';
 import { useSubdomainCheck } from './ClientWrapper';
+import ErrorBoundary from '../ErrorBoundry';
 
 export default function ClientWrapper({ children }: { children: React.ReactNode }) {
     const [isClient, setIsClient] = useState(false);
@@ -19,8 +20,10 @@ export default function ClientWrapper({ children }: { children: React.ReactNode 
     if (!isClient) return null;
 
     return (
-        <ThemeProvider>
-            <Provider store={store}>{children}</Provider>
-        </ThemeProvider>
+        <ErrorBoundary>
+            <ThemeProvider>
+                <Provider store={store}>{children}</Provider>
+            </ThemeProvider>
+        </ErrorBoundary>
     );
 }

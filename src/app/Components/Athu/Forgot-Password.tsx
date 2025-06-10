@@ -62,7 +62,7 @@ export default function ForgotPassword() {
             ) : (
                 subdomain2 && (
                     <Typography variant="h6" gutterBottom sx={{ mb: '32px', fontWeight: 'bold', textTransform: 'capitalize ' }}>
-                        {subdomain2.replace(/-/g, ' ')}
+                        {subdomain2?.replace(/-/g, ' ')}
                     </Typography>
                 )
             )}

@@ -347,22 +347,17 @@ const LeadsPage: React.FC = () => {
     ];
 
     return (
-        <Box sx={{ p: 2 }}>
+        <Box>
             {/* <Paper elevation={0} > */}
             <Grid container spacing={2} alignItems="center">
                 <Grid size={{ xs: 12, sm: 6 }}>
                     <Typography variant="h5" color="primary" component="h1" sx={{ fontWeight: 600 }}>
                         Leads{' '}
-                        <Tooltip title="Refresh data">
-                            <IconButton onClick={fetchLeads} color="primary">
-                                <RefreshIcon />
-                            </IconButton>
-                        </Tooltip>
                     </Typography>
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
-                        <Box sx={{ margin: '5px' }}>
+                        <Box sx={{ margin: '5px', display: { xs: 'none', md: 'block', lg: 'block' } }}>
                             <ToggleButtonGroup color="primary" value={viewMode} exclusive onChange={handleViewModeChange} size="small">
                                 <Tooltip title="Kanban">
                                     <ToggleButton value="kanban" color="primary">
@@ -376,7 +371,7 @@ const LeadsPage: React.FC = () => {
                                 </Tooltip>
                             </ToggleButtonGroup>
                         </Box>
-                        <Box>
+                        <Box sx={{ marginBottom: { xs: 2 } }}>
                             {/* <Tooltip title="Create new lead"> */}
                             <Link href={`/${subdomain}/leads/create`}>
                                 <MyButton variant="contained" color="primary" startIcon={<AddIcon />}>

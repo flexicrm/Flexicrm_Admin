@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 import { Box, Dialog, DialogContent, DialogTitle, Divider, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
 import { DragDropContext } from '@hello-pangea/dnd';
 import { API_BASE_URL } from '../../../../utils';
-import { MySnackbar } from '../../../../Component/Snackbar/Snackbar';
+
 import userContext from '../../../../UseContext/UseContext';
 
 import FollowUpForm from '../form/FollowUpForm';
@@ -18,6 +18,8 @@ import StatusColumn from './StatusColumn';
 import LeadDetails from './LeadDetails';
 import LostAnimation from './LostAnimation';
 import { usersSingleGET } from '../../../../../../api/user';
+import { MySnackbar } from '../../../../ui-components/Snackbar/Snackbar';
+import { useRouter } from 'next/navigation';
 
 interface LeadStatus {
     _id: string;
@@ -65,7 +67,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
     const [priorityFilter, setPriorityFilter] = useState<string>('');
     const [followUpStatusFilter, setFollowUpStatusFilter] = useState<string>('');
     const [users, setUsers] = useState<any>();
-
+    const router = useRouter();
     const accessToken = Cookies.get('crmaccess');
     const subdomain = Cookies.get('subdomain');
 
@@ -250,7 +252,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                     </ListItemIcon>
                     <ListItemText primary="Add Follow-Up" />
                 </MenuItem>
-                <MenuItem onClick={() => (window.location.href = `/${subdomain}/leads/${selectedLeadId?.LeadId}`)}>
+                <MenuItem onClick={() => router.push(`/${subdomain}/leads/${selectedLeadId?.LeadId}`)}>
                     <ListItemIcon>
                         <Visibility fontSize="small" color="info" />
                     </ListItemIcon>

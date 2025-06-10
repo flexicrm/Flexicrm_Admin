@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import userContext from '../../UseContext/UseContext';
 import { Changepassword, ResetPasswordChange } from '../../../../api/auth';
 import PasswordField from '../../[subdomain]/reset-password/PasswordField';
+import { useRouter } from 'next/navigation';
 
 interface Props {
     slug?: string;
@@ -20,7 +21,7 @@ export default function ResetPasswordForm({ slug, subdomain }: Props) {
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({ oldPassword: '', newPassword: '', confirmPassword: '' });
     const subdomain2 = Cookies.get('subdomain') || '';
-
+    const router = useRouter();
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
@@ -71,7 +72,7 @@ export default function ResetPasswordForm({ slug, subdomain }: Props) {
                 setError(res.message);
             } else {
                 setMessage(res.message);
-                window.location.href = `/${subdomain}/dashboard`;
+                router.push(`/${subdomain}/dashboard`);
             }
         } catch (err: any) {
             setError(err.response?.data || 'Something went wrong');
@@ -88,7 +89,7 @@ export default function ResetPasswordForm({ slug, subdomain }: Props) {
                 </Box>
             ) : (
                 <Typography variant="h6" gutterBottom sx={{ mb: '32px', fontWeight: 'bold', textTransform: 'capitalize ' }}>
-                    {subdomain2.replace(/-/g, ' ')}
+                    {subdomain2?.replace(/-/g, ' ')}
                 </Typography>
             )}
 

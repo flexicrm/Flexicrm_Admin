@@ -5,6 +5,7 @@ import { Droppable } from '@hello-pangea/dnd';
 import { CustomChip } from '../../../../ui-components/Chip/Chip';
 import { Add as AddIcon } from '@mui/icons-material';
 import LeadCard from './LeadCard';
+import { useRouter } from 'next/navigation';
 
 interface StatusColumnProps {
     status: any;
@@ -17,6 +18,8 @@ interface StatusColumnProps {
 const COLUMN_WIDTH = 250;
 
 const StatusColumn: React.FC<StatusColumnProps> = ({ status, leads, onLeadClick, onMenuOpen, subdomain }) => {
+    const router = useRouter();
+
     return (
         <Box
             sx={{
@@ -99,7 +102,7 @@ const StatusColumn: React.FC<StatusColumnProps> = ({ status, leads, onLeadClick,
                                         <Typography variant="caption">Drop leads here</Typography>
                                     </Box>
                                     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                                        <Button variant="contained" size="small" startIcon={<AddIcon />} onClick={() => (window.location.href = `/${subdomain}/leads/create`)}>
+                                        <Button variant="contained" size="small" startIcon={<AddIcon />} onClick={() => router.push(`/${subdomain}/leads/create`)}>
                                             New
                                         </Button>
                                     </Box>

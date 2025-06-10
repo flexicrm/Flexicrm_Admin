@@ -26,50 +26,48 @@
 //     </div>
 //   );
 // }
-import React from "react";
+import React from 'react';
 
-import { Timeline, TimelineItem, TimelineSeparator, TimelineConnector, TimelineContent, TimelineDot, TimelineOppositeContent } from "@mui/lab";
-import { Paper, Typography } from "@mui/material";
+import { Timeline, TimelineItem, TimelineSeparator, TimelineConnector, TimelineContent, TimelineDot, TimelineOppositeContent } from '@mui/lab';
+import { Paper, Typography } from '@mui/material';
 
 interface FollowUp {
-  notes: string;
-  followUpDate: string;
+    notes: string;
+    followUpDate: string;
 }
 
 interface FollowContentProps {
-  currentLead: {
-    followUps?: FollowUp[];
-  };
+    currentLead: {
+        followUps?: FollowUp[];
+    };
 }
 
 const FollowContent: React.FC<FollowContentProps> = ({ currentLead }) => {
-  const followups = currentLead.followUps || [];
+    const followups = currentLead.followUps || [];
 
-  return (
-    <div>
-      <Typography variant="h6" gutterBottom>
-        Follow-Up Timeline
-      </Typography>
-      <Timeline position="alternate">
-        {followups.map((followup, idx) => (
-          <TimelineItem key={idx}>
-            <TimelineOppositeContent color="text.secondary" sx={{ flex: 0.2 }}>
-              {new Date(followup.followUpDate).toLocaleString()}
-            </TimelineOppositeContent>
-            <TimelineSeparator>
-              <TimelineDot color="secondary" />
-              {idx < followups.length - 1 && <TimelineConnector />}
-            </TimelineSeparator>
-            <TimelineContent>
-              <Paper elevation={3} sx={{ p: 2 }}>
-                <Typography>{followup.notes}</Typography>
-              </Paper>
-            </TimelineContent>
-          </TimelineItem>
-        ))}
-      </Timeline>
-    </div>
-  );
+    return (
+        <div>
+            <Typography variant="h6" gutterBottom>
+                Follow-Up Timeline
+            </Typography>
+            <Timeline position="alternate">
+                {followups.map((followup, idx) => (
+                    <TimelineItem key={idx}>
+                        <TimelineOppositeContent sx={{ flex: 0.2, color: 'text.secondary' }}>{new Date(followup.followUpDate).toLocaleString()}</TimelineOppositeContent>
+                        <TimelineSeparator>
+                            <TimelineDot color="secondary" />
+                            {idx < followups.length - 1 && <TimelineConnector />}
+                        </TimelineSeparator>
+                        <TimelineContent>
+                            <Paper elevation={3} sx={{ p: 2 }}>
+                                <Typography>{followup.notes}</Typography>
+                            </Paper>
+                        </TimelineContent>
+                    </TimelineItem>
+                ))}
+            </Timeline>
+        </div>
+    );
 };
 
 export default FollowContent;

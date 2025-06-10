@@ -9,6 +9,7 @@ import { Box, Button, Checkbox, CircularProgress, IconButton, InputAdornment, Te
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { LoginAPI } from '../../../../api/auth';
 import userContext from '../../UseContext/UseContext';
+import PasswordField from '../../ui-components/password/Password';
 
 export default function LoginForm() {
     // const { loginSuccess } = useContext(userContext);
@@ -73,7 +74,7 @@ export default function LoginForm() {
             ) : (
                 <Box>
                     <Typography variant="h6" gutterBottom sx={{ mb: '32px', fontWeight: 'bold', textTransform: 'capitalize ' }}>
-                        {subdomain2.replace(/-/g, ' ')}
+                        {subdomain2?.replace(/-/g, ' ')}
                     </Typography>
                 </Box>
             )}
@@ -109,43 +110,15 @@ export default function LoginForm() {
                 </Box>
 
                 <Box>
-                    <TextField
-                        fullWidth
-                        id="password"
+                    <PasswordField
+                        label="password"
                         name="password"
-                        label="Password"
-                        margin="normal"
-                        sx={{
-                            mt: '24px',
-                            '& .MuiOutlinedInput-root': {
-                                height: '40px',
-                                lineHeight: '2.10rem',
-                                '& input': {
-                                    fontSize: '14px',
-                                    lineHeight: '2.10rem'
-                                }
-                            },
-                            '& .MuiInputLabel-root': {
-                                lineHeight: '1rem'
-                            },
-                            '& .MuiFormHelperText-root': {
-                                fontSize: '0.875rem'
-                            }
-                        }}
-                        type={showPassword ? 'text' : 'password'}
                         value={formik.values.password}
+                        show={showPassword}
+                        toggleShow={handleClickShowPassword}
                         onChange={formik.handleChange}
                         error={formik.touched.password && Boolean(formik.errors.password)}
                         helperText={formik.touched.password && formik.errors.password}
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    <IconButton onClick={handleClickShowPassword} edge="end">
-                                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                                    </IconButton>
-                                </InputAdornment>
-                            )
-                        }}
                     />
                 </Box>
 

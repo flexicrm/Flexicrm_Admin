@@ -104,11 +104,11 @@ export const MyButton: React.FC<{
                     boxShadow: 1
                 },
                 '&:hover': {
-                    bgcolor: 'action.hover',
+                    bgcolor: 'primary.main',
                     color: 'white'
                 },
                 '&.Mui-selected:hover': {
-                    bgcolor: 'primary.dark',
+                    bgcolor: 'primary.main',
                     color: 'white'
                 }
             }}

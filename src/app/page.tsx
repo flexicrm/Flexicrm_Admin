@@ -2,12 +2,7 @@
 import { Provider } from 'react-redux';
 import store from './store/store';
 import { Box, Typography } from '@mui/material';
-import { notFound, usePathname, useRouter } from 'next/navigation';
-import Cookies from 'js-cookie';
-import axios from 'axios';
-import { useContext, useEffect } from 'react';
-import userContext from './UseContext/UseContext';
-import { API_BASE_URL } from './utils';
+
 export default function Home() {
     return (
         <>

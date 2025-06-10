@@ -68,6 +68,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import userContext from '../../../../UseContext/UseContext';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import { useRouter } from 'next/navigation';
 
 interface LeadStatus {
     _id: string;
@@ -139,7 +140,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
     const [followUpStatusFilter, setFollowUpStatusFilter] = useState<string>('');
     const [showFilters, setShowFilters] = useState(false);
     const [animateBell, setAnimateBell] = useState(true);
-
+    const router = useRouter();
     const accessToken = Cookies.get('crmaccess');
     const subdomain = Cookies.get('subdomain');
     const handlePriorityChange = (event, newPriority) => {
@@ -494,7 +495,8 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                                             >
                                                 <CardContent
                                                     sx={{
-                                                        p: '10px 12px',
+                                                        paddingBottom: 0,
+                                                        // p: '10px 12px',
                                                         height: '100%',
                                                         display: 'flex',
                                                         flexDirection: 'column',
@@ -673,7 +675,12 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                                                                     variant="body2"
                                                                     sx={{
                                                                         textTransform: 'capitalize',
-                                                                        color: `${lead?.followUps?.slice(-1)[0]?.status?.color || '#4285F4'}`
+                                                                        color: `${lead?.followUps?.slice(-1)[0]?.status?.color || '#4285F4'}`,
+                                                                        fontSize: '10px',
+                                                                        whiteSpace: 'nowrap',
+                                                                        overflow: 'hidden',
+                                                                        textOverflow: 'ellipsis',
+                                                                        maxWidth: '90px'
                                                                     }}
                                                                 >
                                                                     {lead?.followUps?.slice(-1)[0]?.status?.StatusName || 'Not Followed'}
@@ -710,7 +717,12 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                                                                                 : lead?.followUps?.slice(-1)[0]?.priority === 'low'
                                                                                 ? '#33691e'
                                                                                 : '#4caf50',
-                                                                        textTransform: 'capitalize'
+                                                                        textTransform: 'capitalize',
+                                                                        fontSize: '10px',
+                                                                        whiteSpace: 'nowrap',
+                                                                        overflow: 'hidden',
+                                                                        textOverflow: 'ellipsis',
+                                                                        maxWidth: '90px'
                                                                     }}
                                                                 >
                                                                     {lead?.followUps?.slice(-1)[0]?.priority || 'Not Followed'}
@@ -740,7 +752,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                                             <Typography variant="caption">Drop leads here</Typography>
                                         </Box>
                                         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                                            <MyButton variant="contained" size="small" startIcon={<AddIcon />} onClick={() => (window.location.href = `/${subdomain}/leads/create`)}>
+                                            <MyButton variant="contained" size="small" startIcon={<AddIcon />} onClick={() => router.push(`/${subdomain}/leads/create`)}>
                                                 New
                                             </MyButton>
                                         </Box>
@@ -925,28 +937,6 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                 {/* Filter panel */}
 
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
-                    {/* <FormControl size="small" sx={{ minWidth: 180 }}>
-                        <InputLabel>Priority</InputLabel>
-                        <Select value={priorityFilter} onChange={(e) => setPriorityFilter(e.target.value)} label="Priority" sx={{ borderRadius: 1 }}>
-                            <MenuItem value="">All Priorities</MenuItem>
-                            {priorityOptions.map((option) => (
-                                <MenuItem key={option.value} value={option.value}>
-                                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                        <Box
-                                            sx={{
-                                                width: 10,
-                                                height: 10,
-                                                borderRadius: '50%',
-                                                backgroundColor: option.color,
-                                                mr: 1
-                                            }}
-                                        />
-                                        {option.label}
-                                    </Box>
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl> */}
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                         <Typography variant="h6" color="primary" sx={{ fontWeight: 500, fontSize: '1rem' }}>
                             Priority
@@ -971,18 +961,6 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                             >
                                 {priorityOptions.map((option) => (
                                     <ToggleButton size="small" key={option.value} value={option.value} aria-label={option.label} sx={{ border: 'none' }}>
-                                        {/* {option.value && option.color && (
-                                        <Box
-                                            component="span"
-                                            sx={{
-                                                width: 10,
-                                                height: 10,
-                                                borderRadius: '50%',
-                                                backgroundColor: option.color,
-                                                mr: 1
-                                            }}
-                                        />
-                                    )} */}
                                         {option.label}
                                     </ToggleButton>
                                 ))}
@@ -1030,7 +1008,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                                     <Search />
                                 </InputAdornment>
                             ),
-                            sx: { borderRadius: 2, width: 250 }
+                            sx: { borderRadius: 1, width: 250 }
                         }}
                     />
                 </Box>
@@ -1093,7 +1071,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                     </ListItemIcon>
                     <ListItemText primary="Add Follow-Up" />
                 </MenuItem>
-                <MenuItem onClick={() => (window.location.href = `/${subdomain}/leads/${selectedLeadId?.LeadId}`)}>
+                <MenuItem onClick={() => router.push(`/${subdomain}/leads/${selectedLeadId?.LeadId}`)}>
                     <ListItemIcon>
                         <Visibility fontSize="small" color="info" />
                     </ListItemIcon>

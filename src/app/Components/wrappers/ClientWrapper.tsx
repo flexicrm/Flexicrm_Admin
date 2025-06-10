@@ -1,29 +1,35 @@
 'use client';
 
-import { useContext, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
-import axios from 'axios';
-import { API_BASE_URL } from '../../utils';
-import userContext from '../../UseContext/UseContext';
+import { SubdmoainChekers } from '../../../../api/SubdomainCheker';
 
 export const useSubdomainCheck = () => {
     const pathname = usePathname();
     const router = useRouter();
     const crmaccess = Cookies.get('crmaccess');
     const subdomainCookie = Cookies.get('subdomain');
-    const pathSegments = pathname?.split('/').filter(Boolean);
-    const location1 = pathSegments?.[0];
+    const [locationvaleu, setLocationvalue] = useState<string | null>(null);
     // const { setFlexilogo } = useContext(userContext);
-    console.log('location1', location1, 'crmaccess', crmaccess, 'subdomainCookie', subdomainCookie);
-    useEffect(() => {
-        if (!location1 || crmaccess) return;
 
+    useEffect(() => {
+        const pathSegments = pathname?.split('/').filter(Boolean);
+        const location1 = pathSegments?.[0];
+        if (!location1 || crmaccess) return;
+        setLocationvalue(location1);
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${API_BASE_URL}/user/check-subdomain/${location1}`);
-                if (response?.data?.success && !subdomainCookie) {
-                    const newSubdomain = response.data.data.urlPath;
+                const response = await SubdmoainChekers(location1);
+                console.log(response, 'response>>>>>>>>>>>>>>>>>>>>');
+                if (response?.success) {
+                    // alert('client');
+                    Cookies.set('subdomain', response.data.urlPath);
+                    // setFlexilogo(response.data);
+                }
+                if (response?.success && !subdomainCookie) {
+                    console.log('first>>>>>>>>>>>');
+                    const newSubdomain = response.data.urlPath;
                     Cookies.set('subdomain', newSubdomain);
                     // setFlexilogo(response.data.data);
                     router.push(`/${newSubdomain}/login`);
@@ -33,9 +39,10 @@ export const useSubdomainCheck = () => {
                     router.push(`/`);
                 }
                 console.error('Subdomain Check Error:', error);
+                throw new Error('Simulated client-side error!');
             }
         };
 
         fetchData();
-    }, [location1, crmaccess, subdomainCookie, router]);
+    }, [locationvaleu, crmaccess, subdomainCookie, router]);
 };
