@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import { useParams, useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import { Box, Button, Checkbox, CircularProgress, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+
 import { LoginAPI } from '../../../../api/auth';
 import userContext from '../../UseContext/UseContext';
 import PasswordField from '../../ui-components/password/Password';
@@ -36,9 +36,9 @@ export default function LoginForm() {
         onSubmit: async (values) => {
             const payload = { email: values.email, password: values.password };
             const response = await LoginAPI(subdomain, payload);
-            console.log('Login response:', response);
+
             if (response.isError) {
-                setError(typeof response.data.errors === 'string' ? response.data.errors : 'Login failed');
+                setError(typeof response?.data?.errors === 'string' ? response?.data?.errors : 'Login failed');
             } else {
                 const data = response.data || null;
                 const { accessToken, refreshToken, isFirstlogin } = data;

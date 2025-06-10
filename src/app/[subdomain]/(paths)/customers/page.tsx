@@ -1112,11 +1112,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { fadeIn, staggerContainer, slideIn, zoomIn } from '../../../utils/motion';
 
 // Add this declaration to let TypeScript know about autoTable
-declare module 'jspdf' {
-    interface jsPDF {
-        autoTable: (...args: any[]) => jsPDF;
-    }
-}
+// declare module 'jspdf' {
+//     interface jsPDF {
+//         autoTable: (...args: any[]) => jsPDF;
+//     }
+// }
 
 import userContext from '../../../UseContext/UseContext';
 import { API_BASE_URL } from '../../../utils';
@@ -1434,47 +1434,47 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
         setExportAnchorEl(null);
     };
 
-    const handleExportPDF = () => {
-        const doc = new jsPDF();
-        doc.setFontSize(18);
-        doc.setTextColor(40, 53, 147);
-        doc.text('Customer Contacts Report', 14, 22);
+    // const handleExportPDF = () => {
+    //     const doc = new jsPDF();
+    //     doc.setFontSize(18);
+    //     doc.setTextColor(40, 53, 147);
+    //     doc.text('Customer Contacts Report', 14, 22);
 
-        doc.setFontSize(11);
-        doc.setTextColor(100, 100, 100);
-        doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 30);
+    //     doc.setFontSize(11);
+    //     doc.setTextColor(100, 100, 100);
+    //     doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 30);
 
-        doc.autoTable({
-            startY: 40,
-            head: [['Company', 'Customer ID', 'Phone', 'Email', 'GST No', 'Status', 'Created At']],
-            body: filteredContacts.map((contact) => [
-                contact.Companyname || '-',
-                contact.customerId || '-',
-                contact.phone || '-',
-                contact.email || '-',
-                contact.GSTno || '-',
-                contact.status === 1 ? 'Active' : 'Inactive',
-                formatDate(contact.createdAt)
-            ]),
-            styles: {
-                fontSize: 9,
-                cellPadding: 3,
-                overflow: 'linebreak'
-            },
-            headStyles: {
-                fillColor: [40, 53, 147],
-                textColor: 255,
-                fontStyle: 'bold'
-            },
-            alternateRowStyles: {
-                fillColor: [240, 240, 240]
-            },
-            margin: { top: 10 }
-        });
+    //     doc.autoTable({
+    //         startY: 40,
+    //         head: [['Company', 'Customer ID', 'Phone', 'Email', 'GST No', 'Status', 'Created At']],
+    //         body: filteredContacts.map((contact) => [
+    //             contact.Companyname || '-',
+    //             contact.customerId || '-',
+    //             contact.phone || '-',
+    //             contact.email || '-',
+    //             contact.GSTno || '-',
+    //             contact.status === 1 ? 'Active' : 'Inactive',
+    //             formatDate(contact.createdAt)
+    //         ]),
+    //         styles: {
+    //             fontSize: 9,
+    //             cellPadding: 3,
+    //             overflow: 'linebreak'
+    //         },
+    //         headStyles: {
+    //             fillColor: [40, 53, 147],
+    //             textColor: 255,
+    //             fontStyle: 'bold'
+    //         },
+    //         alternateRowStyles: {
+    //             fillColor: [240, 240, 240]
+    //         },
+    //         margin: { top: 10 }
+    //     });
 
-        doc.save('contacts.pdf');
-        setExportAnchorEl(null);
-    };
+    //     doc.save('contacts.pdf');
+    //     setExportAnchorEl(null);
+    // };
 
     const handleStatusChange = async (contactId: string, status: number) => {
         try {

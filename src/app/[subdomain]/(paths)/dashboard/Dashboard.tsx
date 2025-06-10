@@ -764,7 +764,6 @@ const Dashboard: React.FC = () => {
                                                 }}
                                             >
                                                 <Box
-                                                    {...provided.dragHandleProps}
                                                     sx={{
                                                         position: 'absolute',
                                                         top: 40,
@@ -772,8 +771,7 @@ const Dashboard: React.FC = () => {
                                                         // right: 0,
                                                         height: '24px',
                                                         cursor: 'grab',
-                                                        // display: 'flex',
-                                                        // justifyContent: 'flex-end',
+
                                                         alignItems: 'center',
                                                         // pr: 1
                                                         marginRight: '12px'
@@ -792,7 +790,9 @@ const Dashboard: React.FC = () => {
                                                         </IconButton>
                                                     )}
                                                 </Box>
-                                                <Box sx={{ mt: 3 }}>{renderSection(section.id)}</Box>
+                                                <Box sx={{ mt: 3 }} {...provided.dragHandleProps}>
+                                                    {renderSection(section.id)}
+                                                </Box>
                                             </Box>
                                         </Grid>
                                     )}

@@ -29,7 +29,7 @@ const HighValueOpportunities: React.FC<HighValueOpportunitiesProps> = ({ data, i
     return (
         <Card sx={{ boxShadow: 0, border: '1px solid #e5e7eb', borderRadius: 2, padding: '16px', height: '530px' }}>
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                <Typography variant="h5" component="h2" fontWeight={600} sx={{ mr: 2 }}>
+                <Typography variant="h5" component="h2" fontWeight={600} sx={{ ml: 2 }}>
                     High Value Leads
                 </Typography>
                 <Button component={Link} href={`/${subdomain}/leads`} size="small">

@@ -69,7 +69,7 @@ const LeadAcquisitionChart: React.FC<LeadAcquisitionChartProps> = ({ data, timef
             }}
         >
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
-                <Typography variant="h5" component="h2" fontWeight={600} sx={{ mr: 2 }}>
+                <Typography variant="h5" component="h2" fontWeight={600} sx={{ ml: 2 }}>
                     Lead Acquisition
                 </Typography>
                 <FormControl size="small" sx={{ minWidth: 120 }}>
