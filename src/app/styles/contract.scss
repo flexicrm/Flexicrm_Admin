@@ -1,0 +1,19 @@
+.Contractshover {
+    display: none; /* Hide by default */
+    position: absolute; /* Position it relative to the image */
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 5px 10px; /* Add horizontal padding for better appearance */
+    border-radius: 12px; /* Rounded corners */
+    z-index: 10; /* Ensure it appears above other elements */
+    white-space: nowrap; /* Prevent text from wrapping */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: add a subtle shadow */
+}
+
+.contractimg:hover + .Contractshover {
+    display: block; /* Show on hover */
+}
+
+.contractimg:hover {
+    cursor: pointer; /* Change cursor to indicate interactivity */
+}

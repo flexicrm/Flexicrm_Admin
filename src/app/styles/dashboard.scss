@@ -1,0 +1,77 @@
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+  }
+  
+  /* Slot styling */
+  .slot {
+   
+    border-radius: 8px;
+    width: 300px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    position: relative;
+    // background-color: #f9f9f9;
+    transition: background-color 0.3s;
+  }
+  
+  // /* Slot hover effect */
+  .slot:hover {
+    // background-color: #eaeaea;
+  }
+  
+  // /* Second row layout */
+  .second-row {
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* Item styling */
+  .item {
+    background-color: #ffffff;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    padding: 10px;
+    width: 300px;
+    height: 200px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Handle for draggable items */
+  .handle {
+    width: 100%;
+    height: 100%;
+    background-color: #007bff;
+    cursor: grab;
+    position: absolute;
+    left: -15px;
+    top: 0;
+    border-radius: 5px;
+  }
+  
+  /* Change handle color on hover */
+  .handle:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Item colors */
+  .item.a {
+    background-color: #ffff; /* Light red */
+  }
+  
+  .item.c {
+    background-color: #ffffff; /* Light blue */
+  }
+  
+  .item.d {
+    background-color: #ffffff; /* Light green */
+  }
+  

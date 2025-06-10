@@ -1,0 +1,71 @@
+body {
+    background-color: #f0f4f8; /* Light blue background */
+    font-family: 'Arial', sans-serif;
+    color: #333;
+  }
+  
+  .jdsahf {
+    background-color: #fff; /* White form background */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 600px; /* Max width for the form */
+    margin: 50px auto; /* Center the form */
+  }
+  
+  h3 {
+    color: #007bff; /* Blue color for headings */
+    margin-bottom: 10px;
+  }
+  
+  .input-field {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+  }
+  
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="number"]:focus,
+  textarea:focus {
+    border-color: #007bff; /* Highlight border on focus */
+  }
+  
+  textarea {
+    resize: vertical; /* Allow vertical resizing */
+  }
+  
+  button {
+    background-color: #007bff; /* Blue button */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #0056b3; 
+  }
+  
+  .checkbox-label {
+    margin-bottom: 10px;
+  }
+  

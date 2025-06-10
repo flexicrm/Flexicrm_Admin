@@ -1,0 +1,240 @@
+// body{
+//     // background: url("https://wallpapercave.com/wp/wp9764006.jpg")    ;
+//     background-color: var(--surface-ground) !important;
+
+// }
+// .login-container{
+//    margin: auto;
+
+
+// }
+// input{
+//     width: 100%;
+// }
+// .login-layout{
+//     justify-content: center;
+//    height: 100vh;
+//    align-items: center;
+
+// }
+// .login-layout-container{
+//     background-color: white;
+//   padding: 5rem;
+//   border-top-left-radius: 15px;
+//   border-top-right-radius: 15px;
+// //   width: 30%;
+// }
+body {
+  // background: url("https://images.pexels.com/photos/1037993/pexels-photo-1037993.jpeg?auto=compress&cs=tinysrgb&w=600");
+  background-color: var(--surface-ground) !important;
+  font-family: Arial, sans-serif;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  overflow-x: hidden;
+}
+
+// input{
+//   width: 100%;
+//   border: none;
+//   border-bottom: 1px solid
+// }
+.login-container {
+  margin: auto;
+  // max-width: 445px;
+  // padding: 15px;
+}
+
+.container-login {
+  // margin: 60px 0;
+}
+
+.login-layout {
+  display: flex;
+  // height: 80vh;
+  // align-items: center;
+  // justify-content: center;
+
+}
+
+.login-layout-container {
+  // background-color: rgba(255, 255, 255, 0.945);
+  padding: 0rem 10rem;
+  color: rgb(15, 15, 15);
+  // border-top-left-radius: 15px;
+  // border-top-right-radius: 15px;
+  // border-radius: 1rem;
+  // box-shadow: 0 4px 10px rgb(0 0 0 / 0%), 0 0 2px rgb(0 0 0 / 28%), 0 2px 6px rgba(0, 0, 0, 0.5);
+  width: 100%;
+}
+
+@media screen and (min-width: 300px) and (max-width: 426px) {
+  .login-layout-container {
+    padding: 0rem;
+  }
+
+  .circle-1 {
+    width: 280px !important;
+    height: 280px !important;
+    
+  }
+
+  .circle-2 {
+    width: 250px !important;
+    height: 250px !important;
+  }
+
+  .login-row img {
+    width: 100% !important;
+  }
+
+}
+
+@media screen and (min-width: 427px) and (max-width: 769px) {
+  .login-layout-container {
+    padding: 0rem 2rem;
+  }
+
+  .login-row img {
+    width: 80%;
+  }
+}
+
+.login-row img {
+  width: 110%;
+}
+
+@media screen and (min-width: 770px) and (max-width: 1025px) {
+  .login-layout-container {
+    padding: 0rem 2rem;
+  }
+}
+
+//   form {
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+//   }
+
+.login-row img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.cards {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+
+  input {
+    all: unset;
+    background-color: unset !important;
+  }
+}
+
+
+.thunder-icon {
+  background-color: white;
+  padding: 10px;
+  border-radius: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-right: 10px;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+.login-row input {
+  width: 100% !important;
+  margin-top: 15px;
+}
+
+// .p-inputtext{
+//   border-radius: 1rem;
+// }
+.login-password .p-component .p-icon-field {
+  width: 100%;
+}
+
+.submit-btn {
+  color: #fff;
+  border-radius: 6px;
+  justify-content: center;
+  background: #143560;
+  // border-radius: 1rem;
+
+}
+
+.login-col1 {
+  padding: 15px 20px;
+  background-color: #143560;
+  color: #fff;
+  height: 100vh;
+}
+
+.circle-1 {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 400px;
+  height: 400px;
+  background: #000;
+  border-radius: 50rem;
+  background: linear-gradient(179.94deg, rgba(255, 255, 255, 0.06) -5.48%, rgba(255, 255, 255, 0) 96.9%);
+  padding: 60px 0;
+  // margin: 100px 140px;
+  ;
+}
+
+.circle-2 {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 350px;
+  height: 350px;
+  background: #000;
+  border-radius: 50rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) -25.29%, rgba(255, 255, 255, 0) 97.21%);
+  // padding: 60px 0;
+}
+
+.icon-item{
+  margin-left: 10px;
+}
+
+.login-row h6{
+font-size: 24px;
+font-weight: 700;
+text-align: left;
+}
+.dots-container {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  // position: absolute;
+  /* bottom: 10px; */
+  /* left: 50%; */
+  // transform: translateX(-50%);
+  z-index: 1;
+  top: 190px;
+  left: 64px;
+
+}
+
+/* Individual dot */
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 1px solid white;
+  transition: background-color 0.3s ease;
+}
+
+/* Active dot */
+.dot.active {
+  background-color: #eeebe9;
+}
