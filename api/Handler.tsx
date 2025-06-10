@@ -2,39 +2,6 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { API_BASE_URL } from '../src/app/utils';
 
-// const refreshAccessToken = async (subdomain: string): Promise<string | null> => {
-//     try {
-//         const refreshToken = Cookies.get('crmrefresh');
-//         if (!refreshToken) throw new Error('No refresh token available');
-
-//         const headers: Record<string, string> = {
-//             'Content-Type': 'application/json',
-//             Authorization: `Bearer ${refreshToken}`
-//         };
-
-//         const response = await axios.post(
-//             `${API_BASE_URL}/user/${subdomain}/refresh`,
-//             {}, // assuming no body is required
-//             { headers }
-//         );
-
-//         console.log('JSON data:', response.data); // wait for JSON parsing
-
-//         const newAccessToken = response?.data?.accessToken;
-
-//         if (newAccessToken && typeof newAccessToken === 'string') {
-//             Cookies.set('crmaccess', newAccessToken);
-//             return newAccessToken;
-//         }
-
-//         console.error('No access token in response:', response?.data);
-//         return null;
-//     } catch (error: any) {
-//         console.error('Failed to refresh access token:', error?.response || error.message);
-//         return null;
-//     }
-// };
-
 export const refreshAccessToken = async (subdomain: string): Promise<string | null> => {
     try {
         // Get refresh token from cookies

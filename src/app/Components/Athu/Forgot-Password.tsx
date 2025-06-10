@@ -40,7 +40,7 @@ export default function ForgotPassword() {
         }
 
         try {
-            const response = await ResetPassword(subdomain2, { email });
+            const response = await ResetPassword(subdomain2, email);
             if (response.success) {
                 setMessage(response.data.message || 'Password reset link has been sent to your email');
             } else {

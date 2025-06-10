@@ -419,6 +419,7 @@ import RecentLeadsTable from './RecentLeadsTable';
 import HighValueOpportunities from './HighValueOpportunities';
 import SummarySection from './Section/SummarySection';
 import userContext from '../../../UseContext/UseContext';
+import { GripVertical } from 'lucide-react';
 
 type SectionSize = 3 | 6 | 12 | 9;
 
@@ -766,15 +767,16 @@ const Dashboard: React.FC = () => {
                                                     {...provided.dragHandleProps}
                                                     sx={{
                                                         position: 'absolute',
-                                                        top: 0,
-                                                        left: 0,
-                                                        right: 0,
+                                                        top: 40,
+                                                        left: -2,
+                                                        // right: 0,
                                                         height: '24px',
                                                         cursor: 'grab',
-                                                        display: 'flex',
-                                                        justifyContent: 'flex-end',
+                                                        // display: 'flex',
+                                                        // justifyContent: 'flex-end',
                                                         alignItems: 'center',
-                                                        pr: 1
+                                                        // pr: 1
+                                                        marginRight: '12px'
                                                     }}
                                                 >
                                                     {section.id == 'SummarySection' ? null : (
@@ -786,7 +788,7 @@ const Dashboard: React.FC = () => {
                                                                 toggleSize(index);
                                                             }}
                                                         >
-                                                            {section.size === 12 ? <Minimize fontSize="small" /> : <Expand fontSize="small" />}
+                                                            {section.size === 12 ? <Minimize fontSize="small" /> : <GripVertical fontSize="small" />}
                                                         </IconButton>
                                                     )}
                                                 </Box>

@@ -32,7 +32,7 @@ const RecentLeadsTable: React.FC<RecentLeadsTableProps> = ({ data, isLoading, su
     return (
         <Card sx={{ boxShadow: 0, border: '1px solid #e5e7eb', borderRadius: 2, padding: '16px', height: '530px' }}>
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                <Typography variant="h5" component="h2" fontWeight={600}>
+                <Typography variant="h5" component="h2" fontWeight={600} sx={{ mr: 2 }}>
                     Recent Leads
                 </Typography>
                 <Button component={Link} href={`/${subdomain}/leads`} size="small">
