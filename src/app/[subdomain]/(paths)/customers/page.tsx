@@ -1416,23 +1416,23 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
         });
     };
 
-    const handleExportExcel = () => {
-        const modifiedContacts = filteredContacts.map((contact) => ({
-            'Company Name': contact.Companyname || '-',
-            'Customer ID': contact.customerId || '-',
-            Phone: contact.phone || '-',
-            Email: contact.email || '-',
-            'GST No': contact.GSTno || '-',
-            Status: contact.status === 1 ? 'Active' : 'Inactive',
-            'Created At': formatDate(contact.createdAt)
-        }));
+    // const handleExportExcel = () => {
+    //     const modifiedContacts = filteredContacts.map((contact) => ({
+    //         'Company Name': contact.Companyname || '-',
+    //         'Customer ID': contact.customerId || '-',
+    //         Phone: contact.phone || '-',
+    //         Email: contact.email || '-',
+    //         'GST No': contact.GSTno || '-',
+    //         Status: contact.status === 1 ? 'Active' : 'Inactive',
+    //         'Created At': formatDate(contact.createdAt)
+    //     }));
 
-        const worksheet = XLSX.utils.json_to_sheet(modifiedContacts);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Contacts');
-        XLSX.writeFile(workbook, 'contacts.xlsx');
-        setExportAnchorEl(null);
-    };
+    //     const worksheet = XLSX.utils.json_to_sheet(modifiedContacts);
+    //     const workbook = XLSX.utils.book_new();
+    //     XLSX.utils.book_append_sheet(workbook, worksheet, 'Contacts');
+    //     XLSX.writeFile(workbook, 'contacts.xlsx');
+    //     setExportAnchorEl(null);
+    // };
 
     // const handleExportPDF = () => {
     //     const doc = new jsPDF();
