@@ -1,5 +1,3 @@
-// components/ErrorBoundary.tsx
-
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 
 interface Props {
@@ -23,6 +21,8 @@ class ErrorBoundary extends Component<Props, State> {
 
     componentDidCatch(error: Error, errorInfo: ErrorInfo) {
         console.error('Client-side error caught in ErrorBoundary:', error, errorInfo);
+        // Log the component stack trace
+        console.error('Component stack:', errorInfo.componentStack);
         // Optionally send error to a logging service like Sentry
     }
 
