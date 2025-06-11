@@ -419,7 +419,7 @@ import RecentLeadsTable from './RecentLeadsTable';
 import HighValueOpportunities from './HighValueOpportunities';
 import SummarySection from './Section/SummarySection';
 import userContext from '../../../UseContext/UseContext';
-import { GripVertical } from 'lucide-react';
+import { GripHorizontal, GripVertical } from 'lucide-react';
 
 type SectionSize = 3 | 6 | 12 | 9;
 
@@ -767,14 +767,14 @@ const Dashboard: React.FC = () => {
                                                     sx={{
                                                         position: 'absolute',
                                                         top: 40,
-                                                        left: -2,
+                                                        left: 9,
                                                         // right: 0,
                                                         height: '24px',
                                                         cursor: 'grab',
 
                                                         alignItems: 'center',
                                                         // pr: 1
-                                                        marginRight: '12px'
+                                                        marginRight: '25px'
                                                     }}
                                                 >
                                                     {section.id == 'SummarySection' ? null : (
@@ -786,11 +786,11 @@ const Dashboard: React.FC = () => {
                                                                 toggleSize(index);
                                                             }}
                                                         >
-                                                            {section.size === 12 ? <Minimize fontSize="small" /> : <GripVertical fontSize="small" />}
+                                                            {section.size === 12 ? <GripHorizontal fontSize="small" /> : <GripVertical fontSize="small" />}
                                                         </IconButton>
                                                     )}
                                                 </Box>
-                                                <Box sx={{ mt: 3 }} {...provided.dragHandleProps}>
+                                                <Box sx={{ mt: 3, cursor: 'grab' }} {...provided.dragHandleProps}>
                                                     {renderSection(section.id)}
                                                 </Box>
                                             </Box>

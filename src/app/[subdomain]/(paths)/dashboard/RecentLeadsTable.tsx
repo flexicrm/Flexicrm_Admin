@@ -30,7 +30,19 @@ interface RecentLeadsTableProps {
 const RecentLeadsTable: React.FC<RecentLeadsTableProps> = ({ data, isLoading, subdomain }) => {
     console.log(data, 'RecentLeadsTable Props');
     return (
-        <Card sx={{ boxShadow: 0, border: '1px solid #e5e7eb', borderRadius: 2, padding: '16px', height: '530px' }}>
+        <Card
+            sx={{
+                boxShadow: 0,
+                border: '1px solid #e5e7eb',
+                borderRadius: 2,
+                padding: '16px',
+                m: 1,
+                height: '530px',
+                '&:hover': {
+                    boxShadow: 5
+                }
+            }}
+        >
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
                 <Typography variant="h5" component="h2" fontWeight={600} sx={{ ml: 2 }}>
                     Recent Leads

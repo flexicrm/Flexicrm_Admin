@@ -1,21 +1,53 @@
-'use client';
+import { CalendarMonth, People, Visibility } from '@mui/icons-material';
+import { Divider, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui/material';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import Link from 'next/link';
 import React from 'react';
-import { styled } from '@mui/material/styles';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 
-const CustomMenu = styled(Menu)(({ theme }) => ({
-    margin: theme.spacing(1)
-}));
-
-export const MyMenu: React.FC<{ anchorEl: null | HTMLElement; open: boolean; items: string[]; onClose: () => void }> = ({ anchorEl, open, items, onClose }) => {
+export default function Menus({ anchorEl, handleMenuClose, currentLead, subdomain, setFollowUpFormVisible, setConvertFormVisible }) {
     return (
-        <CustomMenu anchorEl={anchorEl} open={open} onClose={onClose}>
-            {items.map((item) => (
-                <MenuItem key={item} onClick={onClose}>
-                    {item}
+        <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+            anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right'
+            }}
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right'
+            }}
+        >
+            <Link href={`/${subdomain}/leads/edit/${currentLead?.LeadId}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                <MenuItem>
+                    <ListItemIcon>
+                        <ModeEditIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Edit lead</ListItemText>
                 </MenuItem>
-            ))}
-        </CustomMenu>
+            </Link>
+            <MenuItem onClick={() => setFollowUpFormVisible(true)}>
+                <ListItemIcon>
+                    <CalendarMonth fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Add Follow-Up</ListItemText>
+            </MenuItem>
+            <Link href={`/${subdomain}/leads/${currentLead?.LeadId}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                <MenuItem>
+                    <ListItemIcon>
+                        <Visibility fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>View Lead</ListItemText>
+                </MenuItem>
+            </Link>
+            <Divider />
+            <MenuItem onClick={() => setConvertFormVisible(true)}>
+                <ListItemIcon>
+                    <People fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Convert Customer</ListItemText>
+            </MenuItem>
+        </Menu>
     );
-};
+}

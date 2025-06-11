@@ -156,7 +156,7 @@ const StyledChip = styled(Chip)<{ hexcolor?: string; sx?: any }>(({ hexcolor }) 
         fontWeight: 'bold',
         backgroundColor: lightHexColor,
         border: `1px solid ${lightHexColor}`,
-        color: `#${hexcolor || '4285F4'}`,
+        color: `#${hexcolor || 'FFFF'}`,
         textTransform: 'capitalize',
         ...(props) => props.sx, // Apply additional styles if provided
         '& .MuiChip-label': {

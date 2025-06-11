@@ -1,15 +1,15 @@
-import React from 'react';
-import { Box, Typography, Divider, Chip, IconButton, Stack } from '@mui/material';
 import { Close } from '@mui/icons-material';
+import { Box, Chip, Divider, IconButton, Stack, Typography } from '@mui/material';
+import React from 'react';
 
 interface LeadDetailsProps {
-    lead: any;
-    onClose: () => void;
+    selectedLead: any;
+    setLeadsDetails: (value: boolean) => void;
 }
+export default function LeadDetails({ selectedLead, setLeadsDetails }: LeadDetailsProps) {
+    if (!selectedLead) return null;
 
-const LeadDetails: React.FC<LeadDetailsProps> = ({ lead, onClose }) => {
-    const { LeadId, assignTo, createdAt, description, manualData, leadsource, leadstatus } = lead;
-
+    const { LeadId, assignTo, createdAt, description, manualData, leadsource, leadstatus } = selectedLead.selectedLead || selectedLead;
     return (
         <Box
             sx={{
@@ -29,7 +29,7 @@ const LeadDetails: React.FC<LeadDetailsProps> = ({ lead, onClose }) => {
                 <Typography variant="h6" fontWeight={500}>
                     Lead Details
                 </Typography>
-                <IconButton onClick={onClose}>
+                <IconButton onClick={() => setLeadsDetails(false)}>
                     <Close />
                 </IconButton>
             </Box>
@@ -54,10 +54,10 @@ const LeadDetails: React.FC<LeadDetailsProps> = ({ lead, onClose }) => {
                         Status
                     </Typography>
                     <Chip
-                        label={leadstatus.statusName}
+                        label={leadstatus?.statusName}
                         sx={{
-                            bgcolor: `#${leadstatus.color || '4285F4'}22`,
-                            color: `#${leadstatus.color || '4285F4'}`,
+                            bgcolor: `#${leadstatus?.color || '4285F4'}22`,
+                            color: `#${leadstatus?.color || '4285F4'}`,
                             fontWeight: 500,
                             mt: 0.5
                         }}
@@ -67,7 +67,7 @@ const LeadDetails: React.FC<LeadDetailsProps> = ({ lead, onClose }) => {
                     <Typography variant="subtitle2" color="text.secondary">
                         Company
                     </Typography>
-                    <Typography variant="body2">{manualData.company}</Typography>
+                    <Typography variant="body2">{manualData?.company}</Typography>
                 </Box>
                 <Box>
                     <Typography variant="subtitle2" color="text.secondary">
@@ -106,6 +106,4 @@ const LeadDetails: React.FC<LeadDetailsProps> = ({ lead, onClose }) => {
             </Stack>
         </Box>
     );
-};
-
-export default LeadDetails;
+}

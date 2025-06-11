@@ -3,27 +3,22 @@ import { Box, Card, Typography, IconButton, Avatar, Link, Tooltip, Grid, Chip, A
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
-import CalendarIcon from '@mui/icons-material/CalendarToday';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import { useTheme } from '@mui/material/styles';
 import './Tabel.css';
-import { BoxIcon } from 'lucide-react';
 import { ringAnimation, scrollIn } from './animation';
-interface ReminderCardProps {
-    sortedData: any;
-    subdomain: string;
-    onEdit: (e: React.MouseEvent, row: any) => void;
-}
+import { ReminderCardProps } from '../../type/ReminderCard';
+import LeadStatus from './Status/Lead-Status';
+import FollowupStatus from './Status/Follow-up-Status';
+import PriorityStatus from './Status/Priority-Status';
 
 const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEdit }) => {
     const theme = useTheme();
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const [animateBell, setAnimateBell] = useState(true);
-    const [lastTriggered, setLastTriggered] = useState<number | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
-    const [visibleCards, setVisibleCards] = useState(8); // Start with 8 cards visible
-
+    const [visibleCards, setVisibleCards] = useState(8);
     // Scroll animation effect
     useEffect(() => {
         const handleScroll = () => {
@@ -35,7 +30,6 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                 }
             }
         };
-
         const container = containerRef.current;
         if (container) {
             container.addEventListener('scroll', handleScroll);
@@ -53,10 +47,9 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
             ref={containerRef}
             sx={{
                 gap: 2,
-                overflowY: 'auto',
-                // maxHeight: '60vh',
 
-                // padding: '8px',
+                maxHeight: 'calc(100vh - 200px)',
+                overflowY: 'auto',
                 '&::-webkit-scrollbar': {
                     width: '6px'
                 },
@@ -91,17 +84,14 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                             sx={{
                                 flexGrow: 1,
                                 position: 'relative',
-                                boxShadow: 0,
+                                boxShadow: 2,
                                 paddingBottom: '0px',
                                 height: '100%',
-                                // width: '300px',
-
+                                m: 0.25,
                                 transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                                // border: ' 1px solid #c5bfbf',
                                 borderRadius: '14px',
                                 '&:hover': {
                                     transform: 'translateY(-5px)'
-                                    // boxShadow: 'rgba(182, 186, 203, 0.6) 0px 10px 40px'
                                 }
                             }}
                         >
@@ -114,7 +104,7 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
 
                             <Box padding={'16px'} sx={{ paddingBottom: '5px' }}>
                                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, position: 'relative' }}>
-                                    <Avatar sx={{ bgcolor: theme.palette.primary.main, mr: 1 }}>{row?.Name?.charAt(0)}</Avatar>
+                                    <Avatar sx={{ mr: 1, color: theme.palette.primary.main, background: '#bdbdbd9e', fontWeight: '600' }}>{row?.Name?.charAt(0)}</Avatar>
 
                                     <Box>
                                         <Link href={`/${subdomain}/leads/${row?.LeadId}`} style={{ textDecoration: 'none' }}>
@@ -130,9 +120,6 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                                                     maxWidth: '90px', // Adjust this value as needed
                                                     '&:hover': {
                                                         color: 'primary.main'
-                                                        // textDecoration: 'underline',
-                                                        // transform: 'translateY(-5px)'
-                                                        // boxShadow: 'rgba(182, 186, 203, 0.6) 0px 10px 40px'
                                                     }
                                                 }}
                                             >
@@ -153,10 +140,8 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                                                 </Tooltip>
                                             </Box>
                                         )}
-                                        <Box color="text.secondary">{/* <Chip label={row.LeadId} size="small" /> */}</Box>
                                     </Box>
                                 </Box>
-                                {/* {console.log(row, 'row')} */}
                                 <Box sx={{ mb: 1 }}>
                                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                                         <ApartmentIcon color="action" sx={{ mr: 0.55, fontSize: 16 }} />
@@ -179,129 +164,21 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                                 </Box>
 
                                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                    <Box sx={{ display: 'flex', wdith: '130px', overflow: 'auto', justifyContent: 'space-evenly', gap: 2 }}>
+                                    <Box sx={{ display: 'flex', wdith: '80px', overflow: 'auto', justifyContent: 'space-evenly', gap: 2 }}>
                                         {/* Lead Status */}
-                                        {row?.leadstatus?.statusName && (
-                                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                                    <Box
-                                                        sx={{
-                                                            width: 8,
-                                                            height: 8,
-                                                            borderRadius: '50%',
-                                                            backgroundColor: `#${row?.leadstatus?.color || '4285F4'}`
-                                                        }}
-                                                    />
-                                                    <Typography
-                                                        variant="body2"
-                                                        color="text.primary"
-                                                        sx={{
-                                                            color: `#${row?.leadstatus?.color || '4285F4'}`,
-                                                            textTransform: 'capitalize',
-                                                            fontSize: '10px',
-                                                            whiteSpace: 'nowrap',
-                                                            overflow: 'hidden',
-                                                            textOverflow: 'ellipsis',
-                                                            maxWidth: '90px'
-                                                        }}
-                                                    >
-                                                        {row?.leadstatus?.statusName || 'Not Followed'}
-                                                    </Typography>
-                                                </Box>
-                                                <label htmlFor="" className="leadsgrid-style-flex">
-                                                    Lead Status
-                                                </label>
-                                            </Box>
-                                        )}
-
+                                        <LeadStatus row={row} />
                                         {/* Follow-up Status */}
-                                        {row?.followUps?.slice(-1)[0]?.status?.StatusName && (
-                                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                                    <Box
-                                                        sx={{
-                                                            width: 8,
-                                                            height: 8,
-                                                            borderRadius: '50%',
-                                                            backgroundColor: `${row?.followUps?.slice(-1)[0]?.status?.color || '#4285F4'}`
-                                                        }}
-                                                    />
-                                                    <Typography
-                                                        variant="body2"
-                                                        sx={{
-                                                            textTransform: 'capitalize',
-                                                            color: `${row?.followUps?.slice(-1)[0]?.status?.color || '#4285F4'}`,
-                                                            fontSize: '10px',
-                                                            whiteSpace: 'nowrap',
-                                                            overflow: 'hidden',
-                                                            textOverflow: 'ellipsis',
-                                                            maxWidth: '90px'
-                                                        }}
-                                                    >
-                                                        {row?.followUps?.slice(-1)[0]?.status?.StatusName || 'Not Followed'}
-                                                    </Typography>
-                                                </Box>
-                                                <label htmlFor="" className="leadsgrid-style-flex">
-                                                    Follow-up Status
-                                                </label>
-                                            </Box>
-                                        )}
-
+                                        <FollowupStatus row={row} />
                                         {/* Priority */}
-                                        {row?.followUps?.slice(-1)[0]?.priority && (
-                                            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                                    <Box
-                                                        sx={{
-                                                            width: 8,
-                                                            height: 8,
-                                                            borderRadius: '50%',
-                                                            backgroundColor:
-                                                                row?.followUps?.slice(-1)[0]?.priority === 'medium'
-                                                                    ? '#ff9800'
-                                                                    : row?.followUps?.slice(-1)[0]?.priority === 'high'
-                                                                    ? '#d50000'
-                                                                    : row?.followUps?.slice(-1)[0]?.priority === 'low'
-                                                                    ? '#33691e'
-                                                                    : '#4caf50'
-                                                        }}
-                                                    />
-                                                    <Typography
-                                                        variant="body2"
-                                                        sx={{
-                                                            color:
-                                                                row?.followUps?.slice(-1)[0]?.priority === 'medium'
-                                                                    ? '#ff9800'
-                                                                    : row?.followUps?.slice(-1)[0]?.priority === 'high'
-                                                                    ? '#d50000'
-                                                                    : row?.followUps?.slice(-1)[0]?.priority === 'low'
-                                                                    ? '#33691e'
-                                                                    : '#4caf50',
-                                                            textTransform: 'capitalize',
-                                                            fontSize: '10px',
-                                                            whiteSpace: 'nowrap',
-                                                            overflow: 'hidden',
-                                                            textOverflow: 'ellipsis',
-                                                            maxWidth: '90px'
-                                                        }}
-                                                    >
-                                                        {row?.followUps?.slice(-1)[0]?.priority}
-                                                    </Typography>
-                                                </Box>
-                                                <label htmlFor="" className="leadsgrid-style-flex">
-                                                    Priority
-                                                </label>
-                                            </Box>
-                                        )}
+                                        <PriorityStatus row={row} />
                                     </Box>
-
                                     {/* Assigned User Avatar */}
                                     <Box>
                                         {row?.assignTo && (
                                             <>
                                                 <AvatarGroup>
                                                     <Tooltip title={`${row?.assignTo?.firstname} ${row?.assignTo?.lastname}`}>
-                                                        <Avatar sx={{ width: 14, height: 14 }} alt={`${row?.assignTo?.firstname}${row?.assignTo?.lastname}`} src={row?.assignTo?.Profile} />
+                                                        <Avatar sx={{ width: 20, height: 20, marginBottom: '-10px' }} alt={`${row?.assignTo?.firstname}${row?.assignTo?.lastname}`} src={row?.assignTo?.Profile} />
                                                     </Tooltip>
                                                 </AvatarGroup>
                                                 <label htmlFor="" className="leadsgrid-style-flex">

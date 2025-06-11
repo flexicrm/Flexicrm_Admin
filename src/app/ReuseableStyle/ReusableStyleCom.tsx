@@ -175,7 +175,7 @@ export const LayoutContainers = styled(Box, {
     shouldForwardProp: (prop) => prop !== 'isOpen'
 })<{ isOpen?: boolean }>(({ isOpen, theme }) => ({
     flex: '0 1 1',
-    height: '80%',
+    // height: '100%',
     transition: 'margin-left 0.3s ease-in-out',
     marginLeft: isOpen ? '250px' : '48px', // Default for desktop
 

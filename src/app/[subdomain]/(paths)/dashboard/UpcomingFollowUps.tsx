@@ -23,10 +23,25 @@ const UpcomingFollowUps: React.FC<UpcomingFollowUpsProps> = ({ data, isLoading }
     const subdomain = Cookies.get('subdomain');
     console.log(data, 'UpcomingFollowUps Props');
     return (
-        <Card sx={{ height: 350, borderRadius: 2, border: '1px solid #e5e7eb', boxShadow: 0, padding: '16px', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
+        <Card
+            sx={{
+                height: 350,
+                borderRadius: 2,
+                border: '1px solid #e5e7eb',
+                boxShadow: 0,
+                m: 1,
+                padding: '16px',
+                display: 'flex',
+                flexDirection: 'column',
+                overflowY: 'auto',
+                '&:hover': {
+                    boxShadow: 5
+                }
+            }}
+        >
             {/* <Card sx={{ height: '100%', borderRadius: 2, border: '1px solid #e5e7eb', boxShadow: '0 6px 30px rgba(182, 186, 203, 0.3)', padding: '16px', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}> */}
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-            <Typography variant="h5" component="h2" fontWeight={600} sx={{ ml: 2 }}>
+                <Typography variant="h5" component="h2" fontWeight={600} sx={{ ml: 2 }}>
                     Upcoming Follow-ups
                 </Typography>
                 <Badge badgeContent={data?.length || 0} color="primary" max={99} sx={{ pt: 1.5 }} />

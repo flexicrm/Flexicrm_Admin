@@ -274,10 +274,13 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import Cookies from 'js-cookie';
 
 export default function NotificationMenu({ notifications = [], unreadCount = 0, onMarkRead, onMarkAllRead, subdomain = '' }) {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const router = useRouter();
+    const subdmoain = Cookies.get('subdomain');
 
     const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -338,7 +341,7 @@ export default function NotificationMenu({ notifications = [], unreadCount = 0, 
             >
                 <Box px={2} py={1.5} sx={{ backgroundColor: 'background.paper' }}>
                     <Box display="flex" justifyContent="space-between" alignItems="center">
-                        <Typography variant="h3"  fontSize="1rem" fontWeight="500">
+                        <Typography variant="h3" fontSize="1rem" fontWeight="500">
                             Notifications
                         </Typography>
                         {unreadCount > 0 && (
@@ -388,12 +391,14 @@ export default function NotificationMenu({ notifications = [], unreadCount = 0, 
                             divider
                         >
                             <Box sx={{ flex: 1 }}>
-                                <Typography variant="body2" fontWeight={!notification.notificationRead ? '500' : '400'}>
-                                    {notification.description}
-                                </Typography>
-                                <Typography variant="caption" color="text.secondary" display="block" mt={0.5}>
-                                    {new Date(notification.timestamp).toLocaleString()}
-                                </Typography>
+                                <Link href={`/${subdmoain}/leads/${notification.entityId.LeadId}`}>
+                                    <Typography variant="body2" minWidth="200px" fontWeight={!notification.notificationRead ? '500' : '400'}>
+                                        {notification.description}
+                                    </Typography>
+                                    <Typography variant="caption" color="text.secondary" display="block" mt={0.5}>
+                                        {new Date(notification.timestamp).toLocaleString()}
+                                    </Typography>
+                                </Link>
                             </Box>
                             {!notification.notificationRead && (
                                 <IconButton

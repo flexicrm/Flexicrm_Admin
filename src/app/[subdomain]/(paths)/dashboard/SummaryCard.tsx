@@ -18,7 +18,18 @@ const SummaryCard: React.FC<SummaryCardProps> = ({ title, value, loading, icon, 
     }
     return (
         <motion.div transition={{ duration: 0.2 }}>
-            <Card sx={{ borderRadius: 2, padding: 2, border: '1px solid #e5e7eb', boxShadow: 0 }}>
+            <Card
+                sx={{
+                    borderRadius: 2,
+                    padding: 2,
+                    m: 1,
+                    border: '1px solid #e5e7eb',
+                    boxShadow: 0,
+                    '&:hover': {
+                        boxShadow: 5
+                    }
+                }}
+            >
                 <CardContent sx={{ paddingBottom: '0px !important', paddingTop: '0px' }}>
                     <Box display="flex" justifyContent="space-between" alignItems="flex-start">
                         <Box flexGrow={1}>

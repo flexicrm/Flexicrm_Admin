@@ -15,22 +15,10 @@ interface ConvertCustomerProps {
 }
 
 const ConvertCustomer: React.FC<ConvertCustomerProps> = ({ currentLead, setConvertFormVisible, convertid, leadStatus }) => {
-    console.log(convertid, 'currentLead??"??"?>""');
-
-    console.log(currentLead, 'currentLead??"??"?>""');
-    console.log(typeof leadStatus, leadStatus); // Check type and content
-
     const leadStatusArray = Array.isArray(leadStatus) ? leadStatus : [];
     const convertedStatus = leadStatusArray.find((item) => item.statusName === 'Converted');
 
-    console.log(convertedStatus, 'convertedStatus');
-
-    // const convertedStatus = leadStatus?.find((item) => item.statusName === 'Converted');
-    // console.log(convertedStatus, 'convertedStatus');
     const [status] = useState<string | null>(convertedStatus ? convertedStatus._id : null);
-    // const status = 'status';
-    console.log(leadStatus, 'convertedStatus');
-
     const accessToken = Cookies.get('crmaccess');
     const subdomain = Cookies.get('subdomain');
 

@@ -82,7 +82,7 @@ const TypeIcon = ({ type }: { type: FollowUp['type'] }) => {
     return iconMap[type];
 };
 
-export const FollowUpSection = ({ currentLead, UsersOptions, leadId, setLeadData }) => {
+export const FollowUpSection = ({ currentLead, UsersOptions, leadId, setLeadData }: any) => {
     const [followups, setFollowups] = useState<FollowUp[]>(currentLead?.followUps || []);
     const [openFollowUpForm, setOpenFollowUpForm] = useState(false);
     const [selectedFollowUp, setSelectedFollowUp] = useState<FollowUp | null>(null);
@@ -93,6 +93,9 @@ export const FollowUpSection = ({ currentLead, UsersOptions, leadId, setLeadData
     const [loading, setLoading] = useState(false);
     const observer = useRef<IntersectionObserver | null>(null);
 
+    useEffect(() => {
+        setFollowups(currentLead?.followUps);
+    }, [currentLead]);
     const handleAddFollowUp = () => {
         setSelectedFollowUp(null);
         setOpenFollowUpForm(true);
