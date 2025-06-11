@@ -4,7 +4,7 @@ import React from 'react';
 
 interface LeadDetailsProps {
     selectedLead: any;
-    setLeadsDetails: (value: boolean) => void;
+    setLeadsDetails: any;
 }
 export default function LeadDetails({ selectedLead, setLeadsDetails }: LeadDetailsProps) {
     if (!selectedLead) return null;

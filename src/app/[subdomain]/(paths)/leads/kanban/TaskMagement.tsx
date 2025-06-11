@@ -235,7 +235,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
             </DragDropContext>
 
             {/* Lead Details Panel */}
-            {selectedLead && <LeadDetails lead={selectedLead} onClose={() => setSelectedLead(null)} />}
+            {selectedLead && <LeadDetails selectedLead={selectedLead} setLeadsDetails={setSelectedLead} />}
 
             {/* Context Menu */}
             <Menu
