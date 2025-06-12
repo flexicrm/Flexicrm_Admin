@@ -44,5 +44,5 @@ export const useSubdomainCheck = () => {
         };
 
         fetchData();
-    }, [locationvaleu, crmaccess, subdomainCookie, router]);
+    }, [locationvaleu, crmaccess, subdomainCookie, router, pathname]);
 };

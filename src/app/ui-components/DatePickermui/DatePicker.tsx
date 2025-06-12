@@ -2,16 +2,20 @@ import { TextField } from '@mui/material';
 import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import React from 'react';
+import dayjs from 'dayjs';
 
-export default function DatePicker({ name, setName }) {
+export default function DatePicker({ name, setName, labels }) {
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DateTimePicker
-                label="Due Date"
+                label={labels}
                 value={name}
                 onChange={(newValue) => setName(newValue)}
                 enableAccessibleFieldDOMStructure={false}
                 slots={{ textField: TextField }}
+                shouldDisableDate={(date) => {
+                    return dayjs(date).isBefore(dayjs(), 'day');
+                }}
                 slotProps={{
                     textField: {
                         size: 'small',

@@ -64,7 +64,7 @@ export default function SubdomainChecker() {
 
         checkSubdomain();
         // useAuthRedirect();
-    }, [location]); // runs on every route change
+    }, [location, crmaccess, router, setFlexilogo, subdomain]); // runs on every route change
 
     return null;
 }

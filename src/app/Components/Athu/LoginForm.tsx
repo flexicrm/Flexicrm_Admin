@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useParams, useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
-import { Box, Button, Checkbox, CircularProgress, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
+import { Box, Button, Checkbox, CircularProgress, TextField, Typography } from '@mui/material';
 
 import { LoginAPI } from '../../../../api/auth';
 import userContext from '../../UseContext/UseContext';
@@ -41,7 +41,7 @@ export default function LoginForm() {
                 setError(typeof response?.data?.errors === 'string' ? response?.data?.errors : 'Login failed');
             } else {
                 const data = response.data || null;
-                const { accessToken, refreshToken, isFirstlogin } = data;
+                const { accessToken, refreshToken } = data;
                 Cookies.set('crmaccess', accessToken);
                 Cookies.set('crmrefresh', refreshToken);
                 if (rememberMe) {
@@ -63,7 +63,7 @@ export default function LoginForm() {
             formik.setFieldValue('password', rememberedPassword);
             setRememberMe(true);
         }
-    }, []);
+    }, [formik]);
 
     return (
         <Box sx={{ width: '100%', maxWidth: 400, mx: 'auto', textAlign: 'center', p: 3 }}>

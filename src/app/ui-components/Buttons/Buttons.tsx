@@ -72,8 +72,9 @@ export const MyButton: React.FC<{
     startIcon?: any;
     autoFocus?: boolean;
     type?: any;
+    sx?: any;
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-}> = ({ children, variant = 'contained', color = 'primary', disabled = false, onClick, size = 'small', startIcon, autoFocus, type }) => {
+}> = ({ children, variant = 'contained', color = 'primary', disabled = false, onClick, size = 'small', startIcon, autoFocus, type, sx }) => {
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         if (disabled) return;
         console.log('Custom logic before onClick');
@@ -110,7 +111,8 @@ export const MyButton: React.FC<{
                 '&.Mui-selected:hover': {
                     bgcolor: 'primary.main',
                     color: 'white'
-                }
+                },
+                ...sx
             }}
             variant={variant}
             size={size}

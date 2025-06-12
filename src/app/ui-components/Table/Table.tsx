@@ -79,9 +79,9 @@ import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import jsPDFAutotable from 'jspdf-autotable';
 import Link from 'next/link';
-import ResearchPage from '../../[subdomain]/(paths)/leads/Bulkupload/BulkUploads';
 import ReminderCard from './ReminderCard';
 import { MyButton } from '../Buttons/Buttons';
+import ResearchPage from '../../[subdomain]/(paths)/leads/Bulkupload/ResearchPage';
 
 interface TableProps<T> {
     data: any;
@@ -390,11 +390,11 @@ export const MyTable = <T extends { id: number }>({ fetchLeads, data, leadstatus
                                         <TuneIcon sx={{ fontSize: '18px' }} />
                                     </ToggleButton>
                                 </Tooltip>
-                                <Tooltip title="Bulk Upload">
+                              
                                     <ToggleButton value="column">
                                         <ResearchPage fetchLeads={fetchLeads} />
                                     </ToggleButton>
-                                </Tooltip>
+                          
                                 <Tooltip title="Export">
                                     <ToggleButton value="grid" onClick={handleExportMenuOpen}>
                                         {/* <IconButton > */}

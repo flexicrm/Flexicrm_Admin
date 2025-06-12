@@ -75,7 +75,7 @@ const fetchHandler = async ({ method = 'GET', endpoint, data = {} }: { method: '
         return response?.data;
     } catch (error: any) {
         const status = error?.response?.status;
-
+        console.log(status, 'status>>>>');
         // Handle token expiration
         if (status === 401) {
             const newAccessToken = await refreshAccessToken(subdomain);

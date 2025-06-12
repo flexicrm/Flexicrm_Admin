@@ -289,7 +289,7 @@ export default function Page() {
     };
 
     return (
-        <Box sx={{ minHeight: '50vh', p: 2 }}>
+        <Box sx={{ minHeight: '50vh', p: 0 }}>
             <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
                 {/* <Box mb={4}>
                     <Typography variant="h4" component="h1" gutterBottom>
@@ -303,7 +303,7 @@ export default function Page() {
                 {/* <Paper elevation={2}> */}
                 <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' } }}>
                     {/* Sidebar Navigation */}
-                    <Box sx={{ width: { xs: '100%', md: 240 }, borderRight: { md: 1 }, borderBottom: { xs: 1, md: 0 }, borderColor: 'divider' }}>
+                    <Box sx={{ width: { xs: '100%', md: 140 }, borderRight: { md: 1 }, borderBottom: { xs: 1, md: 0 }, borderColor: 'divider' }}>
                         <List>
                             {tabs.map((tab) => (
                                 <ListItem key={tab.label} disablePadding>
@@ -331,11 +331,11 @@ export default function Page() {
 
                     {/* Main Content Area */}
                     <Box sx={{ flex: 1 }}>
-                        <Box p={3}>
-                            <Typography variant="h5" component="h2" gutterBottom>
+                        <Box p={0}>
+                            {/* <Typography variant="h5" component="h2" gutterBottom>
                                 {selectedTab}
-                            </Typography>
-                            <Divider />
+                            </Typography> */}
+                            {/* <Divider /> */}
                             {renderContent()}
                         </Box>
                     </Box>

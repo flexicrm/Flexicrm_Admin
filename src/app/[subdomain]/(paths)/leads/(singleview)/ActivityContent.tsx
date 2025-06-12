@@ -1,18 +1,18 @@
+'use client';
 import { useEffect, useRef, useState } from 'react';
 import { ActivityItem } from '../../../../type/SingleviewLeads';
 import { Box, Card, CircularProgress, Grid, Typography } from '@mui/material';
 import Timeline from '@mui/lab/Timeline';
-import { TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineSeparator } from '@mui/lab';
+import { TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineSeparator, timelineItemClasses } from '@mui/lab';
 import { format } from 'date-fns';
 
 export const ActivityContent: React.FC<{ initialActivities: ActivityItem[] }> = ({ initialActivities }) => {
     const [loading, setLoading] = useState(false);
     const [displayedActivities, setDisplayedActivities] = useState<ActivityItem[]>([]);
     const [hasMore, setHasMore] = useState(true);
-    const pageSize = 5;
+    const pageSize = 3; // Reduced page size to match the image
     const loaderRef = useRef<HTMLDivElement>(null);
 
-    // Initialize with first page
     useEffect(() => {
         if (initialActivities.length > 0) {
             const sortedActivities = [...initialActivities].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
@@ -37,7 +37,6 @@ export const ActivityContent: React.FC<{ initialActivities: ActivityItem[] }> = 
         }, 500);
     };
 
-    // Intersection Observer for infinite scroll
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
@@ -63,9 +62,9 @@ export const ActivityContent: React.FC<{ initialActivities: ActivityItem[] }> = 
 
     return (
         <Box sx={{ p: 0 }}>
-            <Card sx={{ p: 3, mb: 3, borderRadius: 2, overflow: 'auto', height: '300px', boxShadow: '0 6px 30px rgba(182, 186, 203, 0.3)', border: '0px' }}>
+            <Card sx={{ p: 3, mb: 3, borderRadius: 2, overflow: 'auto', height: 'auto', boxShadow: 'none', border: '1px solid #eaeaea' }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-                    <Typography variant="h5" component="h2" fontWeight={600} mb={1}>
+                    <Typography variant="h6" component="h2" fontWeight={600} mb={1} sx={{ fontSize: { xs: '15px', md: '1.25rem' } }}>
                         Activity Timeline
                     </Typography>
                     <Typography variant="subtitle2" color="text.secondary">
@@ -74,21 +73,31 @@ export const ActivityContent: React.FC<{ initialActivities: ActivityItem[] }> = 
                 </Box>
 
                 <Grid container>
-                    <Grid size={{ sm: 12 }}>
+                    <Grid size={{ xs: 12 }}>
                         {displayedActivities.length > 0 ? (
-                            <Timeline position="alternate">
+                            <Timeline
+                                position="right"
+                                sx={{
+                                    [`& .${timelineItemClasses.root}:before`]: {
+                                        flex: 0,
+                                        padding: 0
+                                    }
+                                }}
+                            >
                                 {displayedActivities.map((item, i) => (
                                     <TimelineItem key={`${item.timestamp}-${i}`}>
                                         <TimelineSeparator>
-                                            <TimelineDot />
-                                            {i < displayedActivities.length - 1 && <TimelineConnector />}
+                                            <TimelineDot sx={{ backgroundColor: i === 0 ? 'primary.main' : 'grey.400' }} />
+                                            {i < displayedActivities.length - 1 && <TimelineConnector sx={{ backgroundColor: 'grey.400' }} />}
                                         </TimelineSeparator>
                                         <TimelineContent>
-                                            <Card sx={{ p: 2, borderRadius: 2 }}>
+                                            <Card sx={{ p: 2, borderRadius: 2, border: '1px solid #eaeaea', backgroundColor: 'background.paper' }}>
                                                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                                                    <Typography variant="subtitle2">{item.actionType || 'Activity'}</Typography>
+                                                    <Typography variant="subtitle2" fontWeight={600}>
+                                                        {item.actionType || 'Activity'}
+                                                    </Typography>
                                                     <Typography variant="caption" color="text.secondary">
-                                                        {item.timestamp ? format(new Date(item.timestamp), 'MMM d, yyyy') : 'N/A'}
+                                                        {item.timestamp ? format(new Date(item.timestamp), 'MMM d, yyyy, h:mm a') : 'N/A'}
                                                     </Typography>
                                                 </Box>
                                                 <Typography variant="body2">{item.description || 'No description'}</Typography>
@@ -119,7 +128,6 @@ export const ActivityContent: React.FC<{ initialActivities: ActivityItem[] }> = 
                             </Box>
                         )}
 
-                        {/* This invisible element triggers loading when it comes into view */}
                         <div ref={loaderRef} style={{ height: '20px' }} />
                     </Grid>
                 </Grid>

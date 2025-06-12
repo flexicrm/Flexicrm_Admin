@@ -47,7 +47,7 @@ export interface FollowUp {
 export interface Lead {
     LeadId?: string;
     manualData?: ManualData;
-    leadStatus?: any;
+    leadstatus?: any;
     leadsource?: string;
     description?: string;
     followUps?: FollowUp[];
