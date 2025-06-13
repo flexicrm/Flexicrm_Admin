@@ -29,7 +29,8 @@ export default function StatusColumn({ status, filteredLeadData, COLUMN_WIDTH, h
                 border: '1px solid #e0e3e8',
                 boxShadow: 1,
                 position: 'relative',
-                background: 'white'
+                background: 'white',
+                height: 'calc(60vh + 200px)'
             }}
         >
             <Box

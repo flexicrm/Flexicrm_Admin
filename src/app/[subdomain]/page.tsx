@@ -1,6 +1,10 @@
 import React from 'react';
-// import DyanimcRouterpage from './DyanimcRouterpage';
+// import { DyanimcRouterpage } from './DyanimcRouterpage';
 
-export default function page() {
-    return <div>{/* <DyanimcRouterpage /> */}</div>;
+export default function Page() {
+    return (
+        <div>
+            {/* <DyanimcRouterpage /> */}
+        </div>
+    );
 }

@@ -76,6 +76,11 @@ const fetchHandler = async ({ method = 'GET', endpoint, data = {} }: { method: '
     } catch (error: any) {
         const status = error?.response?.status;
         console.log(status, 'status>>>>');
+        if (status === 404) {
+            // window.location.href = '/';
+            window.location.href = '/not-found';
+            return { isError: true, data: 'Resource not found' };
+        }
         // Handle token expiration
         if (status === 401) {
             const newAccessToken = await refreshAccessToken(subdomain);

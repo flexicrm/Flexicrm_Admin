@@ -22,7 +22,7 @@ const SummaryCard: React.FC<SummaryCardProps> = ({ title, value, loading, icon, 
                 sx={{
                     borderRadius: 2,
                     padding: 2,
-                    m: 1,
+                    // m: 1,
                     border: '1px solid #e5e7eb',
                     boxShadow: 0,
                     '&:hover': {

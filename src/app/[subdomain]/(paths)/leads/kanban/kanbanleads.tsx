@@ -326,7 +326,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                 sx={{
                     gap: 2,
                     mt: 1,
-                    maxHeight: 'calc(100vh - 200px)',
+
                     overflowY: 'auto',
                     '&::-webkit-scrollbar': {
                         width: '6px'
@@ -365,7 +365,8 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                             },
                             '&::-webkit-scrollbar-thumb:hover': {
                                 background: '#555'
-                            }
+                            },
+                            // height: 'calc(100vh - 200px)'
                         }}
                     >
                         {Object.values(leadStatuses).map((status) => (

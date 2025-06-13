@@ -36,7 +36,7 @@ const RecentLeadsTable: React.FC<RecentLeadsTableProps> = ({ data, isLoading, su
                 border: '1px solid #e5e7eb',
                 borderRadius: 2,
                 padding: '16px',
-                m: 1,
+                // m: 1,
                 height: '530px',
                 overflow: 'auto',
                 '&:hover': {

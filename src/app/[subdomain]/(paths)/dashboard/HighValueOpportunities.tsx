@@ -35,7 +35,7 @@ const HighValueOpportunities: React.FC<HighValueOpportunitiesProps> = ({ data, i
                 padding: '16px',
                 height: '530px',
                 overflow: 'auto',
-                m: 1,
+                // m: 1,
                 '&:hover': {
                     boxShadow: 5
                 }

@@ -29,7 +29,7 @@ const UpcomingFollowUps: React.FC<UpcomingFollowUpsProps> = ({ data, isLoading }
                 borderRadius: 2,
                 border: '1px solid #e5e7eb',
                 boxShadow: 0,
-                m: 1,
+                // m: 1,
                 padding: '16px',
                 display: 'flex',
                 flexDirection: 'column',

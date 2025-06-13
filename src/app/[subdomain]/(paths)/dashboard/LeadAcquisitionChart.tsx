@@ -66,7 +66,7 @@ const LeadAcquisitionChart: React.FC<LeadAcquisitionChartProps> = ({ data, timef
                 borderRadius: 2,
                 border: '1px solid #e0e0e0',
                 boxShadow: 0,
-                m: 1,
+                // m: 1,
                 '&:hover': {
                     boxShadow: 5
                 }

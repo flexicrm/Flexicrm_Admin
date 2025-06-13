@@ -16,30 +16,37 @@ export const useSubdomainCheck = () => {
     useEffect(() => {
         const pathSegments = pathname?.split('/').filter(Boolean);
         const location1 = pathSegments?.[0];
+        console.log(location1, 'location1');
+        // if (location1 == undefined) {
+        //     throw new Error('Resource not found');
+        //     //    isError: true, data: 'Resource not found' };
+        // }
         if (!location1 || crmaccess) return;
         setLocationvalue(location1);
         const fetchData = async () => {
             try {
-                const response = await SubdmoainChekers(location1);
-                console.log(response, 'response>>>>>>>>>>>>>>>>>>>>');
-                if (response?.success) {
-                    // alert('client');
-                    Cookies.set('subdomain', response.data.urlPath);
-                    // setFlexilogo(response.data);
-                }
-                if (response?.success && !subdomainCookie) {
-                    console.log('first>>>>>>>>>>>');
-                    const newSubdomain = response.data.urlPath;
-                    Cookies.set('subdomain', newSubdomain);
-                    // setFlexilogo(response.data.data);
-                    router.push(`/${newSubdomain}/login`);
+                if (location1 != 'not-found') {
+                    const response = await SubdmoainChekers(location1);
+                    console.log(response, 'response>>>>>>>>>>>>>>>>>>>>');
+                    if (response?.success) {
+                        // alert('client');
+                        Cookies.set('subdomain', response.data.urlPath);
+                        // setFlexilogo(response.data);
+                    }
+                    if (response?.success && !subdomainCookie) {
+                        console.log('first>>>>>>>>>>>');
+                        const newSubdomain = response.data.urlPath;
+                        Cookies.set('subdomain', newSubdomain);
+                        // setFlexilogo(response.data.data);
+                        router.push(`/${newSubdomain}/login`);
+                    }
                 }
             } catch (error: any) {
                 if (error.response?.status === 404) {
-                    router.push(`/`);
+                    // router.push(`/`);
                 }
-                console.error('Subdomain Check Error:', error);
-                throw new Error('Simulated client-side error!');
+                return { isError: true, data: 'Resource not found' };
+                // throw new Error('Simulated client-side error!');
             }
         };
 

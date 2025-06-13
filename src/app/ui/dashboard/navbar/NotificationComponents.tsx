@@ -421,7 +421,7 @@ export default function NotificationMenu({ notifications = [], unreadCount = 0, 
                     ))
                 )}
 
-                <Divider sx={{ my: 0 }} />
+                {/* <Divider sx={{ my: 0 }} />
                 <Box px={2} py={1} sx={{ backgroundColor: 'background.paper' }}>
                     <Button
                         variant="text"
@@ -439,7 +439,7 @@ export default function NotificationMenu({ notifications = [], unreadCount = 0, 
                     >
                         View All Notifications
                     </Button>
-                </Box>
+                </Box> */}
             </Menu>
         </>
     );

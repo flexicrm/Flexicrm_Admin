@@ -778,11 +778,12 @@ const Dashboard: React.FC = () => {
                                                     {/* Drag Handle */}
                                                     <Box
                                                         sx={{
+                                                            display: { xs: 'none', sm: 'none', md: 'block' },
                                                             position: 'absolute',
-                                                            top: 15,
-                                                            left: -22,
+                                                            top: 20,
+                                                            left: 10,
                                                             zIndex: 0,
-                                                            display: 'flex',
+                                                            // display: 'flex',
                                                             gap: 0.5,
                                                             opacity: isDragging ? 1 : 0.6,
                                                             transition: 'opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -799,6 +800,9 @@ const Dashboard: React.FC = () => {
                                                                     toggleSize(index);
                                                                 }}
                                                                 sx={{
+                                                                    // height: '10px',
+                                                                    // width: '10px',
+
                                                                     backgroundColor: 'rgb(201, 201, 201)',
                                                                     backdropFilter: 'blur(8px)',
                                                                     border: '1px solid rgba(0, 0, 0, 0.08)',
