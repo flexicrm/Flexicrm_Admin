@@ -18,7 +18,8 @@ import { ActivityItem, Lead, LeadsActivityProps, Severity } from '../../../../..
 import { LeadStatusCard } from '../LeadstatusCard';
 import { ContactInfoCard } from '../ContactInfoCard';
 import { ActivityContent } from '../ActivityContent';
-import { CustomChip } from '../../../../../ui-components/Chip/Chip';
+import { CustomChip } from '../../../../../ui-components/Chip/otherChip';
+
 
 const LeadsActivity: React.FC<LeadsActivityProps> = ({ id }) => {
     const leadId = id;

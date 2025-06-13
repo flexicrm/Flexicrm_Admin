@@ -17,9 +17,11 @@ const ResearchPage: React.FC<{ fetchLeads: any }> = ({ fetchLeads }) => {
     const handleUpload = async (data) => {
         const payload = { leads: data };
         const response = await bulkUpload(subdomain, payload);
-        console.log(response, 'resposeBulkupload');
-        if (response) {
-            fetchLeads([...leadscon, response.data]);
+
+        const bulkUploads = response.data;
+        console.log(bulkUploads, 'resposeBulkupload');
+        if (response.success) {
+            fetchLeads([...leadscon, ...bulkUploads]);
             setUploadSuccess(true);
         }
     };

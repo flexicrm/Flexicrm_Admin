@@ -49,7 +49,7 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                 gap: 2,
 
                 maxHeight: 'calc(100vh - 200px)',
-                overflowY: 'auto',
+                overflowY: visibleCards ? '' : 'auto',
                 '&::-webkit-scrollbar': {
                     width: '6px'
                 },

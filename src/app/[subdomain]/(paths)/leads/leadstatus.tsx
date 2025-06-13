@@ -376,7 +376,7 @@ import { TextField, Button, MenuItem, Select, InputLabel, FormControl, CircularP
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import { CustomChip } from '../../../ui-components/Chip/Chip';
+import { CustomChip } from '../../../ui-components/Chip/otherChip';
 
 interface LeadStatusType {
     _id: string;
@@ -509,7 +509,7 @@ const LeadStatus: React.FC<LeadStatusProps> = ({ onSelect, leadStatus }) => {
                                 <MenuItem key={option.value} value={option.value} sx={{ width: '100%' }}>
                                     <CustomChip
                                         status={{
-                                            hexcolor: option.color,
+                                            hexcolor: `#${option.color}`,
                                             statusName: option.label || 'null'
                                         }}
                                     />
@@ -518,7 +518,7 @@ const LeadStatus: React.FC<LeadStatusProps> = ({ onSelect, leadStatus }) => {
                             <MenuItem value="addNew">
                                 <Box display="flex" alignItems="center">
                                     <AddIcon fontSize="small" sx={{ mr: 1 }} />
-                                    Add New Status
+                                     New Status
                                 </Box>
                             </MenuItem>
                         </Select>

@@ -51,8 +51,8 @@
 //     );
 // };
 import { Card, Divider, Typography, Box } from '@mui/material';
-import { CustomChip } from '../../../../ui-components/Chip/Chip';
 import { format } from 'date-fns';
+import { CustomChip } from '../../../../ui-components/Chip/otherChip';
 
 export const LeadStatusCard: React.FC<{ currentLead?: any }> = ({ currentLead }) => {
     return (
@@ -71,7 +71,7 @@ export const LeadStatusCard: React.FC<{ currentLead?: any }> = ({ currentLead })
                 </Typography>
                 <CustomChip
                     status={{
-                        hexcolor: currentLead?.leadstatus?.color || '#ddd',
+                        hexcolor: `#${currentLead?.leadstatus?.color}` || '#ddd',
                         statusName: currentLead?.leadstatus?.statusName || '-'
                     }}
                 />

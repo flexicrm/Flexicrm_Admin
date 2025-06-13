@@ -281,8 +281,9 @@ import { motion } from 'framer-motion';
 import FollowUpForm from '../form/FollowUpForm';
 import { MyButton } from '../../../../ui-components/Buttons/Buttons';
 import { MySnackbar } from '../../../../ui-components/Snackbar/Snackbar';
-import { CustomChip } from '../../../../ui-components/Chip/Chip';
+
 import useFollowupStatusOptions from '../Dropdownapi/FollowupstatusDropdown';
+import { CustomChip } from '../../../../ui-components/Chip/otherChip';
 
 type Severity = 'error' | 'warning' | 'info' | 'success';
 
@@ -316,7 +317,7 @@ const StatusChip = ({ status }: { status: FollowUp['status'] }) => {
         pending: { color: 'warning', label: 'Pending', icon: <Schedule fontSize="small" /> },
         overdue: { color: 'error', label: 'Overdue', icon: <Warning fontSize="small" /> }
     };
-    return <CustomChip status={{ hexcolor: 'warning', statusName: status?.StatusName }} />;
+    return <CustomChip status={{ hexcolor: '#fcba03', statusName: status?.StatusName }} />;
 };
 
 const TypeIcon = ({ type }: { type: FollowUp['type'] }) => {

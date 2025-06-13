@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 import { API_BASE_URL } from '../../../utils';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import AddIcon from '@mui/icons-material/Add';
 interface LeadSourceProps {
     onSelect: (value: string) => void;
     leadSource: any;
@@ -89,7 +90,11 @@ const LeadSource: React.FC<LeadSourceProps> = ({ onSelect, leadSource }) => {
                                         {source}
                                     </MenuItem>
                                 ))}
-                            <MenuItem value="addNew">Add New Source</MenuItem>
+
+                            <MenuItem value="addNew">
+                                {' '}
+                                <AddIcon fontSize="small" sx={{ mr: 1 }} /> New Source
+                            </MenuItem>
                         </TextField>
                         {/* <Button variant="contained" color="primary" onClick={() => setIsAddingNewSource(true)} sx={{ minWidth: 40, ml: 1 }}>
                             +

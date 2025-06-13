@@ -74,7 +74,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import { AntSwitch } from '../Switch/Switch';
 
-import { CustomChip } from '../Chip/Chip';
+
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import jsPDFAutotable from 'jspdf-autotable';
@@ -82,6 +82,7 @@ import Link from 'next/link';
 import ReminderCard from './ReminderCard';
 import { MyButton } from '../Buttons/Buttons';
 import ResearchPage from '../../[subdomain]/(paths)/leads/Bulkupload/ResearchPage';
+import { CustomChip } from '../Chip/otherChip';
 
 interface TableProps<T> {
     data: any;
@@ -363,7 +364,7 @@ export const MyTable = <T extends { id: number }>({ fetchLeads, data, leadstatus
                                     <MenuItem key={status._id} value={status.statusName}>
                                         <CustomChip
                                             status={{
-                                                hexcolor: status?.color,
+                                                hexcolor: `#${status?.color}`,
                                                 statusName: status?.statusName || 'null'
                                             }}
                                         />

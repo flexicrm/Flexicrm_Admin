@@ -32,7 +32,7 @@ const LeadManagement: React.FC = () => {
                         <Tab label="Follow-up Type" id="tab-0" aria-controls="tabpanel-0" />
                         <Tab label="Follow-up Status" id="tab-1" aria-controls="tabpanel-1" />
                         <Tab label="Lead Status" id="tab-2" aria-controls="tabpanel-2" />
-                        <Tab label="Lead Soruce" id="tab-3" aria-controls="tabpanel-3" />
+                        <Tab label="Lead Source" id="tab-3" aria-controls="tabpanel-3" />
                     </Tabs>
 
                     <Box sx={{ mt: 2 }}>

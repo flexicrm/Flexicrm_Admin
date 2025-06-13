@@ -1,6 +1,5 @@
 import { Avatar, Box, Card, CardContent, Chip, Divider, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import React from 'react';
-import { CustomChip } from '../../../../ui-components/Chip/Chip';
 import { Draggable, Droppable } from '@hello-pangea/dnd';
 import { CalendarToday, DragIndicator, MoreVert } from '@mui/icons-material';
 import { ringAnimation } from '../../../../ui-components/BellAnimation/Bell';
@@ -12,6 +11,7 @@ import { MyButton } from '../../../../ui-components/Buttons/Buttons';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import EmailIcon from '@mui/icons-material/Email';
 import { Add as AddIcon } from '@mui/icons-material';
+import { CustomChip } from '../../../../ui-components/Chip/otherChip';
 export default function StatusColumn({ status, filteredLeadData, COLUMN_WIDTH, handleLeadClick, handleMenuOpen, animateBell, subdomain, router }: any) {
     const leadsInStatus = filteredLeadData.filter((lead) => lead?.leadstatus?._id === status?._id);
 
@@ -45,7 +45,7 @@ export default function StatusColumn({ status, filteredLeadData, COLUMN_WIDTH, h
             >
                 <CustomChip
                     status={{
-                        hexcolor: status?.color,
+                        hexcolor: `#${status?.color}`,
                         statusName: status?.statusName || 'null'
                     }}
                 />

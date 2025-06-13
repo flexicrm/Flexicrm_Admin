@@ -1,14 +1,16 @@
 'use client';
 import React, { useState, ChangeEvent, FormEvent } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import type { SelectChangeEvent } from '@mui/material/Select';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography, Paper, Snackbar, Alert, IconButton, Tooltip, useTheme, Grid, ThemeProvider, createTheme } from '@mui/material';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import { DragDropContext, Droppable, Draggable, DropResult, DraggableProvided } from '@hello-pangea/dnd';
+import { Box, FormControl, InputLabel, MenuItem, Select, TextField, Typography, useTheme, Grid, createTheme, Paper, Tooltip, IconButton, Button, Snackbar, Alert } from '@mui/material';
+import BuildIcon from '@mui/icons-material/Build';
+import { DragDropContext, Droppable, Draggable, DropResult, DraggableProvided, DraggableStateSnapshot } from '@hello-pangea/dnd';
 import { API_BASE_URL } from '../../../utils';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { DraggableItem } from './DragItems/DraggableItem';
+import { GlassCard } from './DragItems/GlassCard';
 
 interface FieldItem {
     id: string;
@@ -21,19 +23,6 @@ interface FormData {
     [key: string]: string;
 }
 
-const theme = createTheme({
-    typography: {
-        fontFamily: 'Roboto, sans-serif',
-        h4: {
-            fontWeight: 600
-        },
-        h6: {
-            fontWeight: 600
-        }
-    },
-    spacing: 8
-});
-
 const InputField: React.FC<{
     label: string;
     type: string;
@@ -42,54 +31,54 @@ const InputField: React.FC<{
     onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
     dragHandleProps: any;
 }> = React.memo(({ label, type, name, value, onChange, dragHandleProps }) => (
-    <Box
-        mb={1}
-        sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1
-        }}
-    >
-        <Box sx={{ flexGrow: 1 }}>
-            <TextField
-                label={label}
-                type={type === 'textarea' ? undefined : type}
-                name={name}
-                value={value}
-                onChange={onChange}
-                fullWidth
-                multiline={type === 'textarea'}
-                minRows={type === 'textarea' ? 2 : undefined}
-                variant="outlined"
-                size="small"
-            />
+    <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
+        <Box
+            mb={2}
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1
+            }}
+        >
+            <Box sx={{ flexGrow: 1 }}>
+                <TextField
+                    label={label}
+                    type={type === 'textarea' ? undefined : type}
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    fullWidth
+                    multiline={type === 'textarea'}
+                    minRows={type === 'textarea' ? 3 : undefined}
+                    variant="outlined"
+                    size="medium"
+                    sx={{
+                        '& .MuiOutlinedInput-root': {
+                            color: 'white',
+                            fontSize: '0.95rem'
+                        }
+                    }}
+                />
+            </Box>
         </Box>
-    </Box>
+    </motion.div>
 ));
 
 InputField.displayName = 'InputField';
 
-const MotionDraggableItem = ({ provided, children }: { provided: DraggableProvided; children: React.ReactNode }) => (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }} {...provided.draggableProps} ref={provided.innerRef}>
-        {children}
-    </motion.div>
-);
-
-MotionDraggableItem.displayName = 'MotionDraggableItem';
+DraggableItem.displayName = 'DraggableItem';
 
 const DynamicForm: React.FC = () => {
-    const theme = useTheme();
     const subdomain = Cookies.get('subdomain');
     const accessToken = Cookies.get('crmaccess');
 
     const [formName, setFormName] = useState<string>('Contact Us');
     const [availableFields, setAvailableFields] = useState<FieldItem[]>([
-        { id: '1', name: 'name', label: 'Name', type: 'text' },
-        { id: '2', name: 'email', label: 'Email', type: 'email' },
-        { id: '3', name: 'mobile', label: 'Mobile', type: 'number' },
+        { id: '1', name: 'name', label: 'Full Name', type: 'text' },
+        { id: '2', name: 'email', label: 'Email Address', type: 'email' },
+        { id: '3', name: 'mobile', label: 'Phone Number', type: 'tel' },
         { id: '4', name: 'message', label: 'Message', type: 'textarea' },
-        { id: '5', name: 'address', label: 'Address', type: 'text' },
-        { id: '6', name: 'subject', label: 'Subject', type: 'text' }
+        { id: '5', name: 'address', label: 'Address', type: 'text' }
     ]);
     const [selectedFields, setSelectedFields] = useState<FieldItem[]>([]);
     const [formData, setFormData] = useState<FormData>({});
@@ -135,10 +124,10 @@ const DynamicForm: React.FC = () => {
                 setGeneratedCode(data.replace(/\\n/g, '\n').replace(/\\'/g, "'").replace(/\\"/g, '"').replace(/ {2,}/g, ' ').trim());
             }
 
-            setSnackbar({ open: true, message: 'Form configuration saved successfully.', severity: 'success' });
+            setSnackbar({ open: true, message: 'Form configuration saved successfully! 🚀', severity: 'success' });
         } catch (error) {
             console.error('Error submitting form:', error);
-            setSnackbar({ open: true, message: 'Error submitting form.', severity: 'error' });
+            setSnackbar({ open: true, message: 'Error submitting form. Please try again.', severity: 'error' });
         }
     };
 
@@ -153,6 +142,11 @@ const DynamicForm: React.FC = () => {
             reordered.splice(destination.index, 0, removed);
             setAvailableFields(reordered);
         } else if (source.droppableId === 'selected' && destination.droppableId === 'selected') {
+            const reordered = [...selectedFields];
+            const [removed] = reordered.splice(source.index, 1);
+            reordered.splice(destination.index, 0, removed);
+            setSelectedFields(reordered);
+        } else if (source.droppableId === 'preview' && destination.droppableId === 'preview') {
             const reordered = [...selectedFields];
             const [removed] = reordered.splice(source.index, 1);
             reordered.splice(destination.index, 0, removed);
@@ -175,282 +169,299 @@ const DynamicForm: React.FC = () => {
 
     const handleCopyCode = () => {
         navigator.clipboard.writeText(generatedCode);
-        setSnackbar({ open: true, message: 'Code copied to clipboard!', severity: 'info' });
+        setSnackbar({ open: true, message: 'Code copied to clipboard! ✨', severity: 'info' });
     };
 
     return (
-        <ThemeProvider theme={theme}>
-            <Box sx={{ height: '100vh', overflow: 'auto', p: 2 }}>
-                <Typography
-                    variant="h4"
-                    gutterBottom
-                    sx={{
-                        color: theme.palette.primary.main,
-                        fontWeight: 400,
-                        mb: 3,
-                        borderBottom: '2px solid #f0f0f0',
-                        pb: 1,
-                        fontSize: '1.8rem'
-                    }}
-                >
-                    Dynamic Form Builder
-                </Typography>
+        <Box
+            sx={{
+                // minHeight: '100vh',
+                position: 'relative',
+                overflow: 'auto',
+                height: 'calc(100vh - 100px)'
+            }}
+        >
+            <Box sx={{ position: 'relative', zIndex: 1, p: 0 }}>
+                <Box display="flex" gap={4} flexDirection={{ xs: 'column', lg: 'row' }}>
+                    {/* Configuration Panel */}
+                    <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.1 }} style={{ flex: 1 }}>
+                        <GlassCard>
+                            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                                <BuildIcon sx={{ mr: 2, color: '#6366f1' }} />
+                                <Typography variant="h6" sx={{ color: 'white', fontWeight: 600, fontSize: '15px' }}>
+                                    Form Configuration
+                                </Typography>
+                            </Box>
 
-                <Box display="flex" gap={2} flexDirection={{ xs: 'column', md: 'row' }}>
-                    <Box width={{ xs: '100%', md: '45%' }} mb={{ xs: 3, md: 0 }}>
-                        <Box
-                            sx={{
-                                p: 2,
-                                mb: 2,
-                                fontSize: '0.85rem'
-                            }}
-                        >
-                            <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
-                                Form Configuration
-                            </Typography>
-                            <Grid container spacing={2}>
-                                <Grid size={{ xs: 12, md: 4 }}>
-                                    <TextField fullWidth label="Form Name" type="text" name="formName" value={formName} onChange={handleFormNameChange} sx={{ mb: 1 }} size="small" />
+                            <Grid container spacing={3} sx={{ mb: 4 }}>
+                                <Grid size={{ xs: 12, md: 3 }}>
+                                    <TextField
+                                        sx={{
+                                            color: 'white',
+                                            '& .MuiInputLabel-root': {
+                                                color: 'white' // Label color
+                                            },
+                                            '& .MuiInputBase-input': {
+                                                color: 'white' // Input text color
+                                            },
+                                            '& .MuiOutlinedInput-root': {
+                                                '& fieldset': {
+                                                    borderColor: 'rgba(255, 255, 255, 0.2)' // Border color
+                                                },
+                                                '&:hover fieldset': {
+                                                    borderColor: 'rgba(99, 102, 241, 0.5)' // Hover border color
+                                                },
+                                                '&.Mui-focused fieldset': {
+                                                    borderColor: '#6366f1' // Focused border color
+                                                }
+                                            }
+                                        }}
+                                        fullWidth
+                                        label="Form Name"
+                                        value={formName}
+                                        size="small"
+                                        onChange={handleFormNameChange}
+                                        variant="outlined"
+                                    />
                                 </Grid>
-                                <Grid size={{ xs: 12, md: 4 }}>
-                                    <FormControl fullWidth sx={{ mb: 1 }} size="small">
-                                        <InputLabel sx={{ fontSize: '0.8rem' }}>Platform</InputLabel>
-                                        <Select value={platform} label="Platform" onChange={handlePlatformChange} sx={{ fontSize: '0.85rem' }}>
-                                            <MenuItem value="website" sx={{ fontSize: '0.85rem' }}>
-                                                Website
-                                            </MenuItem>
-                                            <MenuItem value="app" sx={{ fontSize: '0.85rem' }}>
-                                                App
-                                            </MenuItem>
+                                <Grid size={{ xs: 12, md: 3 }}>
+                                    <FormControl fullWidth>
+                                        <InputLabel sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>Platform</InputLabel>
+                                        <Select
+                                            value={platform}
+                                            label="Platform"
+                                            onChange={handlePlatformChange}
+                                            size="small"
+                                            sx={{
+                                                color: 'white',
+                                                '& .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: 'rgba(255, 255, 255, 0.1)'
+                                                },
+                                                '&:hover .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: 'rgba(99, 102, 241, 0.5)'
+                                                },
+                                                '& .MuiSvgIcon-root': {
+                                                    color: 'white'
+                                                }
+                                            }}
+                                        >
+                                            <MenuItem value="website">Website</MenuItem>
+                                            <MenuItem value="app">Mobile App</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </Grid>
-                                <Grid size={{ xs: 12, md: 4 }}>
-                                    <FormControl fullWidth sx={{ mb: 2 }} size="small">
-                                        <InputLabel sx={{ fontSize: '0.8rem' }}>Integration Type</InputLabel>
-                                        <Select value={integrationType} label="Integration Type" onChange={handleIntegrationTypeChange} sx={{ fontSize: '0.85rem' }}>
-                                            <MenuItem value="React" sx={{ fontSize: '0.85rem' }}>
-                                                React
-                                            </MenuItem>
-                                            <MenuItem value="HTML-js" sx={{ fontSize: '0.85rem' }}>
-                                                HTML-js
-                                            </MenuItem>
+                                <Grid size={{ xs: 12, md: 3 }}>
+                                    <FormControl fullWidth>
+                                        <InputLabel sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>Integration Type</InputLabel>
+                                        <Select
+                                            value={integrationType}
+                                            label="Integration Type"
+                                            size="small"
+                                            onChange={handleIntegrationTypeChange}
+                                            sx={{
+                                                color: 'white',
+                                                '& .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: 'rgba(255, 255, 255, 0.1)'
+                                                },
+                                                '&:hover .MuiOutlinedInput-notchedOutline': {
+                                                    borderColor: 'rgba(99, 102, 241, 0.5)'
+                                                },
+                                                '& .MuiSvgIcon-root': {
+                                                    color: 'white'
+                                                }
+                                            }}
+                                        >
+                                            <MenuItem value="React">React</MenuItem>
+                                            <MenuItem value="HTML-js">HTML + JavaScript</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </Grid>
                             </Grid>
 
                             <DragDropContext onDragEnd={onDragEnd}>
-                                <Box display="flex" justifyContent="space-evenly" gap={2} flexDirection={{ xs: 'column', md: 'row' }}>
+                                <Box display="flex" gap={3} flexDirection={{ xs: 'column', md: 'row' }}>
+                                    {/* Available Fields */}
                                     <Box flex={1}>
-                                        <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, fontSize: '1rem' }}>
+                                        <Typography variant="h6" gutterBottom sx={{ color: 'white', fontWeight: 600, mb: 2, fontSize: '15px' }}>
                                             Available Fields
                                         </Typography>
                                         <Droppable droppableId="available">
-                                            {(provided) => (
+                                            {(provided, snapshot) => (
                                                 <Box
                                                     {...provided.droppableProps}
                                                     ref={provided.innerRef}
                                                     sx={{
-                                                        minHeight: '100px',
-                                                        p: 1,
-                                                        borderRadius: '8px',
-                                                        backgroundColor: '#f9f9f9',
-                                                        maxHeight: 220,
-                                                        overflowY: 'auto',
-                                                        width: '100%'
+                                                        // minHeight: '300px',
+                                                        // maxHeight: '400px',
+                                                        // overflowY: 'auto',
+                                                        p: 2,
+                                                        borderRadius: '16px',
+                                                        zIndex: 0,
+                                                        background: snapshot.isDraggingOver
+                                                            ? 'linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.1) 100%)'
+                                                            : 'linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%)',
+                                                        border: snapshot.isDraggingOver ? '2px dashed rgba(99, 102, 241, 0.6)' : '1px solid rgba(255, 255, 255, 0.1)',
+                                                        // transition: 'all 0.3s ease',
+                                                        backdropFilter: 'blur(10px)',
+                                                        '&::-webkit-scrollbar': {
+                                                            width: '6px'
+                                                        },
+                                                        '&::-webkit-scrollbar-track': {
+                                                            background: 'rgba(255, 255, 255, 0.1)',
+                                                            borderRadius: '3px'
+                                                        },
+                                                        '&::-webkit-scrollbar-thumb': {
+                                                            background: 'rgba(99, 102, 241, 0.5)',
+                                                            borderRadius: '3px'
+                                                        }
                                                     }}
                                                 >
-                                                    {availableFields.map((field, index) => (
-                                                        <Draggable key={field.id} draggableId={field.id} index={index}>
-                                                            {(provided) => (
-                                                                <MotionDraggableItem provided={provided}>
-                                                                    <Box
-                                                                        sx={{
-                                                                            display: 'flex',
-                                                                            alignItems: 'center',
-                                                                            mb: 1,
-                                                                            p: 1,
-                                                                            fontSize: '0.85rem',
-                                                                            border: '1px solid #e0e0e0',
-                                                                            borderRadius: '6px',
-                                                                            backgroundColor: '#fff',
-                                                                            userSelect: 'none'
-                                                                        }}
-                                                                    >
-                                                                        <div {...provided.dragHandleProps}>
-                                                                            <DragIndicatorIcon sx={{ mr: 1, fontSize: 18, color: theme.palette.text.secondary }} />
-                                                                        </div>
-                                                                        <Typography variant="body2">
-                                                                            {field.label} ({field.type})
-                                                                        </Typography>
-                                                                    </Box>
-                                                                </MotionDraggableItem>
-                                                            )}
-                                                        </Draggable>
-                                                    ))}
+                                                    <AnimatePresence>
+                                                        {availableFields.map((field, index) => (
+                                                            <Draggable key={field.id} draggableId={field.id} index={index}>
+                                                                {(provided, snapshot) => (
+                                                                    <motion.div key={field.id} layout initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} transition={{ duration: 0.2 }}>
+                                                                        <DraggableItem provided={provided} snapshot={snapshot} field={field} />
+                                                                    </motion.div>
+                                                                )}
+                                                            </Draggable>
+                                                        ))}
+                                                    </AnimatePresence>
                                                     {provided.placeholder}
                                                 </Box>
                                             )}
                                         </Droppable>
                                     </Box>
 
+                                    {/* Selected Fields */}
                                     <Box flex={1}>
-                                        <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, fontSize: '1rem' }}>
+                                        <Typography variant="h6" gutterBottom sx={{ color: 'white', fontWeight: 600, mb: 2, fontSize: '15px' }}>
                                             Selected Fields
                                         </Typography>
                                         <Droppable droppableId="selected">
-                                            {(provided) => (
+                                            {(provided, snapshot) => (
                                                 <Box
                                                     {...provided.droppableProps}
                                                     ref={provided.innerRef}
                                                     sx={{
-                                                        minHeight: '100px',
-                                                        p: 1,
-                                                        borderRadius: '8px',
-                                                        backgroundColor: '#e3f2fd',
-                                                        maxHeight: 220,
+                                                        minHeight: '300px',
+                                                        maxHeight: '400px',
                                                         overflowY: 'auto',
-                                                        width: '100%'
+                                                        p: 2,
+                                                        borderRadius: '16px',
+
+                                                        background: snapshot.isDraggingOver
+                                                            ? 'linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(251, 191, 36, 0.1) 100%)'
+                                                            : 'linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(245, 158, 11, 0.05) 100%)',
+                                                        border: snapshot.isDraggingOver ? '2px dashed rgba(245, 158, 11, 0.6)' : '1px solid rgba(245, 158, 11, 0.2)',
+                                                        transition: 'all 0.3s ease',
+                                                        backdropFilter: 'blur(10px)',
+                                                        '&::-webkit-scrollbar': {
+                                                            width: '6px'
+                                                        },
+                                                        '&::-webkit-scrollbar-track': {
+                                                            background: 'rgba(255, 255, 255, 0.1)',
+                                                            borderRadius: '3px'
+                                                        },
+                                                        '&::-webkit-scrollbar-thumb': {
+                                                            background: 'rgba(245, 158, 11, 0.5)',
+                                                            borderRadius: '3px'
+                                                        }
                                                     }}
                                                 >
-                                                    {selectedFields.map((field, index) => (
-                                                        <Draggable key={field.id} draggableId={field.id} index={index}>
-                                                            {(provided) => (
-                                                                <MotionDraggableItem provided={provided}>
-                                                                    <Box
-                                                                        sx={{
-                                                                            display: 'flex',
-                                                                            alignItems: 'center',
-                                                                            mb: 1,
-                                                                            p: 1,
-                                                                            fontSize: '0.85rem',
-                                                                            border: '1px solid #e0e0e0',
-                                                                            borderRadius: '6px',
-                                                                            backgroundColor: '#fff',
-                                                                            userSelect: 'none'
-                                                                        }}
-                                                                    >
-                                                                        <div {...provided.dragHandleProps}>
-                                                                            <DragIndicatorIcon sx={{ mr: 1, fontSize: 18, color: theme.palette.text.secondary }} />
-                                                                        </div>
-                                                                        <Typography variant="body2">
-                                                                            {field.label} ({field.type})
-                                                                        </Typography>
-                                                                    </Box>
-                                                                </MotionDraggableItem>
-                                                            )}
-                                                        </Draggable>
-                                                    ))}
+                                                    <AnimatePresence>
+                                                        {selectedFields.map((field, index) => (
+                                                            <Draggable key={field.id} draggableId={field.id} index={index}>
+                                                                {(provided, snapshot) => (
+                                                                    <motion.div key={field.id} layout initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} transition={{ duration: 0.2 }}>
+                                                                        <DraggableItem provided={provided} snapshot={snapshot} field={field} />
+                                                                    </motion.div>
+                                                                )}
+                                                            </Draggable>
+                                                        ))}
+                                                    </AnimatePresence>
+                                                    {selectedFields.length === 0 && (
+                                                        <Box
+                                                            sx={{
+                                                                display: 'flex',
+                                                                alignItems: 'center',
+                                                                justifyContent: 'center',
+                                                                height: '200px',
+                                                                color: 'rgba(255, 255, 255, 0.5)',
+                                                                fontSize: '1rem',
+                                                                textAlign: 'center'
+                                                            }}
+                                                        >
+                                                            Drag fields here to build your form
+                                                        </Box>
+                                                    )}
                                                     {provided.placeholder}
                                                 </Box>
                                             )}
                                         </Droppable>
                                     </Box>
-                                </Box>
-                            </DragDropContext>
-                        </Box>
-                    </Box>
-                    {selectedFields.length > 0 && (
-                        <Box
-                            sx={{
-                                backgroundColor: '#f5f9ff',
-                                p: 2,
-                                borderRadius: 2,
-                                border: '1px solid #e0e0e0',
-                                flex: 1,
-                                minWidth: '300px'
-                            }}
-                        >
-                            <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
-                                Preview Form
-                            </Typography>
-                            <DragDropContext onDragEnd={onDragEnd}>
-                                <Droppable droppableId="preview">
-                                    {(provided) => (
-                                        <Box {...provided.droppableProps} ref={provided.innerRef} component="form" noValidate autoComplete="off">
-                                            {selectedFields.map((field, index) => (
-                                                <Draggable key={field.id} draggableId={field.id} index={index}>
-                                                    {(provided) => (
-                                                        <div ref={provided.innerRef} {...provided.draggableProps}>
-                                                            <InputField
-                                                                key={field.id}
-                                                                label={field.label}
-                                                                type={field.type}
-                                                                name={field.name}
-                                                                value={formData[field.name] || ''}
-                                                                onChange={handleInputChange}
-                                                                dragHandleProps={provided.dragHandleProps}
-                                                            />
-                                                        </div>
-                                                    )}
-                                                </Draggable>
-                                            ))}
-                                            {provided.placeholder}
+                                    <Box flex={1}>
+                                        <Box width={{ xs: '100%' }}>
+                                            <Box
+                                                sx={{
+                                                    backgroundColor: '#f9f9f9',
+                                                    borderRadius: 2,
+                                                    p: 2,
+                                                    border: '1px solid #e0e0e0',
+                                                    // minHeight: '450px',
+                                                    // maxHeight: '85vh',
+                                                    overflowY: 'auto'
+                                                }}
+                                            >
+                                                <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
+                                                    Generated Code
+                                                </Typography>
+                                                <Paper
+                                                    variant="outlined"
+                                                    sx={{
+                                                        minHeight: '200px',
+                                                        maxHeight: '220px',
+                                                        backgroundColor: '#fff',
+                                                        p: 1,
+                                                        fontSize: '0.85rem',
+                                                        overflow: 'auto',
+                                                        whiteSpace: 'pre-wrap',
+                                                        wordBreak: 'break-word',
+                                                        borderRadius: 1,
+                                                        border: '1px solid #ccc',
+                                                        fontFamily: 'Source Code Pro, monospace'
+                                                    }}
+                                                >
+                                                    {generatedCode || 'Your generated code will appear here...'}
+                                                </Paper>
+                                                <Box mt={2} display="flex" justifyContent="flex-end" gap={1}>
+                                                    <Tooltip title="Copy to clipboard">
+                                                        <IconButton size="small" onClick={handleCopyCode} disabled={!generatedCode}>
+                                                            <ContentCopyIcon fontSize="small" />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                    <Button variant="contained" onClick={handleSubmit} disabled={selectedFields.length === 0 || !formName.trim()} size="small">
+                                                        Save Form
+                                                    </Button>
+                                                </Box>
+                                            </Box>
                                         </Box>
-                                    )}
-                                </Droppable>
-                            </DragDropContext>
-                        </Box>
-                    )}
-                    {selectedFields.length > 0 && (
-                        <Box width={{ xs: '100%', md: '30%' }}>
-                            <Box
-                                sx={{
-                                    backgroundColor: '#f9f9f9',
-                                    borderRadius: 2,
-                                    p: 2,
-                                    border: '1px solid #e0e0e0',
-                                    minHeight: '450px',
-                                    maxHeight: '85vh',
-                                    overflowY: 'auto'
-                                }}
-                            >
-                                <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
-                                    Generated Code
-                                </Typography>
-                                <Paper
-                                    variant="outlined"
-                                    sx={{
-                                        height: '350px',
-                                        backgroundColor: '#fff',
-                                        p: 1,
-                                        fontSize: '0.85rem',
-                                        overflow: 'auto',
-                                        whiteSpace: 'pre-wrap',
-                                        wordBreak: 'break-word',
-                                        borderRadius: 1,
-                                        border: '1px solid #ccc',
-                                        fontFamily: 'Source Code Pro, monospace'
-                                    }}
-                                >
-                                    {generatedCode || 'Your generated code will appear here...'}
-                                </Paper>
-                                <Box mt={2} display="flex" justifyContent="flex-end" gap={1}>
-                                    <Tooltip title="Copy to clipboard">
-                                        <IconButton size="small" onClick={handleCopyCode} disabled={!generatedCode}>
-                                            <FileCopyIcon fontSize="small" />
-                                        </IconButton>
-                                    </Tooltip>
-                                    <Button variant="contained" onClick={handleSubmit} disabled={selectedFields.length === 0 || !formName.trim()} size="small">
-                                        Save Form
-                                    </Button>
-                                </Box>
-                            </Box>
-                        </Box>
-                    )}
-                </Box>
+                                    </Box>
 
-                <Snackbar open={snackbar.open} autoHideDuration={3500} onClose={() => setSnackbar((prev) => ({ ...prev, open: false }))} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
-                    <Alert severity={snackbar.severity} onClose={() => setSnackbar((prev) => ({ ...prev, open: false }))} variant="filled" sx={{ width: '100%', fontSize: '0.9rem' }}>
-                        {snackbar.message}
-                    </Alert>
-                </Snackbar>
+                                    {/* </Box> */}
+
+                                    <Snackbar open={snackbar.open} autoHideDuration={3500} onClose={() => setSnackbar((prev) => ({ ...prev, open: false }))} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+                                        <Alert severity={snackbar.severity} onClose={() => setSnackbar((prev) => ({ ...prev, open: false }))} variant="filled" sx={{ width: '100%', fontSize: '0.9rem' }}>
+                                            {snackbar.message}
+                                        </Alert>
+                                    </Snackbar>
+                                </Box>
+                            </DragDropContext>
+                        </GlassCard>
+                    </motion.div>
+                </Box>
             </Box>
-        </ThemeProvider>
+        </Box>
     );
 };
-
-DynamicForm.displayName = 'DynamicForm';
-
 export default DynamicForm;

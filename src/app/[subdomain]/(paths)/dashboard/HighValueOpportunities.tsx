@@ -42,7 +42,7 @@ const HighValueOpportunities: React.FC<HighValueOpportunitiesProps> = ({ data, i
             }}
         >
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                <Typography variant="h5" component="h2" fontWeight={600} sx={{ ml: { xs: '', md: 2 }, fontSize: { xs: '14px', md: '1.25rem' } }}>
+                <Typography variant="h5" component="h2" fontWeight={600} sx={{ ml: { xs: '', md: 3 }, fontSize: { xs: '14px', md: '1.25rem' } }}>
                     High Value Leads
                 </Typography>
                 <Button component={Link} href={`/${subdomain}/leads`} size="small">
