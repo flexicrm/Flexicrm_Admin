@@ -169,10 +169,10 @@ export default function StatusColumn({ status, filteredLeadData, COLUMN_WIDTH, h
                                                                 ml: 'auto',
                                                                 p: '4px',
                                                                 color: '#a0aec0',
-                                                                backgroundColor: '#abb4c245',
+                                                                backgroundColor: 'transparent',
                                                                 '&:hover': {
                                                                     color: '#718096',
-                                                                    background: 'transparent'
+                                                                    background: '#abb4c245'
                                                                 }
                                                             }}
                                                         >

@@ -270,7 +270,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                                 }}
                             >
                                 {priorityOptions.map((option) => (
-                                    <ToggleButton size="small" key={option.value} value={option.value} aria-label={option.label} sx={{ border: 'none', padding: 0, fontSize: '10px' }}>
+                                    <ToggleButton size="small" key={option.value} value={option.value} aria-label={option.label} sx={{ border: 'none', padding: 0, fontSize: '12px' }}>
                                         {option.label}
                                     </ToggleButton>
                                 ))}

@@ -91,13 +91,14 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                                 transition: 'transform 0.3s ease, box-shadow 0.3s ease',
                                 borderRadius: '14px',
                                 '&:hover': {
-                                    transform: 'translateY(-5px)'
+                                    // transform: 'translateY(-5px)'
+                                    boxShadow: '0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22)'
                                 }
                             }}
                         >
                             {/* Rest of your card content remains the same */}
                             <Box sx={{ position: 'absolute', top: 22, right: 8, zIndex: 1 }}>
-                                <IconButton size="small" onClick={(e) => onEdit(e, row)} sx={{ backgroundColor: '#abb4c245', '&:hover': { backgroundColor: 'transparent' } }}>
+                                <IconButton size="small" onClick={(e) => onEdit(e, row)} sx={{ backgroundColor: 'transparent', '&:hover': { backgroundColor: '#abb4c245' } }}>
                                     <MoreVertIcon fontSize="small" />
                                 </IconButton>
                             </Box>
@@ -128,7 +129,7 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                                             </Typography>
                                         </Link>
                                         {row?.followUps?.slice(-1)[0]?.dateTime && (
-                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, position: 'absolute', right: '25px', top: '12px' }}>
+                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, position: 'absolute', right: '30px', top: '12px' }}>
                                                 <Tooltip title={new Date(row?.followUps?.slice(-1)[0]?.dateTime).toLocaleString()}>
                                                     <NotificationsActiveIcon
                                                         // fontSize="12px"
@@ -148,7 +149,7 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                                         <ApartmentIcon color="action" sx={{ mr: 0.55, fontSize: 16 }} />
                                         <Box textTransform="capitalize" sx={{ color: '#64748b' }}>
-                                            {row?.Company || '-'} <Chip label={row.leadsource} size="small" sx={{ fontSize: '10px', height: '20px', borderRadius: '10px',letterSpacing:".25px" }} />
+                                            {row?.Company || '-'} <Chip label={row.leadsource} size="small" sx={{ fontSize: '10px', height: '20px', borderRadius: '10px', letterSpacing: '.25px' }} />
                                         </Box>
                                     </Box>
                                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
