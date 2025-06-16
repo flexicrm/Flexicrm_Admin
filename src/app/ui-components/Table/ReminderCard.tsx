@@ -104,7 +104,7 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
 
                             <Box padding={'16px'} sx={{ paddingBottom: '5px' }}>
                                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 1, position: 'relative' }}>
-                                    <Avatar sx={{ mr: 1, color: theme.palette.primary.main, background: '#bdbdbd9e', fontWeight: '600' }}>{row?.Name?.charAt(0)}</Avatar>
+                                    <Avatar sx={{ mr: 1, color: theme.palette.primary.main, background: '#f3f4f8', fontWeight: '600' }}>{row?.Name?.charAt(0)}</Avatar>
 
                                     <Box>
                                         <Link href={`/${subdomain}/leads/${row?.LeadId}`} style={{ textDecoration: 'none' }}>
@@ -117,24 +117,26 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                                                     whiteSpace: 'nowrap',
                                                     overflow: 'hidden',
                                                     textOverflow: 'ellipsis',
-                                                    maxWidth: '90px', // Adjust this value as needed
+                                                    maxWidth: '90px',
+                                                    fontWeight: '500', // Adjust this value as needed
                                                     '&:hover': {
                                                         color: 'primary.main'
                                                     }
                                                 }}
                                             >
-                                                {row?.Name}
+                                                {row?.Name || '-'}
                                             </Typography>
                                         </Link>
                                         {row?.followUps?.slice(-1)[0]?.dateTime && (
-                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, position: 'absolute', right: '25px', top: '10px' }}>
+                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, position: 'absolute', right: '25px', top: '12px' }}>
                                                 <Tooltip title={new Date(row?.followUps?.slice(-1)[0]?.dateTime).toLocaleString()}>
                                                     <NotificationsActiveIcon
-                                                        fontSize="small"
+                                                        // fontSize="12px"
                                                         sx={{
-                                                            color: '#f57c00',
+                                                            color: '#2561aa',
                                                             animation: animateBell ? `${ringAnimation} 0.5s ease-in-out 2` : 'none',
-                                                            transformOrigin: 'top center'
+                                                            transformOrigin: 'top center',
+                                                            fontSize: '17px'
                                                         }}
                                                     />
                                                 </Tooltip>
@@ -146,19 +148,19 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                                         <ApartmentIcon color="action" sx={{ mr: 0.55, fontSize: 16 }} />
                                         <Box textTransform="capitalize" sx={{ color: '#64748b' }}>
-                                            {row?.Company || '-'} <Chip label={row.leadsource} size="small" />
+                                            {row?.Company || '-'} <Chip label={row.leadsource} size="small" sx={{ fontSize: '10px', height: '20px', borderRadius: '10px',letterSpacing:".25px" }} />
                                         </Box>
                                     </Box>
                                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                                         <EmailIcon color="action" sx={{ mr: 0.55, fontSize: 16, color: '#64748b' }} />
                                         <Typography variant="body2" sx={{ color: '#64748b' }} component={Link} href={`mailto:${row?.Email}`}>
-                                            {row?.Email}
+                                            {row?.Email || '-'}
                                         </Typography>
                                     </Box>
                                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                                         <PhoneIcon color="action" sx={{ mr: 0.55, fontSize: 16 }} />
                                         <Typography variant="body2" sx={{ color: '#64748b' }} component={Link} href={`tel:${row?.Phone}`}>
-                                            {row?.Phone}
+                                            {row?.Phone || '-'}
                                         </Typography>
                                     </Box>
                                 </Box>
@@ -178,7 +180,11 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                                             <>
                                                 <AvatarGroup>
                                                     <Tooltip title={`${row?.assignTo?.firstname} ${row?.assignTo?.lastname}`}>
-                                                        <Avatar sx={{ width: 20, height: 20, marginBottom: '-10px' }} alt={`${row?.assignTo?.firstname}${row?.assignTo?.lastname}`} src={row?.assignTo?.Profile} />
+                                                        <Avatar
+                                                            sx={{ width: 20, height: 20, marginBottom: '-7px', border: '0 !important', borderRadius: 'none', margin: '-5px', marginRight: '2px' }}
+                                                            alt={`${row?.assignTo?.firstname}${row?.assignTo?.lastname}`}
+                                                            src={row?.assignTo?.Profile}
+                                                        />
                                                     </Tooltip>
                                                 </AvatarGroup>
                                                 <label htmlFor="" className="leadsgrid-style-flex">

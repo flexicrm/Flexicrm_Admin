@@ -84,8 +84,8 @@ export default function ResetPasswordForm({ slug, subdomain }: Props) {
     return (
         <Box sx={{ maxWidth: 400, mx: 'auto', textAlign: 'center' }}>
             {flexilogo?.logo ? (
-                <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
-                    <Box component="img" src={flexilogo.logo} alt="Logo" sx={{ width: 140 }} />
+                <Box sx={{ display: 'flex', justifyContent: 'center', mb: '32px', width: 120, height: 120, borderRadius: '50%', boxShadow: '0 0px 3px rgba(0, 0, 0, 0.2)', margin: '0 auto 22px auto', border: '1px solid white' }}>
+                    <Box component="img" src={flexilogo.logo || '/logo/android-icon-72x72.png'} alt="FlexiCRM Logo" sx={{ width: '110px', height: 'auto' }} />
                 </Box>
             ) : (
                 <Typography variant="h6" gutterBottom sx={{ mb: '32px', fontWeight: 'bold', textTransform: 'capitalize ' }}>

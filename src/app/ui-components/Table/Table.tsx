@@ -74,7 +74,6 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import { AntSwitch } from '../Switch/Switch';
 
-
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import jsPDFAutotable from 'jspdf-autotable';
@@ -391,11 +390,11 @@ export const MyTable = <T extends { id: number }>({ fetchLeads, data, leadstatus
                                         <TuneIcon sx={{ fontSize: '18px' }} />
                                     </ToggleButton>
                                 </Tooltip>
-                              
-                                    <ToggleButton value="column">
-                                        <ResearchPage fetchLeads={fetchLeads} />
-                                    </ToggleButton>
-                          
+
+                                <ToggleButton value="column">
+                                    <ResearchPage fetchLeads={fetchLeads} />
+                                </ToggleButton>
+
                                 <Tooltip title="Export">
                                     <ToggleButton value="grid" onClick={handleExportMenuOpen}>
                                         {/* <IconButton > */}
@@ -500,14 +499,14 @@ export const MyTable = <T extends { id: number }>({ fetchLeads, data, leadstatus
                         <Table size="small">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell padding="checkbox">
+                                    {/* <TableCell padding="checkbox">
                                         <Checkbox
                                             size="small"
                                             indeterminate={selectedRows.length > 0 && selectedRows.length < visibleData.length}
                                             checked={visibleData.length > 0 && selectedRows.length === visibleData.length}
                                             onChange={handleSelectAll}
                                         />
-                                    </TableCell>
+                                    </TableCell> */}
 
                                     {columns
                                         .filter((column) => selectedColumns.includes(column.id))
@@ -530,9 +529,9 @@ export const MyTable = <T extends { id: number }>({ fetchLeads, data, leadstatus
                             <TableBody>
                                 {visibleData.map((row) => (
                                     <TableRow key={row.LeadId} hover selected={isSelected(row.LeadId)}>
-                                        <TableCell padding="checkbox">
+                                        {/* <TableCell padding="checkbox">
                                             <Checkbox size="small" checked={isSelected(row.LeadId)} onChange={() => handleSelectRow(row.LeadId)} />
-                                        </TableCell>
+                                        </TableCell> */}
 
                                         {columns
                                             .filter((column) => selectedColumns.includes(column.id))

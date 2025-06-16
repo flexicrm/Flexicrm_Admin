@@ -191,24 +191,24 @@ const ProfilePage: React.FC = () => {
                                     <List dense>
                                         <ListItem>
                                             <ListItemAvatar>
-                                                <Avatar>
-                                                    <Email />
+                                                <Avatar sx={{ background: '#f3f4f7' }}>
+                                                    <Email style={{ color: 'rgb(10 45 90)' }} />
                                                 </Avatar>
                                             </ListItemAvatar>
                                             <ListItemText primary="Email" secondary={data?.email || 'Not provided'} />
                                         </ListItem>
                                         <ListItem>
                                             <ListItemAvatar>
-                                                <Avatar>
-                                                    <Phone />
+                                                <Avatar sx={{ background: '#f3f4f7' }}>
+                                                    <Phone style={{ color: 'rgb(10 45 90)' }} />
                                                 </Avatar>
                                             </ListItemAvatar>
                                             <ListItemText primary="Phone" secondary={data?.mobile || 'Not provided'} />
                                         </ListItem>
                                         <ListItem>
                                             <ListItemAvatar>
-                                                <Avatar>
-                                                    <Business />
+                                                <Avatar sx={{ background: '#f3f4f7' }}>
+                                                    <Business style={{ color: 'rgb(10 45 90)' }} />
                                                 </Avatar>
                                             </ListItemAvatar>
                                             <ListItemText primary="Company" secondary={company} />
@@ -216,8 +216,8 @@ const ProfilePage: React.FC = () => {
                                         {data?.address && (
                                             <ListItem>
                                                 <ListItemAvatar>
-                                                    <Avatar>
-                                                        <LocationOn />
+                                                    <Avatar sx={{ background: '#f3f4f7' }}>
+                                                        <LocationOn style={{ color: 'rgb(10 45 90)' }} />
                                                     </Avatar>
                                                 </ListItemAvatar>
                                                 <ListItemText primary="Address" secondary={`${data.address.street || ''}, ${data.address.city || ''}, ${data.address.state || ''}, ${data.address.zipCode || ''}, ${data.address.country || ''}`} />

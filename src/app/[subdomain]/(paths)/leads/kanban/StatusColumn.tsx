@@ -130,24 +130,26 @@ export default function StatusColumn({ status, filteredLeadData, COLUMN_WIDTH, h
                                                     />
                                                     <Typography
                                                         variant="h3"
-                                                        fontWeight="600"
+                                                        fontWeight="500"
                                                         sx={{
                                                             flex: 1,
                                                             whiteSpace: 'nowrap',
                                                             overflow: 'hidden',
                                                             textOverflow: 'ellipsis',
-                                                            color: '#2d3748'
+                                                            color: '#2d3748',
+                                                            maxWidth: '80px'
                                                         }}
                                                     >
                                                         {lead?.manualData?.name || 'New Lead'}
                                                     </Typography>
                                                     {lead?.followUps?.slice(-1)[0]?.dateTime && (
-                                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, position: 'absolute', right: '40px', top: '10px' }}>
+                                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, position: 'absolute', right: '45px', top: '12px' }}>
                                                             <Tooltip title={new Date(lead?.followUps?.slice(-1)[0]?.dateTime).toLocaleString()}>
                                                                 <NotificationsActiveIcon
                                                                     fontSize="small"
                                                                     sx={{
-                                                                        color: '#f57c00',
+                                                                        color: '#2561aa',
+                                                                        fontSize: '17px',
                                                                         animation: animateBell ? `${ringAnimation} 0.5s ease-in-out 2` : 'none',
                                                                         transformOrigin: 'top center'
                                                                     }}
@@ -200,7 +202,7 @@ export default function StatusColumn({ status, filteredLeadData, COLUMN_WIDTH, h
                                                                 color: '#4a5568'
                                                             }}
                                                         >
-                                                            {lead?.manualData?.company || 'No company'} <Chip label={lead.leadsource} size="small" sx={{ fontSize: '10px' }} />
+                                                            {lead?.manualData?.company || 'No company'} <Chip label={lead.leadsource} size="small" sx={{ fontSize: '10px', height: '20px', borderRadius: '10px', letterSpacing: '.25px' }} />
                                                         </Typography>
                                                     </Box>
                                                     <Box display="flex" alignItems="center">

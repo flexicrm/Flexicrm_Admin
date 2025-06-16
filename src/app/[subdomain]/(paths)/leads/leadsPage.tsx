@@ -134,7 +134,7 @@ const LeadsPage: React.FC = () => {
     return (
         <Box>
             <Grid container spacing={2} alignItems="center">
-                <Grid size={{ xs: 12, sm: 6 }} sx={{ marginBottom: 'auto' }}>
+                <Grid size={{ xs: 12, sm: 6 }} sx={{ margin: 'auto' }}>
                     <Typography variant="h5" color="primary" component="h1" sx={{ fontWeight: 600 }}>
                         Leads{' '}
                     </Typography>

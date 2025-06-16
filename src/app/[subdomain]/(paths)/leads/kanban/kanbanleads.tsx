@@ -243,7 +243,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 {/* Filter panel */}
 
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                         <Typography variant="h6" color="primary" sx={{ fontWeight: 500, fontSize: '1rem' }}>
                             Priority
@@ -258,6 +258,8 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                                     '& .MuiToggleButton-root': {
                                         textTransform: 'none',
                                         border: 'none',
+                                        padding: '8px',
+                                        margin: '3px',
 
                                         '&.Mui-selected': {
                                             backgroundColor: 'primary.main',
@@ -268,7 +270,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                                 }}
                             >
                                 {priorityOptions.map((option) => (
-                                    <ToggleButton size="small" key={option.value} value={option.value} aria-label={option.label} sx={{ border: 'none', padding: '6px' }}>
+                                    <ToggleButton size="small" key={option.value} value={option.value} aria-label={option.label} sx={{ border: 'none', padding: 0, fontSize: '10px' }}>
                                         {option.label}
                                     </ToggleButton>
                                 ))}
@@ -287,8 +289,8 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                                                 width: 10,
                                                 height: 10,
                                                 borderRadius: '50%',
-                                                backgroundColor: option.color,
-                                                mr: 1
+                                                backgroundColor: option.color
+                                                // mr: 1
                                             }}
                                         />
                                         {option.label}
@@ -298,7 +300,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                         </Select>
                     </FormControl>
 
-                    <Button variant="text" onClick={clearFilters} sx={{ ml: 'auto' }}>
+                    <Button variant="text" onClick={clearFilters}>
                         Clear Filters
                     </Button>
                 </Box>
@@ -365,7 +367,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
                             },
                             '&::-webkit-scrollbar-thumb:hover': {
                                 background: '#555'
-                            },
+                            }
                             // height: 'calc(100vh - 200px)'
                         }}
                     >
