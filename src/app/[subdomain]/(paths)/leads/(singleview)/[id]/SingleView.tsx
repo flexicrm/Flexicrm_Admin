@@ -20,7 +20,6 @@ import { ContactInfoCard } from '../ContactInfoCard';
 import { ActivityContent } from '../ActivityContent';
 import { CustomChip } from '../../../../../ui-components/Chip/otherChip';
 
-
 const LeadsActivity: React.FC<LeadsActivityProps> = ({ id }) => {
     const leadId = id;
     const [selectedTab, setSelectedTab] = useState('overview');
@@ -134,7 +133,7 @@ const LeadsActivity: React.FC<LeadsActivityProps> = ({ id }) => {
                         <Divider orientation="vertical" flexItem />
                         <CustomChip
                             status={{
-                                hexcolor: leadData?.leadstatus?.color as any,
+                                hexcolor: `#${leadData?.leadstatus?.color}`,
                                 statusName: leadData?.leadstatus?.statusName || '-'
                             }}
                         />
