@@ -73,19 +73,21 @@ const LeadSoruce = () => {
             const headers = { Authorization: `Bearer ${accessToken}` };
             try {
                 setLoading(true);
-                await axios.post(
+                const response = await axios.post(
                     `${API_BASE_URL}/leadsource/${subdomain}`,
                     {
                         sourceName: values.sourceName
                     },
                     { headers }
                 );
+                console.log(response, 'response>>>>>>>>');
                 showSnackbar('Lead status added!', 'success');
                 resetForm();
                 setIsAddingNewStatus(false);
                 fetchLeadStatuses();
             } catch (error) {
-                showSnackbar('Error adding lead status', 'error');
+                console.log(error.response.data.errors, 'response>>>>>>>>error');
+                showSnackbar(error.response.data.errors, 'error');
             } finally {
                 setLoading(false);
             }
@@ -99,7 +101,7 @@ const LeadSoruce = () => {
             const headers = { Authorization: `Bearer ${accessToken}` };
             try {
                 setLoading(true);
-                await axios.patch(
+                const response = await axios.patch(
                     `${API_BASE_URL}/leadsource/${subdomain}/${editingStatus._id}`,
                     {
                         sourceName: values.sourceName
@@ -183,7 +185,7 @@ const LeadSoruce = () => {
             ) : (
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
                     <MyButton variant="contained" startIcon={<Add />} onClick={() => setIsAddingNewStatus(true)}>
-                         Source
+                        Source
                     </MyButton>
                 </Box>
             )}
@@ -218,7 +220,13 @@ const LeadSoruce = () => {
                                 <TableRow key={status._id} hover>
                                     <TableCell>{status.sourceName}</TableCell>
                                     <TableCell align="right">
-                                        <IconButton size="small" onClick={() => setEditingStatus(status)}>
+                                        <IconButton
+                                            size="small"
+                                            onClick={() => {
+                                                setEditingStatus(status);
+                                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                                            }}
+                                        >
                                             <Edit fontSize="small" />
                                         </IconButton>
                                         <IconButton

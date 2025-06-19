@@ -250,7 +250,13 @@ const LeadFollowStatusPage: React.FC = () => {
                                             </TableCell>
                                             <TableCell>
                                                 <Tooltip title="Edit">
-                                                    <IconButton onClick={() => handleEdit(status)} sx={{ '&:hover': { backgroundColor: 'rgba(25, 118, 210, 0.08)' } }}>
+                                                    <IconButton
+                                                        onClick={() => {
+                                                            handleEdit(status);
+                                                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                                                        }}
+                                                        sx={{ '&:hover': { backgroundColor: 'rgba(25, 118, 210, 0.08)' } }}
+                                                    >
                                                         <Edit fontSize="small" />
                                                     </IconButton>
                                                 </Tooltip>

@@ -129,7 +129,7 @@ export const ContactInfoCard: React.FC<{ currentLead?: any }> = ({ currentLead }
                 {renderField(<Phone size={16} />, 'Phone', info?.mobileNo)}
                 {renderField(<Building2 size={16} />, 'Company', info?.company)}
                 {renderField(<Globe size={16} />, 'Website', info?.website)}
-                {renderField(<MapPin size={16} />, 'Location', addressString)}
+                {/* {renderField(<MapPin size={16} />, 'Location', addressString)} */}
             </Grid>
         </Card>
     );

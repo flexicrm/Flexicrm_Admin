@@ -1,9 +1,9 @@
 // 'use client';
 // import React, { useState } from 'react';
 // import axios from 'axios';
-// import { Card, CardContent, CardHeader, Divider, Grid, TextField, Typography } from '@mui/material';
-// import { API_BASE_URL } from '../../../utils';
+// import { Card, CardContent, CardHeader, Divider, Grid, TextField, Typography, Box } from '@mui/material';
 // import Cookies from 'js-cookie';
+// import { API_BASE_URL } from '../../../utils';
 // import { MyButton } from '../../../ui-components/Buttons/Buttons';
 
 // interface UserData {
@@ -18,13 +18,14 @@
 //         email?: string;
 //         mobile?: string;
 //         companyName?: string;
-//         logo?: File;
-//         address?: {
-//             street?: string;
-//             city?: string;
-//             state?: string;
-//             zipCode?: string;
-//             country?: string;
+//         Admin?: {
+//             address?: {
+//                 street?: string;
+//                 city?: string;
+//                 state?: string;
+//                 zipCode?: string;
+//                 country?: string;
+//             };
 //         };
 //     };
 // }
@@ -32,44 +33,43 @@
 // interface ProfileEditProps {
 //     data: UserData;
 //     onClose: () => void;
+//     setData: any;
 // }
 
-// const ProfileEdit: React.FC<ProfileEditProps> = ({ data, onClose }) => {
+// const ProfileEdit: React.FC<ProfileEditProps> = ({ data, onClose, setData }) => {
+//     console.log(data, 'data');
 //     const [formData, setFormData] = useState<UserData>(data);
 //     const [profileImage, setProfileImage] = useState<File | null>(null);
-//     const [companyLogo, setCompanyLogo] = useState<File | null>(null);
+//     // const [companyLogo, setCompanyLogo] = useState<File | null>(null);
 //     const [isLoading, setIsLoading] = useState(false);
+
 //     const subdomain = Cookies.get('subdomain');
 //     const accessToken = Cookies.get('crmaccess');
 
 //     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 //         const { name, value } = e.target;
-//         setFormData((prev) => ({
-//             ...prev,
-//             [name]: value
-//         }));
+//         setFormData((prev) => ({ ...prev, [name]: value }));
 //     };
 
 //     const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 //         const { name, value } = e.target;
 //         setFormData((prev) => ({
 //             ...prev,
-//             address: {
-//                 ...prev.address,
-//                 [name]: value
+//             Admin: {
+//                 ...prev?.company,
+//                 company: {
+//                     ...prev?.company?.Admin,
+//                     address: {
+//                         ...prev?.company?.Admin?.address,
+//                         [name]: value
+//                     }
+//                 }
 //             }
 //         }));
 //     };
 
 //     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-//         if (e.target.files && e.target.files[0]) {
-//             setProfileImage(e.target.files[0]);
-//         }
-//     };
-//     const handleImageUpLogo = (e: React.ChangeEvent<HTMLInputElement>) => {
-//         if (e.target.files && e.target.files[0]) {
-//             setCompanyLogo(e.target.files[0]);
-//         }
+//         if (e.target.files?.[0]) setProfileImage(e.target.files[0]);
 //     };
 
 //     const handleSubmit = async (e: React.FormEvent) => {
@@ -82,21 +82,22 @@
 //         formDataToSend.append('email', formData.email || '');
 //         formDataToSend.append('mobile', formData.mobile || '');
 
-//         if (formData.company.address) {
-//             formDataToSend.append('address[street]', formData.company.address.street || '');
-//             formDataToSend.append('address[city]', formData.company.address.city || '');
-//             formDataToSend.append('address[state]', formData.company.address.state || '');
-//             formDataToSend.append('address[zipCode]', formData.company.address.zipCode || '');
-//             formDataToSend.append('address[country]', formData.company.address.country || '');
+//         if (formData?.company?.Admin?.address) {
+//             const address = formData.company.Admin.address;
+//             formDataToSend.append('address[street]', address.street || '');
+//             formDataToSend.append('address[city]', address.city || '');
+//             formDataToSend.append('address[state]', address.state || '');
+//             formDataToSend.append('address[zipCode]', address.zipCode || '');
+//             formDataToSend.append('address[country]', address.country || '');
 //         }
 
-//         if (formData.company) {
-//             formDataToSend.append('company[firstname]', formData.company.firstname || '');
-//             formDataToSend.append('company[lastname]', formData.company.lastname || '');
-//             formDataToSend.append('company[email]', formData.company.email || '');
-//             formDataToSend.append('company[mobile]', formData.company.mobile || '');
+//         if (formData?.company?.Admin) {
+//             formDataToSend.append('company[firstname]', formData.firstname || '');
+//             formDataToSend.append('company[lastname]', formData.lastname || '');
+//             formDataToSend.append('company[email]', formData.email || '');
+//             formDataToSend.append('company[mobile]', formData.mobile || '');
 //             formDataToSend.append('company[companyName]', formData.company.companyName || '');
-//             formDataToSend.append('company[logo]', companyLogo || '');
+//             // if (companyLogo) formDataToSend.append('company[logo]', companyLogo);
 //         }
 
 //         if (profileImage) {
@@ -104,17 +105,23 @@
 //         }
 
 //         try {
-//             await axios.patch(`${API_BASE_URL}/user/${subdomain}/me`, formDataToSend, {
+//             const response = await axios.patch(`${API_BASE_URL}/user/${subdomain}/me`, formDataToSend, {
 //                 headers: {
 //                     Authorization: `Bearer ${accessToken}`,
 //                     'Content-Type': 'multipart/form-data'
 //                 }
 //             });
-//             onClose();
-//             // You might want to add a success notification here
+//             const data = response.data.data.user;
+//             console.log(data, '>>>??????');
+//             if (response) {
+//                 // Compare the new data with the old data
+//                 if (JSON.stringify(data) !== JSON.stringify(formData)) {
+//                     setData(data);
+//                 }
+//                 onClose();
+//             }
 //         } catch (error) {
 //             console.error('Error updating profile:', error);
-//             // You might want to add an error notification here
 //         } finally {
 //             setIsLoading(false);
 //         }
@@ -128,59 +135,56 @@
 //                 <form onSubmit={handleSubmit}>
 //                     <Grid container spacing={2}>
 //                         <Grid size={{ xs: 12, sm: 6 }}>
-//                             <TextField fullWidth size="small" label="First Name" name="firstname" value={formData.firstname || ''} onChange={handleChange} />
+//                             <TextField fullWidth size="small" label="First Name" name="firstname" value={formData?.firstname || ''} onChange={handleChange} />
 //                         </Grid>
 //                         <Grid size={{ xs: 12, sm: 6 }}>
-//                             <TextField fullWidth label="Last Name" size="small" name="lastname" value={formData.lastname || ''} onChange={handleChange} />
+//                             <TextField fullWidth size="small" label="Last Name" name="lastname" value={formData?.lastname || ''} onChange={handleChange} />
 //                         </Grid>
 //                         <Grid size={{ xs: 12, sm: 6 }}>
-//                             <TextField fullWidth label="Email" size="small" name="email" type="email" value={formData.email || ''} onChange={handleChange} />
+//                             <TextField fullWidth size="small" label="Email" name="email" type="email" value={formData?.email || ''} onChange={handleChange} />
 //                         </Grid>
 //                         <Grid size={{ xs: 12, sm: 6 }}>
-//                             <TextField fullWidth label="Phone" size="small" name="mobile" value={formData.mobile || ''} onChange={handleChange} />
+//                             <TextField fullWidth size="small" label="Phone" name="mobile" value={formData?.mobile || ''} onChange={handleChange} />
 //                         </Grid>
 
-//                         <Grid size={{ xs: 12, sm: 12 }}>
-//                             <Typography variant="subtitle1" gutterBottom>
-//                                 Address
-//                             </Typography>
+//                         <Grid size={{ xs: 12 }}>
+//                             <Typography variant="subtitle1">Address</Typography>
 //                         </Grid>
 
-//                         <Grid size={{ xs: 12, sm: 12 }}>
-//                             <TextField fullWidth label="Street" size="small" name="street" value={formData.company.address?.street || ''} onChange={handleAddressChange} />
+//                         <Grid size={{ xs: 12 }}>
+//                             <TextField fullWidth size="small" label="Street" name="street" value={formData?.company?.Admin?.address?.street || ''} onChange={handleAddressChange} />
 //                         </Grid>
 //                         <Grid size={{ xs: 12, sm: 4 }}>
-//                             <TextField fullWidth label="City" size="small" name="city" value={formData.company.address?.city || ''} onChange={handleAddressChange} />
+//                             <TextField fullWidth size="small" label="City" name="city" value={formData?.company?.Admin?.address?.city || ''} onChange={handleAddressChange} />
 //                         </Grid>
 //                         <Grid size={{ xs: 12, sm: 4 }}>
-//                             <TextField fullWidth label="State" size="small" name="state" value={formData.company.address?.state || ''} onChange={handleAddressChange} />
+//                             <TextField fullWidth size="small" label="State" name="state" value={formData?.company?.Admin?.address?.state || ''} onChange={handleAddressChange} />
 //                         </Grid>
 //                         <Grid size={{ xs: 12, sm: 4 }}>
-//                             <TextField fullWidth label="Zip Code" size="small" name="zipCode" value={formData.company.address?.zipCode || ''} onChange={handleAddressChange} />
+//                             <TextField fullWidth size="small" label="Zip Code" name="zipCode" value={formData?.company?.Admin?.address?.zipCode || ''} onChange={handleAddressChange} />
 //                         </Grid>
-//                         <Grid size={{ xs: 12, sm: 12 }}>
-//                             <TextField fullWidth label="Country" size="small" name="country" value={formData.company.address?.country || ''} onChange={handleAddressChange} />
+//                         <Grid size={{ xs: 12 }}>
+//                             <TextField fullWidth size="small" label="Country" name="country" value={formData?.company?.Admin?.address?.country || ''} onChange={handleAddressChange} />
 //                         </Grid>
 
-//                         <Grid size={{ xs: 12, sm: 12 }}>
-//                             <label htmlFor="">Profile Image</label> <br />
-//                             <MyButton variant="contained" sx={{ width: 'fit-content' }}>
-//                                 <input type="file" accept="image/*" onChange={handleImageUpload} />
-//                             </MyButton>{' '}
-//                             <br />
-//                             {profileImage && (
-//                                 <Typography variant="caption" display="block" gutterBottom>
-//                                     {profileImage.name}
+//                         <Grid size={{ xs: 12 }}>
+//                             <Box>
+//                                 <Typography variant="subtitle2" gutterBottom>
+//                                     Profile Image
 //                                 </Typography>
-//                             )}
-//                             <label htmlFor="">Company Logo</label>
-//                             <br />
-//                             <MyButton variant="contained" sx={{ width: 'fit-content' }}>
-//                                 <input type="file" accept="image/*" onChange={handleImageUpLogo} />
-//                             </MyButton>
+//                                 <MyButton variant="contained" sx={{ width: 'fit-content' }}>
+//                                     <input type="file" accept="image/*" onChange={handleImageUpload} />
+//                                     {/* Upload */}
+//                                 </MyButton>
+//                                 {profileImage && (
+//                                     <Typography variant="caption" display="block">
+//                                         {profileImage.name}
+//                                     </Typography>
+//                                 )}
+//                             </Box>
 //                         </Grid>
 
-//                         <Grid size={{ xs: 12, sm: 12 }} sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
+//                         <Grid size={{ xs: 12 }} sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
 //                             <MyButton variant="text" onClick={onClose} disabled={isLoading}>
 //                                 Cancel
 //                             </MyButton>
@@ -194,8 +198,8 @@
 //         </Card>
 //     );
 // };
-// export default ProfileEdit;
 
+// export default ProfileEdit;
 'use client';
 import React, { useState } from 'react';
 import axios from 'axios';
@@ -210,6 +214,13 @@ interface UserData {
     email?: string;
     mobile?: string;
     profile?: string;
+    address?: {
+        street?: string;
+        city?: string;
+        state?: string;
+        zipCode?: string;
+        country?: string;
+    };
     company?: {
         firstname?: string;
         lastname?: string;
@@ -231,13 +242,12 @@ interface UserData {
 interface ProfileEditProps {
     data: UserData;
     onClose: () => void;
+    setData: any;
 }
 
-const ProfileEdit: React.FC<ProfileEditProps> = ({ data, onClose }) => {
-    console.log(data, 'data');
+const ProfileEdit: React.FC<ProfileEditProps> = ({ data, onClose, setData }) => {
     const [formData, setFormData] = useState<UserData>(data);
     const [profileImage, setProfileImage] = useState<File | null>(null);
-    // const [companyLogo, setCompanyLogo] = useState<File | null>(null);
     const [isLoading, setIsLoading] = useState(false);
 
     const subdomain = Cookies.get('subdomain');
@@ -252,16 +262,16 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ data, onClose }) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
             ...prev,
-            Admin: {
-                ...prev?.company,
-                company: {
-                    ...prev?.company?.Admin,
-                    address: {
-                        ...prev?.company?.Admin?.address,
-                        [name]: value
-                    }
-                }
+            // company: {
+            //     ...prev.company,
+            //     Admin: {
+            //         ...prev.company?.Admin,
+            address: {
+                ...prev.address,
+                [name]: value
             }
+            // }
+            // }
         }));
     };
 
@@ -280,7 +290,12 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ data, onClose }) => {
         formDataToSend.append('mobile', formData.mobile || '');
 
         if (formData?.company?.Admin?.address) {
-            const address = formData.company.Admin.address;
+            const address = formData.address;
+            formDataToSend.append('Admin.address[street]', address.street || '');
+            formDataToSend.append('Admin.address[city]', address.city || '');
+            formDataToSend.append('Admin.address[state]', address.state || '');
+            formDataToSend.append('Admin.address[zipCode]', address.zipCode || '');
+            formDataToSend.append('Admin.address[country]', address.country || '');
             formDataToSend.append('address[street]', address.street || '');
             formDataToSend.append('address[city]', address.city || '');
             formDataToSend.append('address[state]', address.state || '');
@@ -294,7 +309,6 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ data, onClose }) => {
             formDataToSend.append('company[email]', formData.email || '');
             formDataToSend.append('company[mobile]', formData.mobile || '');
             formDataToSend.append('company[companyName]', formData.company.companyName || '');
-            // if (companyLogo) formDataToSend.append('company[logo]', companyLogo);
         }
 
         if (profileImage) {
@@ -302,13 +316,19 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ data, onClose }) => {
         }
 
         try {
-            await axios.patch(`${API_BASE_URL}/user/${subdomain}/me`, formDataToSend, {
+            const response = await axios.patch(`${API_BASE_URL}/user/${subdomain}/me`, formDataToSend, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            onClose();
+            const updatedData = response.data.data.user;
+            if (response) {
+                if (JSON.stringify(updatedData) !== JSON.stringify(formData)) {
+                    setData(updatedData);
+                }
+                onClose();
+            }
         } catch (error) {
             console.error('Error updating profile:', error);
         } finally {
@@ -324,16 +344,16 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ data, onClose }) => {
                 <form onSubmit={handleSubmit}>
                     <Grid container spacing={2}>
                         <Grid size={{ xs: 12, sm: 6 }}>
-                            <TextField fullWidth size="small" label="First Name" name="firstname" value={formData.firstname || ''} onChange={handleChange} />
+                            <TextField fullWidth size="small" label="First Name" name="firstname" value={formData?.firstname || ''} onChange={handleChange} />
                         </Grid>
                         <Grid size={{ xs: 12, sm: 6 }}>
-                            <TextField fullWidth size="small" label="Last Name" name="lastname" value={formData.lastname || ''} onChange={handleChange} />
+                            <TextField fullWidth size="small" label="Last Name" name="lastname" value={formData?.lastname || ''} onChange={handleChange} />
                         </Grid>
                         <Grid size={{ xs: 12, sm: 6 }}>
-                            <TextField fullWidth size="small" label="Email" name="email" type="email" value={formData.email || ''} onChange={handleChange} />
+                            <TextField fullWidth size="small" label="Email" name="email" type="email" value={formData?.email || ''} onChange={handleChange} />
                         </Grid>
                         <Grid size={{ xs: 12, sm: 6 }}>
-                            <TextField fullWidth size="small" label="Phone" name="mobile" value={formData.mobile || ''} onChange={handleChange} />
+                            <TextField fullWidth size="small" label="Phone" name="mobile" value={formData?.mobile || ''} onChange={handleChange} />
                         </Grid>
 
                         <Grid size={{ xs: 12 }}>
@@ -341,19 +361,19 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ data, onClose }) => {
                         </Grid>
 
                         <Grid size={{ xs: 12 }}>
-                            <TextField fullWidth size="small" label="Street" name="street" value={formData?.company?.Admin.address?.street || ''} onChange={handleAddressChange} />
+                            <TextField fullWidth size="small" label="Street" name="street" value={formData?.address?.street || ''} onChange={handleAddressChange} />
                         </Grid>
                         <Grid size={{ xs: 12, sm: 4 }}>
-                            <TextField fullWidth size="small" label="City" name="city" value={formData?.company?.Admin?.address?.city || ''} onChange={handleAddressChange} />
+                            <TextField fullWidth size="small" label="City" name="city" value={formData?.address?.city || ''} onChange={handleAddressChange} />
                         </Grid>
                         <Grid size={{ xs: 12, sm: 4 }}>
-                            <TextField fullWidth size="small" label="State" name="state" value={formData?.company?.Admin?.address?.state || ''} onChange={handleAddressChange} />
+                            <TextField fullWidth size="small" label="State" name="state" value={formData?.address?.state || ''} onChange={handleAddressChange} />
                         </Grid>
                         <Grid size={{ xs: 12, sm: 4 }}>
-                            <TextField fullWidth size="small" label="Zip Code" name="zipCode" value={formData?.company?.Admin?.address?.zipCode || ''} onChange={handleAddressChange} />
+                            <TextField fullWidth size="small" label="Zip Code" name="zipCode" value={formData?.address?.zipCode || ''} onChange={handleAddressChange} />
                         </Grid>
                         <Grid size={{ xs: 12 }}>
-                            <TextField fullWidth size="small" label="Country" name="country" value={formData?.company?.Admin?.address?.country || ''} onChange={handleAddressChange} />
+                            <TextField fullWidth size="small" label="Country" name="country" value={formData?.address?.country || ''} onChange={handleAddressChange} />
                         </Grid>
 
                         <Grid size={{ xs: 12 }}>
@@ -363,7 +383,6 @@ const ProfileEdit: React.FC<ProfileEditProps> = ({ data, onClose }) => {
                                 </Typography>
                                 <MyButton variant="contained" sx={{ width: 'fit-content' }}>
                                     <input type="file" accept="image/*" onChange={handleImageUpload} />
-                                    {/* Upload */}
                                 </MyButton>
                                 {profileImage && (
                                     <Typography variant="caption" display="block">

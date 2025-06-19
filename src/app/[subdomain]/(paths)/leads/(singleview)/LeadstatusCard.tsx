@@ -93,7 +93,7 @@ export const LeadStatusCard: React.FC<{ currentLead?: any }> = ({ currentLead })
                 },
                 {
                     label: 'Owner',
-                    value: `${currentLead?.assignTo?.firstname || '-'} ${currentLead?.assignTo?.lastname || '-'}`
+                    value: `${currentLead?.assignTo?.map((item) => `${item.firstname || '-'} ${item.lastname}`)} `
                 }
             ].map((item, idx, arr) => (
                 <Box key={idx}>

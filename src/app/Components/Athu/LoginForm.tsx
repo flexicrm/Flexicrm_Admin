@@ -55,21 +55,33 @@ export default function LoginForm() {
         }
     });
 
+    // useEffect(() => {
+    //     const rememberedEmail = localStorage.getItem('rememberedEmail');
+    //     const rememberedPassword = localStorage.getItem('rememberedPassword');
+    //     if (rememberedEmail && rememberedPassword) {
+    //         formik.setFieldValue('email', rememberedEmail);
+    //         formik.setFieldValue('password', rememberedPassword);
+    //         setRememberMe(true);
+    //     }
+    // }, []);
     useEffect(() => {
         const rememberedEmail = localStorage.getItem('rememberedEmail');
         const rememberedPassword = localStorage.getItem('rememberedPassword');
         if (rememberedEmail && rememberedPassword) {
-            formik.setFieldValue('email', rememberedEmail);
-            formik.setFieldValue('password', rememberedPassword);
+            // Use timeout to defer setFieldValue to avoid sync updates inside mount
+            setTimeout(() => {
+                formik.setFieldValue('email', rememberedEmail);
+                formik.setFieldValue('password', rememberedPassword);
+            }, 0);
             setRememberMe(true);
         }
-    }, [formik]);
+    }, []); // 🚫 Remove `formik` from the dependency array
 
     return (
         <Box sx={{ width: '100%', maxWidth: 400, mx: 'auto', textAlign: 'center', p: 3 }}>
             {flexilogo?.logo ? (
                 <Box sx={{ display: 'flex', justifyContent: 'center', mb: '32px', width: 120, height: 120, borderRadius: '50%', boxShadow: '0 0px 3px rgba(0, 0, 0, 0.2)', margin: '0 auto 22px auto', border: '1px solid white' }}>
-                    <Box component="img" src={flexilogo.logo || '/logo/android-icon-72x72.png'} alt="FlexiCRM Logo" sx={{ borderRadius: '50%', width: 110, }} />
+                    <Box component="img" src={flexilogo.logo || '/logo/android-icon-72x72.png'} alt="FlexiCRM Logo" sx={{ borderRadius: '50%', width: 110 }} />
                 </Box>
             ) : (
                 <Box>

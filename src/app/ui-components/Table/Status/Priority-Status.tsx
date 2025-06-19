@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material';
 import React from 'react';
 
 export default function PriorityStatus(row) {
-      const rows = row?.row || row
+    const rows = row?.row || row;
     return (
         <>
             {rows?.followUps?.slice(-1)[0]?.priority && (

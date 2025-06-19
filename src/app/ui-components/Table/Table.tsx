@@ -538,7 +538,7 @@ export const MyTable = <T extends { id: number }>({ fetchLeads, data, leadstatus
                                             .map((column) => (
                                                 <TableCell size="small" key={column.id} align={column.align} style={{ width: columnWidths[column.id] }}>
                                                     <Link href={`/${subdomain}/leads/${row.LeadId}`} style={{ color: 'inherit', textDecoration: 'none' }}>
-                                                        {column.format ? column.format(row[column.id as keyof T]) : String(row[column.id as keyof T])}
+                                                        {column.format ? column?.format(row[column.id as keyof T]) || "-" : String(row[column.id as keyof T])}
                                                     </Link>
                                                 </TableCell>
                                             ))}

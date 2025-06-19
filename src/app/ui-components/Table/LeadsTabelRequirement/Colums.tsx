@@ -86,7 +86,7 @@ export const columns = [
             <Tooltip title="Assigned team member">
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <AssigneeIcon fontSize="small" sx={{ mr: 1, color: 'action.active' }} />
-                    <Typography variant="body2">{value}</Typography>
+                    <Typography variant="body2">{value || '-'}</Typography>
                 </Box>
             </Tooltip>
         )

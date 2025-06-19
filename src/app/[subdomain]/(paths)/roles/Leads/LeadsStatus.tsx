@@ -243,7 +243,13 @@ const LeadsStatus = () => {
                                         />
                                     </TableCell>
                                     <TableCell align="right">
-                                        <IconButton size="small" onClick={() => setEditingStatus(status)}>
+                                        <IconButton
+                                            size="small"
+                                            onClick={() => {
+                                                setEditingStatus(status);
+                                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                                            }}
+                                        >
                                             <Edit fontSize="small" />
                                         </IconButton>
                                         <IconButton

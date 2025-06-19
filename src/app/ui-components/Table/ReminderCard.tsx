@@ -177,14 +177,14 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                                     </Box>
                                     {/* Assigned User Avatar */}
                                     <Box>
-                                        {row?.assignTo && (
+                                        {row?.assignTo.length >0 && (
                                             <>
                                                 <AvatarGroup>
-                                                    <Tooltip title={`${row?.assignTo?.firstname} ${row?.assignTo?.lastname}`}>
+                                                    <Tooltip title={`${row?.assignTo?.map((item) => `${item.firstname || '-'} ${item.lastname}`)} `}>
                                                         <Avatar
                                                             sx={{ width: 20, height: 20, marginBottom: '-7px', border: '0 !important', borderRadius: 'none', margin: '-5px', marginRight: '2px' }}
-                                                            alt={`${row?.assignTo?.firstname}${row?.assignTo?.lastname}`}
-                                                            src={row?.assignTo?.Profile}
+                                                            alt={`${row?.assignTo?.map((item) => `${item.firstname || '-'} ${item.lastname}`)} `}
+                                                            src={`${row?.assignTo?.map((item) => item?.Profile)}`}
                                                         />
                                                     </Tooltip>
                                                 </AvatarGroup>

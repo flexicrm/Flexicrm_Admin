@@ -6,7 +6,7 @@ export default function LeadStatus(row) {
     const rows = row?.row || row
     return (
         <>
-            {rows?.leadstatus?.statusName && (
+            {/* {rows?.leadstatus?.statusName && ( */}
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                         <Box
@@ -30,14 +30,14 @@ export default function LeadStatus(row) {
                                 maxWidth: '40px'
                             }}
                         >
-                            {rows?.leadstatus?.statusName || 'Not Followed'}
+                            {rows?.leadstatus?.statusName || 'New'}
                         </Typography>
                     </Box>
                     <label htmlFor="" className="leadsgrid-style-flex">
                         Lead Status
                     </label>
                 </Box>
-            )}
+            {/* )} */}
         </>
     );
 }

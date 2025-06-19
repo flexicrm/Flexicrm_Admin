@@ -36,7 +36,10 @@ export default function LoginSlider() {
                     },
                     '.swiper-pagination': {
                         bottom: '80px !important',
-                        textAlign: 'center'
+                        textAlign: 'center',
+                        '@media (min-width: 1024px)': {
+                            bottom: '10px !important'
+                        }
                     }
                 }}
             />

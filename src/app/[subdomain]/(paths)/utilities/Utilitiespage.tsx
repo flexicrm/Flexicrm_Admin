@@ -401,34 +401,35 @@ const DynamicForm: React.FC = () => {
                                         </Droppable>
                                     </Box>
                                     <Box flex={1}>
+                                        <Typography variant="h6" gutterBottom sx={{ color: 'white', fontWeight: 600, mb: 2, fontSize: '15px' }}>
+                                            Generated Code
+                                        </Typography>
                                         <Box width={{ xs: '100%' }}>
                                             <Box
                                                 sx={{
-                                                    backgroundColor: '#f9f9f9',
+                                                    // backgroundColor: '#f9f9f9',
                                                     borderRadius: 2,
-                                                    p: 2,
-                                                    border: '1px solid #e0e0e0',
+                                                    // pt: 1,
+                                                    color: 'white',
+                                                    // border: '1px solid #e0e0e0',
                                                     // minHeight: '450px',
                                                     // maxHeight: '85vh',
                                                     overflowY: 'auto'
                                                 }}
                                             >
-                                                <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
-                                                    Generated Code
-                                                </Typography>
                                                 <Paper
-                                                    variant="outlined"
+                                                    // variant="outlined"
                                                     sx={{
-                                                        minHeight: '200px',
-                                                        maxHeight: '220px',
-                                                        backgroundColor: '#fff',
+                                                        minHeight: '250px',
+                                                        maxHeight: '250px',
+                                                        // backgroundColor: '#fff',
                                                         p: 1,
                                                         fontSize: '0.85rem',
                                                         overflow: 'auto',
-                                                        whiteSpace: 'pre-wrap',
-                                                        wordBreak: 'break-word',
-                                                        borderRadius: 1,
-                                                        border: '1px solid #ccc',
+                                                        // whiteSpace: 'pre-wrap',
+                                                        // wordBreak: 'break-word',
+                                                        // borderRadius: 1,
+                                                        // border: '1px solid #ccc',
                                                         fontFamily: 'Source Code Pro, monospace'
                                                     }}
                                                 >
@@ -437,10 +438,10 @@ const DynamicForm: React.FC = () => {
                                                 <Box mt={2} display="flex" justifyContent="flex-end" gap={1}>
                                                     <Tooltip title="Copy to clipboard">
                                                         <IconButton size="small" onClick={handleCopyCode} disabled={!generatedCode}>
-                                                            <ContentCopyIcon fontSize="small" />
+                                                            <ContentCopyIcon fontSize="small" sx={{ color: 'white' }} />
                                                         </IconButton>
                                                     </Tooltip>
-                                                    <Button variant="contained" onClick={handleSubmit} disabled={selectedFields.length === 0 || !formName.trim()} size="small">
+                                                    <Button variant="contained"  onClick={handleSubmit} disabled={selectedFields.length === 0 || !formName.trim()} size="small">
                                                         Save Form
                                                     </Button>
                                                 </Box>

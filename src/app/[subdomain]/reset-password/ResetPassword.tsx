@@ -21,7 +21,7 @@ export default function ResetPasswordPage({ slug }: any) {
                     </Grid>
 
                     {/* Right Panel - Modified for password reset */}
-                    <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }} width={'50%'} sx={{ display: { xs: 'none', sm: 'block' } }}>
+                    <Grid size={{ xs: 12, sm: 6, md: 6, lg: 6 }} sx={{ height: '100vh' }}>
                         <RightPanel>
                             <ResetPasswordForm slug={slug} subdomain={subdomain as string} />
                         </RightPanel>

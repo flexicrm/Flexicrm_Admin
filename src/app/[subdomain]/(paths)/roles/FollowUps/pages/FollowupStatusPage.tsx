@@ -230,7 +230,14 @@ const LeadfollowPage: React.FC = () => {
                                         <TableCell>{status.typeName}</TableCell>
                                         <TableCell>
                                             <Tooltip title="Edit">
-                                                <IconButton size="small" onClick={() => handleEdit(status)} sx={{ '&:hover': { backgroundColor: 'rgba(25, 118, 210, 0.08)' } }}>
+                                                <IconButton
+                                                    size="small"
+                                                    onClick={() => {
+                                                        handleEdit(status);
+                                                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                                                    }}
+                                                    sx={{ '&:hover': { backgroundColor: 'rgba(25, 118, 210, 0.08)' } }}
+                                                >
                                                     <Edit fontSize="small" />
                                                 </IconButton>
                                             </Tooltip>
@@ -253,7 +260,18 @@ const LeadfollowPage: React.FC = () => {
                             )}
                         </TableBody>
                     </Table>
-                    <TablePagination rowsPerPageOptions={[5, 10, 25]} component="div" count={statuses.length} rowsPerPage={rowsPerPage} page={page} onPageChange={handleChangePage} onRowsPerPageChange={handleChangeRowsPerPage} />
+                    {/* <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 1 }}> */}
+                    <TablePagination
+                        sx={{ display: 'flex', justifyContent: 'flex-end' }}
+                        rowsPerPageOptions={[5, 10, 25]}
+                        component="div"
+                        count={statuses.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                    {/* </Box> */}
                 </TableContainer>
             )}
 

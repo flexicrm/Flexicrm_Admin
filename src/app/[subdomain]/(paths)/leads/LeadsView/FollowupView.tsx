@@ -480,13 +480,12 @@ export const FollowUpSection = ({ currentLead, UsersOptions, leadId, setLeadData
                                                     <Divider />
                                                     <Box sx={{ display: 'flex', mt: 1, justifyContent: 'space-between' }}>
                                                         <Typography variant="caption" color="text.secondary">
-                                                            🕒 Created: {followup.createdAt ? new Date(followup.createdAt).toLocaleDateString() : '—'}
+                                                            {/* 🕒 Created: {followup.createdAt ? new Date(followup.createdAt).toLocaleDateString() : '—'} */}
                                                         </Typography>
 
                                                         {followup.assignTo && (
                                                             <Typography variant="caption" color="text.secondary">
-                                                                Assigned to: {followup.assignTo.firstname}
-                                                                {followup.assignTo.lastname}
+                                                                Assigned to : {`${followup?.assignTo?.map((item) => `${item.firstname || '-'} ${item.lastname}`)} `}
                                                             </Typography>
                                                         )}
                                                     </Box>

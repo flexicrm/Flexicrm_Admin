@@ -23,7 +23,8 @@ const LeadManagement: React.FC = () => {
                         value={tabIndex}
                         onChange={handleChange}
                         variant={isMobile ? 'scrollable' : 'standard'}
-                        scrollButtons={isMobile ? 'auto' : false}
+                        scrollButtons={isMobile ? true : false}
+                        allowScrollButtonsMobile
                         aria-label="Lead Configuration Tabs"
                         textColor="primary"
                         indicatorColor="primary"

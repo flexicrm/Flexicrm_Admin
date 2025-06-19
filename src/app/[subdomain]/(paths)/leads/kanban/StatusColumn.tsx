@@ -263,21 +263,13 @@ export default function StatusColumn({ status, filteredLeadData, COLUMN_WIDTH, h
                                                     <FollowupStatus row={lead} />
                                                     {/* Priority */}
                                                     <PriorityStatus row={lead} />
-                                                    {lead?.assignTo && (
-                                                        <Tooltip title={lead?.assignTo?.firstname ? `${lead.assignTo.firstname} ${lead.assignTo.lastname || ''}` : 'Unassigned'}>
+                                                    {lead?.assignTo.length > 0 && (
+                                                        <Tooltip title={`${lead?.assignTo?.map((item) => `${item.firstname || '-'} ${item.lastname}`)} `}>
                                                             <Avatar
-                                                                sx={{
-                                                                    width: 24,
-                                                                    height: 24,
-                                                                    fontSize: '0.7rem',
-                                                                    bgcolor: lead?.assignTo?.Profile ? 'transparent' : '#e2e8f0',
-                                                                    color: '#4a5568'
-                                                                }}
-                                                                src={lead?.assignTo?.Profile}
-                                                            >
-                                                                {lead?.assignTo?.firstname?.charAt(0)}
-                                                                {lead?.assignTo?.lastname?.charAt(0)}
-                                                            </Avatar>
+                                                                sx={{ width: 20, height: 20, marginBottom: '-7px', border: '0 !important', borderRadius: 'none', margin: '-5px', marginRight: '2px' }}
+                                                                alt={`${lead?.assignTo?.map((item) => `${item.firstname || '-'} ${item.lastname}`)} `}
+                                                                src={`${lead?.assignTo?.map((item) => item?.Profile)}`}
+                                                            />
                                                         </Tooltip>
                                                     )}
                                                 </Box>

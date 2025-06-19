@@ -167,7 +167,17 @@ const ProfilePage: React.FC = () => {
                         <CardHeader
                             title="Profile"
                             action={
-                                <IconButton onClick={toggleEdit} color="primary">
+                                <IconButton
+                                    onClick={() => {
+                                        // toggleEdit;
+                                        window.scrollTo({
+                                            top: document.documentElement.scrollHeight,
+                                            behavior: 'smooth'
+                                        });
+                                        toggleEdit();
+                                    }}
+                                    color="primary"
+                                >
                                     <Edit />
                                 </IconButton>
                             }
@@ -220,7 +230,10 @@ const ProfilePage: React.FC = () => {
                                                         <LocationOn style={{ color: 'rgb(10 45 90)' }} />
                                                     </Avatar>
                                                 </ListItemAvatar>
-                                                <ListItemText primary="Address" secondary={`${data.address.street || ''}, ${data.address.city || ''}, ${data.address.state || ''}, ${data.address.zipCode || ''}, ${data.address.country || ''}`} />
+                                                <ListItemText
+                                                    primary="Address"
+                                                    secondary={`${data?.address?.street || ''}, ${data?.address?.city || ''}, ${data?.address?.state || ''}, ${data?.address?.zipCode || ''}, ${data?.address?.country || ''}`}
+                                                />
                                             </ListItem>
                                         )}
                                     </List>
@@ -234,7 +247,7 @@ const ProfilePage: React.FC = () => {
                 <Grid size={{ xs: 12, md: 6 }}>
                     {showEdit && (
                         <Box sx={{ height: '100%' }}>
-                            <ProfileEdit data={data} onClose={toggleEdit} />
+                            <ProfileEdit data={data} onClose={toggleEdit} setData={setData} />
                         </Box>
                     )}
                 </Grid>
