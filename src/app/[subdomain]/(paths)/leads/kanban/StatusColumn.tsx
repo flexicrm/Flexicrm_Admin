@@ -263,7 +263,7 @@ export default function StatusColumn({ status, filteredLeadData, COLUMN_WIDTH, h
                                                     <FollowupStatus row={lead} />
                                                     {/* Priority */}
                                                     <PriorityStatus row={lead} />
-                                                    {lead?.assignTo.length > 0 && (
+                                                    {lead?.assignTo?.length > 0 && (
                                                         <Tooltip title={`${lead?.assignTo?.map((item) => `${item.firstname || '-'} ${item.lastname}`)} `}>
                                                             <Avatar
                                                                 sx={{ width: 20, height: 20, marginBottom: '-7px', border: '0 !important', borderRadius: 'none', margin: '-5px', marginRight: '2px' }}

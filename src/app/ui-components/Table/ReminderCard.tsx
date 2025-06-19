@@ -177,7 +177,7 @@ const ReminderCard: React.FC<ReminderCardProps> = ({ sortedData, subdomain, onEd
                                     </Box>
                                     {/* Assigned User Avatar */}
                                     <Box>
-                                        {row?.assignTo.length >0 && (
+                                        {row?.assignTo?.length >0 && (
                                             <>
                                                 <AvatarGroup>
                                                     <Tooltip title={`${row?.assignTo?.map((item) => `${item.firstname || '-'} ${item.lastname}`)} `}>
