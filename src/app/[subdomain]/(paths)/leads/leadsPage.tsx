@@ -123,31 +123,31 @@ const LeadsPage: React.FC = () => {
                 {
                     element: '#create-lead-btn',
                     intro: 'Click here to create a new lead.'
-                },
-                {
-                    element: '#leads-search',
-                    intro: 'This is your Searchbar you can search the name , email , phone number , company also .'
-                },
-                {
-                    element: '#leads-filter',
-                    intro: 'This is your leads-Status Filter'
-                },
-                {
-                    element: '#leadstabel',
-                    intro: 'This is your table view showing all leads with action options.'
-                },
-                {
-                    element: '#leadsCard',
-                    intro: 'This is your Card view showing all leads with action options.'
-                },
-                {
-                    element: '#leads-BulkUpload',
-                    intro: 'This is your BulkUpload you can add with excel update the users details'
-                },
-                {
-                    element: '#leads-Export',
-                    intro: 'This is your export the Data excel or pdf.'
                 }
+                // {
+                //     element: '#leads-search',
+                //     intro: 'This is your Searchbar you can search the name , email , phone number , company also .'
+                // },
+                // {
+                //     element: '#leads-filter',
+                //     intro: 'This is your leads-Status Filter'
+                // },
+                // {
+                //     element: '#leadstabel',
+                //     intro: 'This is your table view showing all leads with action options.'
+                // },
+                // {
+                //     element: '#leadsCard',
+                //     intro: 'This is your Card view showing all leads with action options.'
+                // },
+                // {
+                //     element: '#leads-BulkUpload',
+                //     intro: 'This is your BulkUpload you can add with excel update the users details'
+                // },
+                // {
+                //     element: '#leads-Export',
+                //     intro: 'This is your export the Data excel or pdf.'
+                // }
             ]);
         } else {
             // alert('demo');
@@ -241,7 +241,8 @@ const LeadsPage: React.FC = () => {
     );
 
     const leadsArray = Array.isArray(leads) ? leads : [];
-    const rowData = LeadsData(leadsArray);
+    // const rowData = LeadsData(leadsArray);
+    const rowData = [];
     //
     // useEffect(() => {
     //     if (!tour) {
@@ -253,7 +254,7 @@ const LeadsPage: React.FC = () => {
         <Box>
             <Grid container spacing={2} alignItems="center">
                 <Grid size={{ xs: 12, sm: 6 }} sx={{ margin: 'auto' }}>
-                    <Typography id="leads-page-title" variant="h5" color="primary" component="h1" sx={{ fontWeight: 600 }}>
+                    <Typography variant="h5" color="primary" component="h1" sx={{ fontWeight: 600 }}>
                         Leads
                     </Typography>
                     {/* <Button variant="outlined" size="small" onClick={startTour} sx={{ mt: 1 }}>
@@ -276,7 +277,7 @@ const LeadsPage: React.FC = () => {
                                 </Tooltip>
                             </ToggleButtonGroup>
                         </Box>
-                        <Box id="create-lead-btn" sx={{ marginBottom: { xs: 2 } }}>
+                        <Box  sx={{ marginBottom: { xs: 2 } }}>
                             <Link href={`/${subdomain}/leads/create`}>
                                 <MyButton variant="contained" color="primary" startIcon={<AddIcon />}>
                                     Lead

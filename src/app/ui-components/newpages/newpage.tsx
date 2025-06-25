@@ -140,7 +140,7 @@ const LeadsWelcomePage = () => {
 
     return (
         <HeroContainer maxWidth="xl">
-            <Grid container spacing={4} alignItems="center">
+            <Grid container spacing={4} alignItems="center" id="leads-page-title">
                 {/* Left Side: Image */}
                 <Grid size={{ xs: 12, md: 6 }}>
                     <motion.div initial={{ x: -50, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ duration: 0.8 }}>
@@ -177,6 +177,7 @@ const LeadsWelcomePage = () => {
                             }}
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.95 }}
+                            id="create-lead-btn"
                         >
                             <CreateButton variant="contained" color="primary" size="large" onClick={() => router.push(`/${subdomain}/leads/create`)} startIcon={<span>+</span>}>
                                 Create New Lead
