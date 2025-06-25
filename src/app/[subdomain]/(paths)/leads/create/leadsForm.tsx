@@ -50,6 +50,7 @@ import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import { LeadPost, UpdateLeadsByID } from '../../../../../../api/Leads';
 import { MySnackbar } from '../../../../ui-components/Snackbar/Snackbar';
 import { useRouter } from 'next/navigation';
+import Notepad from '../../../../ui-components/Notepad/Notepad';
 
 // Country-based potential values (example values)
 const COUNTRY_POTENTIAL_VALUES: Record<string, number> = {
@@ -537,7 +538,18 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                             </Grid>
 
                             <Grid size={{ xs: 12, sm: 12 }}>
-                                <TextField fullWidth size="small" multiline rows={3} label="Notes" name="description" value={formik.values.description} onChange={formik.handleChange} />
+                                {/* <TextField fullWidth size="small" multiline rows={3} label="Notes" name="description" value={formik.values.description} onChange={formik.handleChange} /> */}
+
+                                <Notepad
+                                    formData={formik.values.description}
+                                    name="description"
+                                    handleInputChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                        console.log(e, 'csss');
+                                        const { name, value } = e.target;
+                                        formik.setFieldValue(name, value);
+                                    }}
+                                    setDropdownActive={false}
+                                />
                             </Grid>
                         </Grid>
                         {/* <Typography variant="h6" gutterBottom sx={{ fontWeight: '400', display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -601,7 +613,7 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                             </Typography>
                         )}
 
-                        <Box sx={{ mt: 4, display: 'flex', justifyContent: 'flex-end' }}>
+                        <Box sx={{ mt: 18, display: 'flex', justifyContent: 'flex-end' }}>
                             <MyButton variant="contained" color="primary" size="large" type="submit" disabled={!formik.isValid || isSubmitting}>
                                 {isSubmitting ? 'Submitting...' : lead ? 'Update Lead' : 'Create Lead'}
                             </MyButton>

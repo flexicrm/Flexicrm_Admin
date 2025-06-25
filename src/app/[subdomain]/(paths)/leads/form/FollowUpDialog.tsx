@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Grid, TextField, FormControl, InputLabel, Select, MenuItem, Checkbox, FormControlLabel, Box } from '@mui/material';
 import LeadStatus from '../leadstatus';
 import { MyButton } from '../../../../ui-components/Buttons/Buttons';
 import DatePicker from '../../../../ui-components/DatePickermui/DatePicker';
+import Notepad from '../../../../ui-components/Notepad/Notepad';
 
 const FollowUpDialog = ({
     open,
@@ -26,6 +27,7 @@ const FollowUpDialog = ({
     setReminderEnabled,
     setReminderDate
 }) => {
+    const [dropdownActive, setDropdownActive] = useState(false);
     return (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
             <DialogTitle>{followUp?._id ? 'Edit Follow-Up' : 'Add New Follow-Up'}</DialogTitle>
@@ -95,17 +97,21 @@ const FollowUpDialog = ({
                             </Grid>
                         )}
                         <Grid size={{ xs: 12 }}>
-                            <TextField size="small" fullWidth label="Notes" name="notes" value={formData.notes || ''} onChange={handleInputChange} multiline rows={3} />
+                            {/* <TextField size="small" fullWidth label="Notes" name="notes" value={formData.notes || ''} onChange={handleInputChange} multiline rows={3} /> */}
+
+                            <Notepad formData={formData.notes} handleInputChange={handleInputChange} setDropdownActive={setDropdownActive} name="notes" />
                         </Grid>
                     </Grid>
-                    <DialogActions>
-                        <MyButton variant="text" onClick={onClose} color="primary">
-                            Cancel
-                        </MyButton>
-                        <MyButton color="primary" disabled={isSubmitting} type="submit">
-                            {isSubmitting ? 'Saving...' : !followUp ? 'Create Follow-Up' : 'Update Follow-Up'}
-                        </MyButton>
-                    </DialogActions>
+                    <Box position="sticky" bottom={0} bgcolor="background.paper" zIndex={1} sx={{ mt: 2 }}>
+                        <DialogActions>
+                            <MyButton variant="text" onClick={onClose} color="primary">
+                                Cancel
+                            </MyButton>
+                            <MyButton color="primary" disabled={isSubmitting} type="submit">
+                                {isSubmitting ? 'Saving...' : !followUp ? 'Create Follow-Up' : 'Update Follow-Up'}
+                            </MyButton>
+                        </DialogActions>
+                    </Box>
                 </form>
             </DialogContent>
         </Dialog>

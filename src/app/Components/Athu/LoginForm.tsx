@@ -12,7 +12,6 @@ import userContext from '../../UseContext/UseContext';
 import PasswordField from '../../ui-components/password/Password';
 
 export default function LoginForm() {
-    // const { loginSuccess } = useContext(userContext);
     const router = useRouter();
     const params = useParams();
     const subdomain = params?.subdomain || '';
@@ -22,6 +21,7 @@ export default function LoginForm() {
     const [rememberMe, setRememberMe] = useState(false);
     const [error, setError] = useState('');
     const subdomain2 = Cookies.get('subdomain');
+    const [isFirstLogin, setIsFirstLogin] = useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleRememberMeChange = (event: React.ChangeEvent<HTMLInputElement>) => setRememberMe(event.target.checked);
 
@@ -36,34 +36,27 @@ export default function LoginForm() {
         onSubmit: async (values) => {
             const payload = { email: values.email, password: values.password };
             const response = await LoginAPI(subdomain, payload);
-
             if (response.isError) {
                 setError(typeof response?.data?.errors === 'string' ? response?.data?.errors : 'Login failed');
             } else {
                 const data = response.data || null;
-                const { accessToken, refreshToken } = data;
-                Cookies.set('crmaccess', accessToken);
-                Cookies.set('crmrefresh', refreshToken);
+                const { accessToken, refreshToken, isFirstlogin } = data;
+                setIsFirstLogin(isFirstlogin);
+                if (!isFirstlogin) {
+                    Cookies.set('crmaccess', accessToken);
+                    Cookies.set('crmrefresh', refreshToken);
+                }
                 if (rememberMe) {
                     localStorage.setItem('rememberedEmail', values.email);
                     localStorage.setItem('rememberedPassword', values.password);
                 }
                 // loginSuccess(response.data);
                 // Cookies.set('', response.data.token);
-                router.push(`/${subdomain}/dashboard`);
+                router.push(isFirstlogin ? `/${subdomain}/reset-password` : `/${subdomain}/dashboard`);
             }
         }
     });
 
-    // useEffect(() => {
-    //     const rememberedEmail = localStorage.getItem('rememberedEmail');
-    //     const rememberedPassword = localStorage.getItem('rememberedPassword');
-    //     if (rememberedEmail && rememberedPassword) {
-    //         formik.setFieldValue('email', rememberedEmail);
-    //         formik.setFieldValue('password', rememberedPassword);
-    //         setRememberMe(true);
-    //     }
-    // }, []);
     useEffect(() => {
         const rememberedEmail = localStorage.getItem('rememberedEmail');
         const rememberedPassword = localStorage.getItem('rememberedPassword');
@@ -75,7 +68,7 @@ export default function LoginForm() {
             }, 0);
             setRememberMe(true);
         }
-    }, []); // 🚫 Remove `formik` from the dependency array
+    }, []);
 
     return (
         <Box sx={{ width: '100%', maxWidth: 400, mx: 'auto', textAlign: 'center', p: 3 }}>

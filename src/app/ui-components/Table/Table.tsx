@@ -337,7 +337,7 @@ export const MyTable = <T extends { id: number }>({ fetchLeads, data, leadstatus
             <Box sx={{ mb: 2 }}>
                 <Grid container spacing={2}>
                     <Grid size={{ sm: 12, md: 3 }}>
-                        <Box>
+                        <Box id="leads-search">
                             <TextField
                                 sx={{ minWidth: 150 }}
                                 size="small"
@@ -355,7 +355,7 @@ export const MyTable = <T extends { id: number }>({ fetchLeads, data, leadstatus
                         </Box>
                     </Grid>
                     <Grid size={{ sm: 12, md: 3 }}>
-                        <FormControl size="small" sx={{ minWidth: 120 }}>
+                        <FormControl size="small" sx={{ minWidth: 120 }} id="leads-filter">
                             <InputLabel>Leads Status</InputLabel>
                             <Select value={statusFilter} onChange={handleStatusFilterChange} label="Leads Status">
                                 <MenuItem value="all">All Statuses</MenuItem>
@@ -376,27 +376,27 @@ export const MyTable = <T extends { id: number }>({ fetchLeads, data, leadstatus
                         <Box sx={{ gap: 1, display: 'flex', justifyContent: 'end' }}>
                             <ToggleButtonGroup value={viewMode} exclusive onChange={handleViewModeChange} size="small">
                                 <Tooltip title="Table view">
-                                    <ToggleButton value="table">
+                                    <ToggleButton value="table" id="leadstabel">
                                         <TableIcon sx={{ fontSize: '18px' }} />
                                     </ToggleButton>
                                 </Tooltip>
                                 <Tooltip title="Grid view">
-                                    <ToggleButton value="grid">
+                                    <ToggleButton value="grid" id="leadsCard">
                                         <GridIcon sx={{ fontSize: '18px' }} />
                                     </ToggleButton>
                                 </Tooltip>
                                 <Tooltip title="Column selector" onClick={toggleColumnSelector}>
-                                    <ToggleButton value="column">
+                                    <ToggleButton value="column" id="leadsColumns">
                                         <TuneIcon sx={{ fontSize: '18px' }} />
                                     </ToggleButton>
                                 </Tooltip>
 
-                                <ToggleButton value="column">
+                                <ToggleButton value="column" id="leads-BulkUpload">
                                     <ResearchPage fetchLeads={fetchLeads} />
                                 </ToggleButton>
 
                                 <Tooltip title="Export">
-                                    <ToggleButton value="grid" onClick={handleExportMenuOpen}>
+                                    <ToggleButton value="grid" onClick={handleExportMenuOpen} id="leads-Export">
                                         {/* <IconButton > */}
                                         <GetAppIcon />
                                         {/* </IconButton> */}
@@ -538,7 +538,7 @@ export const MyTable = <T extends { id: number }>({ fetchLeads, data, leadstatus
                                             .map((column) => (
                                                 <TableCell size="small" key={column.id} align={column.align} style={{ width: columnWidths[column.id] }}>
                                                     <Link href={`/${subdomain}/leads/${row.LeadId}`} style={{ color: 'inherit', textDecoration: 'none' }}>
-                                                        {column.format ? column?.format(row[column.id as keyof T]) || "-" : String(row[column.id as keyof T])}
+                                                        {column.format ? column?.format(row[column.id as keyof T]) || '-' : String(row[column.id as keyof T])}
                                                     </Link>
                                                 </TableCell>
                                             ))}

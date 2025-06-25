@@ -1,3 +1,4 @@
+import { TourProvider } from './Components/TourContext';
 import ClientWrapper from './Components/wrappers/useSubdomainCheck';
 import './globals.css';
 import type { Metadata } from 'next';
@@ -37,7 +38,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <meta name="theme-color" content="#ffffff"></meta>
             </head>
             <body>
-                <ClientWrapper>{children}</ClientWrapper>
+                <TourProvider>
+                    <ClientWrapper>{children}</ClientWrapper>
+                </TourProvider>
             </body>
         </html>
     );
