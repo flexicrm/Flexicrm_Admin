@@ -241,8 +241,8 @@ const LeadsPage: React.FC = () => {
     );
 
     const leadsArray = Array.isArray(leads) ? leads : [];
-    // const rowData = LeadsData(leadsArray);
-    const rowData = [];
+    const rowData = LeadsData(leadsArray);
+    // const rowData = [];
     //
     // useEffect(() => {
     //     if (!tour) {
