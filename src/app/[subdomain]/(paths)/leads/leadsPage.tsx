@@ -49,27 +49,6 @@ const LeadsPage: React.FC = () => {
     const tour = data?.isLeadTourCompleted;
     console.log(tour, 'tourvalues');
 
-    // useEffect(() => {
-    //     if (!tour) {
-    //         setTimeout(() => {
-    //             startTour();
-    //         }, 300);
-    //         console.log('checkint the leads tour untill the tour was ture conditoions------> inner function', tour);
-    //         // Delay to ensure DOM is ready before starting the tour
-    //     }
-    //     console.log('checkint the leads tour untill the tour was ture conditoions------> outer function', tour);
-    // }, []);
-
-    // useEffect(() => {
-    //     console.log('Useefect start key outer functions', tour);
-    //     if (tour === false) {
-    //         console.log('Tour is false. Starting tour...');
-    //         setTimeout(() => {
-    //             startTour();
-    //         }, 300); // delay to let DOM elements render
-    //     }
-    //     console.log('Tour condition checked. Current value:', tour);
-    // }, [tour, startTour]);
     useEffect(() => {
         if (tour === false) {
             console.log('Starting leads tour');
@@ -124,33 +103,8 @@ const LeadsPage: React.FC = () => {
                     element: '#create-lead-btn',
                     intro: 'Click here to create a new lead.'
                 }
-                // {
-                //     element: '#leads-search',
-                //     intro: 'This is your Searchbar you can search the name , email , phone number , company also .'
-                // },
-                // {
-                //     element: '#leads-filter',
-                //     intro: 'This is your leads-Status Filter'
-                // },
-                // {
-                //     element: '#leadstabel',
-                //     intro: 'This is your table view showing all leads with action options.'
-                // },
-                // {
-                //     element: '#leadsCard',
-                //     intro: 'This is your Card view showing all leads with action options.'
-                // },
-                // {
-                //     element: '#leads-BulkUpload',
-                //     intro: 'This is your BulkUpload you can add with excel update the users details'
-                // },
-                // {
-                //     element: '#leads-Export',
-                //     intro: 'This is your export the Data excel or pdf.'
-                // }
             ]);
         } else {
-            // alert('demo');
             setSteps([]);
         }
     }, [setSteps, tour]);
@@ -277,7 +231,7 @@ const LeadsPage: React.FC = () => {
                                 </Tooltip>
                             </ToggleButtonGroup>
                         </Box>
-                        <Box  sx={{ marginBottom: { xs: 2 } }}>
+                        <Box sx={{ marginBottom: { xs: 2 } }}>
                             <Link href={`/${subdomain}/leads/create`}>
                                 <MyButton variant="contained" color="primary" startIcon={<AddIcon />}>
                                     Lead

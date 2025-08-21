@@ -4,6 +4,7 @@ import LeadStatus from '../leadstatus';
 import { MyButton } from '../../../../ui-components/Buttons/Buttons';
 import DatePicker from '../../../../ui-components/DatePickermui/DatePicker';
 import Notepad from '../../../../ui-components/Notepad/Notepad';
+import { CustomChip } from '../../../../ui-components/Chip/otherChip';
 
 const FollowUpDialog = ({
     open,
@@ -67,7 +68,12 @@ const FollowUpDialog = ({
                                     {statusesOptions.map((option) => (
                                         <MenuItem key={option.value} value={option.value}>
                                             <Box display="flex" alignItems="start">
-                                                {option.label}
+                                                <CustomChip
+                                                    status={{
+                                                        hexcolor: `${option.label}`,
+                                                        statusName: option.label || '-'
+                                                    }}
+                                                />
                                             </Box>
                                         </MenuItem>
                                     ))}
@@ -96,7 +102,7 @@ const FollowUpDialog = ({
                                 <TextField size="small" fullWidth label="Outcome" name="outcome" value={formData.outcome || ''} onChange={handleInputChange} multiline rows={3} />
                             </Grid>
                         )}
-                        <Grid size={{ xs: 12 }}>
+                        <Grid size={{ xs: 12 }} sx={{ overflow: 'auto', height: '30vh', pt: '15px' }}>
                             {/* <TextField size="small" fullWidth label="Notes" name="notes" value={formData.notes || ''} onChange={handleInputChange} multiline rows={3} /> */}
 
                             <Notepad formData={formData.notes} handleInputChange={handleInputChange} setDropdownActive={setDropdownActive} name="notes" />

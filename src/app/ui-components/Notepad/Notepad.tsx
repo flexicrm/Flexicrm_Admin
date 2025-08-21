@@ -145,7 +145,7 @@ const Notepad = ({ formData, handleInputChange, setDropdownActive, name }) => {
                 />
 
                 {options?.options?.length > 0 && (
-                    <DropdownPaper>
+                    <DropdownPaper sx={{ zIndex: 0, maxHeight: 120, overflowY: 'auto' }}>
                         {options?.options?.map((option, idx) => (
                             <MenuItem key={idx} onClick={() => handleSelectOption(option)}>
                                 {option}

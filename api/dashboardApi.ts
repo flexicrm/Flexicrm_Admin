@@ -198,6 +198,7 @@ export const DraganddropSection = async (slugname: string, data: { sections: str
     }
 };
 export const LeadsChartfilter = async (slugname: string, timeframe, customRange): Promise<DashboardData | undefined> => {
+    console.log(timeframe,"timeFame")
     let url = `/dashboard/${slugname}/section2?type=${timeframe}`;
 
     if (timeframe === 'custom' && customRange) {

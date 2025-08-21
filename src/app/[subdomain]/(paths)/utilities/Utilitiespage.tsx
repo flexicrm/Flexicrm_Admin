@@ -441,8 +441,8 @@ const DynamicForm: React.FC = () => {
                                                             <ContentCopyIcon fontSize="small" sx={{ color: 'white' }} />
                                                         </IconButton>
                                                     </Tooltip>
-                                                    <Button variant="contained"  onClick={handleSubmit} disabled={selectedFields.length === 0 || !formName.trim()} size="small">
-                                                        Save Form
+                                                    <Button variant="contained" onClick={handleSubmit} disabled={selectedFields.length === 0 || !formName.trim()} size="small">
+                                                        Generated Code
                                                     </Button>
                                                 </Box>
                                             </Box>

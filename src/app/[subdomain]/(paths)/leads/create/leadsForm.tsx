@@ -199,17 +199,28 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
 
             try {
                 const formData = {
-                    leadsource: leadSource,
-                    leadstatus: leadStatus,
-                    manualData: {
-                        ...values.manualData,
-                        mobileNo: phoneNumber
-                    },
-                    assignTo: values.assignTo,
-                    customFields: valuesdataleads,
-                    notes: values.description,
-                    ...(interactionType.type && { interactionType: interactionType }),
-                    potentialValue: values.potentialValue
+                    ...(leadSource && { leadsource: leadSource }),
+                    ...(leadStatus && { leadstatus: leadStatus }),
+
+                    ...(values.manualData && Object.keys(values.manualData).length > 0
+                        ? {
+                              manualData: {
+                                  ...values.manualData,
+                                  ...(phoneNumber && { mobileNo: phoneNumber })
+                              }
+                          }
+                        : phoneNumber
+                        ? { manualData: { mobileNo: phoneNumber } }
+                        : {}),
+
+                    ...(values.assignTo && { assignTo: values.assignTo }),
+                    ...(valuesdataleads &&
+                        Object.keys(valuesdataleads).length > 0 && {
+                            customFields: valuesdataleads
+                        }),
+                    ...(values.description && { notes: values.description }),
+                    ...(interactionType?.type && { interactionType }),
+                    ...(values.potentialValue && { potentialValue: values.potentialValue })
                 };
 
                 if (!lead) {

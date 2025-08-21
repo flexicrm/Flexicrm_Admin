@@ -34,7 +34,7 @@ const Dashboard: React.FC = () => {
     const [highValue, setHighValue] = useState<any>([]);
     const [isLoading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [timeframe, setTimeframe] = useState('monthly');
+    const [timeframe, setTimeframe] = useState('');
     const [draggedItemId, setDraggedItemId] = useState<string | null>(null);
     const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
     console.log(data?.isDashboardTourCompleted, 'data>>>>>');
@@ -44,24 +44,6 @@ const Dashboard: React.FC = () => {
     const tour = data?.isDashboardTourCompleted;
     console.log(data, 'prevdaata??');
 
-    // const Touthandle = () => {
-    //     startTour();
-    // };
-    // useEffect(
-    //     () => {
-    //         const fetchHandler = async () => {
-    //             if (!tour) {
-    //                 await startTour();
-    //             }
-    //         };
-
-    //         // setData(data);
-    //         fetchHandler();
-    //     },
-    //     [
-    //         // data
-    //     ]
-    // );
     useEffect(() => {
         if (!tour) {
             console.log('checkint the dashboard tour untill the tour was ture conditoions------> inner function', tour);
@@ -95,25 +77,30 @@ const Dashboard: React.FC = () => {
         }
     }, [tourvalues]);
     useEffect(() => {
-        setSteps([
-            // {
-            //     element: '#dashboard-title',
-            //     intro: 'Welcome to your dashboard overview.'
-            // },
-            {
-                element: '#tour-summary',
-                intro: 'This section gives a quick summary of your performance.'
-            },
-            {
-                element: '#tour-lead-chart',
-                intro: 'Track your lead acquisition over time here.'
-            },
-            {
-                element: '#tour-followups',
-                intro: 'See and manage upcoming follow-ups easily.'
-            }
-        ]);
-    }, [setSteps]);
+        if (tour === false || tour === undefined) {
+            setSteps([
+                // {
+                //     element: '#dashboard-title',
+                //     intro: 'Welcome to your dashboard overview.'
+                // },
+                {
+                    element: '#tour-summary',
+                    intro: 'This section gives a quick summary of your performance.'
+                },
+                {
+                    element: '#tour-lead-chart',
+                    intro: 'Track your lead acquisition over time here.'
+                },
+                {
+                    element: '#tour-followups',
+                    intro: 'See and manage upcoming follow-ups easily.'
+                }
+            ]);
+        } else {
+            // alert('demo');
+            setSteps([]);
+        }
+    }, [setSteps, tour]);
     useEffect(() => {
         setSections(sectionsetups);
     }, [sectionsetups]);
@@ -261,12 +248,14 @@ const Dashboard: React.FC = () => {
 
     const handleTimeframeChange = async ({ target, startDate, endDate }: { target: { value: string }; startDate?: string; endDate?: string }) => {
         setTimeframe(target.value);
+
+        console.log(target.value, 'value');
         const customdata = {
             startDate,
             endDate
         };
 
-        const response = await LeadsChartfilter(subdomain, timeframe, customdata);
+        const response = await LeadsChartfilter(subdomain, target.value, customdata);
         setAcquisition(response.data.acquisition);
     };
 

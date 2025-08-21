@@ -82,7 +82,7 @@
 //     );
 // };
 import { Card, Grid, Typography, Box, Tooltip } from '@mui/material';
-import { Mail, Phone, Globe, Building2, MapPin, User2 } from 'lucide-react';
+import { Mail, Phone, Globe, Building2, MapPin, User2, NotebookTabs } from 'lucide-react';
 
 export const ContactInfoCard: React.FC<{ currentLead?: any }> = ({ currentLead }) => {
     const info = currentLead?.manualData || {};
@@ -90,7 +90,7 @@ export const ContactInfoCard: React.FC<{ currentLead?: any }> = ({ currentLead }
     const addressString = [address.city, address.state, address.country].filter(Boolean).join(', ');
 
     const renderField = (icon: React.ReactNode, label: string, value: string) => (
-        <Grid size={{xs:12, sm: 12, md: 6 }}>
+        <Grid size={{ xs: 12, sm: 12, md: 6 }}>
             <Box display="flex" alignItems="flex-start" gap={1.5}>
                 <Box mt="2px" color="text.secondary">
                     {icon}
@@ -129,6 +129,7 @@ export const ContactInfoCard: React.FC<{ currentLead?: any }> = ({ currentLead }
                 {renderField(<Phone size={16} />, 'Phone', info?.mobileNo)}
                 {renderField(<Building2 size={16} />, 'Company', info?.company)}
                 {renderField(<Globe size={16} />, 'Website', info?.website)}
+                {renderField(<NotebookTabs size={16} />, 'Notes', Array.isArray(currentLead?.notes) ? currentLead.notes[0] : '')}
                 {/* {renderField(<MapPin size={16} />, 'Location', addressString)} */}
             </Grid>
         </Card>
