@@ -36,8 +36,9 @@ export default function LoginForm() {
         onSubmit: async (values) => {
             const payload = { email: values.email, password: values.password };
             const response = await LoginAPI(subdomain, payload);
+            console.log(response, 'response');
             if (response.isError) {
-                setError(typeof response?.data?.errors === 'string' ? response?.data?.errors : 'Login failed');
+                setError(typeof response?.data === 'string' ? response?.data : 'Login failed');
             } else {
                 const data = response.data || null;
                 const { accessToken, refreshToken, isFirstlogin } = data;

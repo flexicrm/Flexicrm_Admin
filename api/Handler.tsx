@@ -72,8 +72,10 @@ const fetchHandler = async ({ method = 'GET', endpoint, data = {} }: { method: '
 
     try {
         const response = await axios(options);
+        console.log(response, 'response');
         return response?.data;
     } catch (error: any) {
+        console.log(error, ':error');
         const status = error?.response?.status;
         console.log(status, 'status>>>>');
         if (status === 404) {
@@ -98,13 +100,13 @@ const fetchHandler = async ({ method = 'GET', endpoint, data = {} }: { method: '
                     }
                     Cookies.remove('crmaccess');
                     Cookies.remove('crmrefresh');
-                    window.location.href = `/${subdomain}/login`;
+                    // window.location.href = `/${subdomain}/login`;
                     return { isError: true, data: 'Session expired. Please login again.' };
                 }
             } else {
                 Cookies.remove('crmaccess');
                 Cookies.remove('crmrefresh');
-                window.location.href = `/${subdomain}/login`;
+                // window.location.href = `/${subdomain}/login`;
                 return { isError: true, data: 'Session expired. Please login again.' };
             }
         }
