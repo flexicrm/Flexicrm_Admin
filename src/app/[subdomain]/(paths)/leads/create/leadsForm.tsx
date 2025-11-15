@@ -2,29 +2,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import {
-    Box,
-    Button,
-    Grid,
-    TextField,
-    MenuItem,
-    Typography,
-    Paper,
-    FormControl,
-    InputLabel,
-    Select,
-    FormHelperText,
-    IconButton,
-    Tooltip,
-    ButtonGroup,
-    InputAdornment,
-    Divider,
-    RadioGroup,
-    FormControlLabel,
-    Radio,
-    Snackbar,
-    Alert
-} from '@mui/material';
+import { Box, Button, Grid, TextField, MenuItem, Typography, InputAdornment, Divider, Chip, SelectProps } from '@mui/material';
 import {
     Email as EmailIcon,
     Phone as PhoneIcon,
@@ -38,7 +16,6 @@ import {
     Business as OfficeIcon,
     ArrowBackIos as ArrowBackIosIcon
 } from '@mui/icons-material';
-import WifiOffIcon from '@mui/icons-material/WifiOff';
 import LeadStatus from '../leadstatus';
 import LeadSource from '../leadsource';
 import Cookies from 'js-cookie';
@@ -46,36 +23,21 @@ import userContext from '../../../../UseContext/UseContext';
 import { MyButton } from '../../../../ui-components/Buttons/Buttons';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import { LeadPost, UpdateLeadsByID } from '../../../../../../api/Leads';
 import { MySnackbar } from '../../../../ui-components/Snackbar/Snackbar';
 import { useRouter } from 'next/navigation';
 import Notepad from '../../../../ui-components/Notepad/Notepad';
 
-// Country-based potential values (example values)
 const COUNTRY_POTENTIAL_VALUES: Record<string, number> = {
-    us: 10000, // United States
-    ca: 8000, // Canada
-    gb: 9000, // United Kingdom
-    au: 8500, // Australia
-    in: 0, // India
-    // Add more countries as needed
-    default: 0 // Default value
+    us: 10000,
+    ca: 8000,
+    gb: 9000,
+    au: 8500,
+    in: 0,
+    default: 0
 };
+
 type Severity = 'error' | 'warning' | 'info' | 'success';
-
-// const INTEGRATION_TYPES = [
-//     { value: 'email', label: 'Email', icon: <EmailIcon /> },
-//     { value: 'phone', label: 'Phone Call', icon: <PhoneIcon /> },
-//     { value: 'meeting', label: 'Meeting', icon: <MeetingIcon /> },
-//     { value: 'other', label: 'Other', icon: <MoreHorizOutlinedIcon /> }
-// ];
-
-// const MEETING_TYPES = [
-//     { value: 'offline', label: 'Offline', icon: <WifiOffIcon /> },
-//     { value: 'online', label: 'Online', icon: <OnlineIcon /> }
-//     // { value: 'other', label: 'Other', icon: <MeetingIcon /> }
-// ];
 
 const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) => {
     const [leadStatus, setLeadStatus] = useState(lead?.leadstatus || '');
@@ -91,7 +53,6 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const { valuesdataleads } = useContext(userContext);
     const subdomain = Cookies.get('subdomain');
-    console.log(lead, 'lead');
     const router = useRouter();
 
     useEffect(() => {
@@ -101,6 +62,7 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
             setIntegrationType(lead?.interactionType?.type || '');
             setPhoneNumber(lead.manualData?.mobileNo || '');
             setMeetingType(lead.integrationDetails?.meetingType || 'office');
+
             const valuesInInteractionType =
                 lead?.interactionType?.type === 'email'
                     ? { subject: lead?.interactionType?.subject, priority: lead?.interactionType?.priority }
@@ -112,6 +74,8 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                     ? { details: lead?.interactionType?.details }
                     : {};
 
+            const assignToArray = lead.assignTo ? (Array.isArray(lead.assignTo) ? lead.assignTo.map((u: any) => u._id) : [lead.assignTo._id]) : [];
+
             formik.setValues({
                 manualData: {
                     name: lead.formData ? lead?.formData?.name : lead?.manualData?.name || '',
@@ -122,7 +86,7 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                     website: lead?.manualData?.website || ''
                 },
                 description: lead?.note?.slice(-1)[0] || '',
-                assignTo: lead.assignTo?._id || '',
+                assignTo: assignToArray, // <-- array
                 integrationType: lead.integrationType || '',
                 integrationDetails: valuesInInteractionType || {},
                 potentialValue: lead?.potentialValue || COUNTRY_POTENTIAL_VALUES[countryCode] || COUNTRY_POTENTIAL_VALUES.default
@@ -141,15 +105,7 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
         formik.setFieldValue('potentialValue', newPotentialValue);
     };
 
-    // const handleMeetingTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     const value = event.target.value;
-    //     setMeetingType(value);
-    //     formik.setFieldValue('integrationDetails.meetingType', value);
-    // };
-
-    const handleSnackbarClose = () => {
-        setSnackbarOpen(false);
-    };
+    const handleSnackbarClose = () => setSnackbarOpen(false);
 
     const formik = useFormik({
         initialValues: {
@@ -162,7 +118,7 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                 website: lead?.manualData?.website || ''
             },
             description: lead?.note || '',
-            assignTo: lead?.assignTo?._id || '',
+            assignTo: lead?.assignTo ? (Array.isArray(lead.assignTo) ? lead.assignTo.map((u: any) => u._id) : [lead.assignTo._id]) : [], // <-- empty array for create mode
             integrationType: lead?.integrationType || '',
             integrationDetails: lead?.integrationType || {
                 meetingType: 'offline',
@@ -173,9 +129,9 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
         validationSchema: Yup.object({
             manualData: Yup.object().shape({
                 name: Yup.string().required('Full name is required'),
-                // email: Yup.string().email('Invalid email').required('Email is required'),
                 mobileNo: Yup.string().required('Phone number is required')
-            })
+            }),
+            assignTo: Yup.array().of(Yup.string()).min(1, 'Select at least one assignee')
         }),
         onSubmit: async (values) => {
             setIsSubmitting(true);
@@ -213,7 +169,7 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                         ? { manualData: { mobileNo: phoneNumber } }
                         : {}),
 
-                    ...(values.assignTo && { assignTo: values.assignTo }),
+                    ...(values.assignTo.length > 0 && { assignTo: values.assignTo }),
                     ...(valuesdataleads &&
                         Object.keys(valuesdataleads).length > 0 && {
                             customFields: valuesdataleads
@@ -223,32 +179,22 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                     ...(values.potentialValue && { potentialValue: values.potentialValue })
                 };
 
+                let response;
                 if (!lead) {
-                    const response = await LeadPost(subdomain, formData);
-                    if (response.success) {
-                        setSnackbarMessage(response.data.message);
-                        setSnackbarOpen(true);
-                        setSnackbarSeverity('success');
-                        router.push(`/${subdomain}/leads`);
-                        // window.location.href = `/${subdomain}/leads`;
-                    } else {
-                        setSnackbarMessage(response.data.errors);
-                        setSnackbarOpen(true);
-                        setSnackbarSeverity('error');
-                    }
+                    response = await LeadPost(subdomain, formData);
                 } else {
-                    const response = await UpdateLeadsByID(subdomain, lead.LeadId, formData);
-                    if (response.success) {
-                        setSnackbarMessage(response.data.message);
-                        setSnackbarOpen(true);
-                        setSnackbarSeverity('success');
-                        // window.location.href = `/${subdomain}/leads`;
-                        router.push(`/${subdomain}/leads`);
-                    } else {
-                        setSnackbarMessage(response.data.errors);
-                        setSnackbarOpen(true);
-                        setSnackbarSeverity('error');
-                    }
+                    response = await UpdateLeadsByID(subdomain, lead.LeadId, formData);
+                }
+
+                if (response.success) {
+                    setSnackbarMessage(response.data.message);
+                    setSnackbarSeverity('success');
+                    setSnackbarOpen(true);
+                    router.push(`/${subdomain}/leads`);
+                } else {
+                    setSnackbarMessage(response.data.errors);
+                    setSnackbarSeverity('error');
+                    setSnackbarOpen(true);
                 }
             } catch (error) {
                 console.error('Submission error:', error);
@@ -259,105 +205,14 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
         }
     });
 
-    // const renderIntegrationFields = () => {
-    //     switch (integrationType) {
-    //         case 'email':
-    //             return (
-    //                 <Grid container spacing={2}>
-    //                     <Grid size={{ xs: 12, sm: 6 }}>
-    //                         <TextField fullWidth size="small" label="Email Subject" name="integrationDetails.subject" value={formik.values.integrationDetails?.subject || ''} onChange={formik.handleChange} onBlur={formik.handleBlur} />
-    //                     </Grid>
-    //                     <Grid size={{ xs: 12, sm: 6 }}>
-    //                         <TextField fullWidth size="small" label="Priority" name="integrationDetails.priority" value={formik.values.integrationDetails?.priority || ''} onChange={formik.handleChange} select>
-    //                             <MenuItem value="low">Low</MenuItem>
-    //                             <MenuItem value="medium">Medium</MenuItem>
-    //                             <MenuItem value="high">High</MenuItem>
-    //                         </TextField>
-    //                     </Grid>
-    //                 </Grid>
-    //             );
-    //         case 'phone':
-    //             return (
-    //                 <Grid container spacing={2}>
-    //                     <Grid size={{ xs: 12, sm: 6 }}>
-    //                         <TextField fullWidth size="small" multiline rows={3} label="Call Notes" name="integrationDetails.notes" value={formik.values.integrationDetails?.notes || ''} onChange={formik.handleChange} onBlur={formik.handleBlur} />
-    //                     </Grid>
-    //                 </Grid>
-    //             );
-    //         case 'meeting':
-    //             return (
-    //                 <Grid container spacing={2}>
-    //                     <Grid size={{ xs: 12, sm: 8 }}>
-    //                         <TextField
-    //                             fullWidth
-    //                             size="small"
-    //                             label="Meeting Date "
-    //                             type="datetime-local"
-    //                             name="integrationDetails.date"
-    //                             value={formik.values.integrationDetails?.date || ''}
-    //                             onChange={formik.handleChange}
-    //                             onBlur={formik.handleBlur}
-    //                             InputLabelProps={{ shrink: true }}
-    //                         />
-    //                     </Grid>
-    //                     <Grid size={{ xs: 12, sm: 4 }}>
-    //                         <FormControl component="fieldset" sx={{ mt: 1 }}>
-    //                             <Typography variant="subtitle2" sx={{ mb: 1 }}>
-    //                                 Meeting Type
-    //                             </Typography>
-    //                             <RadioGroup row name="integrationDetails.meetingType" value={meetingType} onChange={handleMeetingTypeChange}>
-    //                                 {MEETING_TYPES.map((type) => (
-    //                                     <FormControlLabel
-    //                                         key={type.value}
-    //                                         value={type.value}
-    //                                         control={<Radio />}
-    //                                         label={
-    //                                             <Box display="flex" alignItems="center">
-    //                                                 {type.icon}
-    //                                                 <Box ml={1}>{type.label}</Box>
-    //                                             </Box>
-    //                                         }
-    //                                     />
-    //                                 ))}
-    //                             </RadioGroup>
-    //                         </FormControl>
-    //                     </Grid>
-    //                     {(meetingType === 'office' || meetingType === 'other') && (
-    //                         <Grid size={{ xs: 12, sm: 12 }}>
-    //                             <TextField
-    //                                 fullWidth
-    //                                 size="small"
-    //                                 label={meetingType === 'office' ? 'Office Location ' : 'Location Details '}
-    //                                 name="integrationDetails.location"
-    //                                 value={formik.values.integrationDetails?.location || ''}
-    //                                 onChange={formik.handleChange}
-    //                                 onBlur={formik.handleBlur}
-    //                             />
-    //                         </Grid>
-    //                     )}
-    //                 </Grid>
-    //             );
-    //         case 'other':
-    //             return (
-    //                 <Grid container spacing={2}>
-    //                     <Grid size={{ xs: 12, sm: 12 }}>
-    //                         <TextField fullWidth size="small" multiline rows={3} label="Details " name="integrationDetails.details" value={formik.values.integrationDetails?.details || ''} onChange={formik.handleChange} onBlur={formik.handleBlur} />
-    //                     </Grid>
-    //                 </Grid>
-    //             );
-    //         default:
-    //             return null;
-    //     }
-    // };
-
     return (
         <Box>
             <MyButton variant="text" startIcon={<ArrowBackIosIcon />} onClick={() => history.back()}>
                 Back to Leads
             </MyButton>
+
             <form onSubmit={formik.handleSubmit}>
                 <Grid container spacing={3}>
-                    {/* Left Column - Contact Information */}
                     <Grid size={{ xs: 12, sm: 6 }}>
                         <Typography variant="h6" gutterBottom sx={{ fontWeight: '400', display: 'flex', alignItems: 'center', gap: 1 }}>
                             <PersonIcon /> Contact Information
@@ -384,7 +239,6 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                                     }}
                                 />
                             </Grid>
-
                             <Grid size={{ xs: 12, sm: 6 }}>
                                 <TextField
                                     fullWidth
@@ -464,12 +318,11 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                                     }}
                                 />
                             </Grid>
-
                             <Grid size={{ xs: 12, sm: 6 }}>
                                 <TextField
                                     fullWidth
                                     size="small"
-                                    label="Company Name "
+                                    label="Company Name"
                                     name="manualData.company"
                                     value={formik.values.manualData.company}
                                     onChange={formik.handleChange}
@@ -489,8 +342,6 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
 
                         <Divider sx={{ my: 1 }} />
                     </Grid>
-
-                    {/* Right Column - Interaction & Assignment */}
                     <Grid size={{ xs: 12, sm: 6 }}>
                         <Typography variant="h6" gutterBottom sx={{ fontWeight: '400' }}>
                             Lead Details
@@ -500,11 +351,9 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                             <Grid size={{ xs: 12, sm: 6 }}>
                                 <LeadStatus leadStatus={leadStatus} onSelect={setLeadStatus} />
                             </Grid>
-
                             <Grid size={{ xs: 12, sm: 6 }}>
                                 <LeadSource onSelect={setLeadSource} leadSource={leadSource} />
                             </Grid>
-
                             <Grid size={{ xs: 12, sm: 6 }}>
                                 <TextField
                                     fullWidth
@@ -533,12 +382,25 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                                     select
                                     fullWidth
                                     size="small"
-                                    label="Assign To "
+                                    label="Assign To"
                                     name="assignTo"
                                     value={formik.values.assignTo}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     error={!!(formik.touched.assignTo && formik.errors.assignTo)}
+                                    SelectProps={
+                                        {
+                                            multiple: true,
+                                            renderValue: (selected) => (
+                                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                                    {(selected as string[]).map((id) => {
+                                                        const option = UsersOptions.find((o) => (o.value || o.id) === id);
+                                                        return <Chip key={id} label={option?.label || option?.name || id} size="small" color="primary" variant="outlined" />;
+                                                    })}
+                                                </Box>
+                                            )
+                                        } as SelectProps
+                                    }
                                 >
                                     {UsersOptions?.map((option) => (
                                         <MenuItem key={option.value || option.id} value={option.value || option.id}>
@@ -547,15 +409,11 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                                     ))}
                                 </TextField>
                             </Grid>
-
                             <Grid size={{ xs: 12, sm: 12 }}>
-                                {/* <TextField fullWidth size="small" multiline rows={3} label="Notes" name="description" value={formik.values.description} onChange={formik.handleChange} /> */}
-
                                 <Notepad
                                     formData={formik.values.description}
                                     name="description"
                                     handleInputChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                        console.log(e, 'csss');
                                         const { name, value } = e.target;
                                         formik.setFieldValue(name, value);
                                     }}
@@ -563,60 +421,6 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                                 />
                             </Grid>
                         </Grid>
-                        {/* <Typography variant="h6" gutterBottom sx={{ fontWeight: '400', display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <MeetingIcon /> Interaction Details
-                        </Typography> */}
-
-                        {/* <Grid container spacing={2}>
-                            <Grid size={{ xs: 12, sm: 12 }}>
-                                <Typography variant="subtitle2" sx={{ mb: 1 }}>
-                                    Interaction Type
-                                </Typography>
-                            </Grid>
-                            <Grid size={{ xs: 12, sm: 12 }}>
-                                <ButtonGroup>
-                                    {INTEGRATION_TYPES.map((type) => (
-                                        <Tooltip key={type.value} title={type.label}>
-                                            <Button
-                                                size="small"
-                                                variant={integrationType === type.value ? 'contained' : 'outlined'}
-                                                startIcon={type.icon}
-                                                onClick={() => {
-                                                    setIntegrationType(type.value);
-                                                    formik.setFieldValue('integrationType', type.value);
-                                                }}
-                                                sx={{ p: 1, textAlign: 'center', pl: 2 }}
-                                            />
-                                            {type?.label || integrationType}
-                                            </Button>
-                                        </Tooltip>
-                                    ))}
-                                </ButtonGroup>
-                                {formik.touched.integrationType && formik.errors.integrationType && <Typography variant="caption" color="error" sx={{ mt: 0.5, display: 'block' }}></Typography>}
-                            </Grid>
-
-                            {integrationType && <Grid size={{ xs: 12, sm: 6 }}>{renderIntegrationFields()}</Grid>}
-
-                            <Grid size={{ xs: 12, sm: 12 }}>
-                                <TextField
-                                    select
-                                    fullWidth
-                                    size="small"
-                                    label="Assign To "
-                                    name="assignTo"
-                                    value={formik.values.assignTo}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    error={!!(formik.touched.assignTo && formik.errors.assignTo)}
-                                >
-                                    {UsersOptions?.map((option) => (
-                                        <MenuItem key={option.value || option.id} value={option.value || option.id}>
-                                            {option.label || option.name}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
-                            </Grid>
-                        </Grid> */}
 
                         {submitError && (
                             <Typography color="error" sx={{ mt: 2 }}>
@@ -630,56 +434,9 @@ const LeadForm = ({ UsersOptions, lead }: { UsersOptions: any[]; lead: any }) =>
                             </MyButton>
                         </Box>
                     </Grid>
-                    {/* <Grid size={{ xs: 12, sm: 6 }}>
-                        <Typography variant="h6" gutterBottom sx={{ fontWeight: '400' }}>
-                            Lead Details
-                        </Typography>
-
-                        <Grid container spacing={2}>
-                            <Grid size={{ xs: 12, sm: 6 }}>
-                                <LeadStatus leadStatus={leadStatus} onSelect={setLeadStatus} />
-                            </Grid>
-
-                            <Grid size={{ xs: 12, sm: 6 }}>
-                                <LeadSource onSelect={setLeadSource} leadSource={leadSource} />
-                            </Grid>
-
-                            <Grid size={{ xs: 12, sm: 12 }}>
-                                <TextField
-                                    fullWidth
-                                    size="small"
-                                    label={`Potential Value ${countryCode.toUpperCase()}`}
-                                    name="potentialValue"
-                                    type="number"
-                                    value={formik.values.potentialValue}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    error={!!(formik.touched.potentialValue && formik.errors.potentialValue)}
-                                    InputProps={{
-                                        startAdornment: <InputAdornment position="start">{countryCode.toUpperCase()}</InputAdornment>,
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <Typography variant="caption" color="textSecondary">
-                                                    {countryCode.toUpperCase()}
-                                                </Typography>
-                                            </InputAdornment>
-                                        )
-                                    }}
-                                />
-                            </Grid>
-
-                            <Grid size={{ xs: 12, sm: 12 }}>
-                                <TextField fullWidth size="small" multiline rows={3} label="Notes" name="description" value={formik.values.description} onChange={formik.handleChange} />
-                            </Grid>
-                        </Grid>
-                    </Grid> */}
                 </Grid>
             </form>
-            {/* <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose}>
-                <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
-                    {snackbarMessage}
-                </Alert>
-            </Snackbar> */}
+
             <MySnackbar open={snackbarOpen} message={snackbarMessage} severity={snackbarSeverity} position={{ vertical: 'top', horizontal: 'right' }} onClose={handleSnackbarClose} />
         </Box>
     );

@@ -11,7 +11,6 @@ interface ConvertCustomerProps {
     setConvertFormVisible: (visible: boolean) => void;
     convertid: string;
     leadStatus: any;
-    // fetchDatas: () => void;
 }
 
 const ConvertCustomer: React.FC<ConvertCustomerProps> = ({ currentLead, setConvertFormVisible, convertid, leadStatus }) => {
@@ -22,7 +21,6 @@ const ConvertCustomer: React.FC<ConvertCustomerProps> = ({ currentLead, setConve
     const accessToken = Cookies.get('crmaccess');
     const subdomain = Cookies.get('subdomain');
 
-    // Snackbar state
     const [snackbar, setSnackbar] = useState<{
         open: boolean;
         message: string;
@@ -52,16 +50,13 @@ const ConvertCustomer: React.FC<ConvertCustomerProps> = ({ currentLead, setConve
                 severity: 'success'
             });
             await Convertedfetch();
-            // setConvertFormVisible(false);
             setConvertFormVisible(false);
-            // fetchDatas();
         } catch (error) {
             setSnackbar({
                 open: true,
                 message: 'There was an error submitting your data.',
                 severity: 'error'
             });
-            // eslint-disable-next-line no-console
             console.error('Error submitting form:', error);
         }
     };
@@ -76,10 +71,7 @@ const ConvertCustomer: React.FC<ConvertCustomerProps> = ({ currentLead, setConve
                 message: data,
                 severity: 'success'
             });
-            // fetchDatas();
-        } catch (error) {
-            // Optionally handle error
-        }
+        } catch (error) {}
     };
 
     return (

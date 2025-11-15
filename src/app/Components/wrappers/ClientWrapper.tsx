@@ -16,11 +16,6 @@ export const useSubdomainCheck = () => {
     useEffect(() => {
         const pathSegments = pathname?.split('/').filter(Boolean);
         const location1 = pathSegments?.[0];
-        console.log(location1, 'location1');
-        // if (location1 == undefined) {
-        //     throw new Error('Resource not found');
-        //     //    isError: true, data: 'Resource not found' };
-        // }
         if (!location1 || crmaccess) return;
         setLocationvalue(location1);
         const fetchData = async () => {

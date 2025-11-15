@@ -33,7 +33,6 @@ const LeadSource: React.FC<LeadSourceProps> = ({ onSelect, leadSource }) => {
         } catch (error) {
             setLeadSources([]);
             setError('Error fetching lead sources.');
-            // eslint-disable-next-line no-console
             console.error('Error fetching lead sources:', error);
         } finally {
             setLoading(false);
@@ -44,7 +43,6 @@ const LeadSource: React.FC<LeadSourceProps> = ({ onSelect, leadSource }) => {
         if (subdomain && accessToken) {
             fetchLeadSources();
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [subdomain, accessToken]);
 
     const handleAddSource = async () => {
@@ -59,7 +57,6 @@ const LeadSource: React.FC<LeadSourceProps> = ({ onSelect, leadSource }) => {
             fetchLeadSources();
         } catch (error) {
             setError('Error adding new lead source. Please try again.');
-            // eslint-disable-next-line no-console
             console.error('Error adding new lead source:', error);
         } finally {
             setLoading(false);
@@ -96,9 +93,6 @@ const LeadSource: React.FC<LeadSourceProps> = ({ onSelect, leadSource }) => {
                                 <AddIcon fontSize="small" sx={{ mr: 1 }} /> New Source
                             </MenuItem>
                         </TextField>
-                        {/* <Button variant="contained" color="primary" onClick={() => setIsAddingNewSource(true)} sx={{ minWidth: 40, ml: 1 }}>
-                            +
-                        </Button> */}
                     </>
                 )}
                 {isAddingNewSource && (
@@ -107,16 +101,9 @@ const LeadSource: React.FC<LeadSourceProps> = ({ onSelect, leadSource }) => {
                         <IconButton color="primary" onClick={handleAddSource} disabled={loading} sx={{ ml: 1 }}>
                             <CheckIcon />
                         </IconButton>
-
-                        {/* <Button variant="contained" color="success" onClick={handleAddSource} disabled={loading}>
-                            ✓
-                        </Button> */}
                         <IconButton color="error" onClick={() => setIsAddingNewSource(false)} disabled={loading}>
                             <CloseIcon />
                         </IconButton>
-                        {/* <Button variant="outlined" color="error" onClick={() => setIsAddingNewSource(false)} disabled={loading}>
-                            X
-                        </Button> */}
                     </Box>
                 )}
             </Box>

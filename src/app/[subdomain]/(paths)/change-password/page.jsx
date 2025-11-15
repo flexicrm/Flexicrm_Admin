@@ -1,79 +1,3 @@
-// "use client";
-// import React, { useState } from "react";
-// import { Button, Col, Row } from "react-bootstrap";
-// import { Password } from "primereact/password";
-// import Cookies from "js-cookie";
-// // import { API_BASE_URL } from "@/app/utils";
-// import axios from "axios";
-// import Swal from "sweetalert2";
-// import { useRouter } from "next/navigation";
-// import { API_BASE_URL } from "../../../utils";
-// export default function ChangePassword() {
-//   const subdomain = Cookies.get("subdomain");
-//   const accessToken = Cookies.get("accessToken");
-//   // console.log(subdomain, "sssss");
-//   const router = useRouter();
-//   const [newPassword, setNewPassword] = useState("");
-//   const [oldPassword, setOldPassword] = useState("");
-
-//   const handleUpdatePassword = () => {
-//     try {
-//       axios.patch(
-//         `${API_BASE_URL}/user/${subdomain}/change-password`,
-//         { oldPassword, newPassword },
-//         {
-//           headers: { Authorization: `Bearer ${accessToken}` },
-//         }
-//       );
-
-//       Swal.fire({
-//         icon: "success",
-//         title: "Password Updated",
-//         text: "Your password has been updated successfully.",
-//       });
-//       router.push(`dashboard`);
-//       setNewPassword("");
-//     } catch (error) {
-//       console.error("Error updating password:", error);
-//       Swal.fire({
-//         icon: "error",
-//         title: "Update Failed",
-//         text: error.response?.data?.message || "Please try again.",
-//       });
-//     }
-//   };
-//   return (
-//     <div className="  ">
-//       <div className="">
-//         <div>
-//           <h4 className="text-white text-center">Update Password</h4>
-//         </div>
-//         <Row className="justify-content-center">
-//           <Col md={4}>
-//             <Password
-//               placeholder="Old password"
-//               value={oldPassword}
-//               onChange={(e) => setOldPassword(e.target.value)}
-//               type="password"
-//               toggleMask
-//             />
-//             <Password
-//               className="mt-2"
-//               placeholder="New Password"
-//               value={newPassword}
-//               onChange={(e) => setNewPassword(e.target.value)}
-//               type="password"
-//               toggleMask
-//             />
-//             <Button onClick={handleUpdatePassword} className="mt-2 ">
-//               Update Password
-//             </Button>
-//           </Col>
-//         </Row>
-//       </div>
-//     </div>
-//   );
-// }
 'use client';
 import React, { useState } from 'react';
 import { Button, Container, Grid, Typography, Box } from '@mui/material';
@@ -121,7 +45,6 @@ export default function ChangePassword() {
             [name]: value
         });
 
-        // Validate passwords match when either field changes
         if (name === 'newPassword' || name === 'confirmPassword') {
             if (name === 'newPassword' && formData.confirmPassword && value !== formData.confirmPassword) {
                 setErrors({

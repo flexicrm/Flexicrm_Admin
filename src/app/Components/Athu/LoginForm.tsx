@@ -43,7 +43,7 @@ export default function LoginForm() {
                 const data = response.data || null;
                 const { accessToken, refreshToken, isFirstlogin } = data;
                 setIsFirstLogin(isFirstlogin);
-                if (!isFirstlogin) {
+                if (accessToken) {
                     Cookies.set('crmaccess', accessToken);
                     Cookies.set('crmrefresh', refreshToken);
                 }
@@ -51,8 +51,6 @@ export default function LoginForm() {
                     localStorage.setItem('rememberedEmail', values.email);
                     localStorage.setItem('rememberedPassword', values.password);
                 }
-                // loginSuccess(response.data);
-                // Cookies.set('', response.data.token);
                 router.push(isFirstlogin ? `/${subdomain}/reset-password` : `/${subdomain}/dashboard`);
             }
         }
@@ -62,7 +60,6 @@ export default function LoginForm() {
         const rememberedEmail = localStorage.getItem('rememberedEmail');
         const rememberedPassword = localStorage.getItem('rememberedPassword');
         if (rememberedEmail && rememberedPassword) {
-            // Use timeout to defer setFieldValue to avoid sync updates inside mount
             setTimeout(() => {
                 formik.setFieldValue('email', rememberedEmail);
                 formik.setFieldValue('password', rememberedPassword);

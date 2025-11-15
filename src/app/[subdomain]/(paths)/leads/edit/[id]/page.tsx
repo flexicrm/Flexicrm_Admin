@@ -110,7 +110,6 @@ export default function LeadsCreate() {
 
     const fetchCustomers = useCallback(async () => {
         const response = await getLeadsByID(subdomain, id);
-        console.log(response, 'response');
         setLeads(response.data.lead || []);
     }, [subdomain, id]); // Added id to dependencies
 

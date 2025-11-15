@@ -1,0 +1,267 @@
+.user-export {
+    height: 41px;
+
+    gap: 0px;
+    border-radius: 12px;
+    opacity: 0px;
+    justify-content: space-evenly;
+    box-shadow: 1px 1px 20px 0px #0000001a;
+    border: 1px solid #aeaeae;
+    background: #ffffff;
+    color: #000000;
+}
+.user-export span {
+    font-weight: 700;
+}
+.user-users {
+    width: 139px;
+    height: 41px;
+    color: white;
+    gap: 0px;
+    border-radius: 12px;
+    opacity: 0px;
+    justify-content: space-evenly;
+    box-shadow: 1px 1px 20px 0px #0000001a;
+    border: 1px solid #aeaeae;
+    background: #133460;
+
+    color: #000000;
+    margin: 12px 12px;
+    .p-button-icon {
+        font-weight: 400;
+        font-size: 18px;
+        color: white;
+    }
+    span {
+        font-size: 14px;
+        color: white;
+    }
+}
+.permisson-user {
+    width: 182px;
+    height: 41px;
+    // top: 155px;
+    // left: 1046px;
+    color: #000000;
+    margin: 12px;
+    border-radius: 12px;
+    opacity: 0px;
+    gap: 0px;
+    box-shadow: 1px 1px 20px 0px #0000001a;
+    border: 1px solid #aeaeae;
+    background: #ffffff;
+    // opacity: 0px;
+    .p-button-icon {
+        font-weight: 400;
+        font-size: 18px;
+    }
+    span {
+        font-size: 14px;
+    }
+}
+.user-export .iconssss {
+    // font-weight: 700;
+
+    color: #000000;
+}
+
+.view-buttons {
+    .dropdown-container {
+        position: relative;
+    }
+
+    .dropdown-btn {
+        display: inline-flex;
+        align-items: center;
+        color: #000000;
+        border-radius: 10px;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+            background-color: rgba(10, 45, 90, 1);
+            color: white;
+        }
+
+        .icon {
+            margin-left: 0.5rem;
+            transition: transform 0.3s;
+        }
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: white;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+        display: none;
+        flex-direction: column;
+        margin-top: 2px;
+
+        span {
+            font-family: 'Titillium Web', sans-serif;
+            font-weight: 100;
+            font-style: normal;
+            font-size: 12px;
+        }
+
+        &.show {
+            display: flex;
+        }
+
+        .export-button {
+            border: 1px solid white;
+            background-color: white;
+            color: black;
+            padding: 1rem;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            &:hover {
+                background-color: rgba(10, 45, 90, 0.1);
+            }
+        }
+    }
+}
+
+.grid-item {
+    // Your grid-item styles
+    .hovertable {
+        display: none;
+    }
+
+    &:hover {
+        .hovertable {
+            display: block;
+        }
+    }
+}
+.view-button {
+    width: 50px;
+    height: 41px;
+    background-color: white; /* Default inactive color */
+    border: none;
+    color: #000000;
+    gap: 0px;
+    border-radius: 10px;
+    opacity: 1; /* Changed from 0px to 1 for visibility */
+    margin-top: 12px;
+    box-shadow: 1px 1px 20px 0px #0000001a;
+}
+
+.view-button.active {
+    background-color: rgba(10, 45, 90, 0.965); /* Active color */
+}
+
+.view-button.active .p-button-icon {
+    color: #f8f8f8; /* Icon color for active button */
+}
+
+.view-button:not(.active) .p-button-icon {
+    color: #050505; /* Icon color for inactive button */
+}
+
+.userss-filters {
+    width: 137px;
+    height: 40px;
+    // top: -31px;
+    // left: 14446px;
+    gap: 0px;
+    border-radius: 10px;
+    opacity: 0px;
+    .text-black-users {
+        border: 0px;
+    }
+}
+.grid-viewsssss {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.p-dropdown-items {
+    padding: 0px;
+}
+
+.user-tabl {
+    width: 80%;
+    position: absolute !important;
+    z-index: 999;
+    height: 65vh !important;
+    overflow: auto;
+    margin-left: 40px;
+}
+.user-editpop {
+    input {
+        width: 49% !important;
+        margin-left: 3px;
+    }
+}
+.permision-slider {
+    .p-field-checkbox {
+        column-gap: 3px;
+    }
+}
+.permision-slider .p-checkbox.p-highlight .p-checkbox-box {
+    border-color: #133460;
+    background: #133460;
+}
+
+.user-action-button {
+    display: flex;
+    justify-content: space-between;
+}
+.color {
+    color: #133460;
+}
+.profile-card {
+    border: 1px solid #e3e3e3;
+    border-radius: 8px;
+    padding: 15px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.profile-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.profile-img img {
+    border-radius: 50%;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.profile-info .fw-bold {
+    font-size: 1.1rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.action-buttons .p-button {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-role {
+    font-size: 0.9rem;
+    color: #333;
+    margin-top: 5px;
+}

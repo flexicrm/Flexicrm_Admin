@@ -37,22 +37,18 @@ const Dashboard: React.FC = () => {
     const [timeframe, setTimeframe] = useState('');
     const [draggedItemId, setDraggedItemId] = useState<string | null>(null);
     const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
-    console.log(data?.isDashboardTourCompleted, 'data>>>>>');
     const subdomain = Cookies.get('subdomain');
     const [sections, setSections] = useState<any>(sectionsetups);
     const { startTour, setSteps, tourvalues } = useTour();
     const tour = data?.isDashboardTourCompleted;
-    console.log(data, 'prevdaata??');
+ 
 
     useEffect(() => {
         if (!tour) {
-            console.log('checkint the dashboard tour untill the tour was ture conditoions------> inner function', tour);
-            // Delay to ensure DOM is ready before starting the tour
             setTimeout(() => {
                 startTour();
             }, 300);
         }
-        console.log('checkint the dashboard tour untill the tour was ture conditoions------> outer function', tour);
     }, [!tour, data]);
 
     const updateTourStatus = async (status: { isDashboardTourCompleted?: boolean; isLeadTourCompleted?: boolean }) => {
@@ -60,13 +56,10 @@ const Dashboard: React.FC = () => {
 
         try {
             const response = await TOURFinsher(subdomain, payload);
-            // console.log(response.data.user, 'prevdaata?');
             if (response) {
-                // setData((prev) => console.log(prev == response?.data?.user ? data : response.data.user, 'prevdaata'));
                 setData((prev) => (prev == response?.data?.user ? response.data.user : data));
             }
         } catch (error) {
-            // Handle error if needed
             console.error('Failed to update tour status', error);
         }
     };
@@ -76,13 +69,10 @@ const Dashboard: React.FC = () => {
             updateTourStatus(tourvalues);
         }
     }, [tourvalues]);
+
     useEffect(() => {
         if (tour === false || tour === undefined) {
             setSteps([
-                // {
-                //     element: '#dashboard-title',
-                //     intro: 'Welcome to your dashboard overview.'
-                // },
                 {
                     element: '#tour-summary',
                     intro: 'This section gives a quick summary of your performance.'
@@ -97,10 +87,10 @@ const Dashboard: React.FC = () => {
                 }
             ]);
         } else {
-            // alert('demo');
             setSteps([]);
         }
     }, [setSteps, tour]);
+
     useEffect(() => {
         setSections(sectionsetups);
     }, [sectionsetups]);

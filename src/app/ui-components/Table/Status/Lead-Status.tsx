@@ -2,11 +2,9 @@ import { Box, Typography } from '@mui/material';
 import React from 'react';
 
 export default function LeadStatus(row) {
-    console.log(row,"row>>>>>>")
     const rows = row?.row || row
     return (
         <>
-            {/* {rows?.leadstatus?.statusName && ( */}
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                         <Box
@@ -37,7 +35,6 @@ export default function LeadStatus(row) {
                         Lead Status
                     </label>
                 </Box>
-            {/* )} */}
         </>
     );
 }

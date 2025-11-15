@@ -140,7 +140,6 @@ const FollowUpForm = ({ open, onOpenChange, leadId, followUp, UsersOptions, setL
 
             if (!followUp) {
                 const response = await createFollowupdata(subdomain, leadId, followUpData);
-                console.log(response, 'response');
                 if (response.success) {
                     setSnackbarOpen(true);
 
@@ -184,7 +183,6 @@ const FollowUpForm = ({ open, onOpenChange, leadId, followUp, UsersOptions, setL
                 const response = await UpdateFollowupdata(subdomain, leadId, followUpData, followUp._id);
                 if (response.success) {
                     setSnackbarOpen(true);
-                    console.log(response, 'response');
 
                     setSnackbarSeverity('success');
                     setSnackbarMessage(response?.data?.message);

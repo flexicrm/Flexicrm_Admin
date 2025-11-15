@@ -1,8 +1,4 @@
-// src/api/dashboardApi.ts
-import axios from 'axios';
 import fetchHandler from './Handler';
-
-const API_BASE_URL = 'http://localhost:8081/api/v1';
 
 export interface DashboardData {
     data: {
@@ -43,7 +39,6 @@ export interface DashboardData {
 
 export const GETactivity = async (slugname: any): Promise<DashboardData> => {
     try {
-        // /lead/ajin-company/OFFLINE8400/followups
         const response = await fetchHandler({
             method: 'GET',
             endpoint: `/dashboard/${slugname}`,
@@ -56,7 +51,6 @@ export const GETactivity = async (slugname: any): Promise<DashboardData> => {
 };
 export const fetchAllSections = async (slugname: any): Promise<DashboardData> => {
     try {
-        // /lead/ajin-company/OFFLINE8400/followups
         const response = await fetchHandler({
             method: 'GET',
             endpoint: `/dashboard/${slugname}`,
@@ -67,90 +61,7 @@ export const fetchAllSections = async (slugname: any): Promise<DashboardData> =>
         console.error('Unexpected error:', error);
     }
 };
-// export const FetchSections1 = async (slugname: any): Promise<DashboardData> => {
-//     try {
-//         // /lead/ajin-company/OFFLINE8400/followups
-//         const response = await fetchHandler({
-//             method: 'GET',
-//             endpoint: `/dashboard/${slugname}/section1
-// `,
-//             data: undefined
-//         });
-//         return response;
-//     } catch (error) {
-//         console.error('Unexpected error:', error);
-//     }
-// };
-// export const FetchSections2 = async (slugname: any): Promise<DashboardData> => {
-//     try {
-//         // /lead/ajin-company/OFFLINE8400/followups
-//         const response = await fetchHandler({
-//             method: 'GET',
-//             endpoint: `/dashboard/${slugname}/section2
-// `,
-//             data: undefined
-//         });
-//         return response;
-//     } catch (error) {
-//         console.error('Unexpected error:', error);
-//     }
-// };
-// export const FetchSections3 = async (slugname: any): Promise<DashboardData> => {
-//     try {
-//         // /lead/ajin-company/OFFLINE8400/followups
-//         const response = await fetchHandler({
-//             method: 'GET',
-//             endpoint: `/dashboard/${slugname}/section3
-// `,
-//             data: undefined
-//         });
-//         return response;
-//     } catch (error) {
-//         console.error('Unexpected error:', error);
-//     }
-// };
-// export const FetchSections4 = async (slugname: any): Promise<DashboardData> => {
-//     try {
-//         // /lead/ajin-company/OFFLINE8400/followups
-//         const response = await fetchHandler({
-//             method: 'GET',
-//             endpoint: `/dashboard/${slugname}/section4
-// `,
-//             data: undefined
-//         });
-//         return response;
-//     } catch (error) {
-//         console.error('Unexpected error:', error);
-//     }
-// };
-// export const FetchSections5 = async (slugname: any): Promise<DashboardData> => {
-//     try {
-//         // /lead/ajin-company/OFFLINE8400/followups
-//         const response = await fetchHandler({
-//             method: 'GET',
-//             endpoint: `/dashboard/${slugname}/section5
-// `,
-//             data: undefined
-//         });
-//         return response;
-//     } catch (error) {
-//         console.error('Unexpected error:', error);
-//     }
-// };
-// export const DraganddropSection = async (slugname: any): Promise<DashboardData> => {
-//     try {
-//         // /lead/ajin-company/OFFLINE8400/followups
-//         const response = await fetchHandler({
-//             method: 'PUT',
-//             endpoint: `/dashboard/${slugname}/section
-// `,
-//             data: undefined
-//         });
-//         return response;
-//     } catch (error) {
-//         console.error('Unexpected error:', error);
-//     }
-// };
+
 
 /**
  * Generic function to fetch a dashboard section
@@ -198,7 +109,7 @@ export const DraganddropSection = async (slugname: string, data: { sections: str
     }
 };
 export const LeadsChartfilter = async (slugname: string, timeframe, customRange): Promise<DashboardData | undefined> => {
-    console.log(timeframe,"timeFame")
+    console.log(timeframe, 'timeFame');
     let url = `/dashboard/${slugname}/section2?type=${timeframe}`;
 
     if (timeframe === 'custom' && customRange) {
@@ -216,7 +127,4 @@ export const LeadsChartfilter = async (slugname: string, timeframe, customRange)
         console.error('Error updating section order:', error);
     }
 };
-// export const fetchDashboardData = async (): Promise<DashboardData> => {
-//   const response = await axios.get(`/dashboard/ajin-company`);
-//   return response.data;
-// };
+

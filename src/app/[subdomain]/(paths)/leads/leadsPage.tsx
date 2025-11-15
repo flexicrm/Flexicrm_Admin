@@ -47,12 +47,10 @@ const LeadsPage: React.FC = () => {
     const leadstatus = LeadstatusOptions();
     const { startTour, setSteps, tourvalues } = useTour();
     const tour = data?.isLeadTourCompleted;
-    console.log(tour, 'tourvalues');
 
     useEffect(() => {
         if (tour === false) {
             console.log('Starting leads tour');
-            // Give components time to render
             const timer = setTimeout(() => {
                 startTour();
             }, 500);
@@ -61,24 +59,18 @@ const LeadsPage: React.FC = () => {
         }
     }, [tour, startTour]);
 
-    console.log(data, 'response------------> is');
     const updateTourStatus = async (status: { isDashboardTourCompleted?: boolean; isLeadTourCompleted?: boolean }) => {
         const paylod = JSON.stringify(status);
 
         console.log(data);
         try {
             const response = await TOURFinsher(subdomain, paylod);
-            console.log(data, 'response------------> is');
             if (response) {
-                // Only update if data is different
                 console.log('Updating tour status with:', response?.data?.user);
                 setData((prev) => (!prev?.isLeadTourCompleted === response?.data?.user?.isLeadTourCompleted ? console.log(data, 'inner new data') : console.log(response?.data?.user, 'old data')));
                 setData((prev) => (!prev?.isLeadTourCompleted === response?.data?.user?.isLeadTourCompleted ? response?.data?.user : data));
             }
-        } catch (error) {
-            // Handle error if needed
-            console.error('Failed to update tour status', error);
-        }
+        } catch (error) {}
     };
 
     useEffect(() => {
@@ -196,14 +188,6 @@ const LeadsPage: React.FC = () => {
 
     const leadsArray = Array.isArray(leads) ? leads : [];
     const rowData = LeadsData(leadsArray);
-    // const rowData = [];
-    //
-    // useEffect(() => {
-    //     if (!tour) {
-    //         startTour();
-    //     }
-    // }, [!tour, startTour]);
-
     return (
         <Box>
             <Grid container spacing={2} alignItems="center">
@@ -211,9 +195,6 @@ const LeadsPage: React.FC = () => {
                     <Typography variant="h5" color="primary" component="h1" sx={{ fontWeight: 600 }}>
                         Leads
                     </Typography>
-                    {/* <Button variant="outlined" size="small" onClick={startTour} sx={{ mt: 1 }}>
-                        Start Tour
-                    </Button> */}
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>

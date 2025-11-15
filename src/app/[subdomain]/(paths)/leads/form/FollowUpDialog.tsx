@@ -50,9 +50,6 @@ const FollowUpDialog = ({
                             </FormControl>
                         </Grid>
                         <Grid size={{ xs: 12, sm: 6 }}>
-                            <DatePicker name={dueDate} setName={setDueDate} labels="Due Date" />
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 6 }}>
                             <FormControl fullWidth size="small">
                                 <InputLabel>Priority</InputLabel>
                                 <Select value={formData.priority} onChange={(e) => handleSelectChange('priority', e.target.value)} label="Priority">

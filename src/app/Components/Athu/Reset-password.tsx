@@ -1,5 +1,5 @@
 'use client';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import Cookies from 'js-cookie';
 import userContext from '../../UseContext/UseContext';
@@ -27,6 +27,12 @@ export default function ResetPasswordForm({ slug, subdomain }: Props) {
         setFormData((prev) => ({ ...prev, [name]: value }));
         setErrors((prev) => ({ ...prev, [name]: '' }));
     };
+
+    useEffect(() => {
+        const sub = Cookies.get('subdomain');
+        const token = Cookies.get('crmaccess');
+        console.log(token);
+    }, []);
 
     const toggleShowPassword = (field: keyof typeof showPassword) => {
         setShowPassword((prev) => ({ ...prev, [field]: !prev[field] }));
@@ -64,14 +70,15 @@ export default function ResetPasswordForm({ slug, subdomain }: Props) {
         setMessage('');
 
         try {
-            const payload = slug ? { Newpassword: formData.newPassword } : { oldPassword: formData.oldPassword, newPassword: formData.newPassword };
-
+            const payload = slug ? { Newpassword: formData?.newPassword } : { oldPassword: formData?.oldPassword, newPassword: formData?.newPassword };
             const res = slug ? await ResetPasswordChange(subdomain, payload, slug) : await Changepassword(subdomain, payload);
+            console.log(res);
 
-            if (res?.isError) {
+            if (res?.data?.isError) {
                 setError(res.message);
-            } else {
-                setMessage(res.message);
+            }
+            if (res?.data?.message) {
+                setMessage(res?.data?.message);
                 router.push(`/${subdomain}/dashboard`);
             }
         } catch (err: any) {

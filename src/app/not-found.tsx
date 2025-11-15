@@ -14,9 +14,6 @@ export default function NotFound() {
                 <Typography variant="body1" color="textSecondary" paragraph>
                     The page you are looking for does not exist or has been moved.
                 </Typography>
-                {/* <Button component={Link} href="/" variant="contained" color="primary">
-                        Go back to Home
-                    </Button> */}
             </Box>
         </Container>
     );

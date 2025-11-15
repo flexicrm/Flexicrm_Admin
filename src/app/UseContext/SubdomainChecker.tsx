@@ -9,46 +9,43 @@ export default function SubdomainChecker() {
     const location = usePathname();
     const router = useRouter();
     const { setFlexilogo } = useContext(userContext);
+
     const subdomain = Cookies.get('subdomain');
     const crmaccess = Cookies.get('crmaccess');
+    const firstLogin = Cookies.get('firstLogin');
+
     useEffect(() => {
         const pathSegments = location.split('/').filter(Boolean);
         const [location1, location2] = pathSegments;
 
-        const publicPaths = ['login', 'forgot-password', 'reset-password', 'reset-password/:id'];
-        const isPublicPath = publicPaths.includes(location2); // Use location2 here
+        if (!location1) {
+            router.push('/');
+            return;
+        }
+
+        const publicPaths = ['login', 'forgot-password', 'reset-password'];
+        const isPublicPath = publicPaths.some((path) => location2?.startsWith(path));
+
         const checkSubdomain = async () => {
             try {
-                if (location1 == undefined) {
+                if (location1 === 'not-found') return;
+                const res = await SubdmoainChekers(location1);
+                if (!res?.success) {
                     router.push('/');
                     return;
                 }
-                if (location1 != 'not-found') {
-                    const res = await SubdmoainChekers(location1);
-                    console.log(res, 'res');
-                    if (res?.success) {
-                        Cookies.set('subdomain', res.data.urlPath);
-                        setFlexilogo(res.data);
 
-                        if (!subdomain) {
-                            Cookies.set('subdomain', res.data.urlPath);
-                        }
+                const { urlPath, ...logoData } = res.data;
+                Cookies.set('subdomain', urlPath);
+                setFlexilogo(logoData);
 
-                        const loginPath = `/${res.data.urlPath}/login`;
-                        const dashboardPath = `/${res.data.urlPath}/dashboard`;
-
-                        if (!crmaccess) {
-                            if (!isPublicPath) {
-                                router.push(loginPath);
-                            }
-                        } else {
-                            if (isPublicPath) {
-                                router.push(dashboardPath);
-                            }
-                        }
-                    } else {
-                        router.push('/');
-                    }
+                const loginPath = `/${urlPath}/login`;
+                const dashboardPath = `/${urlPath}/dashboard`;
+                if (crmaccess) {
+                    if (!isPublicPath || location2?.startsWith('reset-password')) return;
+                    router.push(dashboardPath);
+                } else {
+                    if (!isPublicPath) router.push(loginPath);
                 }
             } catch (err) {
                 router.push('/');
@@ -56,7 +53,7 @@ export default function SubdomainChecker() {
         };
 
         checkSubdomain();
-    }, [location, crmaccess, router, setFlexilogo, subdomain]);
+    }, [location, crmaccess, router, setFlexilogo]);
 
     return null;
 }

@@ -1,6 +1,5 @@
 "use client"
 import { DragDropContext, Draggable } from 'react-beautiful-dnd';
-// import DraggableForm from '../components/DraggableForm';
 import DraggableForm from "../../app/pages"
 import { useState } from 'react';
 
@@ -8,7 +7,6 @@ const Home = () => {
   const [items, setItems] = useState([{ id: 'draggableForm', content: 'Drag Me' }]);
 
   const onDragEnd = (result) => {
-    // Handle drag end logic if needed
   };
 
   return (

@@ -8,9 +8,7 @@ export default function DynamicLogin() {
     const location1 = usePathname();
     console.log('checking url:', location1.split('/')[1]);
     if (location1.split('/')[1] === 'undefined') {
-        // alert('demo');
         throw new Error('Resource not found');
-        //    isError: true, data: 'Resource not found' };
     }
     return (
         <>

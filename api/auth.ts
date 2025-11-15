@@ -13,7 +13,7 @@ export const LoginAPI = async (subdomain?: any, data?: any) => {
     }
 };
 
-export const ResetPasswordChange = async (slugname?: string, payload?: any, slug?: any) => {
+export const ResetPasswordChange = async (slugname?: string, payload?: any, slug?: any ) => {
     try {
         const response = await fetchHandler({
             method: 'POST',

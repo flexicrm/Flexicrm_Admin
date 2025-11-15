@@ -305,7 +305,7 @@ export default function Page() {
                     {/* Sidebar Navigation */}
                     <Box sx={{ width: { xs: '100%', md: 140 }, borderRight: { md: 1 }, borderBottom: { xs: 1, md: 0 }, borderColor: 'divider' }}>
                         <List>
-                            {tabs.map((tab) => (
+                            {tabs?.map((tab) => (
                                 <ListItem key={tab.label} disablePadding>
                                     <ListItemButton
                                         selected={selectedTab === tab.label}

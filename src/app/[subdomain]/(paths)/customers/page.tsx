@@ -334,48 +334,6 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
         setExportAnchorEl(null);
     };
 
-    // const handleExportPDF = () => {
-    //     const doc = new jsPDF();
-    //     doc.setFontSize(18);
-    //     doc.setTextColor(40, 53, 147);
-    //     doc.text('Customer Contacts Report', 14, 22);
-
-    //     doc.setFontSize(11);
-    //     doc.setTextColor(100, 100, 100);
-    //     doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 30);
-
-    //     doc.autoTable({
-    //         startY: 40,
-    //         head: [['Company', 'Customer ID', 'Phone', 'Email', 'GST No', 'Status', 'Created At']],
-    //         body: filteredContacts.map((contact) => [
-    //             contact.Companyname || '-',
-    //             contact.customerId || '-',
-    //             contact.phone || '-',
-    //             contact.email || '-',
-    //             contact.GSTno || '-',
-    //             contact.status === 1 ? 'Active' : 'Inactive',
-    //             formatDate(contact.createdAt)
-    //         ]),
-    //         styles: {
-    //             fontSize: 9,
-    //             cellPadding: 3,
-    //             overflow: 'linebreak'
-    //         },
-    //         headStyles: {
-    //             fillColor: [40, 53, 147],
-    //             textColor: 255,
-    //             fontStyle: 'bold'
-    //         },
-    //         alternateRowStyles: {
-    //             fillColor: [240, 240, 240]
-    //         },
-    //         margin: { top: 10 }
-    //     });
-
-    //     doc.save('contacts.pdf');
-    //     setExportAnchorEl(null);
-    // };
-
     const handleStatusChange = async (contactId: string, status: number) => {
         try {
             const response = await CustomerPatch(subdomain, contactId, { status });
@@ -427,7 +385,6 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
 
     const isSelected = (id: string) => selectedContacts.some((contact) => contact._id === id);
 
-    // Calculate customer summary
     const totalCustomers = filteredContacts?.length;
     const activeCustomers = filteredContacts?.filter((contact) => contact.status === 1).length;
     const inactiveCustomers = filteredContacts?.filter((contact) => contact.status === 0).length;
@@ -466,7 +423,6 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
 
     return (
         <motion.div variants={staggerContainer()} initial="hidden" animate="show" viewport={{ once: false, amount: 0.25 }}>
-            {/* Summary Cards */}
             <Grid container spacing={2} sx={{ mb: 3 }}>
                 <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                     <SummaryCard title="Total Customers" value={totalCustomers} icon={<PeopleIcon />} color="#0367CA" />
@@ -481,59 +437,6 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
                     <SummaryCard title="New This Month" value={newThisMonth} icon={<CalendarIcon />} color="#605CA8" />
                 </Grid>
             </Grid>
-
-            {/* Search and Filter Section
-            <motion.div variants={fadeIn('up', 'spring', 0.3, 0.75)}>
-                <Card
-                    sx={{
-                        mb: 3,
-                        p: 2,
-                        borderRadius: 2,
-                        boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
-                        border: '1px solid',
-                        borderColor: 'divider',
-                        background: 'linear-gradient(to right, #f9f9f9, #ffffff)'
-                    }}
-                >
-                    <Box display="flex" flexDirection={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems="center" gap={2}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, width: { xs: '100%', sm: 'auto' } }}>
-                            <TextField
-                                variant="outlined"
-                                size="small"
-                                placeholder="Search customers..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <SearchIcon color="action" />
-                                        </InputAdornment>
-                                    ),
-                                    sx: {
-                                        borderRadius: 3,
-                                        bgcolor: 'background.paper',
-                                        width: { xs: '100%', sm: 280 }
-                                    }
-                                }}
-                            />
-                        </Box>
-
-                        <Box display="flex" flexWrap="wrap" gap={1}>
-                            {userPermissions?.Customer?.canCreate && (
-                                <Link href={`/${subdomain}/customers/newcustomber`} passHref>
-                                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                        <MyButton variant="contained" color="primary" startIcon={<AddIcon />}>
-                                            New Customer
-                                        </MyButton>
-                                    </motion.div>
-                                </Link>
-                            )}
-                        </Box>
-                    </Box>
-                </Card>
-            </motion.div> */}
-
-            {/* Status Filter Chips */}
             <motion.div variants={fadeIn('up', 'spring', 0.4, 0.75)}>
                 <Box sx={{ mb: 2, display: 'flex', gap: 1, flexWrap: 'wrap' }}>
                     <motion.div whileHover={{ scale: 1.05 }}>
@@ -598,13 +501,9 @@ const ContactTable: React.FC<ContactTableProps> = ({ slug }) => {
                     )}
                 </Box>
             </motion.div>
-
-            {/* Table */}
-            {/* {userPermissions?.Customer?.canRead && ( */}
             <motion.div variants={fadeIn('up', 'spring', 0.5, 0.75)}>
                 <Card
                     sx={{
-                        // boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
                         borderColor: 'divider',
                         overflow: 'hidden'
                     }}

@@ -239,10 +239,7 @@ const TaskManagement: React.FC<TaskManagementProps> = ({ leads, leadStatus, setL
 
             {showLostAnimation && <ShowLostAnimation showLostAnimation={showLostAnimation} currentMessage={currentMessage} />}
 
-            {/* Header with search and filters */}
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                {/* Filter panel */}
-
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                         <Typography variant="h6" color="primary" sx={{ fontWeight: 500, fontSize: '1rem' }}>

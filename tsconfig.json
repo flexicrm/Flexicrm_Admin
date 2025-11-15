@@ -19,6 +19,6 @@
             }
         ]
     },
-    "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx", "src/app/[subdomain]/(paths)/customers/cutombersedit/[slug]/page.tsx", "next.config.js", "src/app/middleware.ts"],
+    "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx", "src/app/[subdomain]/(paths)/customers/cutombersedit/[slug]/page.tsx", "next.config.js", "src/app/middleware.ts", "src/app/[subdomain]/(paths)/user/page.jsx", "src/app/[subdomain]/(paths)/user/addUserForm.jsx"],
     "exclude": ["node_modules"]
 }

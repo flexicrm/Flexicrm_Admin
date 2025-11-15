@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { SubdmoainChekers } from '../../api/SubdomainCheker';
 
-// const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000/api';
-
 export async function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname;
     const url = request.nextUrl.href;
@@ -15,7 +13,7 @@ export async function middleware(request: NextRequest) {
     }
 
     const pathSegments = pathname.split('/').filter(Boolean);
-    const subdomain = pathSegments[1]; // double-check if index 1 is correct for your routes
+    const subdomain = pathSegments[1];
 
     console.log('[Middleware] Extracted subdomain:', subdomain);
 
@@ -25,12 +23,7 @@ export async function middleware(request: NextRequest) {
     }
 
     try {
-        // const res = await fetch(`${API_BASE_URL}/user/check-subdomain/${subdomain}`, {
-        //     headers: { 'Content-Type': 'application/json' },
-        //     next: { revalidate: 10 }
-        // });
         const res = await SubdmoainChekers(subdomain);
-
         if (!res.ok) {
             console.log('[Middleware] API responded with error status:', res.status);
             return NextResponse.rewrite(new URL('/not-found', url));
@@ -57,7 +50,7 @@ export async function middleware(request: NextRequest) {
     }
 
     const response = NextResponse.next();
-    response.headers.set('x-middleware-subdomain', subdomain || 'none'); // for debugging
+    response.headers.set('x-middleware-subdomain', subdomain || 'none');
     console.log('[Middleware] Passing request through');
     return response;
 }
