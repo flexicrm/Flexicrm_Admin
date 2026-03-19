@@ -1,9 +1,9 @@
 'use client';
-import { useEffect, useContext } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
-import userContext from '../UseContext/UseContext';
+import { usePathname, useRouter } from 'next/navigation';
+import { useContext, useEffect } from 'react';
 import { SubdmoainChekers } from '../../../api/SubdomainCheker';
+import userContext from '../UseContext/UseContext';
 
 export default function SubdomainChecker() {
     const location = usePathname();

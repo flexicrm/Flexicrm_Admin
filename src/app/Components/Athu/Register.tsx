@@ -11,7 +11,7 @@ import { LoginAPI } from '../../../../api/auth';
 import userContext from '../../UseContext/UseContext';
 import PasswordField from '../../ui-components/password/Password';
 
-export default function LoginForm() {
+export default function Register() {
     const router = useRouter();
     const params = useParams();
     const subdomain = params?.subdomain || '';
@@ -148,7 +148,6 @@ export default function LoginForm() {
                 <Button type="submit" fullWidth variant="contained" color="primary" disabled={formik.isSubmitting}>
                     {formik.isSubmitting ? <CircularProgress size={24} color="inherit" /> : 'Login'}
                 </Button>
-                <p>Don't have an account? <Link href={`/register`}>Register</Link></p>
             </form>
         </Box>
     );

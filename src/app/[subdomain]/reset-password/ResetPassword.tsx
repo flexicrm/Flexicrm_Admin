@@ -1,11 +1,12 @@
 'use client';
-import { useParams } from 'next/navigation';
 import { CssBaseline, Grid } from '@mui/material';
-import { LeftPanel, LoginContainer, RightPanel } from '../../ReuseableStyle/ReusableStyleCom';
+import { useParams } from 'next/navigation';
 import LoginSlider from '../../Components/Athu/LoginSlider';
 import ResetPasswordForm from '../../Components/Athu/Reset-password';
+import { LeftPanel, LoginContainer, RightPanel } from '../../ReuseableStyle/ReusableStyleCom';
 
 export default function ResetPasswordPage({ slug }: any) {
+    console.log("slug data",slug)
     const { subdomain } = useParams();
 
     return (

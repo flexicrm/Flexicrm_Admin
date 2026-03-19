@@ -13,6 +13,34 @@ export const LoginAPI = async (subdomain?: any, data?: any) => {
     }
 };
 
+export const RegisterAPI = async (subdomain?: any, data?: any) => {
+
+    try {
+        const response = await fetchHandler({
+            method: 'POST',
+            endpoint: `/company/self-register`,
+            data
+        });
+        return response;
+    } catch (error) {
+        console.error('Unexpected error:', error);
+    }
+};
+
+export const category = async (subdomain?: any, data?: any) => {
+
+    try {
+        const response = await fetchHandler({
+            method: 'GET',
+            endpoint: `/category`,
+            data
+        });
+        return response;
+    } catch (error) {
+        console.error('Unexpected error:', error);
+    }
+};
+
 export const ResetPasswordChange = async (slugname?: string, payload?: any, slug?: any ) => {
     try {
         const response = await fetchHandler({
