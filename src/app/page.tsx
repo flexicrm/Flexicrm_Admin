@@ -490,7 +490,7 @@ export default function Home(): React.JSX.Element {
                                         { value: '64', label: 'Follow-ups', color: '#F5921E' },
                                         { value: '38', label: 'Converted', color: '#16a34a' }
                                     ].map((m, idx) => (
-                                        <Grid item xs={4} key={idx}>
+                                        <Grid size={4} key={idx}>
                                             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 + idx * 0.13 }}>
                                                 <Box sx={{ backgroundColor: '#F3F4F6', borderRadius: 2, p: 1.5 }}>
                                                     <Typography sx={{ fontFamily: "'Sora', sans-serif", fontSize: '1.3rem', fontWeight: 800, color: m.color }}>{m.value}</Typography>
@@ -851,7 +851,7 @@ export default function Home(): React.JSX.Element {
                 <Box sx={{ position: 'absolute', bottom: -150, left: -100, width: 400, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(30,95,168,0.18) 0%, transparent 70%)', pointerEvents: 'none' }} />
                 <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
                     <Grid container spacing={8} alignItems="center">
-                        <Grid item xs={12} md={6}>
+                        <Grid size={{ xs: 12, md: 6 }}>
                             <ScrollReveal direction="left">
                                 <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 1, mb: 2 }}>
                                     <Box sx={{ width: 24, height: 1, backgroundColor: '#F5921E' }} />
@@ -914,7 +914,7 @@ export default function Home(): React.JSX.Element {
                                 />
                             </ScrollReveal>
                         </Grid>
-                        <Grid item xs={12} md={6}>
+                        <Grid size={{ xs: 12, md: 6 }}>
                             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end', gap: 3, height: 540, position: 'relative' }}>
                                 <Box sx={{ position: 'absolute', width: 300, height: 300, borderRadius: '50%', background: 'rgba(30,95,168,0.25)', filter: 'blur(60px)', top: '10%', right: '10%', zIndex: 0 }} />
                                 <Box sx={{ position: 'absolute', width: 200, height: 200, borderRadius: '50%', background: 'rgba(245,146,30,0.2)', filter: 'blur(60px)', bottom: '5%', left: '15%', zIndex: 0 }} />
@@ -981,7 +981,7 @@ export default function Home(): React.JSX.Element {
                                                     { val: '19', label: 'Converted', color: '#4ade80' },
                                                     { val: '74%', label: 'Response Rate', color: '#c084fc' }
                                                 ].map((m, i) => (
-                                                    <Grid item xs={6} key={i}>
+                                                    <Grid size={6} key={i}>
                                                         <Box sx={{ background: 'rgba(255,255,255,0.06)', borderRadius: 1.5, p: 1, border: '1px solid rgba(255,255,255,0.06)' }}>
                                                             <Typography sx={{ fontFamily: "'Sora',sans-serif", fontWeight: 800, fontSize: '0.85rem', color: m.color }}>{m.val}</Typography>
                                                             <Typography sx={{ fontSize: '0.5rem', color: 'rgba(255,255,255,0.45)' }}>{m.label}</Typography>
@@ -1097,7 +1097,7 @@ export default function Home(): React.JSX.Element {
             <Box component="footer" sx={{ backgroundColor: '#2D3142', py: 8 }} id="contact">
                 <Container maxWidth="lg">
                     <Grid container spacing={6}>
-                        <Grid item xs={12} md={4}>
+                        <Grid size={{ xs: 12, md: 4 }}>
                             <Box display="flex" alignItems="center" gap={1} sx={{ mb: 2 }}>
                                 <svg width="32" height="28" viewBox="0 0 60 50" fill="none">
                                     <path d="M4 4h20v10H14v6h8v10h-8v6h10v10H4V4z" fill="#4a90d9" />
@@ -1141,7 +1141,7 @@ export default function Home(): React.JSX.Element {
                                 ]
                             }
                         ].map((col, idx) => (
-                            <Grid item xs={12} sm={4} md={2} key={idx}>
+                            <Grid size={{ xs: 12, sm: 4, md: 2 }} key={idx}>
                                 <Typography
                                     sx={{
                                         fontFamily: "'Sora',sans-serif",
