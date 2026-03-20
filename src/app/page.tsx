@@ -2,7 +2,7 @@ import React from 'react'
 
 function page() {
   return (
-    <div>Homa Section</div>
+    <div>The URL is incorrect. Please check the path.</div>
   )
 }
 

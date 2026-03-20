@@ -41,7 +41,6 @@ const Dashboard: React.FC = () => {
     const [sections, setSections] = useState<any>(sectionsetups);
     const { startTour, setSteps, tourvalues } = useTour();
     const tour = data?.isDashboardTourCompleted;
- 
 
     useEffect(() => {
         if (!tour) {
@@ -49,7 +48,7 @@ const Dashboard: React.FC = () => {
                 startTour();
             }, 300);
         }
-    }, [!tour, data]);
+    }, [!tour, data, startTour]);
 
     const updateTourStatus = async (status: { isDashboardTourCompleted?: boolean; isLeadTourCompleted?: boolean }) => {
         const payload = JSON.stringify(status);
