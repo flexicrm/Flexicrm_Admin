@@ -1,8 +1,8 @@
 'use client';
 import { CssBaseline, Grid } from '@mui/material';
 import { LeftPanel, LoginContainer, RightPanel } from '../../ReuseableStyle/ReusableStyleCom';
-import LoginSlider from '../../Components/Athu/LoginSlider';
-import ForgotPassword from '../../Components/Athu/Forgot-Password';
+import LoginSlider from '../../components/Athu/LoginSlider';
+import ForgotPassword from '../../components/Athu/Forgot-Password';
 
 export default function ForgotPasswordPage() {
     return (

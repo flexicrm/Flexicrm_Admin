@@ -9,7 +9,7 @@ import { CssBaseline, Box } from '@mui/material';
 import Sidebar from '../../ui/dashboard/sidebar/page';
 import Navbar from '../../ui/dashboard/navbar/page';
 import userContext from '../../UseContext/UseContext';
-import ClientWrapper from '../../Components/wrappers/useSubdomainCheck';
+import ClientWrapper from '../../components/wrappers/useSubdomainCheck';
 import { UsersMe } from '../../../../api/user';
 import { LayoutContainer, LayoutContainers, LayoutContent, LayoutSidebar } from '../../ReuseableStyle/ReusableStyleCom';
 

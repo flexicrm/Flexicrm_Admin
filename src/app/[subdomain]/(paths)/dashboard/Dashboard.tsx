@@ -12,7 +12,7 @@ import HighValueOpportunities from './HighValueOpportunities';
 import SummarySection from './Section/SummarySection';
 import userContext from '../../../UseContext/UseContext';
 import { GripHorizontal, GripVertical } from 'lucide-react';
-import { useTour } from '../../../Components/TourContext';
+import { useTour } from '../../../components/TourContext';
 import { TOURFinsher } from '../../../../../api/tour';
 
 type SectionSize = 3 | 6 | 12 | 9;

@@ -1,8 +1,8 @@
 'use client';
 import { CssBaseline, Grid } from '@mui/material';
 import { usePathname } from 'next/navigation';
-import LoginForm from '../../Components/Athu/LoginForm';
-import LoginSlider from '../../Components/Athu/LoginSlider';
+import LoginForm from '../../components/Athu/LoginForm';
+import LoginSlider from '../../components/Athu/LoginSlider';
 import { LeftPanel, LoginContainer, RightPanel } from '../../ReuseableStyle/ReusableStyleCom';
 export default function DynamicLogin() {
     const location1 = usePathname();

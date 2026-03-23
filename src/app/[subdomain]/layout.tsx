@@ -1,6 +1,6 @@
 'use client';
 
-import ErrorBoundary from '../Components/ErrorBoundry';
+import ErrorBoundary from '../components/ErrorBoundry';
 import UserContextProvider from '../UseContext/Appprovider';
 import SubdomainChecker from '../UseContext/SubdomainChecker';
 

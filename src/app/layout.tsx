@@ -1,5 +1,5 @@
-import { TourProvider } from './Components/TourContext';
-import ClientWrapper from './Components/wrappers/useSubdomainCheck';
+import { TourProvider } from './components/TourContext';
+import ClientWrapper from './components/wrappers/useSubdomainCheck';
 import './globals.css';
 import type { Metadata } from 'next';
 
