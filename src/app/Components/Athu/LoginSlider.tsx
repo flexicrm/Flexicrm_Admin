@@ -1,11 +1,11 @@
 'use client';
 
-import { Box, Typography, GlobalStyles } from '@mui/material';
+import { Box, GlobalStyles, Typography } from '@mui/material';
 import { motion } from 'framer-motion';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import { Autoplay, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { Circle1, Circle2 } from '../../ReuseableStyle/ReusableStyleCom';
 
 const slides = [

@@ -1,7 +1,8 @@
-import { TourProvider } from './Components/TourContext';
-import ClientWrapper from './Components/wrappers/useSubdomainCheck';
-import './globals.css';
 import type { Metadata } from 'next';
+import { TourProvider } from './Components/TourContext';
+import ClientWrapper from './Components/wrappers/ClientWrapper';
+import './globals.css';
+import UserContextProvider from './UseContext/Appprovider';
 
 export const metadata: Metadata = {
     title: 'FlexiCRM',
@@ -36,9 +37,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <meta name="msapplication-TileImage" content="/logo/ms-icon-144x144.png" />
                 <meta name="theme-color" content="#ffffff"></meta>
             </head>
-            <body>
+            <body suppressHydrationWarning>
                 <TourProvider>
+                    <UserContextProvider>
                     <ClientWrapper>{children}</ClientWrapper>
+                    </UserContextProvider>
                 </TourProvider>
             </body>
         </html>

@@ -1,9 +1,9 @@
-import Dashboard from './Dashboard';
+import DynamicLogin from './Verify_Otp';
 
 export default function page() {
     return (
         <div>
-            <Dashboard />
+            <DynamicLogin />
         </div>
     );
 }

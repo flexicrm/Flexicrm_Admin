@@ -3,18 +3,16 @@ import { Box, Button, Checkbox, CircularProgress, TextField, Typography } from '
 import { useFormik } from 'formik';
 import Cookies from 'js-cookie';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
-import { useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useContext, useState } from 'react';
 import * as yup from 'yup';
 
 import { LoginAPI } from '../../../../api/auth';
 import userContext from '../../UseContext/UseContext';
-import PasswordField from '../../ui-components/password/Password';
 
 export default function LoginForm() {
     const router = useRouter();
-    const params = useParams();
-    const subdomain = params?.subdomain || '';
+    const subdomain = Cookies.get('subdomain') || '';
     const contextvalue = useContext(userContext);
     const { flexilogo } = contextvalue;
     const [showPassword, setShowPassword] = useState(false);
@@ -25,48 +23,31 @@ export default function LoginForm() {
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleRememberMeChange = (event: React.ChangeEvent<HTMLInputElement>) => setRememberMe(event.target.checked);
 
-    const validationSchema = yup.object({
-        email: yup.string().email('Invalid email format').required('Email is required'),
-        password: yup.string().required('Password is required')
-    });
 
     const formik = useFormik({
-        initialValues: { email: '', password: '' },
-        validationSchema,
-        onSubmit: async (values) => {
-            const payload = { email: values.email, password: values.password };
-            const response = await LoginAPI(subdomain, payload);
-            console.log(response, 'response');
-            if (response.isError) {
-                setError(typeof response?.data === 'string' ? response?.data : 'Login failed');
-            } else {
-                const data = response.data || null;
-                const { accessToken, refreshToken, isFirstlogin } = data;
-                setIsFirstLogin(isFirstlogin);
-                if (accessToken) {
-                    Cookies.set('crmaccess', accessToken);
-                    Cookies.set('crmrefresh', refreshToken);
-                }
-                if (rememberMe) {
-                    localStorage.setItem('rememberedEmail', values.email);
-                    localStorage.setItem('rememberedPassword', values.password);
-                }
-                router.push(isFirstlogin ? `/${subdomain}/reset-password` : `/${subdomain}/dashboard`);
-            }
-        }
-    });
+    initialValues: { mobile: '' }, // ✅ only mobile
+    validationSchema: yup.object({
+        mobile: yup
+            .string()
+            .matches(/^[6-9]\d{9}$/, 'Enter valid mobile number')
+            .required('Mobile is required')
+    }),
+    onSubmit: async (values) => {
+        const payload = { mobile: values.mobile }; // ✅ only mobile
 
-    useEffect(() => {
-        const rememberedEmail = localStorage.getItem('rememberedEmail');
-        const rememberedPassword = localStorage.getItem('rememberedPassword');
-        if (rememberedEmail && rememberedPassword) {
-            setTimeout(() => {
-                formik.setFieldValue('email', rememberedEmail);
-                formik.setFieldValue('password', rememberedPassword);
-            }, 0);
-            setRememberMe(true);
+        const response = await LoginAPI(subdomain, payload);
+        console.log(localStorage.setItem('response', JSON.stringify(response)));
+
+
+        if (response.isError) {
+            setError(typeof response?.data === 'string' ? response?.data : 'Login failed');
+        } else {
+            // 👉 Usually here you redirect to OTP screen
+            router.push(`/Otp?mobile=${values.mobile}`);
         }
-    }, []);
+    }
+});
+
 
     return (
         <Box sx={{ width: '100%', maxWidth: 400, mx: 'auto', textAlign: 'center', p: 3 }}>
@@ -84,35 +65,21 @@ export default function LoginForm() {
             <form onSubmit={formik.handleSubmit} noValidate>
                 <Box>
                     <TextField
-                        fullWidth
-                        id="email"
-                        name="email"
-                        label="Email"
-                        sx={{
-                            '& .MuiOutlinedInput-root': {
-                                height: '40px',
-                                lineHeight: '2.10rem',
-                                '& input': {
-                                    fontSize: '14px',
-                                    lineHeight: '2.10rem'
-                                }
-                            },
-                            '& .MuiInputLabel-root': {
-                                lineHeight: '1rem'
-                            },
-                            '& .MuiFormHelperText-root': {
-                                fontSize: '0.875rem'
-                            }
-                        }}
-                        margin="normal"
-                        value={formik.values.email}
-                        onChange={formik.handleChange}
-                        error={formik.touched.email && Boolean(formik.errors.email)}
-                        helperText={formik.touched.email && formik.errors.email}
-                    />
+    fullWidth
+    id="mobile"
+    name="mobile"
+    label="Mobile"
+    type="tel"
+    inputProps={{ maxLength: 10 }}
+    margin="normal"
+    value={formik.values.mobile}
+    onChange={formik.handleChange}
+    error={formik.touched.mobile && Boolean(formik.errors.mobile)}
+    helperText={formik.touched.mobile && formik.errors.mobile}
+/>
                 </Box>
 
-                <Box>
+                {/* <Box>
                     <PasswordField
                         label="password"
                         name="password"
@@ -123,7 +90,7 @@ export default function LoginForm() {
                         error={formik.touched.password && Boolean(formik.errors.password)}
                         helperText={formik.touched.password && formik.errors.password}
                     />
-                </Box>
+                </Box> */}
 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', my: 2 }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

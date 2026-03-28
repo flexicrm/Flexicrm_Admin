@@ -9,7 +9,7 @@ export default function RootLayout({ children }) {
         <ErrorBoundary>
             <UserContextProvider>
                 {children}
-                <SubdomainChecker />
+                <SubdomainChecker/>
             </UserContextProvider>
         </ErrorBoundary>
     );

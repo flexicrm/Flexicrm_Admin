@@ -1,50 +1,50 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import Cookies from 'js-cookie';
-import { SubdmoainChekers } from '../../../../api/SubdomainCheker';
+import { Provider } from 'react-redux';
+import store from '../../store/store';
+import { ThemeProvider } from '../../Theme/ThemeContext';
+import ErrorBoundary from '../ErrorBoundry';
+import { useAuthRedirect } from './useAuthRedirect';
+import { useSubdomainCheck } from './useSubdomainCheck';
 
-export const useSubdomainCheck = () => {
+export default function ClientWrapper({ children }: { children: React.ReactNode }) {
+    const [isClient, setIsClient] = useState(false);
     const pathname = usePathname();
-    const router = useRouter();
-    const crmaccess = Cookies.get('crmaccess');
-    const subdomainCookie = Cookies.get('subdomain');
-    const [locationvaleu, setLocationvalue] = useState<string | null>(null);
-    // const { setFlexilogo } = useContext(userContext);
 
+    // ✅ Ensure client-side rendering
     useEffect(() => {
-        const pathSegments = pathname?.split('/').filter(Boolean);
-        const location1 = pathSegments?.[0];
-        if (!location1 || crmaccess) return;
-        setLocationvalue(location1);
-        const fetchData = async () => {
-            try {
-                if (location1 != 'not-found') {
-                    const response = await SubdmoainChekers(location1);
-                    console.log(response, 'response>>>>>>>>>>>>>>>>>>>>');
-                    if (response?.success) {
-                        // alert('client');
-                        Cookies.set('subdomain', response.data.urlPath);
-                        // setFlexilogo(response.data);
-                    }
-                    if (response?.success && !subdomainCookie) {
-                        console.log('first>>>>>>>>>>>');
-                        const newSubdomain = response.data.urlPath;
-                        Cookies.set('subdomain', newSubdomain);
-                        // setFlexilogo(response.data.data);
-                        router.push(`/${newSubdomain}/login`);
-                    }
-                }
-            } catch (error: any) {
-                if (error.response?.status === 404) {
-                    // router.push(`/`);
-                }
-                return { isError: true, data: 'Resource not found' };
-                // throw new Error('Simulated client-side error!');
-            }
-        };
+        setIsClient(true);
+    }, []);
 
-        fetchData();
-    }, [locationvaleu, crmaccess, subdomainCookie, router, pathname]);
-};
+    // ✅ Normalize path
+    const cleanPath = pathname?.replace(/\/$/, '') || '';
+
+    const rootPaths = [
+        '/login',
+        '/Otp',
+        '/forgot-password',
+        '/reset-password',
+        '/dashboard'
+    ];
+
+    const isRootPath = rootPaths.includes(cleanPath);
+
+    // ✅ ALWAYS call hooks (NO conditions)
+    useSubdomainCheck(!isRootPath);
+    useAuthRedirect(!isRootPath);
+
+    // ✅ Prevent hydration mismatch
+    if (!isClient) return null;
+
+    return (
+        <ErrorBoundary>
+            <ThemeProvider>
+                <Provider store={store}>
+                    {children}
+                </Provider>
+            </ThemeProvider>
+        </ErrorBoundary>
+    );
+}

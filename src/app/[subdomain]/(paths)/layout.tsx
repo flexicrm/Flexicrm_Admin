@@ -1,17 +1,16 @@
 'use client';
 
-import '../../globals.css';
-import React, { useEffect, useState, ReactNode, useContext, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import { Box, CssBaseline } from '@mui/material';
 import Cookies from 'js-cookie';
+import { ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { CssBaseline, Box } from '@mui/material';
-import Sidebar from '../../ui/dashboard/sidebar/page';
-import Navbar from '../../ui/dashboard/navbar/page';
-import userContext from '../../UseContext/UseContext';
-import ClientWrapper from '../../Components/wrappers/useSubdomainCheck';
 import { UsersMe } from '../../../../api/user';
+import ClientWrapper from '../../Components/wrappers/ClientWrapper';
+import '../../globals.css';
 import { LayoutContainer, LayoutContainers, LayoutContent, LayoutSidebar } from '../../ReuseableStyle/ReusableStyleCom';
+import Navbar from '../../ui/dashboard/navbar/page';
+import Sidebar from '../../ui/dashboard/sidebar/page';
+import userContext from '../../UseContext/UseContext';
 
 interface LayoutProps {
     children: ReactNode;

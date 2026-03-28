@@ -1,29 +1,67 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { useAuthRedirect } from './useAuthRedirect';
-import { ThemeProvider } from '../../Theme/ThemeContext'; // ✅ Correct path
-import { Provider } from 'react-redux';
-import store from '../../store/store';
-import { useSubdomainCheck } from './ClientWrapper';
-import ErrorBoundary from '../ErrorBoundry';
 
-export default function ClientWrapper({ children }: { children: React.ReactNode }) {
-    const [isClient, setIsClient] = useState(false);
+import Cookies from 'js-cookie';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { SubdmoainChekers } from '../../../../api/SubdomainCheker';
+
+export const useSubdomainCheck = (enabled: boolean = true) => {
+    const pathname = usePathname();
+    const router = useRouter();
 
     useEffect(() => {
-        setIsClient(true);
-    }, []);
+        // Check if we should run the subdomain check
+        const rootPaths = [
+            '/login',
+            '/forgot-password',
+            '/reset-password',
+            '/otp',
+            '/otp/verify-otp',
+            '/dashboard'
+        ];
+        
+        // Don't run on root paths
+        if (rootPaths.includes(pathname?.replace(/\/$/, '') || '')) {
+            return;
+        }
 
-    useSubdomainCheck();
-    useAuthRedirect();
+        // ✅ Use the enabled flag here
+        if (!enabled || !pathname) return;
 
-    if (!isClient) return null;
+        const crmaccess = Cookies.get('crmaccess');
+        const subdomainCookie = Cookies.get('subdomain');
 
-    return (
-        <ErrorBoundary>
-            <ThemeProvider>
-                <Provider store={store}>{children}</Provider>
-            </ThemeProvider>
-        </ErrorBoundary>
-    );
-}
+        const cleanPath = pathname.replace(/\/$/, '');
+        
+        // Additional root paths check
+        if (rootPaths.includes(cleanPath)) return;
+
+        const pathSegments = pathname.split('/').filter(Boolean);
+        const location1 = pathSegments?.[0];
+
+        if (!location1 || crmaccess) return;
+
+        const fetchData = async () => {
+            try {
+                if (location1 === 'not-found') return;
+                if (subdomainCookie === location1) return;
+
+                const response = await SubdmoainChekers(location1);
+                if (!response?.success) return;
+
+                const newSubdomain = response.data.urlPath;
+                Cookies.set('subdomain', newSubdomain);
+
+                if (pathSegments.length === 1) {
+                    router.push(`/${newSubdomain}/login`);
+                }
+            } catch (error: any) {
+                if (error?.response?.status === 404) {
+                    router.push('/');
+                }
+            }
+        };
+
+        fetchData();
+    }, [enabled, pathname, router]);
+};

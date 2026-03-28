@@ -502,23 +502,19 @@ export default function RegisterForm() {
 
                 {/* Login Redirect - FIXED for Next.js 13+ */}
                 <Typography sx={{ textAlign: 'center' }} variant="body2">
-                    Already have an account?{' '}
-                    <Link 
-                        href="/login"
-                        style={{ textDecoration: 'none' }}
-                    >
-                        <Typography 
-                            color="primary" 
-                            sx={{ 
-                                cursor: 'pointer',
-                                display: 'inline',
-                                '&:hover': { textDecoration: 'underline' }
-                            }}
-                        >
-                            Sign in
-                        </Typography>
-                    </Link>
-                </Typography>
+    Already have an account?{' '}
+    <Link href="/login" style={{ textDecoration: 'none' }}>
+        <span
+            style={{
+                color: '#1976d2',
+                cursor: 'pointer',
+                textDecoration: 'none'
+            }}
+        >
+            Sign in
+        </span>
+    </Link>
+</Typography>
             </form>
         </Box>
     );

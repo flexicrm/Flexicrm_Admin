@@ -1,15 +1,15 @@
 'use client';
-import React, { useContext, useState } from 'react';
-import { Box, Menu, MenuItem, Typography, IconButton } from '@mui/material';
+import { Box, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import React, { useContext, useState } from 'react';
 
-import { NavbarMainNav, Navbars, ProfileImage } from './StyledComponents';
 import userContext from '../../../UseContext/UseContext';
-import useNotifications from './useNotifications';
-import NotificationMenu from './NotificationComponents';
 import ConfirmationModal from '../../components/ConfirmationModal';
+import NotificationMenu from './NotificationComponents';
+import { NavbarMainNav, Navbars, ProfileImage } from './StyledComponents';
+import useNotifications from './useNotifications';
 
 export default function Navbar({ isOpen, toggleSidebar }: any) {
     const theme = useTheme();

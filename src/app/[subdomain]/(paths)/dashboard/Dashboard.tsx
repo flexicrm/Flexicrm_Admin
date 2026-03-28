@@ -1,19 +1,18 @@
 'use client';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { DragDropContext, Draggable, DragUpdate, Droppable, DropResult } from '@hello-pangea/dnd';
+import { Box, CircularProgress, Container, Grid, IconButton, Typography } from '@mui/material';
 import Cookies from 'js-cookie';
-import { Container, Grid, Box, Typography, CircularProgress, Alert, IconButton, Button } from '@mui/material';
-import { Expand, Minimize } from '@mui/icons-material';
-import { DragDropContext, Droppable, Draggable, DropResult, DragUpdate } from '@hello-pangea/dnd';
+import { GripHorizontal, GripVertical } from 'lucide-react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { DraganddropSection, FetchSections1, FetchSections2, FetchSections3, FetchSections4, FetchSections5, LeadsChartfilter } from '../../../../../api/dashboardApi';
-import UpcomingFollowUps from './UpcomingFollowUps';
+import { TOURFinsher } from '../../../../../api/tour';
+import { useTour } from '../../../Components/TourContext';
+import userContext from '../../../UseContext/UseContext';
+import HighValueOpportunities from './HighValueOpportunities';
 import LeadAcquisitionChart from './LeadAcquisitionChart';
 import RecentLeadsTable from './RecentLeadsTable';
-import HighValueOpportunities from './HighValueOpportunities';
 import SummarySection from './Section/SummarySection';
-import userContext from '../../../UseContext/UseContext';
-import { GripHorizontal, GripVertical } from 'lucide-react';
-import { useTour } from '../../../Components/TourContext';
-import { TOURFinsher } from '../../../../../api/tour';
+import UpcomingFollowUps from './UpcomingFollowUps';
 
 type SectionSize = 3 | 6 | 12 | 9;
 

@@ -1,6 +1,6 @@
 // StyledComponents.tsx
-import { styled } from '@mui/material/styles';
 import { Box, Button } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 // Styled components using Material-UI
 export const NavbarMainNav = styled(Box)(({ theme }) => ({

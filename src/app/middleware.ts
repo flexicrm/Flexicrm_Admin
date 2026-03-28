@@ -44,7 +44,7 @@ export async function middleware(request: NextRequest) {
     const accessToken = request.cookies.get('crmaccess')?.value;
     console.log('[Middleware] Access token:', accessToken || 'None');
 
-    if (accessToken && pathname === `/${subdomain}/login`) {
+    if (accessToken && pathname === `/login`) {
         console.log('[Middleware] Logged in user trying to access login page, redirecting to dashboard');
         return NextResponse.redirect(new URL(`/${subdomain}/dashboard`, url));
     }
@@ -58,3 +58,25 @@ export async function middleware(request: NextRequest) {
 export const config = {
     matcher: ['/:subdomain*']
 };
+
+// import { NextRequest, NextResponse } from 'next/server';
+
+// export function middleware(request: NextRequest) {
+//     const pathname = request.nextUrl.pathname;
+
+//     const pathSegments = pathname.split('/').filter(Boolean);
+//     const subdomain = pathSegments[0];
+
+//     const publicRoutes = ['login', 'register', 'forgot-password', 'verify-otp'];
+
+//     // ✅ Allow all public routes freely
+//     if (!subdomain || publicRoutes.includes(subdomain)) {
+//         return NextResponse.next();
+//     }
+
+//     return NextResponse.next();
+// }
+
+// export const config = {
+//     matcher: ['/:path*'],
+// };

@@ -4,7 +4,20 @@ export const LoginAPI = async (subdomain?: any, data?: any) => {
     try {
         const response = await fetchHandler({
             method: 'POST',
-            endpoint: `/user/${subdomain}/login`,
+            endpoint: `/user/check-user/`,
+            data
+        });
+        return response;
+    } catch (error) {
+        console.error('Unexpected error:', error);
+    }
+};
+
+export const OtpAPI = async (subdomain?: any, data?: any) => {
+    try {
+        const response = await fetchHandler({
+            method: 'POST',
+            endpoint: `/user/verify-otp/`,
             data
         });
         return response;

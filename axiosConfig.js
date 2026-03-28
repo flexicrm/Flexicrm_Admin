@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie'; // Ensure js-cookie is installed
-import { API_BASE_URL } from './src/app/utils'; // Make sure this path is correct
 import { useRouter } from 'next/navigation';
+import { API_BASE_URL } from './src/app/utils'; // Make sure this path is correct
 
 const axiosInstance = axios.create({
     baseURL: API_BASE_URL,
