@@ -251,6 +251,7 @@ export default function RegisterForm() {
                         label="Company Name"
                         value={formik.values.companyName}
                         onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                         error={formik.touched.companyName && Boolean(formik.errors.companyName)}
                         helperText={formik.touched.companyName && formik.errors.companyName}
                         disabled={formik.isSubmitting}
@@ -268,6 +269,7 @@ export default function RegisterForm() {
                             label="First Name"
                             value={formik.values.firstName}
                             onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
                             error={formik.touched.firstName && Boolean(formik.errors.firstName)}
                             helperText={formik.touched.firstName && formik.errors.firstName}
                             disabled={formik.isSubmitting}
@@ -282,6 +284,7 @@ export default function RegisterForm() {
                             label="Last Name"
                             value={formik.values.lastName}
                             onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
                             error={formik.touched.lastName && Boolean(formik.errors.lastName)}
                             helperText={formik.touched.lastName && formik.errors.lastName}
                             disabled={formik.isSubmitting}
@@ -301,6 +304,7 @@ export default function RegisterForm() {
                             type="email"
                             value={formik.values.email}
                             onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
                             error={formik.touched.email && Boolean(formik.errors.email)}
                             helperText={formik.touched.email && formik.errors.email}
                             disabled={formik.isSubmitting}
@@ -315,6 +319,7 @@ export default function RegisterForm() {
                             label="Mobile Number"
                             value={formik.values.mobile}
                             onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
                             error={formik.touched.mobile && Boolean(formik.errors.mobile)}
                             helperText={formik.touched.mobile && formik.errors.mobile}
                             disabled={formik.isSubmitting}
@@ -333,8 +338,10 @@ export default function RegisterForm() {
                         show={showPassword}
                         toggleShow={handleClickShowPassword}
                         onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
                         error={formik.touched.password && Boolean(formik.errors.password)}
                         helperText={formik.touched.password && formik.errors.password}
+                        disabled={formik.isSubmitting}
                     />
                 </Box>
 

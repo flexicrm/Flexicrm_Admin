@@ -115,9 +115,7 @@ export default function LoginForm() {
                 <Button type="submit" fullWidth variant="contained" color="primary" disabled={formik.isSubmitting}>
                     {formik.isSubmitting ? <CircularProgress size={24} color="inherit" /> : 'Login'}
                 </Button>
-                <p>
-                    Don&apos;t have an account? <Link href={`/register`}>Register</Link>
-                </p>
+                <p>Don't have an account? <Link href={`/register`}>Register</Link></p>
             </form>
         </Box>
     );

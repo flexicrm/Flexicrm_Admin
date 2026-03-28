@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import Permissions from "../../../components/Permission/Permissions";
+import Permissions from "../../../Components/Permission/Permissions";
 import { Card } from "primereact/card";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";

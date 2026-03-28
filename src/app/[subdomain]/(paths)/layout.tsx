@@ -4,14 +4,6 @@ import { Box, CssBaseline } from '@mui/material';
 import Cookies from 'js-cookie';
 import { ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-<<<<<<< HEAD
-=======
-import { CssBaseline, Box } from '@mui/material';
-import Sidebar from '../../ui/dashboard/sidebar/page';
-import Navbar from '../../ui/dashboard/navbar/page';
-import userContext from '../../UseContext/UseContext';
-import ClientWrapper from '../../components/wrappers/useSubdomainCheck';
->>>>>>> 0cf7339feec569a55541ff1b0cb6a92efd8921bf
 import { UsersMe } from '../../../../api/user';
 import ClientWrapper from '../../Components/wrappers/ClientWrapper';
 import '../../globals.css';

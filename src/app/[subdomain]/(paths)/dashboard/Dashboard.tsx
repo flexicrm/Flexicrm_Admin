@@ -12,14 +12,7 @@ import HighValueOpportunities from './HighValueOpportunities';
 import LeadAcquisitionChart from './LeadAcquisitionChart';
 import RecentLeadsTable from './RecentLeadsTable';
 import SummarySection from './Section/SummarySection';
-<<<<<<< HEAD
 import UpcomingFollowUps from './UpcomingFollowUps';
-=======
-import userContext from '../../../UseContext/UseContext';
-import { GripHorizontal, GripVertical } from 'lucide-react';
-import { useTour } from '../../../components/TourContext';
-import { TOURFinsher } from '../../../../../api/tour';
->>>>>>> 0cf7339feec569a55541ff1b0cb6a92efd8921bf
 
 type SectionSize = 3 | 6 | 12 | 9;
 
@@ -47,6 +40,7 @@ const Dashboard: React.FC = () => {
     const [sections, setSections] = useState<any>(sectionsetups);
     const { startTour, setSteps, tourvalues } = useTour();
     const tour = data?.isDashboardTourCompleted;
+ 
 
     useEffect(() => {
         if (!tour) {
@@ -54,7 +48,7 @@ const Dashboard: React.FC = () => {
                 startTour();
             }, 300);
         }
-    }, [!tour, data, startTour]);
+    }, [!tour, data]);
 
     const updateTourStatus = async (status: { isDashboardTourCompleted?: boolean; isLeadTourCompleted?: boolean }) => {
         const payload = JSON.stringify(status);

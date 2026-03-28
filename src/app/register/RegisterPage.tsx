@@ -1,8 +1,8 @@
 'use client';
 
 import { CssBaseline, Grid } from '@mui/material';
-import RegisterForm from '../components/Athu/RegisterForm';
-import RegisterSlider from '../components/Athu/RegisterSlider';
+import RegisterForm from '../Components/Athu/RegisterForm';
+import RegisterSlider from '../Components/Athu/RegisterSlider';
 import { LeftPanel, LoginContainer, RightPanel } from '../ReuseableStyle/ReusableStyleCom';
 
 export default function DynamicRegister() {
