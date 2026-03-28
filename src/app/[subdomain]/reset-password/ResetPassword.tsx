@@ -1,8 +1,8 @@
 'use client';
 import { CssBaseline, Grid } from '@mui/material';
 import { useParams } from 'next/navigation';
-import LoginSlider from '../../Components/Athu/LoginSlider';
-import ResetPasswordForm from '../../Components/Athu/Reset-password';
+import LoginSlider from '../../components/Athu/LoginSlider';
+import ResetPasswordForm from '../../components/Athu/Reset-password';
 import { LeftPanel, LoginContainer, RightPanel } from '../../ReuseableStyle/ReusableStyleCom';
 
 export default function ResetPasswordPage({ slug }: any) {

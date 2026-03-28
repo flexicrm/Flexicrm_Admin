@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+=======
+import { TourProvider } from './components/TourContext';
+import ClientWrapper from './components/wrappers/useSubdomainCheck';
+import './globals.css';
+>>>>>>> 0cf7339feec569a55541ff1b0cb6a92efd8921bf
 import type { Metadata } from 'next';
 import { TourProvider } from './Components/TourContext';
 import ClientWrapper from './Components/wrappers/ClientWrapper';

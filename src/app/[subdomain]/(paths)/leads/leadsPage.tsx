@@ -21,7 +21,7 @@ import { Lead, Severity } from '../../../type/kanban';
 import Menus from '../../../ui-components/Menu/menu';
 import useUsersOptions from './Dropdownapi/UsersDropdown';
 import LeadstatusOptions from './Dropdownapi/LeadsStatusDropdown';
-import { useTour } from '../../../Components/TourContext';
+import { useTour } from '../../../components/TourContext';
 import { TOURFinsher } from '../../../../../api/tour';
 import LeadsWelcomePage from '../../../ui-components/newpages/newpage';
 

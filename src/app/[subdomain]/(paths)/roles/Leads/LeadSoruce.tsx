@@ -150,7 +150,6 @@ const LeadSoruce = () => {
 
     return (
         <Box sx={{ p: 0 }}>
-            {/* Add/Edit Form */}
             {isAddingNewStatus || editingStatus ? (
                 <Box component="form" onSubmit={editingStatus ? editFormik.handleSubmit : addFormik.handleSubmit} sx={{ mb: 1, display: 'flex', gap: 1, alignItems: 'center' }}>
                     <TextField
@@ -190,13 +189,11 @@ const LeadSoruce = () => {
                 </Box>
             )}
 
-            {/* Status Table */}
             <TableContainer component={Paper} elevation={1}>
                 <Table size="small">
                     <TableHead>
                         <TableRow>
                             <TableCell width="60%">Lead Source </TableCell>
-                            {/* <TableCell width="20%">Color</TableCell> */}
                             <TableCell width="20%" align="right">
                                 Actions
                             </TableCell>
@@ -258,7 +255,6 @@ const LeadSoruce = () => {
                 />
             </TableContainer>
 
-            {/* Delete Confirmation */}
             <Dialog open={deleteConfirmOpen} onClose={() => setDeleteConfirmOpen(false)} maxWidth="xs" fullWidth>
                 <DialogTitle>Confirm Delete</DialogTitle>
                 <DialogContent>Are you sure you want to delete this sourceName?</DialogContent>
@@ -270,7 +266,6 @@ const LeadSoruce = () => {
                 </DialogActions>
             </Dialog>
 
-            {/* Snackbar */}
             <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={() => setSnackbarOpen(false)}>
                 <Alert onClose={() => setSnackbarOpen(false)} severity={snackbarSeverity}>
                     {snackbarMessage}

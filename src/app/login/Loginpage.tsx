@@ -1,9 +1,15 @@
 'use client';
 import { CssBaseline, Grid } from '@mui/material';
 import { usePathname } from 'next/navigation';
+<<<<<<< HEAD:src/app/login/Loginpage.tsx
 import { LeftPanel, LoginContainer, RightPanel } from "../../app/ReuseableStyle/ReusableStyleCom";
 import LoginForm from '../Components/Athu/LoginForm';
 import LoginSlider from '../Components/Athu/LoginSlider';
+=======
+import LoginForm from '../../components/Athu/LoginForm';
+import LoginSlider from '../../components/Athu/LoginSlider';
+import { LeftPanel, LoginContainer, RightPanel } from '../../ReuseableStyle/ReusableStyleCom';
+>>>>>>> 0cf7339feec569a55541ff1b0cb6a92efd8921bf:src/app/[subdomain]/login/Loginpage.tsx
 export default function DynamicLogin() {
     const location1 = usePathname();
     console.log('checking url:', location1.split('/')[1]);
